@@ -6,7 +6,7 @@
   |od|
   |xxd|
 
-# od(1)                                                                      *od*
+# od(1)                                                                     *od*
 ========
   args:
     -An         don't print addr info
@@ -24,7 +24,7 @@
     >>         del   E   L   F  nl
     >>         177   E   L   F  \n
 
-# xxd(1)                                                                    *xxd*
+# xxd(1)                                                                   *xxd*
 =========
   args:
     -p          dump continuous hexdump
