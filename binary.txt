@@ -1,7 +1,12 @@
 .:: Binary ::.
 --------------------------------------------------------------------------------
 
-# od(1)
+# toc
+------
+  |od|
+  |xxd|
+
+# od(1)                                                                      *od*
 ========
   args:
     -An         don't print addr info
@@ -14,12 +19,12 @@
     >> 41414141
     >> 42424242
 
-  echo -n "\x7fELF\n" | od -tx1 -ta -tc
+  echo -n '\x7fELF\n' | od -tx1 -ta -tc
     >> 0000000  7f  45  4c  46  0a
     >>         del   E   L   F  nl
     >>         177   E   L   F  \n
 
-# xxd(1)
+# xxd(1)                                                                    *xxd*
 =========
   args:
     -p          dump continuous hexdump
@@ -36,7 +41,7 @@
     >> aabb
 
   ## ascii to binary
-  echo -n "\x7fELF" | xxd -p | xxd -r -p | file -p -
+  echo -n '\x7fELF' | xxd -p | xxd -r -p | file -p -
     >> ELF
 
   ## ascii to C array (hex encoded)
@@ -48,5 +53,5 @@
 
 
 --------------------------------------------------------------------------------
-vim:sts=2:et:tw=80:cc=80:fo+=t
+vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
 
