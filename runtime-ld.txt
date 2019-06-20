@@ -1,0 +1,62 @@
+.:: Runtime ld ::.
+--------------------------------------------------------------------------------
+
+# toc
+------
+  |ld_so|
+    |load_init_order|
+
+# ld.so(8)                                                               *ld_so*
+===========
+  env:
+    LD_PRELOAD=<l_so>       colon separated list of libso's to be pre loaded
+    LD_DEBUG=<opts>         comman separated list of debug options
+            =help           list available options
+            =libs           show library search path
+            =files          processing of input files
+            =symbols        show search path for symbol lookup
+            =bindings       show against which definition a symbol is bound
+
+
+  ## LD_PRELOAD load & init order                              *load_init_order*
+    > ldd ./main
+      >> libc.so.6 => /usr/lib/libc.so.6
+
+    > LD_PRELOAD=liba.so:libb.so ./main
+               -->
+        preloaded in this order
+               <--
+        initialized in this order
+
+    - preload order determines the order libs are inserted into the link map
+
+    - resulting link map:
+        +------+    +------+    +------+    +------+
+        | main | -> | liba | -> | libb | -> | libc |
+        +------+    +------+    +------+    +------+
+
+    - see preload and init order in action
+      > LD_DEBUG=files LD_PRELOAD=liba.so:libb.so ./main
+        # load order (-> determines link map)
+        >> file=liba.so [0];  generating link map
+        >> file=libb.so [0];  generating link map
+        >> file=libc.so.6 [0];  generating link map
+
+        # init order
+        >> calling init: /usr/lib/libc.so.6
+        >> calling init: <path>/libb.so
+        >> calling init: <path>/liba.so
+        >> initialize program: ./main
+
+    - see the symbol lookup in action and therefore the link map order
+      > LD_DEBUG=symbols,bindings LD_PRELOAD=liba.so:libb.so ./main
+        >> symbol=memcpy;  lookup in file=./main [0]
+        >> symbol=memcpy;  lookup in file=<path>/liba.so [0]
+        >> symbol=memcpy;  lookup in file=<path>/libb.so [0]
+        >> symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
+        >> binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol
+           `memcpy' [GLIBC_2.14]
+
+--------------------------------------------------------------------------------
+vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
+
