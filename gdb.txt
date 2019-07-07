@@ -21,38 +21,39 @@
 
 
     prompt:                                                             *prompt*
-      tty <tty>
-          set <tty> as tty for debugee.  make sure nobody reads from target
-          tty, easiest is to spawn a shell and run
-          > while true; do sleep 1024; done
+      tty <tty>             set <tty> as tty for debugee.  make sure nobody
+                            reads from target tty, easiest is to spawn a shell
+                            and run
+                            > while true; do sleep 1024; done
 
       set follow-fork-mode <child | parent>
-          specify which process to follow on fork(2)
+                            specify which process to follow on fork(2)
 
       sharedlibrary [regex]
-          load symbols of shared lib, if regex then only symbols for matching
-          libs
+                            load symbols of shared lib, if regex then only symbols
+                            for matching libs
 
       break <sym> thread <tnum>
-          set a breakpoint only on a specific thread
+                            set a breakpoint only on a specific thread
 
-      rbreak <regex>
-          set breakpoints based on symbols matching regex
-          <regex> is internally expanded to .*<regex>.*
-          so 'rbreak foo' matches barfoobar()
+      rbreak <regex>        set breakpoints based on symbols matching regex
+                            <regex> is internally expanded to .*<regex>.*
+                            so 'rbreak foo' matches barfoobar()
 
-      command [bp_list]
-          define commands to run after breakpoint hit
-          if bp_list not supplied attach command to last created bp
+      command [bp_list]     define commands to run after breakpoint hit if
+                            bp_list not supplied attach command to last
+                            created bp
 
-          bp_list: space separates list, eg 'command 2 5-8'
-          to run command for bp 2,5,6,7,8
+                            bp_list: space separates list, eg 'command 2 5-8'
+                            to run command for bp 2,5,6,7,8
 
       info functions [regex]
-          list functions according to regex, if regex empty, list all
+                            list functions according to regex, if regex empty,
+                            list all
 
       info variables [regex]
-          list variables according to regex, if regex empty, list all
+                            list variables according to regex, if regex empty,
+                            list all
 
 
     user commands:                                               *user_commands*
