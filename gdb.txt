@@ -1,0 +1,82 @@
+.:: GDB ::.
+--------------------------------------------------------------------------------
+
+# toc
+------
+  |gdb|
+    |opts|
+    |prompt|
+    |user-commands|
+    |hooks|
+
+# gdb(1)                                                                   *gdb*
+=========
+  gdb [opts] [exe [coredump | pid]]
+  gdb [opts] --args exe <exe-args>
+    opts:                                                                 *opts*
+      -p <pid>        attach to pid
+      -x <file>       execute script <file> before prompt
+      -ex <cmd>       execute command <cmd> before prompt
+      --tty <tty>     set I/O tty for debugee (see *prompt* for details)
+
+
+    prompt:                                                             *prompt*
+      tty <tty>
+          set <tty> as tty for debugee.  make sure nobody reads from target
+          tty, easiest is to spawn a shell and run
+          > while true; do sleep 1024; done
+
+      set follow-fork-mode <child | parent>
+          specify which process to follow on fork(2)
+
+      sharedlibrary [regex]
+          load symbols of shared lib, if regex then only symbols for matching
+          libs
+
+      break <sym> thread <tnum>
+          set a breakpoint only on a specific thread
+
+      rbreak <regex>
+          set breakpoints based on symbols matching regex
+          <regex> is internally expanded to .*<regex>.*
+          so 'rbreak foo' matches barfoobar()
+
+      command [bp_list]
+          define commands to run after breakpoint hit
+          if bp_list not supplied attach command to last created bp
+
+          bp_list: space separates list, eg 'command 2 5-8'
+          to run command for bp 2,5,6,7,8
+
+      info functions [regex]
+          list functions according to regex, if regex empty, list all
+
+      info variables [regex]
+          list variables according to regex, if regex empty, list all
+
+
+    user commands:                                               *user-commands*
+      define <cmd>                  defines user command <cmd> to be run
+        # cmds                      in prompt or script
+      end
+
+      document <cmd>                define documentation for cmd <cmd>
+        # docu
+      end
+
+      help user-defined             list user defined commands
+      help <cmd>                    list documentation for command <cmd>
+
+
+    hooks:                                                               *hooks*
+      define hook-<cmd>             run commands defined in hook before
+        # cmds                      executing <cmd>
+      end
+
+      define hookpost-<cmd>         run commands defined in hookpost after
+        # cmds                      executing <cmd>
+      end
+
+--------------------------------------------------------------------------------
+vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
+
