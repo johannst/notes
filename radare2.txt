@@ -4,11 +4,18 @@
 # toc
 ------
   |help|
+  |relocation|
 
 # help                                                                    *help*
 =======
   ?*~<kw>       # '?*' list all commands and '~' grep for <kw>
   ?*...         # .. and '...' get an interactive search hud
+
+# relocation                                                        *relocation*
+=============
+  > r2 -B <baddr> <exe>         # open <exe> mapped to addr <baddr>
+  oob <addr>                    # reopen current file at <baddr>
+
 
 --------------------------------------------------------------------------------
 vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
