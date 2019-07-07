@@ -6,7 +6,7 @@
   |gdb|
     |opts|
     |prompt|
-    |user-commands|
+    |user_commands|
     |hooks|
 
 # gdb(1)                                                                   *gdb*
@@ -55,7 +55,7 @@
           list variables according to regex, if regex empty, list all
 
 
-    user commands:                                               *user-commands*
+    user commands:                                               *user_commands*
       define <cmd>                  defines user command <cmd> to be run
         # cmds                      in prompt or script
       end
