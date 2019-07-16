@@ -9,7 +9,7 @@
 # help                                                                    *help*
 =======
   ?*~<kw>       # '?*' list all commands and '~' grep for <kw>
-  ?*...         # .. and '...' get an interactive search hud
+  ?*~...        # .. and '...' get an interactive search hud
 
 # relocation                                                        *relocation*
 =============
