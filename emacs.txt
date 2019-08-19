@@ -1,0 +1,56 @@
+.:: Emacs ::.
+--------------------------------------------------------------------------------
+
+# toc
+------
+  |help|
+  |window|
+  |rect|
+  |mass|
+  |grep|
+  |lisp|
+  |narrow|
+
+
+# help
+=======
+  C-h f                 describe function
+  C-h b                 list buffer available keymaps
+  <kseq> C-h            list possible keymaps with <kseq>
+                        eg C-x C-h -> list keymaps beginning with C-x
+
+# window
+=========
+  C-x 0         kill focused window
+  C-x 1         kill all other windows
+  C-x 2         split horizontal
+  C-x 3         split vertical
+
+# block/rect
+=============
+  C-x <SPC>                     activate rectangle-mark-mode
+  M-x string-rectangle <RET>    insert text in marked rect
+
+# mass edit
+============
+  C-x h                                 mark whole buffer (mark-whole-buffer)
+  M-x delete-matching-line <RET>        delete lines matching regex
+  M-x query-replace <RET>               search & replace region
+
+# grep
+=======
+  M-x find-grep <RET>           run find-grep result in *grep* buffer
+  n/p                           navigate next/previous match in *grep* buffer
+
+# lisp mode
+============
+  M-x lisp-interaction-mode     activate lisp mode
+  C-M-x                         evaluate top expr under cursor
+
+# narrow
+=========
+  C-x n n               show only focused region (narrow)
+  C-x n w               show whole buffer (wide)
+
+--------------------------------------------------------------------------------
+Vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
