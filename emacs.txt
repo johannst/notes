@@ -35,7 +35,8 @@
 ============
   C-x h                                 mark whole buffer (mark-whole-buffer)
   M-x delete-matching-line <RET>        delete lines matching regex
-  M-x query-replace <RET>               search & replace region
+  M-x %                                 search & replace region (query-replace)
+  C-M-x %                               search & replace regex (query-replace-regexp)
 
 # grep
 =======
@@ -46,6 +47,8 @@
 ============
   M-x lisp-interaction-mode     activate lisp mode
   C-M-x                         evaluate top expr under cursor
+  C-x C-e                       eval-last-sexp
+  C-u C-x C-e                   eval-last-sexp and prints result in current buffer
 
 # narrow
 =========
