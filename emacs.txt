@@ -55,5 +55,19 @@
   C-x n n               show only focused region (narrow)
   C-x n w               show whole buffer (wide)
 
+# org
+======
+  M-up/M-down           re-arrange items in same hierarchy
+  M-left/M-right        change item hierarchy
+  C-RET                 create new item below current
+  C-S-RET               create new TODO item below current
+  S-left/S-right        cycle TODO states
+
+## org source
+==============
+  <s TAB                generate a source block
+  C-c '                 edit source block (in lang specific buffer)
+  C-c C-c               eval source block
+
 --------------------------------------------------------------------------------
 Vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
