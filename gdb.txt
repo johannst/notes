@@ -8,6 +8,7 @@
     |prompt|
     |user_commands|
     |hooks|
+    |flows|
 
 # gdb(1)                                                                   *gdb*
 =========
@@ -30,7 +31,7 @@
                             specify which process to follow on fork(2)
 
       sharedlibrary [regex]
-                            load symbols of shared lib, if regex then only symbols
+                            load symbols of shared lib, if REGEX then only symbols
                             for matching libs
 
       break <sym> thread <tnum>
@@ -41,19 +42,33 @@
                             so 'rbreak foo' matches barfoobar()
 
       command [bp_list]     define commands to run after breakpoint hit if
-                            bp_list not supplied attach command to last
+                            BP_LIST not supplied attach command to last
                             created bp
 
-                            bp_list: space separates list, eg 'command 2 5-8'
+                            BP_LIST: space separates list, eg 'command 2 5-8'
                             to run command for bp 2,5,6,7,8
 
       info functions [regex]
-                            list functions according to regex, if regex empty,
+                            list functions according to REGEX, if REGEX empty,
                             list all
 
       info variables [regex]
-                            list variables according to regex, if regex empty,
+                            list variables according to REGEX, if REGEX empty,
                             list all
+
+      info handle [signal]
+                            list bevahior for SIGNAL, if SIGNAL empty list all signals
+
+      handle signal <action>
+                            configure how gdb handles SIGNAL which is ment for the debugee
+                            <action>:
+                              stop/nostop       catch signal in gdb and break
+                              print/noprint     print message when gdb catches signal
+                              pass/nopass       pass signal down to debugee
+                              noignore/ignore   synonyms for
+
+      catch signal <signal>
+                            create a catchpoint for SIGNAL
 
 
     user commands:                                               *user_commands*
@@ -77,6 +92,39 @@
       define hookpost-<cmd>         run commands defined in hookpost after
         # cmds                      executing <cmd>
       end
+
+
+    flows:                                                               *flows*
+      # catch SIGSEGV and execute some actions once it happends
+      - script:
+        catch signal SIGSEGV
+        command
+          bt
+          ct
+        end
+
+      # quickly execute gdb command on running process, eg get backtrace from
+      # thread 1
+      - cmd:
+        $> gdb -ex 'thread 1' -ex 'bt' -p <PID>
+
+      # script gdb for automating debugging sessions
+      - script: run.gdb
+        set pagination off
+
+        break mmap
+        command
+        info reg rdi rsi rdx
+        bt
+        c
+        end
+
+        #initial drop
+        c
+
+      - cmd:
+        $> gdb -p <PID> -x ./run.gdb  --batch &> run.log
+
 
 --------------------------------------------------------------------------------
 vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help

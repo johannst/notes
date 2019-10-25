@@ -1,0 +1,48 @@
+.:: debugging ::.
+--------------------------------------------------------------------------------
+
+# print syscalls of process with all threads (-f) of running process
+strace -f -p <pid>
+# only trace certain syscalls
+strace -f -p <pid> -e trace=open,socket
+# trace signals delivered to process
+strace -f -p <pid> -e signal
+
+# dump stack of process and all threads
+pstack <pid>
+
+# print file flags
+# +fg    print file flag abbreviations
+lsof +fg -p <pid>
+
+# print process virt mem map
+# compared to /proc/<>/maps it shows the size of the mappings
+pmap <pid>
+
+
+# get supported events
+perf list
+
+perf stat -p <pid>
+perf stat -p <pid> -I <ms>
+perf stat -p <pid> -e cycles,faults,cache-misses,context-switches
+
+# -K    hide kernel threads
+perf top -F 99 -p <pid> -K
+
+perf record -F 99 -p <pid>
+perf record -F 99 -p <pid> --call-graph dwarf
+perf record -F 99 -p <pid> -e instructions,cpu-cycles,faults,cache-misses,context-switches
+
+
+# print supported events
+ophelp
+
+operf -p <pid>
+
+opreport -c
+opreport -l
+
+--------------------------------------------------------------------------------
+vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
+
