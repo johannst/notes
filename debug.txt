@@ -23,17 +23,34 @@ pmap <pid>
 # get supported events
 perf list
 
+## show process stats
 perf stat -p <pid>
 perf stat -p <pid> -I <ms>
+# select events of interests
 perf stat -p <pid> -e cycles,faults,cache-misses,context-switches
 
 # -K    hide kernel threads
 perf top -F 99 -p <pid> -K
 
-perf record -F 99 -p <pid>
+## record measurement into db
+# -g uses 'fb' = frame-pointer as default method to collect backtraces
+# tell gcc to not optimize fp out -fno-omit-frame-pointer
+perf record -F 99 -p <pid> -g
+# use post processing and dwarf to collect backtraces
 perf record -F 99 -p <pid> --call-graph dwarf
 perf record -F 99 -p <pid> -e instructions,cpu-cycles,faults,cache-misses,context-switches
 
+## report perf db
+# print to stdio
+perf report -n --stdio
+# use tui
+perf report -g graph,0.5,caller
+
+# flamegraph (https://github.com/brendangregg/FlameGraph)
+# record events of interest, eg page-faults
+perf stat -e page-faults -I 1000 -p 571
+perf script | FlameGraph/stackcollapse-perf.pl > out.perf-folded
+FlameGraph/flamegraph.pl out.perf-folded > perf-trace.svg
 
 # print supported events
 ophelp
