@@ -48,9 +48,14 @@ perf report -g graph,0.5,caller
 
 # flamegraph (https://github.com/brendangregg/FlameGraph)
 # record events of interest, eg page-faults
-perf stat -e page-faults -I 1000 -p 571
+perf record -e page-faults --call-graph dwarf
 perf script | FlameGraph/stackcollapse-perf.pl > out.perf-folded
 FlameGraph/flamegraph.pl out.perf-folded > perf-trace.svg
+
+# record multiple events and generate flamegraphs
+perf record --call-graph dwarf -p $(pgrep -u jstolp -n sim) -F 200 -e cpu-cycles,page-faults
+perf script --per-event-dump
+# fold & generate as above
 
 # print supported events
 ophelp
