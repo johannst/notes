@@ -19,6 +19,12 @@ lsof +fg -p <pid>
 # compared to /proc/<>/maps it shows the size of the mappings
 pmap <pid>
 
+# trace minor/major page faults
+pidstat -r -p <pid> [interval]
+
+# statistics of process run
+/usr/bin/time -v <cmd>
+
 
 # get supported events
 perf list
