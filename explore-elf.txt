@@ -11,7 +11,7 @@
 # readelf(1)                                                           *readelf*
 =============
   args:
-    --wide        dont break output at 80 chars
+    -W|--wide     wide output, dont break output at 80 chars
     -h            print ELF header
     -S            print sections headers
     -l            print program headers
