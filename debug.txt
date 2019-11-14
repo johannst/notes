@@ -1,75 +1,160 @@
 .:: debugging ::.
 --------------------------------------------------------------------------------
 
-# print syscalls of process with all threads (-f) of running process
-strace -f -p <pid>
-# only trace certain syscalls
+#
+# strace(1)
+#
+
+strace [OPTS] [ELF]
+  -f .......... follow child processes on fork(2)
+  -p <pid> .... attach to running process
+  -s <size> ... max string size (default: 32)
+  -e <expr> ... expression for trace filtering
+  -o <file> ... log output into <file>
+
+useful <expr>:
+  trace=syscall[,syscall] .... trace only syscall listed
+  trace=file ................. trace all syscall that take a filename as arg
+  trace=process .............. trace process management related syscalls
+  signal ..................... trace signals delivered to the process
+
+use cases:
+- trace 'open & socket' syscalls for a running process + childs
 strace -f -p <pid> -e trace=open,socket
-# trace signals delivered to process
+
+- trace signals delivered to a running process
 strace -f -p <pid> -e signal
 
-# dump stack of process and all threads
-pstack <pid>
 
-# print file flags
-# +fg    print file flag abbreviations
+#
+# lsof(8)
+#
+
+lsof +fg -p <pid>
+  -p <pid> ... list open files for process
+  +fg ........ show file flags for file descripros
+
+file flags:
+  R/W/RW ..... read/write/read-write
+  CR ......... create
+  AP ......... append
+  TR ......... truncate
+
+uase cases:
+- show open files with file flags
 lsof +fg -p <pid>
 
-# print process virt mem map
-# compared to /proc/<>/maps it shows the size of the mappings
+
+#
+# pmap(1)
+#
+
 pmap <pid>
+  ............. dump virtual memory map of process.
+                compared to /proc/<pid>/maps it shows the size of the mappings
+
+
+#
+# pstack(1)
+#
+
+pstack <pid>
+  ............. dump current stack of process + threads
+
+
+#
+# pidstat(1)
+#
 
 # trace minor/major page faults
 pidstat -r -p <pid> [interval]
+  minor_pagefault: happens when the page needed is already in memory but not
+                   allocated to the faulting process, in that case the kernel
+                   only has to create a new page-table entry pointing to the
+                   shared physical page
+  major_pagefault: happends when the page needed is NOT in memory, the kernel
+                   has to create a new page-table entry and populate the
+                   physical page
+
+
+#
+# /usr/bin/time(1)
+#
 
 # statistics of process run
 /usr/bin/time -v <cmd>
 
 
+#
+# perf(1)
+#
+
 # get supported events
 perf list
+  ......... show supported hw/sw events
 
-## show process stats
-perf stat -p <pid>
-perf stat -p <pid> -I <ms>
-# select events of interests
-perf stat -p <pid> -e cycles,faults,cache-misses,context-switches
+perf stat
+  -p <pid> .. show stats for running process
+  -I <ms> ... show stats periodically over interval <ms>
+  -e <ev> ... filter for events
 
-# -K    hide kernel threads
-perf top -F 99 -p <pid> -K
+perf top
+  -p <pid> .. show stats for running process
+  -F <hz> ... sampling frequency
+  -K ........ hide kernel threads
 
-## record measurement into db
-# -g uses 'fb' = frame-pointer as default method to collect backtraces
-# tell gcc to not optimize fp out -fno-omit-frame-pointer
-perf record -F 99 -p <pid> -g
-# use post processing and dwarf to collect backtraces
-perf record -F 99 -p <pid> --call-graph dwarf
-perf record -F 99 -p <pid> -e instructions,cpu-cycles,faults,cache-misses,context-switches
+perf record
+  -p <pid> ............... record stats for running process
+  -F <hz> ................ sampling frequency
+  --call-graph <method> .. [fp, dwarf, lbr] method how to caputre backtrace
+                           fp   : use frame-pointer, need -fno-omit-frame-pointer
+                           dwarf: use .cfi debug information
+                           lbr  : use hardware last branch record facility
+  -g ..................... short-hand for --call-graph fp
+  -e <ev> ................ filter for events
 
-## report perf db
-# print to stdio
-perf report -n --stdio
-# use tui
-perf report -g graph,0.5,caller
+perf report
+  -n .................... annotate symbols with nr of samples
+  --stdio ............... report to stdio, if not presen tui mode
+  -g graph,0.5,caller ... show caller based call chains with value >0.5
 
-# flamegraph (https://github.com/brendangregg/FlameGraph)
-# record events of interest, eg page-faults
-perf record -e page-faults --call-graph dwarf
-perf script | FlameGraph/stackcollapse-perf.pl > out.perf-folded
-FlameGraph/flamegraph.pl out.perf-folded > perf-trace.svg
+useful <ev>:
+  page-faults
+  minor-faults
+  major-faults
+  cpu-cycles`
+  task-clock
 
-# record multiple events and generate flamegraphs
-perf record --call-graph dwarf -p $(pgrep -u jstolp -n sim) -F 200 -e cpu-cycles,page-faults
+
+#
+# flamegraph(https://github.com/brendangregg/FlameGraph)
+#
+
+# flamegraph for single event trace
+perf record -g -p <pid> -e cpu-cycles
+perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl > cycles-flamegraph.svg
+
+# flamegraphs for multiple events trace
+perf record -g -p <pid> -e cpu-cycles,page-faults
 perf script --per-event-dump
 # fold & generate as above
+#
 
-# print supported events
+#
+# OProfile
+#
+
+operf -g -p <pid>
+  -g ...... caputre call-graph information
+
+opreport [opt] FILE
+  NOOPT ... show time spent per binary image
+  -l ...... show time spent per symbol
+  -c ...... show callgraph information (see below)
+  -a ...... add column with time spent accumulated over child nodes
+
 ophelp
-
-operf -p <pid>
-
-opreport -c
-opreport -l
+  NOOPT ... show supported hw/sw events
 
 --------------------------------------------------------------------------------
 vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
