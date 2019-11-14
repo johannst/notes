@@ -14,7 +14,10 @@
     -ta         print as named character
     -tc         printable chars or backslash escape
     -w4         print 4 bytes per line
+    -j <n>      skip <n> bytes from file, (hex if start with 0x)
+    -N <n>      dump <n> bytes (hex of start with 0x)
 
+  ## ascii chars to hex string
   echo -n AAAABBBB | od -An -w4 -tx4
     >> 41414141
     >> 42424242
@@ -23,6 +26,21 @@
     >> 0000000  7f  45  4c  46  0a
     >>         del   E   L   F  nl
     >>         177   E   L   F  \n
+
+  ## extract part of file (eg .rodata section form ELF)
+  readelf -W -S foo
+    >> Section Headers:
+    >> [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+    >> ...
+    >> [15] .rodata           PROGBITS        00000000004009c0 0009c0 000030 00   A  0   0 16
+  od -j 0x0009c0 -N 0x30 -tx4 -w4 foo
+    >> 0004700 00020001
+    >> 0004704 00000000
+    >> *
+    >> 0004740 00000001
+    >> 0004744 00000002
+    >> 0004750 00000003
+    >> 0004754 00000004
 
 # xxd(1)                                                                   *xxd*
 =========
