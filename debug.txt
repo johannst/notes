@@ -11,6 +11,7 @@ strace [OPTS] [ELF]
   -s <size> ... max string size (default: 32)
   -e <expr> ... expression for trace filtering
   -o <file> ... log output into <file>
+  -c .......... dump syscall statitics at the end
 
 useful <expr>:
   trace=syscall[,syscall] .... trace only syscall listed
