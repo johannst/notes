@@ -3,8 +3,21 @@
 
 # toc
 ------
+  |print|
+  |flags|
   |help|
   |relocation|
+
+# print                                                                  *print*
+=======
+  pd <n> [@ <addr>]     # print disassembly for <n> instructions
+                        # with optional temporary seek to <addr>
+
+# flags                                                                  *flags*
+=======
+  fs            # list flag-spaces
+  fs <fs>       # select flag-space <fs>
+  f             # print flags of selected flag-space
 
 # help                                                                    *help*
 =======

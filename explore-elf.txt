@@ -14,9 +14,10 @@
     -W|--wide     wide output, dont break output at 80 chars
     -h            print ELF header
     -S            print sections headers
-    -l            print program headers
-    -d            print dynamic section
-    -s            print symbol table
+    -l            print program headers + segment mapping
+    -d            print .dynamic section (dynamic link information)
+    -s            print symbol table(s)
+    -r            print relocation table(s)
 
 # objdump(1)                                                           *objdump*
 =============
