@@ -70,5 +70,5 @@
   C-c C-c               eval source block
 
 --------------------------------------------------------------------------------
-vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
+vim:ft=help:sts=2:et:tw=80:cc=80:fo+=t
 
