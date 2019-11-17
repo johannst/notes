@@ -5,6 +5,7 @@
 ------
   |ld_so|
     |load_init_order|
+    |dynamic_linking|
 
 # ld.so(8)                                                               *ld_so*
 ===========
@@ -56,6 +57,58 @@
         >> symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
         >> binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol
            `memcpy' [GLIBC_2.14]
+
+  ## dynamic linking (x86_64)                                  *dynamic_linking*
+    - dynamic linking basically works via one indirect jump. It uses a
+      combination of function trampolines (.plt) and a function pointer table
+      (.got.plt). On the first call the trampoline sets up some metadata and
+      then jumps to the ld.so runtime resolve function, which in turn patches
+      the table with the correct function pointer.
+        .plt ....... contains function trampolines, usually located in code
+                     segment (rx permission)
+        .got.plt ... hold the function pointer table
+
+    - following r2 dump shows this
+        - [0x00401030] indirect jump for 'puts' using function pointer in
+          _GLOBAL_OFFSET_TABLE_[3]
+        - initially points to instruction behind 'puts' trampoline [0x00401036]
+        - this pushes relocation index and then jumps to the first trampoline
+          [0x00401020]
+        - the first trampoline jumps to _GLOBAL_OFFSET_TABLE_[2] which will be
+          filled at program startup by the ld.so with its resolve function
+        - the resolve function fixes the relocation referenced by the
+          relocation index pushed by the 'puts' trampoline
+        - the relocation entry tells the resolve function which symbol to
+          search for and where to put the function pointer
+            > readelf -r <main>
+              >> Relocation section '.rela.plt' at offset 0x4b8 contains 1 entry:
+              >>   Offset          Info           Type           Sym. Value    Sym. Name + Addend
+              >> 000000404018  000200000007 R_X86_64_JUMP_SLO 0000000000000000 puts@GLIBC_2.2.5 + 0
+            - offset points to _GLOBAL_OFFSET_TABLE_[3]
+
+        [0x00401040]> pd 4 @ section..got.plt
+                    ;-- section..got.plt:
+                    ;-- .got.plt:    ; [22] -rw- section size 32 named .got.plt
+                    ;-- _GLOBAL_OFFSET_TABLE_:
+                    0x00404000      .qword 0x0000000000403e10 ; section..dynamic ; obj._DYNAMIC
+                    0x00404008      .qword 0x0000000000000000
+                    ; CODE XREF from section..plt @ +0x6
+                    0x00404010      .qword 0x0000000000000000
+                    ;-- reloc.puts:
+                    ; CODE XREF from sym.imp.puts @ 0x401030
+                    0x00404018      .qword 0x0000000000401036                  ; RELOC 64 puts
+
+        [0x00401040]> pd 6 @ section..plt
+                    ;-- section..plt:
+                    ;-- .plt:       ; [12] -r-x section size 32 named .plt
+                ┌─> 0x00401020      ff35e22f0000   push qword [0x00404008]
+                ╎   0x00401026      ff25e42f0000   jmp qword [0x00404010]
+                ╎   0x0040102c      0f1f4000       nop dword [rax]
+        ┌ 6: int sym.imp.puts (const char *s);
+        └       ╎   0x00401030      ff25e22f0000   jmp qword [reloc.puts]
+                ╎   0x00401036      6800000000     push 0
+                └─< 0x0040103b      e9e0ffffff     jmp sym..plt
+
 
 --------------------------------------------------------------------------------
 vim:sts=2:et:tw=80:cc=80:fo+=t:ft=help
