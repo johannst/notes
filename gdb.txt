@@ -34,8 +34,10 @@
                             load symbols of shared lib, if REGEX then only symbols
                             for matching libs
 
-      break <sym> thread <tnum>
+      break [-qualified] <sym> thread <tnum>
                             set a breakpoint only on a specific thread
+                            -qualified: sym must be fully qualified (quiet handy
+                            to set breakpoints on C symbols in C++ contexts)
 
       rbreak <regex>        set breakpoints based on symbols matching regex
                             <regex> is internally expanded to .*<regex>.*
@@ -100,7 +102,7 @@
         catch signal SIGSEGV
         command
           bt
-          ct
+          c
         end
 
       # quickly execute gdb command on running process, eg get backtrace from
@@ -125,6 +127,19 @@
       - cmd:
         $> gdb -p <PID> -x ./run.gdb  --batch &> run.log
 
+    # workaround command + finish bug
+    # issue: when using finish in a command block, actions after finish will not
+    # be executed
+    - script:
+      define handler
+      bt
+      finish
+      info reg rax
+      end
+
+      command
+      handler
+      end
 
 --------------------------------------------------------------------------------
 vim:ft=help:sts=2:et:tw=80:cc=80:fo+=t
