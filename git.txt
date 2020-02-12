@@ -8,7 +8,9 @@
   |tags|
   |diff|
   |log|
+  |inspection|
   |patching|
+  |submodules|
   |revision_range|
 
   - *remote*
@@ -51,6 +53,11 @@
       git log --graph ............................. text based graph of commit history
       git log --decorate .......................... decorate log with REFs
 
+  - *inspection*
+      git ls-tree [-r] <ref> ...................... show git tree for <ref>, -r to recursively ls sub-trees
+      git show <obj> .............................. show <obj>
+      git cat-file -p <obj> ....................... print content of <obj>
+
   - *patching*
       git format-patch <opt> <since>/<revision range>
         opt:
@@ -72,6 +79,15 @@
 
       # generate single patch file from a certain commit/ref
       git format-patch <COMMIT/REF> --stdout > my-patch.patch
+
+  - *submodules*
+      git submodule add <url> [<path>] ............ add new submodule to current project
+      git clone --recursive <url> ................. clone project and recursively all submodules (same as using
+                                                    'git submodule update --init --recursive' after clone)
+      git submodule update --init --recursive ..... checkout submodules recursively using the commit listed in the
+                                                    super-project (in detached HEAD)
+      git submodule update --remote <submod> ...... fetch & merge remote changes for <submod>, this will pull
+                                                    origin/HEAD or a branch specified for the submodule
 
   - *revision_range*
       HEAD ........................................ last commit
