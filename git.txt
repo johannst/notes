@@ -13,6 +13,9 @@
   |submodules|
   |revision_range|
 
+  - *misc*
+      git add -p [<file>] ......................... partial staging (interactive)
+
   - *remote*
       git remote -v ............................... list remotes verbose (with URLs)
       git remote show [-n] <remote> ............... list info for <remote> (like remote HEAD, remote branches,
