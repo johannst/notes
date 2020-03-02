@@ -32,9 +32,13 @@ strace -f -p <pid> -e signal
 # lsof(8)
 #
 
-lsof +fg -p <pid>
-  -p <pid> ... list open files for process
+lsof
+  -a ......... AND slection filters instead ORing (OR: default)
+  -p <pid> ... list open file descriptors for process
   +fg ........ show file flags for file descripros
+  -n ......... don't convert network addr to hostnames
+  -P ......... dont' convert network port to know service names
+  -i <@h[:p]>. show connections to h (hostname|ip addr) with optional port p
 
 file flags:
   R/W/RW ..... read/write/read-write
@@ -46,6 +50,11 @@ uase cases:
 - show open files with file flags
 lsof +fg -p <pid>
 
+- show open tcp connections from user
+lsof -a -u $USER -i tcp
+
+- show open connections to 'localhost' for user
+lsof -a -u $USER -i @localhost
 
 #
 # pmap(1)
