@@ -17,6 +17,7 @@ useful <expr>:
   trace=syscall[,syscall] .... trace only syscall listed
   trace=file ................. trace all syscall that take a filename as arg
   trace=process .............. trace process management related syscalls
+  trace=signal ............... trace signal related syscalls
   signal ..................... trace signals delivered to the process
 
 use cases:
