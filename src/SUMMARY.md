@@ -1,5 +1,6 @@
 # Summary
 
+- [ld.so](./ld.so.md)
 - [git](./git.md)
 - [gdb](./gdb.md)
 - [radare2](./radare2.md)
