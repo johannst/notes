@@ -2,6 +2,7 @@
 
 - [git](./git.md)
 - [gdb](./gdb.md)
+- [radare2](./radare2.md)
 - [strace](./strace.md)
 - [lsof](./lsof.md)
 - [pidstat](./pidstat.md)
@@ -16,4 +17,3 @@
 - [objdump](./objdump.md)
 - [nm](./nm.md)
 - [c++filt](./c++filt.md)
-
