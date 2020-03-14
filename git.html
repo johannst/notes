@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gdb - Notes</title>
+        <title>git - Notes</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="gdb.html" class="active"><strong aria-hidden="true">3.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">4.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">5.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">6.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">7.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">8.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">9.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">10.</strong> time</a></li><li class="expanded "><a href="pmap.html"><strong aria-hidden="true">11.</strong> pmap</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">12.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">13.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">14.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">15.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">16.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">17.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">18.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">19.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">20.</strong> c++filt</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html" class="active"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">3.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">4.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">5.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">6.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">7.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">8.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">9.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">10.</strong> time</a></li><li class="expanded "><a href="pmap.html"><strong aria-hidden="true">11.</strong> pmap</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">12.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">13.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">14.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">15.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">16.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">17.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">18.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">19.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">20.</strong> c++filt</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -148,135 +148,104 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#gdb1" id="gdb1">gdb(1)</a></h1>
-<h1><a class="header" href="#cli" id="cli">CLI</a></h1>
-<pre><code class="language-markdown">  gdb [opts] [prg [-c coredump | -p pid]]
-  gdb [opts] --args prg &lt;prg-args&gt;
-    opts:
-      -p &lt;pid&gt;        attach to pid
-      -c &lt;coredump&gt;   use &lt;coredump&gt;
-      -x &lt;file&gt;       execute script &lt;file&gt; before prompt
-      -ex &lt;cmd&gt;       execute command &lt;cmd&gt; before prompt
-      --tty &lt;tty&gt;     set I/O tty for debugee
+                        <h1><a class="header" href="#git1" id="git1">git(1)</a></h1>
+<h2><a class="header" href="#misc" id="misc">Misc</a></h2>
+<pre><code class="language-markdown">  git add -p [&lt;file&gt;] ............ partial staging (interactive)
 </code></pre>
-<h1><a class="header" href="#interactive-usage" id="interactive-usage">Interactive usage</a></h1>
-<pre><code class="language-markdown">  tty &lt;tty&gt;
-          Set &lt;tty&gt; as tty for debugee.
-          Make sure nobody reads from target tty, easiest is to spawn a shell
-          and run following in target tty:
-          &gt; while true; do sleep 1024; done
-
-  set follow-fork-mode &lt;child | parent&gt;
-          Specify which process to follow when debuggee makes a fork(2)
-          syscall.
-
-  sharedlibrary [&lt;regex&gt;]
-          Load symbols of shared libs loaded by debugee. Optionally use &lt;regex&gt;
-          to filter libs for symbol loading.
-
-  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
-          Set a breakpoint only for a specific thread.
-          -qualified: Tred &lt;sym&gt; as fully qualified symbol (quiet handy to set
-          breakpoints on C symbols in C++ contexts)
-
-  rbreak &lt;regex&gt;
-          Set breakpoints matching &lt;regex&gt;, where matching internally is done
-          on: .*&lt;regex&gt;.*
-
-  command [&lt;bp_list&gt;]
-          Define commands to run after breakpoint hit. If &lt;bp_list&gt; is not
-          specified attach command to last created breakpoint. Command block
-          terminated with 'end' token.
-
-          &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
-          for breakpoints: 2,5,6,7,8.
-
-  info functions [&lt;regex&gt;]
-          List functions matching &lt;regex&gt;. List all functions if no &lt;regex&gt;
-          provided.
-
-  info variables [&lt;regex&gt;]
-          List variables matching &lt;regex&gt;. List all variables if no &lt;regex&gt;
-          provided.
-
-  info handle [&lt;signal&gt;]
-          Print how to handle &lt;signal&gt;. If no &lt;signal&gt; specified print for all
-          signals.
-
-  handle &lt;signal&gt; &lt;action&gt;
-          Configure how gdb handles &lt;signal&gt; sent to debugee.
-          &lt;action&gt;:
-            stop/nostop       Catch signal in gdb and break.
-            print/noprint     Print message when gdb catches signal.
-            pass/nopass       Pass signal down to debugee.
-
-  catch signal &lt;signal&gt;
-          Create a catchpoint for &lt;signal&gt;.
+<h2><a class="header" href="#remote" id="remote">remote</a></h2>
+<pre><code class="language-markdown">  git remote -v .................. list remotes verbose (with URLs)
+  git remote show [-n] &lt;remote&gt; .. list info for &lt;remote&gt; (like remote HEAD,
+                                   remote branches, tracking mapping)
 </code></pre>
-<h1><a class="header" href="#user-commands-macros" id="user-commands-macros">User commands (macros)</a></h1>
-<pre><code class="language-markdown">  define &lt;cmd&gt;
-    # cmds
-  end
-
-  document &lt;cmd&gt;
-    # docu
-  end
-
-  help user-defined             List user defined commands.
-  help &lt;cmd&gt;                    List documentation for command &lt;cmd&gt;.
+<h2><a class="header" href="#branching" id="branching">branching</a></h2>
+<pre><code class="language-markdown">  git branch [-a] ................ list available branches; -a to include
+                                   remote branches
+  git branch -vv ................. list branch &amp; annotate with head sha1 &amp;
+                                   remote tracking branch
+  git branch &lt;bname&gt; ............. create branch with name &lt;bname&gt;
+  git checkout &lt;bname&gt; ........... switch to branch with name &lt;bname&gt;
+  git push -u origin &lt;rbname&gt; .... push branch to origin (or other remote), and
+                                   setup &lt;rbname&gt; as tracking branch
 </code></pre>
-<h1><a class="header" href="#hooks" id="hooks">Hooks</a></h1>
-<p>Gdb allows to create two types of command <code>hooks</code> which will be either executed
-before or after a certain command.</p>
-<pre><code class="language-markdown">  define hook-&lt;cmd&gt;             Run commands defined in hook before
-    # cmds                      executing &lt;cmd&gt;.
-  end
+<h2><a class="header" href="#resetting" id="resetting">resetting</a></h2>
+<pre><code class="language-markdown">  git reset [opt] &lt;ref|commit&gt;
+    opt:
+      --mixed .................... resets index, but not working tree
+      --hard ..................... matches the working tree and index to that
+                                   of the tree being switched to any changes to
+                                   tracked files in the working tree since
+                                   &lt;commit&gt; are lost
+  git reset HEAD &lt;file&gt; .......... remove file from staging
+  git reset --soft HEAD~1 ........ delete most recent commit but keep work
+  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+</code></pre>
+<h2><a class="header" href="#tags" id="tags">tags</a></h2>
+<pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m &quot;descr&quot; ........ creates an annotated tag (full object
+                                         containing tagger, date, ...)
+  git tag -l ........................... list available tags
+  git checkout tag/&lt;tname&gt; ............. checkout specific tag
+  git checkout tag/&lt;tname&gt; -b &lt;bname&gt; .. checkout specific tag in a new branch
+</code></pre>
+<h2><a class="header" href="#diff" id="diff">diff</a></h2>
+<pre><code class="language-markdown">  git diff HEAD:&lt;fname&gt; origin/HEAD:&lt;fname&gt; ... diff files for different refs
+  git diff -U$(wc -l &lt;fname&gt;) &lt;fname&gt; ......... shows complete file with diffs
+                                                instead of usual diff snippets
+</code></pre>
+<h2><a class="header" href="#log" id="log">log</a></h2>
+<pre><code class="language-markdown">  git log --oneline .... shows log in single line per commit -&gt; alias for
+                         '--pretty=oneline --abbrev-commit'
+  git log --graph ...... text based graph of commit history
+  git log --decorate ... decorate log with REFs
+</code></pre>
+<h2><a class="header" href="#patching" id="patching">patching</a></h2>
+<pre><code class="language-markdown">  git format-patch &lt;opt&gt; &lt;since&gt;/&lt;revision range&gt;
+    opt:
+      -N ................... use [PATCH] instead [PATCH n/m] in subject when
+                             generating patch description (for patches spanning
+                             multiple commits)
+      --start-number &lt;n&gt; ... start output file generation with &lt;n&gt; as start
+                             number instead '1'
+    since spcifier:
+      -3 .................. e.g: create a patch from last three commits
+      &lt;comit hash&gt; ........ create patch with commits starting after &lt;comit hash&gt;
 
-  define hookpost-&lt;cmd&gt;         Run commands defined in hookpost after
-    # cmds                      executing &lt;cmd&gt;.
-  end
-</code></pre>
-<h1><a class="header" href="#flows" id="flows">Flows</a></h1>
-<h2><a class="header" href="#catch-sigsegv-and-execute-commands-on-occurrence" id="catch-sigsegv-and-execute-commands-on-occurrence">Catch SIGSEGV and execute commands on occurrence</a></h2>
-<pre><code class="language-markdown">  catch signal SIGSEGV
-  command
-    bt
-    c
-  end
-</code></pre>
-<h2><a class="header" href="#run-backtrace-on-thread-1-batch-mode" id="run-backtrace-on-thread-1-batch-mode">Run <code>backtrace</code> on thread 1 (batch mode)</a></h2>
-<pre><code class="language-markdown">  gdb --batch -ex 'thread 1' -ex 'bt' -p &lt;pid&gt;
-</code></pre>
-<h2><a class="header" href="#script-gdb-for-automating-debugging-sessions" id="script-gdb-for-automating-debugging-sessions">Script gdb for automating debugging sessions</a></h2>
-<pre><code class="language-markdown"># run.gdb
-  set pagination off
+  git am &lt;patch&gt; ......... apply patch and create a commit for it
 
-  break mmap
-  command
-    info reg rdi rsi rdx
-    bt
-    c
-  end
+  git apply --stat &lt;PATCH&gt; ... see which files the patch would change
+  git apply --check &lt;PATCH&gt; .. see if the patch can be applied cleanly
+  git apply &lt;PATCH&gt; .......... apply the patch locally without creating a commit
 
-  #initial drop
-  c
-</code></pre>
-<p>This script can be used as:</p>
-<pre><code class="language-markdown">  gdb -p &lt;pid&gt; -x ./run.gdb  --batch &amp;&gt; run.log
-</code></pre>
-<h2><a class="header" href="#workaround-command--finish-bug" id="workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
-<p>When using <code>finish</code> action inside a <code>command</code> block, actions after <code>finish</code> are
-not executed anymore. To workaround that bug one can create a wrapper function
-which calls <code>finish</code>.</p>
-<pre><code class="language-markdown">  define handler
-  bt
-  finish
-  info reg rax
-  end
+  # eg: generate patches for each commit from initial commit on
+  git format-patch -N $(git rev-list --max-parents=0 HEAD)
 
-  command
-  handler
-  end
+  # generate single patch file from a certain commit/ref
+  git format-patch &lt;COMMIT/REF&gt; --stdout &gt; my-patch.patch
+</code></pre>
+<h2><a class="header" href="#submodules" id="submodules">submodules</a></h2>
+<pre><code class="language-markdown">  git submodule add &lt;url&gt; [&lt;path&gt;] .......... add new submodule to current project
+  git clone --recursive &lt;url&gt; ............... clone project and recursively all
+                                              submodules (same as using
+                                              'git submodule update --init
+                                              --recursive' after clone)
+  git submodule update --init --recursive ... checkout submodules recursively
+                                              using the commit listed in the
+                                              super-project (in detached HEAD)
+  git submodule update --remote &lt;submod&gt; .... fetch &amp; merge remote changes for
+                                              &lt;submod&gt;, this will pull
+                                              origin/HEAD or a branch specified
+                                              for the submodule
+</code></pre>
+<h2><a class="header" href="#inspection" id="inspection">inspection</a></h2>
+<pre><code class="language-markdown">  git ls-tree [-r] &lt;ref&gt; .... show git tree for &lt;ref&gt;, -r to recursively ls sub-trees
+  git show &lt;obj&gt; ............ show &lt;obj&gt;
+  git cat-file -p &lt;obj&gt; ..... print content of &lt;obj&gt;
+</code></pre>
+<h2><a class="header" href="#revision_range" id="revision_range">revision_range</a></h2>
+<pre><code class="language-markdown">  HEAD ........ last commit
+  HEAD~1 ...... last commit-1
+  HEAD~N ...... last commit-N (linear backwards when in tree structure, check
+                difference between HEAD^ and HEAD~)
+  git rev-list --max-parents=0 HEAD ........... first commit
 </code></pre>
 
                     </main>
@@ -284,13 +253,13 @@ which calls <code>finish</code>.</p>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="git.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="ld.so.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="radare2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="gdb.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -302,13 +271,13 @@ which calls <code>finish</code>.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="git.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="ld.so.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a href="radare2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a href="gdb.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
