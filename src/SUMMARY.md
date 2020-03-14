@@ -3,6 +3,7 @@
 - [git](./git.md)
 - [gdb](./gdb.md)
 - [radare2](./radare2.md)
+- [emacs](./emacs.md)
 - [strace](./strace.md)
 - [lsof](./lsof.md)
 - [pidstat](./pidstat.md)
