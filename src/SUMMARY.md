@@ -4,6 +4,7 @@
 - [gdb](./gdb.md)
 - [radare2](./radare2.md)
 - [emacs](./emacs.md)
+- [fish](./fish.md)
 - [strace](./strace.md)
 - [lsof](./lsof.md)
 - [pidstat](./pidstat.md)
