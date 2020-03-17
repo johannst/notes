@@ -1,11 +1,12 @@
 # c++filt(1)
 
-## demangle symbol
+## Demangle symbol
 ```markdown
   c++-filt <symbol_str>
 ```
 
-## demangle stream (eg dynamic symbol table)
+## Demangle stream
+For example dynamic symbol table:
 ```markdown
   readelf -W --dyn-syms <elf> | c++filt
 ```
