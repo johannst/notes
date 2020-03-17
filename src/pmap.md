@@ -2,6 +2,6 @@
 
 ```markdown
 pmap <pid>
-  ............. dump virtual memory map of process.
-                compared to /proc/<pid>/maps it shows the size of the mappings
+    Dump virtual memory map of process.
+    Compared to /proc/<pid>/maps it shows the size of the mappings.
 ```
