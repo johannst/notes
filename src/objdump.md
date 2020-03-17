@@ -11,7 +11,8 @@
     --[no-]show-raw-insn    [dont] show object code next to disassembly
 ```
 
-## Disassemble .plt section
+## Disassemble section
+For example `.plt` section:
 ```markdown
   objdump -j .plt -d <elf>
 ```
