@@ -2,6 +2,7 @@
 
 - [ld.so](./ld.so.md)
 - [git](./git.md)
+- [awk](./awk.md)
 - [gdb](./gdb.md)
 - [radare2](./radare2.md)
 - [emacs](./emacs.md)
