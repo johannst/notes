@@ -72,6 +72,7 @@
 
 # User commands (macros)
 
+Gdb allows to create & document user commands as follows:
 ```markdown
   define <cmd>
     # cmds
@@ -80,29 +81,34 @@
   document <cmd>
     # docu
   end
+```
 
-  help user-defined             List user defined commands.
-  help <cmd>                    List documentation for command <cmd>.
+To get all user commands or documentations one can use:
+```markdown
+  help user-defined
+  help <cmd>
 ```
 
 # Hooks
 
-Gdb allows to create two types of command `hooks` which will be either executed
-before or after a certain command.
-
+Gdb allows to create two types of command `hooks`
+- `hook-` will be run before `<cmd>`
+- `hookpost-` will be run after `<cmd>`
 ```markdown
-  define hook-<cmd>             Run commands defined in hook before
-    # cmds                      executing <cmd>.
+  define hook-<cmd>
+    # cmds
   end
 
-  define hookpost-<cmd>         Run commands defined in hookpost after
-    # cmds                      executing <cmd>.
+  define hookpost-<cmd>
+    # cmds
   end
 ```
 
-# Flows
+# Examples
 
-## Catch SIGSEGV and execute commands on occurrence
+## Catch SIGSEGV and execute commands
+This creates a `catchpoint` for the `SIGSEGV` signal and attached the `command`
+to it.
 ```markdown
   catch signal SIGSEGV
   command
@@ -117,8 +123,9 @@ before or after a certain command.
 ```
 
 ## Script gdb for automating debugging sessions
+To script gdb add commands into a file and pass it to gdb via `-x`.
+For example create `run.gdb`:
 ```markdown
-# run.gdb
   set pagination off
 
   break mmap
@@ -133,21 +140,23 @@ before or after a certain command.
 ```
 This script can be used as:
 ```markdown
-  gdb -p <pid> -x ./run.gdb  --batch &> run.log
+  gdb --batch -x ./run.gdb -p <pid>
 ```
 
+# Know Bugs
+
 ## Workaround `command + finish` bug
-When using `finish` action inside a `command` block, actions after `finish` are
-not executed anymore. To workaround that bug one can create a wrapper function
-which calls `finish`.
+When using `finish` inside a `command` block, commands after `finish` are not
+executed. To workaround that bug one can create a wrapper function which calls
+`finish`.
 ```markdown
   define handler
-  bt
-  finish
-  info reg rax
+    bt
+    finish
+    info reg rax
   end
 
   command
-  handler
+    handler
   end
 ```
