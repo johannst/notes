@@ -1,18 +1,18 @@
 # git(1)
 
-## Misc
+## staging
 ```markdown
   git add -p [<file>] ............ partial staging (interactive)
 ```
 
-## remote
+## Remote
 ```markdown
   git remote -v .................. list remotes verbose (with URLs)
   git remote show [-n] <remote> .. list info for <remote> (like remote HEAD,
                                    remote branches, tracking mapping)
 ```
 
-## branching
+## Branching
 ```markdown
   git branch [-a] ................ list available branches; -a to include
                                    remote branches
@@ -24,7 +24,7 @@
                                    setup <rbname> as tracking branch
 ```
 
-## resetting
+## Resetting
 ```markdown
   git reset [opt] <ref|commit>
     opt:
@@ -38,7 +38,7 @@
   git reset --hard HEAD~1 ........ delete most recent commit and delete work
 ```
 
-## tags
+## Tags
 ```markdown
   git tag -a <tname> -m "descr" ........ creates an annotated tag (full object
                                          containing tagger, date, ...)
@@ -47,22 +47,23 @@
   git checkout tag/<tname> -b <bname> .. checkout specific tag in a new branch
 ```
 
-## diff
+## Diff
 ```markdown
   git diff HEAD:<fname> origin/HEAD:<fname> ... diff files for different refs
   git diff -U$(wc -l <fname>) <fname> ......... shows complete file with diffs
                                                 instead of usual diff snippets
 ```
 
-## log
+## Log
 ```markdown
   git log --oneline .... shows log in single line per commit -> alias for
                          '--pretty=oneline --abbrev-commit'
   git log --graph ...... text based graph of commit history
   git log --decorate ... decorate log with REFs
+  git log -p <file> .... show commit history + diffs for <file>
 ```
 
-## patching
+## Patching
 ```markdown
   git format-patch <opt> <since>/<revision range>
     opt:
@@ -88,7 +89,7 @@
   git format-patch <COMMIT/REF> --stdout > my-patch.patch
 ```
 
-## submodules
+## Submodules
 ```markdown
   git submodule add <url> [<path>] .......... add new submodule to current project
   git clone --recursive <url> ............... clone project and recursively all
@@ -104,14 +105,14 @@
                                               for the submodule
 ```
 
-## inspection
+## Inspection
 ```markdown
   git ls-tree [-r] <ref> .... show git tree for <ref>, -r to recursively ls sub-trees
   git show <obj> ............ show <obj>
   git cat-file -p <obj> ..... print content of <obj>
 ```
 
-## revision_range
+## Revision Specifier
 ```markdown
   HEAD ........ last commit
   HEAD~1 ...... last commit-1
