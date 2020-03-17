@@ -11,7 +11,7 @@
     -N <n>      dump <n> bytes (hex of start with 0x)
 ```
 
-## ascii chars to hex string
+## ASCII to hex string
 ```markdown
   echo -n AAAABBBB | od -An -w4 -tx4
     >> 41414141
@@ -23,13 +23,20 @@
     >>         177   E   L   F  \n      # tc
 ```
 
-## extract part of file (eg .rodata section form ELF)
+## Extract parts of file
+For example `.rodata` section from an elf file. We can use `readelf` to get the
+offset into the file where the `.rodata` section starts.
 ```markdown
   readelf -W -S foo
     >> Section Headers:
     >> [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
     >> ...
     >> [15] .rodata           PROGBITS        00000000004009c0 0009c0 000030 00   A  0   0 16
+```
+
+With the offset of `-j 0x0009c0` we can dump `-N 0x30` bytes from the beginning of
+the `.rodata` section as follows:
+```markdown
   od -j 0x0009c0 -N 0x30 -tx4 -w4 foo
     >> 0004700 00020001
     >> 0004704 00000000
@@ -39,3 +46,4 @@
     >> 0004750 00000003
     >> 0004754 00000004
 ```
+**Note**: Numbers starting with `0x` will be interpreted as hex by `od`.
