@@ -5,6 +5,7 @@ pidstat [opt] [interval] [cont]
   -U [user]     show username instead UID, optionally only show for user
   -r            memory statistics
   -d            I/O statistics
+  -h            single line per process and no lines with average
 ```
 
 # Page fault and memory utilization
