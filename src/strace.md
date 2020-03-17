@@ -4,7 +4,7 @@
 strace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -p <pid> .... attach to running process
-  -s <size> ... max string size (default: 32)
+  -s <size> ... max string size, truncate of longer (default: 32)
   -e <expr> ... expression for trace filtering
   -o <file> ... log output into <file>
   -c .......... dump syscall statitics at the end
@@ -21,12 +21,12 @@ strace [opts] [prg]
 
 # Examples
 
-Trace `'open & socket` syscalls for a running process + childs.
+Trace `open(2)` & `socket(2)` syscalls for a running process + child processes:
 ```markdown
-strace -f -p <pid> -e trace=open,socket
+strace -f -e trace=open,socket -p <pid>
 ```
 
-Trace signals delivered to a running process.
+Trace signals delivered to a running process:
 ```markdown
-strace -f -p <pid> -e signal
+strace -f -e signal -p <pid>
 ```
