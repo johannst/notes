@@ -2,5 +2,5 @@
 
 ```markdown
 pstack <pid>
-  ............. dump current stack of process + threads
+    Dump stack for all threads of process.
 ```
