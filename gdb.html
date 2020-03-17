@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="gdb.html" class="active"><strong aria-hidden="true">3.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">4.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">5.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">6.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">7.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">8.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">9.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">10.</strong> time</a></li><li class="expanded "><a href="pmap.html"><strong aria-hidden="true">11.</strong> pmap</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">12.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">13.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">14.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">15.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">16.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">17.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">18.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">19.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">20.</strong> c++filt</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="awk.html"><strong aria-hidden="true">3.</strong> awk</a></li><li class="expanded "><a href="gdb.html" class="active"><strong aria-hidden="true">4.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">5.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">6.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">7.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">8.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">9.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">10.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">11.</strong> time</a></li><li class="expanded "><a href="pgrep.html"><strong aria-hidden="true">12.</strong> pgrep</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">13.</strong> pstack</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">14.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">15.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">16.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">17.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">18.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">19.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">20.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">21.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">22.</strong> c++filt</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -214,6 +214,7 @@
           Create a catchpoint for &lt;signal&gt;.
 </code></pre>
 <h1><a class="header" href="#user-commands-macros" id="user-commands-macros">User commands (macros)</a></h1>
+<p>Gdb allows to create &amp; document user commands as follows:</p>
 <pre><code class="language-markdown">  define &lt;cmd&gt;
     # cmds
   end
@@ -221,23 +222,29 @@
   document &lt;cmd&gt;
     # docu
   end
-
-  help user-defined             List user defined commands.
-  help &lt;cmd&gt;                    List documentation for command &lt;cmd&gt;.
+</code></pre>
+<p>To get all user commands or documentations one can use:</p>
+<pre><code class="language-markdown">  help user-defined
+  help &lt;cmd&gt;
 </code></pre>
 <h1><a class="header" href="#hooks" id="hooks">Hooks</a></h1>
-<p>Gdb allows to create two types of command <code>hooks</code> which will be either executed
-before or after a certain command.</p>
-<pre><code class="language-markdown">  define hook-&lt;cmd&gt;             Run commands defined in hook before
-    # cmds                      executing &lt;cmd&gt;.
+<p>Gdb allows to create two types of command <code>hooks</code></p>
+<ul>
+<li><code>hook-</code> will be run before <code>&lt;cmd&gt;</code></li>
+<li><code>hookpost-</code> will be run after <code>&lt;cmd&gt;</code></li>
+</ul>
+<pre><code class="language-markdown">  define hook-&lt;cmd&gt;
+    # cmds
   end
 
-  define hookpost-&lt;cmd&gt;         Run commands defined in hookpost after
-    # cmds                      executing &lt;cmd&gt;.
+  define hookpost-&lt;cmd&gt;
+    # cmds
   end
 </code></pre>
-<h1><a class="header" href="#flows" id="flows">Flows</a></h1>
-<h2><a class="header" href="#catch-sigsegv-and-execute-commands-on-occurrence" id="catch-sigsegv-and-execute-commands-on-occurrence">Catch SIGSEGV and execute commands on occurrence</a></h2>
+<h1><a class="header" href="#examples" id="examples">Examples</a></h1>
+<h2><a class="header" href="#catch-sigsegv-and-execute-commands" id="catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
+<p>This creates a <code>catchpoint</code> for the <code>SIGSEGV</code> signal and attached the <code>command</code>
+to it.</p>
 <pre><code class="language-markdown">  catch signal SIGSEGV
   command
     bt
@@ -248,8 +255,9 @@ before or after a certain command.</p>
 <pre><code class="language-markdown">  gdb --batch -ex 'thread 1' -ex 'bt' -p &lt;pid&gt;
 </code></pre>
 <h2><a class="header" href="#script-gdb-for-automating-debugging-sessions" id="script-gdb-for-automating-debugging-sessions">Script gdb for automating debugging sessions</a></h2>
-<pre><code class="language-markdown"># run.gdb
-  set pagination off
+<p>To script gdb add commands into a file and pass it to gdb via <code>-x</code>.
+For example create <code>run.gdb</code>:</p>
+<pre><code class="language-markdown">  set pagination off
 
   break mmap
   command
@@ -262,20 +270,21 @@ before or after a certain command.</p>
   c
 </code></pre>
 <p>This script can be used as:</p>
-<pre><code class="language-markdown">  gdb -p &lt;pid&gt; -x ./run.gdb  --batch &amp;&gt; run.log
+<pre><code class="language-markdown">  gdb --batch -x ./run.gdb -p &lt;pid&gt;
 </code></pre>
+<h1><a class="header" href="#know-bugs" id="know-bugs">Know Bugs</a></h1>
 <h2><a class="header" href="#workaround-command--finish-bug" id="workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
-<p>When using <code>finish</code> action inside a <code>command</code> block, actions after <code>finish</code> are
-not executed anymore. To workaround that bug one can create a wrapper function
-which calls <code>finish</code>.</p>
+<p>When using <code>finish</code> inside a <code>command</code> block, commands after <code>finish</code> are not
+executed. To workaround that bug one can create a wrapper function which calls
+<code>finish</code>.</p>
 <pre><code class="language-markdown">  define handler
-  bt
-  finish
-  info reg rax
+    bt
+    finish
+    info reg rax
   end
 
   command
-  handler
+    handler
   end
 </code></pre>
 
@@ -284,7 +293,7 @@ which calls <code>finish</code>.</p>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="git.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="awk.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
@@ -302,7 +311,7 @@ which calls <code>finish</code>.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a href="git.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a href="awk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 

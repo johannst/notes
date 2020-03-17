@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">3.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">4.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">5.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">6.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">7.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">8.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">9.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">10.</strong> time</a></li><li class="expanded "><a href="pmap.html"><strong aria-hidden="true">11.</strong> pmap</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">12.</strong> pstack</a></li><li class="expanded "><a href="perf.html" class="active"><strong aria-hidden="true">13.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">14.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">15.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">16.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">17.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">18.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">19.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">20.</strong> c++filt</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="awk.html"><strong aria-hidden="true">3.</strong> awk</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">4.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">5.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">6.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">7.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">8.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">9.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">10.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">11.</strong> time</a></li><li class="expanded "><a href="pgrep.html"><strong aria-hidden="true">12.</strong> pgrep</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">13.</strong> pstack</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">14.</strong> pstack</a></li><li class="expanded "><a href="perf.html" class="active"><strong aria-hidden="true">15.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">16.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">17.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">18.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">19.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">20.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">21.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">22.</strong> c++filt</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -149,8 +149,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#perf1" id="perf1">perf(1)</a></h1>
-<pre><code class="language-markdown">perf list
-  ......... show supported hw/sw events
+<pre><code class="language-markdown">perf list      show supported hw/sw events
 
 perf stat
   -p &lt;pid&gt; .. show stats for running process
@@ -166,7 +165,8 @@ perf record
   -p &lt;pid&gt; ............... record stats for running process
   -F &lt;hz&gt; ................ sampling frequency
   --call-graph &lt;method&gt; .. [fp, dwarf, lbr] method how to caputre backtrace
-                           fp   : use frame-pointer, need -fno-omit-frame-pointer
+                           fp   : use frame-pointer, need to compile with
+                                  -fno-omit-frame-pointer
                            dwarf: use .cfi debug information
                            lbr  : use hardware last branch record facility
   -g ..................... short-hand for --call-graph fp
@@ -177,8 +177,7 @@ perf report
   --stdio ............... report to stdio, if not presen tui mode
   -g graph,0.5,caller ... show caller based call chains with value &gt;0.5
 </code></pre>
-<h2><a class="header" href="#useful-perf-events" id="useful-perf-events">Useful <code>perf</code> events</a></h2>
-<pre><code class="language-markdown">useful &lt;ev&gt;:
+<pre><code class="language-markdown">Useful &lt;ev&gt;:
   page-faults
   minor-faults
   major-faults
@@ -186,12 +185,12 @@ perf report
   task-clock
 </code></pre>
 <h2><a class="header" href="#a-hrefhttpsgithubcombrendangreggflamegraphflamegrapha" id="a-hrefhttpsgithubcombrendangreggflamegraphflamegrapha"><a href="https://github.com/brendangregg/FlameGraph"><code>Flamegraph</code></a></a></h2>
-<pre><code class="language-markdown"># flamegraph for single event trace
-perf record -g -p &lt;pid&gt; -e cpu-cycles
+<h3><a class="header" href="#flamegraph-with-single-event-trace" id="flamegraph-with-single-event-trace">Flamegraph with single event trace</a></h3>
+<pre><code class="language-markdown">perf record -g -e cpu-cycles -p &lt;pid&gt;
 perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; cycles-flamegraph.svg
-
-# flamegraphs for multiple events trace
-perf record -g -p &lt;pid&gt; -e cpu-cycles,page-faults
+</code></pre>
+<h3><a class="header" href="#flamegraph-with-multiple-event-traces" id="flamegraph-with-multiple-event-traces">Flamegraph with multiple event traces</a></h3>
+<pre><code class="language-markdown">perf record -g -e cpu-cycles,page-faults -p &lt;pid&gt;
 perf script --per-event-dump
 # fold &amp; generate as above
 </code></pre>

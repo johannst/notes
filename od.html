@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">3.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">4.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">5.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">6.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">7.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">8.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">9.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">10.</strong> time</a></li><li class="expanded "><a href="pmap.html"><strong aria-hidden="true">11.</strong> pmap</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">12.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">13.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">14.</strong> OProfile</a></li><li class="expanded "><a href="od.html" class="active"><strong aria-hidden="true">15.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">16.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">17.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">18.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">19.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">20.</strong> c++filt</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="awk.html"><strong aria-hidden="true">3.</strong> awk</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">4.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">5.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">6.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">7.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">8.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">9.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">10.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">11.</strong> time</a></li><li class="expanded "><a href="pgrep.html"><strong aria-hidden="true">12.</strong> pgrep</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">13.</strong> pstack</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">14.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">15.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">16.</strong> OProfile</a></li><li class="expanded "><a href="od.html" class="active"><strong aria-hidden="true">17.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">18.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">19.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">20.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">21.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">22.</strong> c++filt</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -158,7 +158,7 @@
     -j &lt;n&gt;      skip &lt;n&gt; bytes from &lt;file&gt; (hex if start with 0x)
     -N &lt;n&gt;      dump &lt;n&gt; bytes (hex of start with 0x)
 </code></pre>
-<h2><a class="header" href="#ascii-chars-to-hex-string" id="ascii-chars-to-hex-string">ascii chars to hex string</a></h2>
+<h2><a class="header" href="#ascii-to-hex-string" id="ascii-to-hex-string">ASCII to hex string</a></h2>
 <pre><code class="language-markdown">  echo -n AAAABBBB | od -An -w4 -tx4
     &gt;&gt; 41414141
     &gt;&gt; 42424242
@@ -168,13 +168,18 @@
     &gt;&gt;         del   E   L   F  nl      # ta
     &gt;&gt;         177   E   L   F  \n      # tc
 </code></pre>
-<h2><a class="header" href="#extract-part-of-file-eg-rodata-section-form-elf" id="extract-part-of-file-eg-rodata-section-form-elf">extract part of file (eg .rodata section form ELF)</a></h2>
+<h2><a class="header" href="#extract-parts-of-file" id="extract-parts-of-file">Extract parts of file</a></h2>
+<p>For example <code>.rodata</code> section from an elf file. We can use <code>readelf</code> to get the
+offset into the file where the <code>.rodata</code> section starts.</p>
 <pre><code class="language-markdown">  readelf -W -S foo
     &gt;&gt; Section Headers:
     &gt;&gt; [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
     &gt;&gt; ...
     &gt;&gt; [15] .rodata           PROGBITS        00000000004009c0 0009c0 000030 00   A  0   0 16
-  od -j 0x0009c0 -N 0x30 -tx4 -w4 foo
+</code></pre>
+<p>With the offset of <code>-j 0x0009c0</code> we can dump <code>-N 0x30</code> bytes from the beginning of
+the <code>.rodata</code> section as follows:</p>
+<pre><code class="language-markdown">  od -j 0x0009c0 -N 0x30 -tx4 -w4 foo
     &gt;&gt; 0004700 00020001
     &gt;&gt; 0004704 00000000
     &gt;&gt; *
@@ -183,6 +188,7 @@
     &gt;&gt; 0004750 00000003
     &gt;&gt; 0004754 00000004
 </code></pre>
+<p><strong>Note</strong>: Numbers starting with <code>0x</code> will be interpreted as hex by <code>od</code>.</p>
 
                     </main>
 
