@@ -8,25 +8,25 @@
     -i          output as C array
 ```
 
-## from ascii to hex stream
+## ASCII to hex stream
 ```markdown
   echo -n 'aabb' | xxd -p
     >> 61616262
 ```
 
-## from hex stream to binary stream
+## Hex to binary stream
 ```markdown
   echo -n '61616262' | xxd -p -r
     >> aabb
 ```
 
-## ascii to binary
+## ASCII to binary
 ```markdown
   echo -n '\x7fELF' | xxd -p | xxd -p -r | file -p -
     >> ELF
 ```
 
-## ascii to C array (hex encoded)
+## ASCII to `C` array (hex encoded)
 ```markdown
   xxd -i <(echo -n '\x7fELF')
     >> unsigned char _proc_self_fd_11[] = {
