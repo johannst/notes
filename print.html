@@ -377,7 +377,7 @@ builtin <code>RS</code> variable.</li>
 but can be changed via the builtin variable <code>FS</code> or command line option
 <code>-F</code>.</li>
 </ol>
-<p>Field are accessed as follows:</p>
+<p>Fields are accessed as follows:</p>
 <ul>
 <li><code>$0</code> whole <code>record</code></li>
 <li><code>$1</code> field one</li>
@@ -399,6 +399,83 @@ record ----&gt; ∀ pattern matched
   v                   v
 fields ----&gt; run associated action
 </code></pre>
+<p>Any valid awk <code>expr</code> can be a <code>pattern</code>.</p>
+<h3><a class="header" href="#special-pattern" id="special-pattern">Special pattern</a></h3>
+<p>awk provides two special patterns, <code>BEGIN</code> and <code>END</code>, which can be used
+multiple times. Actions with those patterns are <strong>executed exactly once</strong>.</p>
+<ul>
+<li><code>BEGIN</code> actions are run before processing the first record</li>
+<li><code>END</code> actions are run after processing the last record</li>
+</ul>
+<h3><a class="header" href="#special-variables" id="special-variables">Special variables</a></h3>
+<ul>
+<li><code>RS</code> <em>record separator</em>: first char is the record separator, by default
+<newline></li>
+<li><code>FS</code> <em>field separator</em>: regex to split records into fields, by default
+<space></li>
+<li><code>NR</code> <em>number record</em>: number of current record</li>
+</ul>
+<h3><a class="header" href="#special-statements--functions" id="special-statements--functions">Special statements &amp; functions</a></h3>
+<ul>
+<li>
+<p><code>printf &quot;fmt&quot;, args...</code></p>
+<p>Print format string, args are comma separated.</p>
+<ul>
+<li><code>%s</code> string</li>
+<li><code>%d</code> decimal</li>
+<li><code>%x</code> hex</li>
+<li><code>%f</code> float</li>
+</ul>
+<p>Width can be specified as <code>%Ns</code>, this reserves <code>N</code> chars for a string.
+For floats one can use <code>%N.Mf</code>, <code>N</code> is the total number including <code>.</code> and
+<code>M</code>.</p>
+</li>
+<li>
+<p><code>strftime(&quot;fmt&quot;)</code></p>
+<p>Print time stamp formatted by <code>fmt</code>.</p>
+<ul>
+<li><code>%Y</code> full year (eg 2020)</li>
+<li><code>%m</code> month (01-12)</li>
+<li><code>%d</code> day (01-31)</li>
+<li><code>%F</code> alias for <code>%Y-%m-%d</code></li>
+<li><code>%H</code> hour (00-23)</li>
+<li><code>%M</code> minute (00-59)</li>
+<li><code>%S</code> second (00-59)</li>
+<li><code>%T</code> alias for <code>%H:%M:%S</code></li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#examples" id="examples">Examples</a></h2>
+<h3><a class="header" href="#filter-records" id="filter-records">Filter records</a></h3>
+<pre><code class="language-bash">awk 'NR%2 == 0 { print $0 }' &lt;file&gt;
+</code></pre>
+<p>The pattern <code>NR%2 == 0</code> matches every second record and the action <code>{ print $0 }</code>
+prints the whole record.</p>
+<h3><a class="header" href="#capture-in-variables" id="capture-in-variables">Capture in variables</a></h3>
+<pre><code class="language-bash"># /proc/&lt;pid&gt;/status
+#   Name:    cat
+#   ...
+#   VmRSS:   516 kB
+#   ...
+
+for f in /proc/*/status; do
+    cat $f | awk '
+             /^VmRSS/ { rss = $2/1024 }
+             /^Name/ { name = $2 }
+             END { printf &quot;%16s %6d MB\n&quot;, name, rss }';
+done | sort -k2 -n
+</code></pre>
+<p>We capture values from <code>VmRSS</code> and <code>Name</code> into variables and print them at the
+<code>END</code> once processing all records is done.</p>
+<h3><a class="header" href="#run-shell-command-and-capture-output" id="run-shell-command-and-capture-output">Run shell command and capture output</a></h3>
+<pre><code class="language-bash">cat /proc/1/status | awk '
+                     /^Pid/ {
+                        &quot;ps --no-header -o user &quot; $2 | getline user;
+                         print user
+                     }'
+</code></pre>
+<p>We build a <code>ps</code> command line and capture the first line of the processes output
+in the <code>user</code> variable and then print it.</p>
 <h1><a class="header" href="#gdb1" id="gdb1">gdb(1)</a></h1>
 <h1><a class="header" href="#cli" id="cli">CLI</a></h1>
 <pre><code class="language-markdown">  gdb [opts] [prg [-c coredump | -p pid]]
@@ -492,7 +569,7 @@ fields ----&gt; run associated action
     # cmds
   end
 </code></pre>
-<h1><a class="header" href="#examples" id="examples">Examples</a></h1>
+<h1><a class="header" href="#examples-1" id="examples-1">Examples</a></h1>
 <h2><a class="header" href="#catch-sigsegv-and-execute-commands" id="catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
 <p>This creates a <code>catchpoint</code> for the <code>SIGSEGV</code> signal and attached the <code>command</code>
 to it.</p>
@@ -634,7 +711,7 @@ executed. To workaround that bug one can create a wrapper function which calls
   trace=signal ............... trace signal related syscalls
   signal ..................... trace signals delivered to the process
 </code></pre>
-<h1><a class="header" href="#examples-1" id="examples-1">Examples</a></h1>
+<h1><a class="header" href="#examples-2" id="examples-2">Examples</a></h1>
 <p>Trace <code>open(2)</code> &amp; <code>socket(2)</code> syscalls for a running process + child processes:</p>
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
@@ -656,7 +733,7 @@ executed. To workaround that bug one can create a wrapper function which calls
   AP ......... append
   TR ......... truncate
 </code></pre>
-<h1><a class="header" href="#examples-2" id="examples-2">Examples</a></h1>
+<h1><a class="header" href="#examples-3" id="examples-3">Examples</a></h1>
 <h2><a class="header" href="#file-flags" id="file-flags">File flags</a></h2>
 <p>Show open files with file flags for process:</p>
 <pre><code class="language-markdown">lsof +fg -p &lt;pid&gt;
