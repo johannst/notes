@@ -17,7 +17,7 @@ Input is processed in two stages:
    but can be changed via the builtin variable `FS` or command line option
    `-F`.
 
-Field are accessed as follows:
+Fields are accessed as follows:
 - `$0` whole `record`
 - `$1` field one
 - `$2` field two
@@ -42,3 +42,85 @@ record ----> ∀ pattern matched
   v                   v
 fields ----> run associated action
 ```
+
+Any valid awk `expr` can be a `pattern`.
+
+### Special pattern
+
+awk provides two special patterns, `BEGIN` and `END`, which can be used
+multiple times. Actions with those patterns are **executed exactly once**.
+- `BEGIN` actions are run before processing the first record
+- `END` actions are run after processing the last record
+
+### Special variables
+
+- `RS` _record separator_: first char is the record separator, by default
+  <newline>
+- `FS` _field separator_: regex to split records into fields, by default
+  <space>
+- `NR` _number record_: number of current record
+
+### Special statements & functions
+
+- `printf "fmt", args...`
+
+  Print format string, args are comma separated.
+  - `%s` string
+  - `%d` decimal
+  - `%x` hex
+  - `%f` float
+
+  Width can be specified as `%Ns`, this reserves `N` chars for a string.
+  For floats one can use `%N.Mf`, `N` is the total number including `.` and
+  `M`.
+
+- `strftime("fmt")`
+
+  Print time stamp formatted by `fmt`.
+  - `%Y` full year (eg 2020)
+  - `%m` month (01-12)
+  - `%d` day (01-31)
+  - `%F` alias for `%Y-%m-%d`
+  - `%H` hour (00-23)
+  - `%M` minute (00-59)
+  - `%S` second (00-59)
+  - `%T` alias for `%H:%M:%S`
+
+
+## Examples
+
+### Filter records
+```bash
+awk 'NR%2 == 0 { print $0 }' <file>
+```
+The pattern `NR%2 == 0` matches every second record and the action `{ print $0 }`
+prints the whole record.
+
+### Capture in variables
+```bash
+# /proc/<pid>/status
+#   Name:    cat
+#   ...
+#   VmRSS:   516 kB
+#   ...
+
+for f in /proc/*/status; do
+    cat $f | awk '
+             /^VmRSS/ { rss = $2/1024 }
+             /^Name/ { name = $2 }
+             END { printf "%16s %6d MB\n", name, rss }';
+done | sort -k2 -n
+```
+We capture values from `VmRSS` and `Name` into variables and print them at the
+`END` once processing all records is done.
+
+### Run shell command and capture output
+```bash
+cat /proc/1/status | awk '
+                     /^Pid/ {
+                        "ps --no-header -o user " $2 | getline user;
+                         print user
+                     }'
+```
+We build a `ps` command line and capture the first line of the processes output
+in the `user` variable and then print it.
