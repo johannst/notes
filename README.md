@@ -1,7 +1,10 @@
-# cheatsheets & notes
+# Notes & Cheatsheets
 
-This is a personal collection of `cheatsheets` and `notes` I take during
+This is a personal collection of `notes` and `cheatsheets` I take during
 development as well as machine maintenance.
 
-The rendered version is available here [`cheatsheets & notes`](https://johannst.github.io/notes/).
+The notes can be rendered with [`rust-lang/mdBook`][mdbook] and are available
+via GitHub Pages [`cheatsheets & notes`][notes].
 
+[notes]: https://johannst.github.io/notes
+[mdbook]: https://github.com/rust-lang/mdBook
