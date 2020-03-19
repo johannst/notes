@@ -2,10 +2,20 @@
 
 ## help
 ```markdown
-  C-h f                 describe function
-  C-h b                 list buffer available keymaps
-  <kseq> C-h            list possible keymaps with <kseq>
-                        eg C-x C-h -> list keymaps beginning with C-x
+  C-h ?         list available help modes
+  C-h f         describe function
+  C-h v         describe variable
+  C-h c <KEY>   print command bound to <KEY>
+  C-h k <KEY>   describe command bound to <KEY>
+  C-h b         list buffer local key-bindings
+  <kseq> C-h    list possible key-bindings with <kseq>
+                eg C-x C-h -> list key-bindings beginning with C-x
+```
+
+## package manager
+```markdown
+  package-refresh-contents    refresh package list
+  package-list-packages       list available/installed packages
 ```
 
 ## window
@@ -14,6 +24,15 @@
   C-x 1         kill all other windows
   C-x 2         split horizontal
   C-x 3         split vertical
+```
+
+## yank/paste
+```markdown
+  C-<SPACE>  set start mark to select text
+  M-w        copy selected text
+  C-w        kill selected text
+  C-y        paste selected text
+  M-y        cycle through kill-ring
 ```
 
 ## block/rect
