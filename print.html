@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="tmux.html"><strong aria-hidden="true">3.</strong> tmux</a></li><li class="expanded "><a href="awk.html"><strong aria-hidden="true">4.</strong> awk</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">5.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">6.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">7.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">8.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">9.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">10.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">11.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">12.</strong> time</a></li><li class="expanded "><a href="pgrep.html"><strong aria-hidden="true">13.</strong> pgrep</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">14.</strong> pstack</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">15.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">16.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">17.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">18.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">19.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">20.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">21.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">22.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">23.</strong> c++filt</a></li></ol>
+                <ol class="chapter"><li class="expanded "><a href="ld.so.html"><strong aria-hidden="true">1.</strong> ld.so</a></li><li class="expanded "><a href="git.html"><strong aria-hidden="true">2.</strong> git</a></li><li class="expanded "><a href="tmux.html"><strong aria-hidden="true">3.</strong> tmux</a></li><li class="expanded "><a href="awk.html"><strong aria-hidden="true">4.</strong> awk</a></li><li class="expanded "><a href="gdb.html"><strong aria-hidden="true">5.</strong> gdb</a></li><li class="expanded "><a href="radare2.html"><strong aria-hidden="true">6.</strong> radare2</a></li><li class="expanded "><a href="emacs.html"><strong aria-hidden="true">7.</strong> emacs</a></li><li class="expanded "><a href="fish.html"><strong aria-hidden="true">8.</strong> fish</a></li><li class="expanded "><a href="strace.html"><strong aria-hidden="true">9.</strong> strace</a></li><li class="expanded "><a href="lsof.html"><strong aria-hidden="true">10.</strong> lsof</a></li><li class="expanded "><a href="pidstat.html"><strong aria-hidden="true">11.</strong> pidstat</a></li><li class="expanded "><a href="time.html"><strong aria-hidden="true">12.</strong> time</a></li><li class="expanded "><a href="pgrep.html"><strong aria-hidden="true">13.</strong> pgrep</a></li><li class="expanded "><a href="pstack.html"><strong aria-hidden="true">14.</strong> pstack</a></li><li class="expanded "><a href="perf.html"><strong aria-hidden="true">15.</strong> perf</a></li><li class="expanded "><a href="oprofile.html"><strong aria-hidden="true">16.</strong> OProfile</a></li><li class="expanded "><a href="od.html"><strong aria-hidden="true">17.</strong> od</a></li><li class="expanded "><a href="xxd.html"><strong aria-hidden="true">18.</strong> xxd</a></li><li class="expanded "><a href="readelf.html"><strong aria-hidden="true">19.</strong> readelf</a></li><li class="expanded "><a href="objdump.html"><strong aria-hidden="true">20.</strong> objdump</a></li><li class="expanded "><a href="nm.html"><strong aria-hidden="true">21.</strong> nm</a></li><li class="expanded "><a href="c++filt.html"><strong aria-hidden="true">22.</strong> c++filt</a></li><li class="expanded "><a href="c++.html"><strong aria-hidden="true">23.</strong> c++</a></li><li class="expanded "><a href="glibc.html"><strong aria-hidden="true">24.</strong> glibc</a></li><li class="expanded "><a href="gcc.html"><strong aria-hidden="true">25.</strong> gcc</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -309,7 +309,10 @@ As we can see the offset from relocation at index <code>0</code> points to <code
                          '--pretty=oneline --abbrev-commit'
   git log --graph ...... text based graph of commit history
   git log --decorate ... decorate log with REFs
-  git log -p &lt;file&gt; .... show commit history + diffs for &lt;file&gt;
+</code></pre>
+<h2><a class="header" href="#file-history" id="file-history">File history</a></h2>
+<pre><code class="language-markdown">  git log -p &lt;file&gt; ......... show commit history + diffs for &lt;file&gt;
+  git log --oneline &lt;file&gt; .. show commit history for &lt;file&gt; in compact format
 </code></pre>
 <h2><a class="header" href="#patching" id="patching">Patching</a></h2>
 <pre><code class="language-markdown">  git format-patch &lt;opt&gt; &lt;since&gt;/&lt;revision range&gt;
@@ -321,7 +324,7 @@ As we can see the offset from relocation at index <code>0</code> points to <code
                              number instead '1'
     since spcifier:
       -3 .................. e.g: create a patch from last three commits
-      &lt;comit hash&gt; ........ create patch with commits starting after &lt;comit hash&gt;
+      &lt;commit hash&gt; ....... create patch with commits starting after &lt;commit hash&gt;
 
   git am &lt;patch&gt; ......... apply patch and create a commit for it
 
@@ -348,6 +351,8 @@ As we can see the offset from relocation at index <code>0</code> points to <code
                                               &lt;submod&gt;, this will pull
                                               origin/HEAD or a branch specified
                                               for the submodule
+  git diff --submodule ...................... show commits that are part of the
+                                              submodule diff
 </code></pre>
 <h2><a class="header" href="#inspection" id="inspection">Inspection</a></h2>
 <pre><code class="language-markdown">  git ls-tree [-r] &lt;ref&gt; .... show git tree for &lt;ref&gt;, -r to recursively ls sub-trees
@@ -733,16 +738,31 @@ executed. To workaround that bug one can create a wrapper function which calls
 </code></pre>
 <h1><a class="header" href="#emacs1" id="emacs1">emacs(1)</a></h1>
 <h2><a class="header" href="#help-1" id="help-1">help</a></h2>
-<pre><code class="language-markdown">  C-h f                 describe function
-  C-h b                 list buffer available keymaps
-  &lt;kseq&gt; C-h            list possible keymaps with &lt;kseq&gt;
-                        eg C-x C-h -&gt; list keymaps beginning with C-x
+<pre><code class="language-markdown">  C-h ?         list available help modes
+  C-h f         describe function
+  C-h v         describe variable
+  C-h c &lt;KEY&gt;   print command bound to &lt;KEY&gt;
+  C-h k &lt;KEY&gt;   describe command bound to &lt;KEY&gt;
+  C-h b         list buffer local key-bindings
+  &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
+                eg C-x C-h -&gt; list key-bindings beginning with C-x
+</code></pre>
+<h2><a class="header" href="#package-manager" id="package-manager">package manager</a></h2>
+<pre><code class="language-markdown">  package-refresh-contents    refresh package list
+  package-list-packages       list available/installed packages
 </code></pre>
 <h2><a class="header" href="#window" id="window">window</a></h2>
 <pre><code class="language-markdown">  C-x 0         kill focused window
   C-x 1         kill all other windows
   C-x 2         split horizontal
   C-x 3         split vertical
+</code></pre>
+<h2><a class="header" href="#yankpaste" id="yankpaste">yank/paste</a></h2>
+<pre><code class="language-markdown">  C-&lt;SPACE&gt;  set start mark to select text
+  M-w        copy selected text
+  C-w        kill selected text
+  C-y        paste selected text
+  M-y        cycle through kill-ring
 </code></pre>
 <h2><a class="header" href="#blockrect" id="blockrect">block/rect</a></h2>
 <pre><code class="language-markdown">  C-x &lt;SPC&gt;                     activate rectangle-mark-mode
@@ -884,10 +904,6 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <pre><code class="language-markdown">gdb -p $(pgrep -n -u $USER zsh)
 </code></pre>
 <h1><a class="header" href="#pstack1" id="pstack1">pstack(1)</a></h1>
-<pre><code class="language-markdown">pstack &lt;pid&gt;
-    Dump stack for all threads of process.
-</code></pre>
-<h1><a class="header" href="#pstack1-1" id="pstack1-1">pstack(1)</a></h1>
 <pre><code class="language-markdown">pstack &lt;pid&gt;
     Dump stack for all threads of process.
 </code></pre>
@@ -1053,6 +1069,94 @@ the <code>.rodata</code> section as follows:</p>
 <h2><a class="header" href="#demangle-stream" id="demangle-stream">Demangle stream</a></h2>
 <p>For example dynamic symbol table:</p>
 <pre><code class="language-markdown">  readelf -W --dyn-syms &lt;elf&gt; | c++filt
+</code></pre>
+<h1><a class="header" href="#c" id="c">c++</a></h1>
+<h2><a class="header" href="#type-deduction" id="type-deduction">Type deduction</a></h2>
+<p>Force compile error to see what <code>auto</code> is deduced to.</p>
+<pre><code class="language-cpp">auto foo = bar();
+
+// force compile error
+typename decltype(foo)::_;
+</code></pre>
+<h1><a class="header" href="#glibc" id="glibc">glibc</a></h1>
+<h2><a class="header" href="#malloc-tracer-a-hrefhttpman7orglinuxman-pagesman3mtrace3htmlmtrace3a" id="malloc-tracer-a-hrefhttpman7orglinuxman-pagesman3mtrace3htmlmtrace3a">malloc tracer <a href="http://man7.org/linux/man-pages/man3/mtrace.3.html"><code>mtrace(3)</code></a></a></h2>
+<p>Trace memory allocation and de-allocation to detect memory leaks.
+Need to call <code>mtrace(3)</code> to install the tracing hooks.</p>
+<p>If we can't modify the binary to call <code>mtrace</code> we can create a small shared
+library and pre-load it.</p>
+<pre><code class="language-c">// libmtrace.c
+#include &lt;mcheck.h&gt;
+__attribute__((constructor))  static void init_mtrace() { mtrace(); }
+</code></pre>
+<p>Compile as:</p>
+<pre><code class="language-bash">gcc -shared -fPIC -o libmtrace.so libmtrace.c
+</code></pre>
+<p>To generate the trace file run:</p>
+<pre><code class="language-bash">export MALLOC_TRACE=&lt;file&gt;
+LD_PRELOAD=./libmtrace.so &lt;binary&gt;
+</code></pre>
+<p><strong>Note</strong>: If <code>MALLOC_TRACE</code> is not set <code>mtrace</code> won't install tracing hooks.</p>
+<p>To get the results of the trace file:</p>
+<pre><code class="language-bash">mtrace &lt;binary&gt; $MALLOC_TRACE
+</code></pre>
+<h2><a class="header" href="#malloc-check-a-hrefhttpman7orglinuxman-pagesman3mallopt3htmlmallopt3a" id="malloc-check-a-hrefhttpman7orglinuxman-pagesman3mallopt3htmlmallopt3a">malloc check <a href="http://man7.org/linux/man-pages/man3/mallopt.3.html"><code>mallopt(3)</code></a></a></h2>
+<p>Configure action when glibc detects memory error.</p>
+<pre><code class="language-bash">export MALLOC_CHECK_=&lt;N&gt;
+</code></pre>
+<p>Useful values:</p>
+<pre><code class="language-markdown">1   print detailed error &amp; continue
+3   print detailed error + stack trace + memory mappings &amp; abort
+7   print simple error message + stack trace + memory mappings &amp; abort
+</code></pre>
+<h1><a class="header" href="#gcc1" id="gcc1">gcc(1)</a></h1>
+<h2><a class="header" href="#cli-1" id="cli-1">CLI</a></h2>
+<h3><a class="header" href="#preprocessing" id="preprocessing">Preprocessing</a></h3>
+<p>While debugging can be helpful to just pre-process files.</p>
+<pre><code class="language-bash">gcc -E [-dM] ...
+</code></pre>
+<ul>
+<li><code>-E</code> run only preprocessor</li>
+<li><code>-dM</code> list only <code>#define</code> statements</li>
+</ul>
+<h2><a class="header" href="#a-hrefhttpsgccgnuorgonlinedocsgccother-builtinshtmlbuiltinsa" id="a-hrefhttpsgccgnuorgonlinedocsgccother-builtinshtmlbuiltinsa"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
+<h3><a class="header" href="#__builtin_expectexpr-cond" id="__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
+<p>Give the compiler a hint which branch is hot, so it can lay out the code
+accordingly to reduce number of jump instructions.
+See on <a href="https://godbolt.org/z/MbTHAP">compiler explorer</a>.</p>
+<pre><code class="language-bash">echo &quot;
+extern void foo();
+extern void bar();
+void run0(int x) {
+  if (__builtin_expect(x,0)) { foo(); }
+  else { bar(); }
+}
+void run1(int x) {
+  if (__builtin_expect(x,1)) { foo(); }
+  else { bar(); }
+}
+&quot; | gcc -O2 -S -masm=intel -o /dev/stdout -xc -
+</code></pre>
+<p>Will generate something similar to the following.</p>
+<ul>
+<li><code>run0</code>: <code>bar</code> is on the path without branch</li>
+<li><code>run1</code>: <code>foo</code> is on the path without branch</li>
+</ul>
+<pre><code class="language-c">run0:
+        test    edi, edi
+        jne     .L4
+        xor     eax, eax
+        jmp     bar
+.L4:
+        xor     eax, eax
+        jmp     foo
+run1:
+        test    edi, edi
+        je      .L6
+        xor     eax, eax
+        jmp     foo
+.L6:
+        xor     eax, eax
+        jmp     bar
 </code></pre>
 
                     </main>
