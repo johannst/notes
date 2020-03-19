@@ -60,7 +60,12 @@
                          '--pretty=oneline --abbrev-commit'
   git log --graph ...... text based graph of commit history
   git log --decorate ... decorate log with REFs
-  git log -p <file> .... show commit history + diffs for <file>
+```
+
+## File history
+```markdown
+  git log -p <file> ......... show commit history + diffs for <file>
+  git log --oneline <file> .. show commit history for <file> in compact format
 ```
 
 ## Patching
@@ -74,7 +79,7 @@
                              number instead '1'
     since spcifier:
       -3 .................. e.g: create a patch from last three commits
-      <comit hash> ........ create patch with commits starting after <comit hash>
+      <commit hash> ....... create patch with commits starting after <commit hash>
 
   git am <patch> ......... apply patch and create a commit for it
 
@@ -103,6 +108,8 @@
                                               <submod>, this will pull
                                               origin/HEAD or a branch specified
                                               for the submodule
+  git diff --submodule ...................... show commits that are part of the
+                                              submodule diff
 ```
 
 ## Inspection
