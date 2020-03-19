@@ -22,3 +22,4 @@
 - [objdump](./objdump.md)
 - [nm](./nm.md)
 - [c++filt](./c++filt.md)
+- [c++](./c++.md)
