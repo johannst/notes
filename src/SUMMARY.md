@@ -14,7 +14,6 @@
 - [time](./time.md)
 - [pgrep](./pgrep.md)
 - [pstack](./pstack.md)
-- [pstack](./pstack.md)
 - [perf](./perf.md)
 - [OProfile](./oprofile.md)
 - [od](./od.md)
