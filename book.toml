@@ -6,4 +6,4 @@ src = "src"
 title = "Notes"
 
 [output.html]
-default-theme = "ayu"
+default-theme = "light"
