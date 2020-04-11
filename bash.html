@@ -161,9 +161,55 @@
 </code></pre>
 <h3><a class="header" href="#parameter" id="parameter">Parameter</a></h3>
 <pre><code class="language-bash"># default param
-# if $foo set, then bar=$foo else bar=some_val
-bar=${foo:-some_val}
+bar=${foo:-some_val}  # if $foo set, then bar=$foo else bar=some_val
+
+# check param set
+bar=${foo:?msg}  # if $foo set, then bar=$foo else exit and print msg
+
+# indirect
+FOO=foo
+BAR=FOO
+bar=${!BAR}  # deref value of BAR -&gt; bar=$FOO
+
+# prefix
+${foo#prefix}  # remove prefix when expanding $foo
+# suffix
+${foo%suffix}  # remove suffix when expanding $foo
+
+# substitute
+${foo/pattern/string}  # replace pattern with string when expanding foo
+# pattern starts with
+# '/'   replace all occurences of pattern
+# '#'   pattern match at beginning
+# '%'   pattern match at end
 </code></pre>
+<blockquote>
+<p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="#pathname">pathnames</a>.</p>
+</blockquote>
+<h3><a class="header" href="#pathname" id="pathname">Pathname</a></h3>
+<pre><code class="language-bash">*           match any string
+?           match any single char
+\\          match backslash
+[abc]       match any char of 'a' 'b' 'c'
+[a-z]       match any char between 'a' - 'z'
+[^ab]       negate, match all not 'a' 'b'
+[:class:]   match any char in class, available:
+              alnum,alpha,ascii,blank,cntrl,digit,graph,lower,
+              print,punct,space,upper,word,xdigit
+</code></pre>
+<p>Wit <code>extglob</code> shell option enabled it is possible to have more powerful
+patterns. In the following <code>pattern-list</code> is one ore more patterns separated
+by <code>|</code> char.</p>
+<pre><code class="language-bash">?(pattern-list)   matches zero or one occurrence of the given patterns
+*(pattern-list)   matches zero or more occurrences of the given patterns
++(pattern-list)   matches one or more occurrences of the given patterns
+@(pattern-list)   matches one of the given patterns
+!(pattern-list)   matches anything except one of the given patterns
+</code></pre>
+<blockquote>
+<p>Note: <code>shopt -s extglob</code>/<code>shopt -u extglob</code> to enable/disable <code>extglob</code>
+option.</p>
+</blockquote>
 <h2><a class="header" href="#io-redirection" id="io-redirection">I/O redirection</a></h2>
 <blockquote>
 <p>Note: The trick with bash I/O redirection is to interpret from left-to-right.</p>
@@ -187,6 +233,37 @@ command 2&gt;&amp;1 &gt;file
 <li>duplicate <code>fd 1</code> to <code>fd 2</code>, effectively redirecting <code>stderr</code> to <code>stdout</code></li>
 <li>redirect <code>stdout</code> to <code>file</code></li>
 </ol>
+<h2><a class="header" href="#completion" id="completion">Completion</a></h2>
+<p>The <code>complete</code> builtin is used to interact with the completion system.</p>
+<pre><code class="language-bash">complete                    # print currently installed completion handler
+complete -F &lt;func&gt; &lt;cmd&gt;    # install &lt;func&gt; as completion handler for &lt;cmd&gt;
+complete -r &lt;cmd&gt;           # uninstall completion handler for &lt;cmd&gt;
+</code></pre>
+<p>Variables available in completion functions:</p>
+<pre><code class="language-bash"># in
+$1              # &lt;cmd&gt;
+$2              # current word
+$3              # privous word
+
+COMP_WORDS      # array with current command line words
+COMP_CWORD      # index into COMP_WORDS with current cursor position
+
+# out
+COMPREPLY       # array with possible completions
+</code></pre>
+<p><code>compgen</code> builtin is used to generate possible matches for <code>word</code> out of possible <code>option</code>s.
+The syntax is as follows:</p>
+<pre><code class="language-bash">compgen [option] [word]
+
+# usefule options:
+
+# -W &lt;list&gt;    compare against word-list
+compgen -W &quot;foo foobar bar&quot; &quot;f&quot;
+
+# -d    compare against dir names
+# -f    compare against file names
+compgen -d -f &quot;hom&quot;
+</code></pre>
 
                     </main>
 
