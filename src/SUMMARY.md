@@ -3,6 +3,7 @@
 - [ld.so](./ld.so.md)
 - [git](./git.md)
 - [bash](./bash.md)
+- [zsh](./zsh.md)
 - [tmux](./tmux.md)
 - [awk](./awk.md)
 - [gdb](./gdb.md)
