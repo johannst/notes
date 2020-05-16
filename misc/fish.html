@@ -149,14 +149,152 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#fish1" id="fish1">fish(1)</a></h1>
-<h2><a class="header" href="#keymaps" id="keymaps">keymaps</a></h2>
-<pre><code class="language-markdown">  Shift-Tab ........... tab-completion with search
+<h2><a class="header" href="#quick-info" id="quick-info">Quick Info</a></h2>
+<p>Fish initialization file <code>~/.config/fish/config.fish</code></p>
+<p>Switch between different key bindings:</p>
+<ul>
+<li><code>fish_default_key_bindings</code> to use default key bindings</li>
+<li><code>fish_vi_key_bindings</code> to use vi key bindings</li>
+</ul>
+<h2><a class="header" href="#variables" id="variables">Variables</a></h2>
+<p>Available scopes</p>
+<ul>
+<li><code>local</code> variable local to a block</li>
+<li><code>global</code> variable global to shell instance</li>
+<li><code>universal</code> variable universal to all shell instances + preserved across
+shell restart</li>
+</ul>
+<h3><a class="header" href="#setunset-variables" id="setunset-variables">Set/Unset Variables</a></h3>
+<pre><code class="language-text">set &lt;name&gt; [&lt;values&gt;]
+    -l  local scope
+    -g  global scope
+    -U  universal scope
+    -e  erase variable
+    -S  show verbose info
+    -x  export to ENV
+    -u  unexport from ENV
+</code></pre>
+<h3><a class="header" href="#lists" id="lists">Lists</a></h3>
+<p>In <code>fish</code> all variables are lists (start with index <code>1</code>, but lists can't
+contain lists.</p>
+<pre><code class="language-text">set foo a b c d
+
+echo $foo[1]      # a
+echo $foo[-1]     # d
+echo $foo[2..3]   # b c
+echo $foo[1 3]    # a c
+</code></pre>
+<p><code>$</code> can be seen as dereference operator.</p>
+<pre><code class="language-text">set foo a; set a 1337
+echo $$foo  # outputs 1337
+</code></pre>
+<p>Cartesian product.</p>
+<pre><code class="language-text">echo file.{h,cc}
+# file.h file.cc
+
+echo {a,b}{1,2}
+# a1 b1 b2
+</code></pre>
+<h3><a class="header" href="#special-variables-lists" id="special-variables-lists">Special Variables (Lists)</a></h3>
+<pre><code class="language-text">$status      # exit code of last command
+$pipestatus  # list of exit codes of pipe chain
+
+$CMD_DURATION   # runtime of last command in ms
+</code></pre>
+<h4><a class="header" href="#path" id="path"><code>*PATH</code></a></h4>
+<p>Lists ending with <code>PATH</code> are automatically split at <code>:</code> when used and joined
+with <code>:</code> when exported to the environment.</p>
+<pre><code class="language-text">set -x BLA_PATH a:b:c:d
+echo $BLA_PATH              # a b c d
+env | grep BLA_PATH         # BLA_PATH=a:b:c:d
+</code></pre>
+<h2><a class="header" href="#command-handling" id="command-handling">Command Handling</a></h2>
+<pre><code class="language-text"># sub-commands are not run in quotes
+echo &quot;ls output: &quot;(ls)
+</code></pre>
+<h3><a class="header" href="#io-redirection" id="io-redirection">I/O redirection</a></h3>
+<pre><code class="language-text"># 'noclobber', fail if 'log' already exists
+echo foo &gt;? log
+</code></pre>
+<h2><a class="header" href="#control-flow" id="control-flow">Control Flow</a></h2>
+<h3><a class="header" href="#if--else" id="if--else"><code>if</code> / <code>else</code></a></h3>
+<pre><code class="language-text">if grep foo bar
+    # do sth
+else if grep foobar bar
+    # do sth else
+else
+    # do sth else
+end
+</code></pre>
+<h3><a class="header" href="#switch" id="switch"><code>switch</code></a></h3>
+<pre><code class="language-text">switch (echo foo)
+case 'foo*'
+    # do start with foo
+case bar dudel
+    # do bar and dudel
+case '*'
+    # do else
+end
+</code></pre>
+<h3><a class="header" href="#while-loop" id="while-loop"><code>while</code> Loop</a></h3>
+<pre><code class="language-text">while true
+    echo foo
+end
+</code></pre>
+<h3><a class="header" href="#for-loop" id="for-loop"><code>for</code> Loop</a></h3>
+<pre><code class="language-text">for f in (ls)
+    echo $f
+end
+</code></pre>
+<h2><a class="header" href="#functions" id="functions">Functions</a></h2>
+<p>Function arguments are passed via <code>$argv</code> list.</p>
+<pre><code class="language-text">function fn_foo
+    echo $argv
+end
+</code></pre>
+<h3><a class="header" href="#autoloading" id="autoloading">Autoloading</a></h3>
+<p>When running a command fish attempts to autoload a function. The shell looks
+for <code>&lt;cmd&gt;.fish</code> in the locations defined by <code>$fish_function_path</code> and loads
+the function lazily if found.</p>
+<p>This is the preferred way over monolithically defining all functions in a
+startup script.</p>
+<h3><a class="header" href="#helper" id="helper">Helper</a></h3>
+<pre><code class="language-text">functions         # list al functions
+functions foo     # describe function 'foo'
+functions -e foo  # erase function 'foo'
+
+funced foo        # edit function 'foo'
+                  # '-e vim' to edit in vim
+</code></pre>
+<h2><a class="header" href="#prompt" id="prompt">Prompt</a></h2>
+<p>The prompt is defined by the output of the <code>fish_prompt</code> function.</p>
+<pre><code class="language-text">function fish_prompt
+    set -l cmd_ret
+    echo &quot;&gt; &quot;(pwd) $cmd_ret&quot; &quot;
+end
+</code></pre>
+<blockquote>
+<p>Use <code>set_color</code> to manipulate terminal colors.</p>
+</blockquote>
+<h2><a class="header" href="#useful-builtins" id="useful-builtins">Useful Builtins</a></h2>
+<pre><code class="language-text"># history
+history search &lt;str&gt;   # search history for &lt;str&gt;
+history merge          # merge histories from fish sessions
+
+# list
+count $var            # count elements in list
+
+# string
+string split SEP STRING
+</code></pre>
+<h2><a class="header" href="#keymaps" id="keymaps">Keymaps</a></h2>
+<pre><code class="language-text">  Shift-Tab ........... tab-completion with search
   Alt-Up / Alt-Down ... search history with token under the cursor
   Alt-l ............... list content of dir under cursor
   Alt-p ............... append '2&gt;&amp;1 | less;' to current cmdline
 </code></pre>
-<h2><a class="header" href="#debug" id="debug">debug</a></h2>
-<pre><code class="language-markdown">  status print-stack-trace .. prints function stacktrace (can be used in scripts)
+<h2><a class="header" href="#debug" id="debug">Debug</a></h2>
+<pre><code class="language-text">  status print-stack-trace .. prints function stacktrace (can be used in scripts)
   breakpoint ................ halt script execution and gives shell (C-d | exit
                               to continue)
 </code></pre>
