@@ -20,6 +20,7 @@
                                    remote tracking branch
   git branch <bname> ............. create branch with name <bname>
   git checkout <bname> ........... switch to branch with name <bname>
+  git checkout --track <branch> .. start to locally track a remote branch
   git push -u origin <rbname> .... push branch to origin (or other remote), and
                                    setup <rbname> as tracking branch
 ```
