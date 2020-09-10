@@ -1,16 +1,15 @@
 # Summary
 
-# Misc
-- [Misc](./misc/README.md)
-    - [zsh](./misc/zsh.md)
-    - [bash](./misc/bash.md)
-    - [fish](./misc/fish.md)
-    - [tmux](./misc/tmux.md)
-    - [git](./misc/git.md)
-    - [awk](./misc/awk.md)
-    - [emacs](./misc/emacs.md)
-    - [gdb](./misc/gdb.md)
-    - [radare2](./misc/radare2.md)
+- [Tools](./tools/README.md)
+    - [zsh](./tools/zsh.md)
+    - [bash](./tools/bash.md)
+    - [fish](./tools/fish.md)
+    - [tmux](./tools/tmux.md)
+    - [git](./tools/git.md)
+    - [awk](./tools/awk.md)
+    - [emacs](./tools/emacs.md)
+    - [gdb](./tools/gdb.md)
+    - [radare2](./tools/radare2.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
