@@ -1,0 +1,361 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>x86_64 - Notes</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="../tools/index.html"><strong aria-hidden="true">1.</strong> Tools</a></li><li><ol class="section"><li class="expanded "><a href="../tools/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="expanded "><a href="../tools/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="expanded "><a href="../tools/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li><li class="expanded "><a href="../tools/tmux.html"><strong aria-hidden="true">1.4.</strong> tmux</a></li><li class="expanded "><a href="../tools/git.html"><strong aria-hidden="true">1.5.</strong> git</a></li><li class="expanded "><a href="../tools/awk.html"><strong aria-hidden="true">1.6.</strong> awk</a></li><li class="expanded "><a href="../tools/emacs.html"><strong aria-hidden="true">1.7.</strong> emacs</a></li><li class="expanded "><a href="../tools/gdb.html"><strong aria-hidden="true">1.8.</strong> gdb</a></li><li class="expanded "><a href="../tools/radare2.html"><strong aria-hidden="true">1.9.</strong> radare2</a></li></ol></li><li class="expanded "><a href="../monitor/index.html"><strong aria-hidden="true">2.</strong> Resource analysis &amp; monitor</a></li><li><ol class="section"><li class="expanded "><a href="../monitor/lsof.html"><strong aria-hidden="true">2.1.</strong> lsof</a></li><li class="expanded "><a href="../monitor/pidstat.html"><strong aria-hidden="true">2.2.</strong> pidstat</a></li><li class="expanded "><a href="../monitor/pgrep.html"><strong aria-hidden="true">2.3.</strong> pgrep</a></li><li class="expanded "><a href="../monitor/pmap.html"><strong aria-hidden="true">2.4.</strong> pmap</a></li><li class="expanded "><a href="../monitor/pstack.html"><strong aria-hidden="true">2.5.</strong> pstack</a></li></ol></li><li class="expanded "><a href="../trace_profile/index.html"><strong aria-hidden="true">3.</strong> Trace and Profile</a></li><li><ol class="section"><li class="expanded "><a href="../trace_profile/strace.html"><strong aria-hidden="true">3.1.</strong> strace</a></li><li class="expanded "><a href="../trace_profile/ltrace.html"><strong aria-hidden="true">3.2.</strong> ltrace</a></li><li class="expanded "><a href="../trace_profile/perf.html"><strong aria-hidden="true">3.3.</strong> perf</a></li><li class="expanded "><a href="../trace_profile/oprofile.html"><strong aria-hidden="true">3.4.</strong> OProfile</a></li><li class="expanded "><a href="../trace_profile/time.html"><strong aria-hidden="true">3.5.</strong> time</a></li></ol></li><li class="expanded "><a href="../binary/index.html"><strong aria-hidden="true">4.</strong> Binary</a></li><li><ol class="section"><li class="expanded "><a href="../binary/od.html"><strong aria-hidden="true">4.1.</strong> od</a></li><li class="expanded "><a href="../binary/xxd.html"><strong aria-hidden="true">4.2.</strong> xxd</a></li><li class="expanded "><a href="../binary/readelf.html"><strong aria-hidden="true">4.3.</strong> readelf</a></li><li class="expanded "><a href="../binary/objdump.html"><strong aria-hidden="true">4.4.</strong> objdump</a></li><li class="expanded "><a href="../binary/nm.html"><strong aria-hidden="true">4.5.</strong> nm</a></li></ol></li><li class="expanded "><a href="../development/index.html"><strong aria-hidden="true">5.</strong> Development</a></li><li><ol class="section"><li class="expanded "><a href="../development/c++filt.html"><strong aria-hidden="true">5.1.</strong> c++filt</a></li><li class="expanded "><a href="../development/c++.html"><strong aria-hidden="true">5.2.</strong> c++</a></li><li class="expanded "><a href="../development/glibc.html"><strong aria-hidden="true">5.3.</strong> glibc</a></li><li class="expanded "><a href="../development/gcc.html"><strong aria-hidden="true">5.4.</strong> gcc</a></li><li class="expanded "><a href="../development/ld.so.html"><strong aria-hidden="true">5.5.</strong> ld.so</a></li></ol></li><li class="expanded "><a href="../arch/index.html"><strong aria-hidden="true">6.</strong> Arch</a></li><li><ol class="section"><li class="expanded "><a href="../arch/x86_64.html" class="active"><strong aria-hidden="true">6.1.</strong> x86_64</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Notes</h1>
+
+                        <div class="right-buttons">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#x86_64" id="x86_64">x86_64</a></h1>
+<p>keywords: x86_64, x86, abi</p>
+<ul>
+<li>64bit synonyms: <code>x86_64</code>, <code>x64</code>, <code>amd64</code>, <code>intel 64</code></li>
+<li>32bit synonyms: <code>x86</code>, <code>ia32</code>, <code>i386</code></li>
+<li>ISA type: <code>CISC</code></li>
+<li>Endianness: <code>little</code></li>
+</ul>
+<h2><a class="header" href="#registers" id="registers">Registers</a></h2>
+<h3><a class="header" href="#general-purpose-register" id="general-purpose-register">General purpose register</a></h3>
+<pre><code class="language-markdown">bytes
+[7:0]      [3:0]   [1:0]   [1]   [0]     desc
+----------------------------------------------------------
+rax        eax     ax      ah    al      accumulator
+rbx        ebx     bx      bh    bl      base register
+rcx        ecx     cx      ch    cl      counter
+rdx        edx     dx      dh    dl      data register
+rsi        esi     si      -     sil     source index
+rdi        edi     di      -     dil     destination index
+rbp        ebp     bp      -     bpl     base pointer
+rsp        esp     sp      -     spl     stack pointer
+r8-15      rNd     rNw     -     rNb
+</code></pre>
+<h3><a class="header" href="#special-register" id="special-register">Special register</a></h3>
+<pre><code class="language-markdown">bytes
+[7:0]      [3:0]     [1:0]      desc
+---------------------------------------------------
+rflags     eflags    flags      flags register
+rip        eip       ip         instruction pointer
+</code></pre>
+<h3><a class="header" href="#flags-register" id="flags-register">FLAGS register</a></h3>
+<pre><code class="language-markdown">rflags
+bits  desc
+-----------------------------
+[11]  OF overflow flag
+[10]  DF direction flag
+ [7]  SF sign flag
+ [6]  ZF zero flag
+ [4]  AF auxiliary carry flag
+ [2]  PF parity flag
+ [0]  CF carry flag
+</code></pre>
+<h2><a class="header" href="#addressing" id="addressing">Addressing</a></h2>
+<pre><code class="language-asm">movw [rax], rbx         // save val in rbx at [rax]
+movw [imm], rbx         // save val in rbx at [imm]
+movw rax, [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
+</code></pre>
+<p><code>rip</code> relative addressing:</p>
+<pre><code class="language-asm">lea rax, [rip+.my_str]       // load addr of .my_str into rax
+...
+.my_str:
+.asciz &quot;Foo&quot;
+</code></pre>
+<h2><a class="header" href="#size-directives" id="size-directives">Size directives</a></h2>
+<p>Explicitly specify size of the operation.</p>
+<pre><code class="language-nasm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
+mov  word ptr [rax], 0xff    // save 2 byte(s) at [rax]
+mov dword ptr [rax], 0xff    // save 4 byte(s) at [rax]
+mov qword ptr [rax], 0xff    // save 8 byte(s) at [rax]
+</code></pre>
+<h2><a class="header" href="#a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia" id="a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
+<h3><a class="header" href="#passing-arguments-to-functions" id="passing-arguments-to-functions">Passing arguments to functions</a></h3>
+<ul>
+<li>Integer/Pointer arguments
+<pre><code class="language-markdown">reg     arg
+-----------
+rdi       1
+rsi       2
+rdx       3
+rcx       4
+r8        5
+r9        6
+</code></pre>
+</li>
+<li>Floating point arguments
+<pre><code class="language-markdown">reg     arg
+-----------
+xmm0      1
+  ..     ..
+xmm7      7
+</code></pre>
+</li>
+<li>Additional arguments are passed on the stack. Arguments are pushed
+right-to-left (RTL), meaning next arguments are closer to current <code>rsp</code>.</li>
+</ul>
+<h3><a class="header" href="#return-values-from-functions" id="return-values-from-functions">Return values from functions</a></h3>
+<ul>
+<li>Integer/Pointer return values
+<pre><code class="language-markdown">reg          size
+-----------------
+rax        64 bit
+rax+rdx   128 bit
+</code></pre>
+</li>
+<li>Floating point return values:
+<pre><code class="language-markdown">reg            size
+-------------------
+xmm0         64 bit
+xmm0+xmm1   128 bit
+</code></pre>
+</li>
+</ul>
+<h3><a class="header" href="#caller-saved-registers" id="caller-saved-registers">Caller saved registers</a></h3>
+<p>Caller must save these registers if they should be preserved across function
+calls.</p>
+<ul>
+<li><code>rax</code></li>
+<li><code>rcx</code></li>
+<li><code>rdx</code></li>
+<li><code>rsi</code></li>
+<li><code>rdi</code></li>
+<li><code>rsp</code></li>
+<li><code>r8</code> - <code>r11</code></li>
+</ul>
+<h3><a class="header" href="#callee-saved-registers" id="callee-saved-registers">Callee saved registers</a></h3>
+<p>Caller can expect these registers to be preserved across function calls. Callee
+must must save these registers in case they are used.</p>
+<ul>
+<li><code>rbx</code></li>
+<li><code>rbp</code></li>
+<li><code>r12</code> – <code>r15</code></li>
+</ul>
+<h3><a class="header" href="#stack" id="stack">Stack</a></h3>
+<ul>
+<li>grows downwards</li>
+<li>frames aligned on 16 byte boundary
+<pre><code class="language-text">HI ADDR
+ |                +------------+
+ |                | prev frame |
+ |                +------------+ &lt;--- 16 byte aligned (X &amp; ~0xf)
+ |       [rbp+8]  | saved RIP  |
+ |       [rbp]    | saved RBP  |
+ |       [rbp-8]  | func stack |
+ |                | ...        |
+ v                +------------+
+LO ADDR
+</code></pre>
+</li>
+</ul>
+<h2><a class="header" href="#references" id="references">References</a></h2>
+<ul>
+<li><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV AMD64 ABI</a></li>
+<li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
+<li><a href="https://www.amd.com/system/files/TechDocs/24593.pdf">AMD64 Vol2: System Programming</a></li>
+<li><a href="https://www.amd.com/system/files/TechDocs/24594.pdf">AMD64 Vol3: General-Purpose &amp; System Instructions</a></li>
+<li><a href="https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf">X86_64 Cheat-Sheet</a></li>
+<li><a href="https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-software-developers-manual-volume-1-basic-architecture.html">Intel 64 Vol1: Basic Architecture</a></li>
+<li><a href="https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-2a-2b-2c-and-2d-instruction-set-reference-a-z.html">Intel 64 Vol2: Instruction Set Reference</a></li>
+<li><a href="https://software.intel.com/content/www/us/en/develop/download/intel-64-and-ia-32-architectures-sdm-combined-volumes-3a-3b-3c-and-3d-system-programming-guide.html">Intel 64 Vol3: System Programming Guide</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../arch/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../arch/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
