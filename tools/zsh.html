@@ -239,9 +239,9 @@ function _foo_color() {
 function _foo() {
     _arguments                              \
         &quot;-c[define color]:color:-&gt;s_color&quot;  \
-        &quot;-s[select sound]:color:(low high)&quot; \
+        &quot;-s[select sound]:sound:(low high)&quot; \
         &quot;-f[select file]:file:_files&quot;       \
-        &quot;-d[select dir]:fir:_files -/&quot;      \
+        &quot;-d[select dir]:dir:_files -/&quot;      \
         &quot;-h[help]&quot;
 
     case $state in
@@ -249,6 +249,13 @@ function _foo() {
     esac
 }
 </code></pre>
+<blockquote>
+<p><code>_files</code> is a zsh builtin utility function to complete files/dirs see</p>
+<ul>
+<li><a href="http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions">zsh completion functions</a></li>
+<li><a href="https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#utility-functions">zsh completion utility functions</a></li>
+</ul>
+</blockquote>
 
                     </main>
 
