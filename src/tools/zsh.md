@@ -51,7 +51,7 @@ $words[CURRENT-1]   # previous word (relative to cursor position)
 - `_describe`     simple completion, just words + description
 - `_arguments`    sophisticated completion, allow to specify actions
 
-#### Completion with [`_describe`][zsh-comp-utils]
+#### Completion with [`_describe`][zsh-comp-fn]
 ```zsh
 _describe MSG COMP
 ```
@@ -72,7 +72,7 @@ bla  -- desc for bla
 blu  -- desc for blu
 ```
 
-#### Completion with [`_arguments`][zsh-comp-utils]
+#### Completion with [`_arguments`][zsh-comp-fn]
 ```zsh
 _arguments SPEC [SPEC...]
 ```
@@ -111,9 +111,9 @@ function _foo_color() {
 function _foo() {
     _arguments                              \
         "-c[define color]:color:->s_color"  \
-        "-s[select sound]:color:(low high)" \
+        "-s[select sound]:sound:(low high)" \
         "-f[select file]:file:_files"       \
-        "-d[select dir]:fir:_files -/"      \
+        "-d[select dir]:dir:_files -/"      \
         "-h[help]"
 
     case $state in
@@ -122,4 +122,10 @@ function _foo() {
 }
 ```
 
-[zsh-comp-utils]: http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions
+> `_files` is a zsh builtin utility function to complete files/dirs see
+> - [zsh completion functions][zsh-comp-fn]
+> - [zsh completion utility functions][zsh-comp-utility-fn]
+
+
+[zsh-comp-fn]: http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions
+[zsh-comp-utility-fn]: https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#utility-functions
