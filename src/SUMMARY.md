@@ -37,6 +37,7 @@
     - [c++](./development/c++.md)
     - [glibc](./development/glibc.md)
     - [gcc](./development/gcc.md)
+    - [make](./development/make.md)
     - [ld.so](./development/ld.so.md)
 
 - [Arch](./arch/README.md)
