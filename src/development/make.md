@@ -11,6 +11,8 @@ target .. : prerequisite ..
 - `prerequisite`: an input that is used to generate the target
 - `recipe`: list of actions to generate the output from the input
 
+> Use `make -p` to print all rules and variables (implicitly + explicitly defined).
+
 ## Pattern rules & Automatic variables
 ### Pattern rules
 A pattern rule contains the `%` char (exactly one of them) and look like this example:
