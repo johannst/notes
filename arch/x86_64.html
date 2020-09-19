@@ -287,6 +287,44 @@ LO ADDR
 </code></pre>
 </li>
 </ul>
+<h2><a class="header" href="#asm-skeleton" id="asm-skeleton">ASM skeleton</a></h2>
+<p>Small assembler skeleton, ready to use with following properties:</p>
+<ul>
+<li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
+<li>no <code>C runtime (crt)</code></li>
+<li>gnu assembler <a href="https://sourceware.org/binutils/docs/as"><code>gas</code></a></li>
+<li>intel syntax</li>
+</ul>
+<pre><code class="language-x86asm"># file: greet.s
+
+    .intel_syntax noprefix
+
+    .section .text, &quot;ax&quot;, @progbits
+    .global _start
+_start:
+    mov rdi, 1                      # fd
+    lea rsi, [rip + greeting]       # buf
+    mov rdx, [rip + greeting_len]   # count
+    mov rax, 1                      # write(2) syscall nr
+    syscall
+
+    mov rdi, 0                      # exit code
+    mov rax, 1                      # exit(2) syscall nr
+    syscall
+
+    .section .rdonly, &quot;a&quot;, @progbits
+greeting:
+    .asciz &quot;Hi ASM-World!\n&quot;
+greeting_len:
+    .int .-greeting
+</code></pre>
+<blockquote>
+<p>Syscall numbers are defined in <code>/usr/include/asm/unistd.h</code>.</p>
+</blockquote>
+<p>To compile and run:</p>
+<pre><code class="language-bash">&gt; gcc -o greet greet.s -nostartfiles -nostdlib &amp;&amp; ./greet
+Hi ASM-World!
+</code></pre>
 <h2><a class="header" href="#references" id="references">References</a></h2>
 <ul>
 <li><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV AMD64 ABI</a></li>
