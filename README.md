@@ -1,10 +1,10 @@
 # Notes & Cheatsheets
 
-This is a personal collection of `notes` and `cheatsheets` I take during
-development as well as machine maintenance.
+This is a collection of personal `notes` and `cheatsheets`.
 
-The notes can be rendered with [`rust-lang/mdBook`][mdbook] and are available
-via GitHub Pages [`cheatsheets & notes`][notes].
+A rendered version is available under [`notes & cheatsheets`][notes].
+
+The nodes are rendered using [`rust-lang/mdBook`][mdbook].
 
 ## Licese
 This project is licensed under the [MIT](LICENSE) license.
