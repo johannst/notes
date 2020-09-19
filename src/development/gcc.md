@@ -36,7 +36,7 @@ void run1(int x) {
 Will generate something similar to the following.
 - `run0`: `bar` is on the path without branch
 - `run1`: `foo` is on the path without branch
-```c
+```x86asm
 run0:
         test    edi, edi
         jne     .L4
