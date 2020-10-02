@@ -55,4 +55,11 @@ run1:
         jmp     bar
 ```
 
+## ABI (Linux)
+
+- C ABI - [SystemV ABI][sysvabi]
+- C++ ABI - [C++ Itanium ABI][cppabi]
+
 [builtins]: https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
+[sysvabi]: https://www.uclibc.org/docs/psABI-x86_64.pdf
+[cppabi]: https://itanium-cxx-abi.github.io/cxx-abi
