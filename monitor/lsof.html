@@ -150,18 +150,31 @@
                     <main>
                         <h1><a class="header" href="#lsof8" id="lsof8">lsof(8)</a></h1>
 <pre><code class="language-markdown">lsof
+  -r &lt;s&gt; ..... repeatedly execute command ervery &lt;s&gt; seconds
   -a ......... AND slection filters instead ORing (OR: default)
   -p &lt;pid&gt; ... filter by &lt;pid&gt;
   +fg ........ show file flags for file descripros
   -n ......... don't convert network addr to hostnames
   -P ......... don't convert network port to service names
   -i &lt;@h[:p]&gt;. show connections to h (hostname|ip addr) with optional port p
+  -s &lt;p:s&gt; ... in conjunction with '-i' filter for protocol &lt;p&gt; in state &lt;s&gt;
+  -U ......... show unix domain sockets ('@' indicates abstract sock name, see unix(7))
 </code></pre>
 <pre><code class="language-markdown">file flags:
   R/W/RW ..... read/write/read-write
   CR ......... create
   AP ......... append
   TR ......... truncate
+</code></pre>
+<pre><code class="language-markdown">-s protocols
+  TCP, UDP
+
+-s states (TCP)
+  CLOSED, IDLE, BOUND, LISTEN, ESTABLISHED, SYN_SENT, SYN_RCDV, ESTABLISHED,
+  CLOSE_WAIT, FIN_WAIT1, CLOSING, LAST_ACK, FIN_WAIT_2, TIME_WAIT
+
+-s states (UDP)
+  Unbound, Idle
 </code></pre>
 <h1><a class="header" href="#examples" id="examples">Examples</a></h1>
 <h2><a class="header" href="#file-flags" id="file-flags">File flags</a></h2>
@@ -170,13 +183,16 @@
 </code></pre>
 <h2><a class="header" href="#open-tcp-connections" id="open-tcp-connections">Open TCP connections</a></h2>
 <p>Show open tcp connections for <code>$USER</code>:</p>
-<pre><code class="language-markdown">lsof -a -u $USER -i tcp
+<pre><code class="language-markdown">lsof -a -u $USER -i TCP
 </code></pre>
 <p><strong>Note</strong>: <code>-a</code> <em>ands</em> the results. If <code>-a</code> is not given all open files matching
 <code>$USER</code> and all tcp connections are listed (<em>ored</em>).</p>
 <h2><a class="header" href="#open-connection-to-specific-host" id="open-connection-to-specific-host">Open connection to specific host</a></h2>
 <p>Show open connections to <code>localhost</code> for <code>$USER</code>:</p>
 <pre><code class="language-markdown">lsof -a -u $USER -i @localhost
+</code></pre>
+<h2><a class="header" href="#ipv4-tcp-connections-in-established-state" id="ipv4-tcp-connections-in-established-state">IPv4 TCP connections in <code>ESTABLISHED</code> state</a></h2>
+<pre><code class="language-markdown">lsof -i 4TCP -s TCP:ESTABLISHED
 </code></pre>
 
                     </main>
