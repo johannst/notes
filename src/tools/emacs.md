@@ -35,6 +35,12 @@
   M-y        cycle through kill-ring
 ```
 
+## register
+```markdown
+  C-x r s <reg>      save region in register <reg>
+  C-x r i <reg>      insert content of register <reg>
+```
+
 ## block/rect
 ```markdown
   C-x <SPC>                     activate rectangle-mark-mode
