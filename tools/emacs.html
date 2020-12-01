@@ -151,8 +151,10 @@
                         <h1><a class="header" href="#emacs1" id="emacs1">emacs(1)</a></h1>
 <h2><a class="header" href="#help" id="help">help</a></h2>
 <pre><code class="language-markdown">  C-h ?         list available help modes
+  C-h e         show message output (`*Messages*` buffer)
   C-h f         describe function
   C-h v         describe variable
+  C-h w         describe which key invoke function (where-is)
   C-h c &lt;KEY&gt;   print command bound to &lt;KEY&gt;
   C-h k &lt;KEY&gt;   describe command bound to &lt;KEY&gt;
   C-h b         list buffer local key-bindings
@@ -160,57 +162,198 @@
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
 </code></pre>
 <h2><a class="header" href="#package-manager" id="package-manager">package manager</a></h2>
-<pre><code class="language-markdown">  package-refresh-contents    refresh package list
-  package-list-packages       list available/installed packages
+<pre><code class="language-markdown">  key    fn                          description
+------------------------------------------------
+         package-refresh-contents    refresh package list
+         package-list-packages       list available/installed packages
+                                     `U x` to mark packages for Upgrade &amp; eXecute
 </code></pre>
 <h2><a class="header" href="#window" id="window">window</a></h2>
-<pre><code class="language-markdown">  C-x 0         kill focused window
-  C-x 1         kill all other windows
-  C-x 2         split horizontal
-  C-x 3         split vertical
+<pre><code class="language-markdown">  key      fn                      description
+----------------------------------------------
+  C-x 0    delete-window           kill focused window
+  C-x 1    delete-other-windows    kill all other windows
+  C-x 2    split-window-below      split horizontal
+  C-x 3    split-window-right      split vertical
+  C-x o    other-window            other window (cycle)
 </code></pre>
-<h2><a class="header" href="#yankpaste" id="yankpaste">yank/paste</a></h2>
-<pre><code class="language-markdown">  C-&lt;SPACE&gt;  set start mark to select text
-  M-w        copy selected text
-  C-w        kill selected text
-  C-y        paste selected text
-  M-y        cycle through kill-ring
+<h2><a class="header" href="#buffer" id="buffer">buffer</a></h2>
+<pre><code class="language-markdown">  key        fn                   description
+---------------------------------------------
+  C-x C-q    read-only-mode       toggle read-only mode for buffer
+  C-x k      kill-buffer          kill buffer
+  C-x s      save-some-buffers    save buffer
+  C-x w      write-file           write buffer (save as)
+  C-x b      switch-to-buffer     switch buffer
+  C-x C-b    list-buffers         buffer list
 </code></pre>
-<h2><a class="header" href="#blockrect" id="blockrect">block/rect</a></h2>
-<pre><code class="language-markdown">  C-x &lt;SPC&gt;                     activate rectangle-mark-mode
-  M-x string-rectangle &lt;RET&gt;    insert text in marked rect
+<h2><a class="header" href="#ibuffer" id="ibuffer">ibuffer</a></h2>
+<p>Builtin advanced buffer selection mode</p>
+<pre><code class="language-markdown">  key        fn            description
+--------------------------------------
+             ibuffer       enter buffer selection
+
+  h                        ibuffer help
+
+  o                        open buffer in other window
+  C-o                      open buffer in other window keep focus in ibuffer
+
+  s a                      sort by buffer name
+  s f                      sort by file name
+  s v                      sort by last viewed
+  s v                      sort by major mode
+  ,                        cycle sorting mode
+
+  =                        compare buffer against file on disk (if file is dirty `*`)
+
+  /m                       filter by major mode
+  /n                       filter by buffer name
+  /f                       filter by file name
+  //                       remove all filter
+
+  /g                       create filter group
+  /\                       remove all filter groups
 </code></pre>
-<h2><a class="header" href="#mass-edit" id="mass-edit">mass edit</a></h2>
-<pre><code class="language-makrdown">  C-x h                                 mark whole buffer (mark-whole-buffer)
-  M-x delete-matching-line &lt;RET&gt;        delete lines matching regex
-  M-x %                                 search &amp; replace region (query-replace)
-  C-M-x %                               search &amp; replace regex (query-replace-regexp)
+<h2><a class="header" href="#isearch" id="isearch">isearch</a></h2>
+<pre><code class="language-markdown">  key    fn                           description
+-------------------------------------------------
+  C-s    isearch-forward              search forward from current position (C-s to go to next match)
+  C-r    isearch-backward             search backwards from current position (C-r to go to next match)
+  C-w    isearch-yank-word-or-char    feed next word to current search (extend)
+  M-p    isearch-ring-advance         previous search input
+  M-n    isearch-ring-retreat         next search input
+</code></pre>
+<h2><a class="header" href="#occur" id="occur">occur</a></h2>
+<pre><code class="language-markdown">  key      fn           description
+-----------------------------------
+  M-s o    occur        get matches for regexp in buffer
+                        use during `isearch` to use current search term
+
+  C-n                   goto next line
+  C-p                   goto previous line
+  o                     open match in other window
+  C-o                   open match in other window keep focus in ibuffer
+</code></pre>
+<pre><code class="language-markdown">  key      fn                                 description
+---------------------------------------------------------
+           multi-occur-in-matching-buffers    run occur in buffers matching regexp
 </code></pre>
 <h2><a class="header" href="#grep" id="grep">grep</a></h2>
-<pre><code class="language-markdown">  M-x find-grep &lt;RET&gt;           run find-grep result in *grep* buffer
-  n/p                           navigate next/previous match in *grep* buffer
+<pre><code class="language-markdown">  key    fn           description
+-----------------------------------
+         rgrep        recursive grep
+         find-grep    run find-grep result in *grep* buffer
+
+  n/p                 navigate next/previous match in *grep* buffer
+  q                   quit *grep* buffer
 </code></pre>
-<h2><a class="header" href="#lisp-mode" id="lisp-mode">lisp mode</a></h2>
-<pre><code class="language-markdown">  M-x lisp-interaction-mode     activate lisp mode
-  C-M-x                         evaluate top expr under cursor
-  C-x C-e                       eval-last-sexp
-  C-u C-x C-e                   eval-last-sexp and prints result in current buffer
+<h2><a class="header" href="#yankpaste" id="yankpaste">yank/paste</a></h2>
+<pre><code class="language-markdown">  key         fn                  description
+---------------------------------------------
+  C-&lt;SPACE&gt;   set-mark-command    set start mark to select text
+  M-w         kill-ring-save      copy selected text
+  C-w         kill-region         kill selected text
+  C-y         yank                paste selected text
+  M-y         yank-pop            cycle through kill-ring (only after paste)
+</code></pre>
+<h2><a class="header" href="#register" id="register">register</a></h2>
+<pre><code class="language-markdown">  key             fn                 description
+------------------------------------------------
+  C-x r s &lt;reg&gt;   copy-to-register   save region in register &lt;reg&gt;
+  C-x r i &lt;reg&gt;   insert-register    insert content of register &lt;reg&gt;
+</code></pre>
+<h2><a class="header" href="#blockrect" id="blockrect">block/rect</a></h2>
+<pre><code class="language-markdown">  key          fn                    description
+------------------------------------------------
+  C-x &lt;SPC&gt;    rectangle-mark-mode   activate rectangle-mark-mode
+               string-rectangle      insert text in marked rect
+</code></pre>
+<h2><a class="header" href="#mass-edit" id="mass-edit">mass edit</a></h2>
+<pre><code class="language-markdown">  key       fn                       description
+------------------------------------------------
+  C-x h     mark-whole-buffer        mark whole buffer
+            delete-matching-line     delete lines matching regex
+  M-%       query-replace            search &amp; replace
+  C-M-%     query-replace-regexp     search &amp; replace regex
 </code></pre>
 <h2><a class="header" href="#narrow" id="narrow">narrow</a></h2>
-<pre><code class="language-markdown">  C-x n n               show only focused region (narrow)
-  C-x n w               show whole buffer (wide)
+<pre><code class="language-markdown">  key       fn                    description
+---------------------------------------------
+  C-x n n   narrow-to-region      show only focused region (narrow)
+  C-x n w   widen                 show whole buffer (wide)
 </code></pre>
 <h2><a class="header" href="#org" id="org">org</a></h2>
-<pre><code class="language-markdown">  M-up/M-down           re-arrange items in same hierarchy
+<pre><code class="language-markdown">  key              fn   description
+------------------------------------
+  M-up/M-down           re-arrange items in same hierarchy
   M-left/M-right        change item hierarchy
   C-RET                 create new item below current
   C-S-RET               create new TODO item below current
   S-left/S-right        cycle TODO states
 </code></pre>
 <h3><a class="header" href="#org-source" id="org-source">org source</a></h3>
-<pre><code class="language-markdown">  &lt;s TAB                generate a source block
-  C-c '                 edit source block (in lang specific buffer)
-  C-c C-c               eval source block
+<pre><code class="language-markdown">  key       fn     description
+------------------------------
+  &lt;s TAB           generate a source block
+  C-c '            edit source block (in lang specific buffer)
+  C-c C-c          eval source block
+</code></pre>
+<h2><a class="header" href="#comapny" id="comapny">comapny</a></h2>
+<pre><code class="language-markdown">  key         fn   description
+-------------------------------
+  C-s              search through completion candidates
+  C-o              filter completion candidates based on search term
+  &lt;f1&gt;             get doc for completion condidate
+  M-&lt;digit&gt;        select completion candidate
+</code></pre>
+<h2><a class="header" href="#tags" id="tags">tags</a></h2>
+<p>To generate <code>etags</code> using <code>ctags</code></p>
+<pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
+</code></pre>
+<p>Navigate using tags</p>
+<pre><code class="language-markdown">  key      fn                       description
+-----------------------------------------------
+           xref-find-definitions    find definition of tag
+           xref-find-apropos        find symbols matching regexp
+           xref-find-references     find references of tag
+</code></pre>
+<h2><a class="header" href="#lisp" id="lisp">lisp</a></h2>
+<pre><code class="language-markdown">  key   fn        description
+------------------------------
+        ielm      open interactive elips shell
+</code></pre>
+<p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by defult)</p>
+<pre><code class="language-markdown">  key              fn                        description
+--------------------------------------------------------
+  C-j              eval-print-last-sexp      evaluate &amp; print preceeding lisp expr
+
+  C-x C-e          eval-last-sexp            evaluate lisp expr
+  C-u C-x C-e      eval-last-sexp            evaluate &amp; print
+</code></pre>
+<h2><a class="header" href="#ido" id="ido">ido</a></h2>
+<p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
+<pre><code class="language-markdown">  key              fn          description
+------------------------------------------
+                  ido-mode     toggle ido mode
+  &lt;Left&gt;/&lt;Right&gt;               cycle through available competions
+  &lt;RET&gt;                        select completion
+</code></pre>
+<h2><a class="header" href="#evil" id="evil">evil</a></h2>
+<pre><code class="language-markdown">  key    fn    description
+--------------------------
+  C-z          toggle emacs/evil mode
+  C-^          toggle between previous and current buffer
+  C-p          after paste cycle kill-ring back
+  C-n          after paste cycle kill-ring forward
+</code></pre>
+<h2><a class="header" href="#dired" id="dired">dired</a></h2>
+<pre><code class="language-markdown">  key    fn    description
+--------------------------
+  i            open sub-dir in same buffer
+  +            create new directory
+  C            copy file/dir
+
+  q            quit
 </code></pre>
 
                     </main>
