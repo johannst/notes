@@ -8,6 +8,7 @@
     - [git](./tools/git.md)
     - [awk](./tools/awk.md)
     - [emacs](./tools/emacs.md)
+    - [gpg](./tools/gpg.md)
     - [gdb](./tools/gdb.md)
     - [radare2](./tools/radare2.md)
 
