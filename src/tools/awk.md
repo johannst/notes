@@ -59,6 +59,7 @@ multiple times. Actions with those patterns are **executed exactly once**.
 - `FS` _field separator_: regex to split records into fields, by default
   <space>
 - `NR` _number record_: number of current record
+- `NF` _number fields_: number of fields in the current record
 
 ### Special statements & functions
 
@@ -95,6 +96,12 @@ awk 'NR%2 == 0 { print $0 }' <file>
 ```
 The pattern `NR%2 == 0` matches every second record and the action `{ print $0 }`
 prints the whole record.
+
+### Access last fields in records
+```bash
+echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
+```
+Access last fields with arithmetic on the `NR` number of fields variable.
 
 ### Capture in variables
 ```bash
