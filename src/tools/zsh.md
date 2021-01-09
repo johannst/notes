@@ -19,6 +19,149 @@ bindkey -r in-str       remove binding for `in-str`
 # man zshzle(1)         STANDARD WIDGETS: get description of functions
 ```
 
+Access edit buffer in zle widget:
+```zsh
+$BUFFER       # Entire edit buffer content
+$LBUFFER      # Edit buffer content left to cursor
+$RBUFFER      # Edit buffer content right to cursor
+
+# create zle widget which adds text right of the cursor
+function add-text() {
+    RBUFFER="some text $RBUFFER"
+}
+zle -N add-text
+
+bindkey "^p" add-text
+```
+
+## Parameter
+
+Default value:
+```zsh
+# default value
+echo ${foo:-defval}   # defval
+foo=bar
+echo ${foo:-defval}   # bar
+```
+
+Alternative value:
+```zsh
+echo ${foo:+altval}   # ''
+foo=bar
+echo ${foo:+altval}   # altval
+```
+
+Check variable set, error if not set:
+```zsh
+echo ${foo:?msg}      # print `msg` and return errno `1`
+foo=bar
+echo ${foo:?msg}      # bar
+```
+
+Sub-string `${var:offset:length}`:
+```zsh
+foo=abcdef
+echo ${foo:1:3}       # bcd
+```
+
+Trim prefix `${var#prefix}`:
+```zsh
+foo=bar.baz
+echo ${foo#bar}       # .baz
+```
+
+Trim suffix `${var%suffix}`:
+```zsh
+foo=bar.baz
+echo ${foo%.baz}      # bar
+```
+
+Substitute pattern `${var/pattern/replace}`:
+```zsh
+foo=aabbccbbdd
+echo ${foo/bb/XX}    # aaXXccbbdd
+echo ${foo//bb/XX}   # aaXXccXXdd
+# replace prefix
+echo ${foo/#bb/XX}   # aabbccbbdd
+echo ${foo/#aa/XX}   # XXbbccbbdd
+# replace suffix
+echo ${foo/%bb/XX}   # aabbccbbdd
+echo ${foo/%dd/XX}   # aabbccbbXX
+```
+
+> Note: `prefix`/`suffix`/`pattern` are expanded as pathnames.
+
+## Variables
+
+```zsh
+# Variable with local scope
+local var=val
+
+# Read-only variable
+readonly var=bal
+```
+
+Indexed arrays:
+```zsh
+arr=(aa bb cc dd)
+echo $arr[1]           # aa
+echo $arr[-1]          # dd
+
+arr+=(ee)
+echo $arr[-1]          # ee
+
+echo $arr[1,3]         # aa bb cc
+```
+
+Associative arrays:
+```zsh
+typeset -A arr
+arr[x]='aa'
+arr[y]='bb'
+echo $arr[x]           # aa
+```
+
+Tied arrays:
+```zsh
+typeset -T VEC vec=(1 2 3) '|'
+
+echo $vec              # 1 2 3
+echo $VEC              # 1|2|3
+```
+
+Unique arrays (set):
+```
+typeset -U vec=(1 2 3)
+
+echo $vec             # 1 2 3
+vec+=(1 2 4)
+echo $vec             # 1 2 3 4
+```
+
+### Expansion Flags
+
+Join array to string `j:sep:`:
+```zsh
+foo=(1 2 3 4)
+echo ${(j:-:)foo}     # 1-2-3-4
+echo ${(j:\n:)foo}    # join with new lines
+```
+
+Split string to array `s:sep`:
+```zsh
+foo='1-2-3-4'
+bar=(${(s:-:)foo})    # capture as array
+echo $bar             # 1 2 3 4
+echo $bar[2]          # 2
+```
+
+Upper/Lower case string:
+```zsh
+foo=aaBB
+echo ${(L)foo}        # aabb
+echo ${(U)foo}        # AABB
+```
+
 ## Completion
 
 ### Installation
@@ -31,7 +174,7 @@ A completion skeleton for the command `foo`, stored in `_foo`
 #compdef _foo foo
 
 function _foo() {
-	...
+    ...
 }
 ```
 

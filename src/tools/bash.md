@@ -16,8 +16,11 @@
 
 ### Parameter
 ```bash
-# default param
+# default value
 bar=${foo:-some_val}  # if $foo set, then bar=$foo else bar=some_val
+
+# alternate value
+bar=${foo:+bla $foo}  # if $foo set, then bar="bla $foo" else bar=""
 
 # check param set
 bar=${foo:?msg}  # if $foo set, then bar=$foo else exit and print msg
