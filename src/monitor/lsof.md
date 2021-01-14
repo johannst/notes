@@ -55,6 +55,12 @@ Show open connections to `localhost` for `$USER`:
 lsof -a -u $USER -i @localhost
 ```
 
+## Open connection to specific port
+Show open connections to port `:1234` for `$USER`:
+```markdown
+lsof -a -u $USER -i :1234
+```
+
 ## IPv4 TCP connections in `ESTABLISHED` state
 ```markdown
 lsof -i 4TCP -s TCP:ESTABLISHED

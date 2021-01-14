@@ -14,6 +14,7 @@
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
+    - [ss](./monitor/ss.md)
     - [pidstat](./monitor/pidstat.md)
     - [pgrep](./monitor/pgrep.md)
     - [pmap](./monitor/pmap.md)
