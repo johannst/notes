@@ -1,5 +1,7 @@
 # Summary
 
+[Introduction](./intro.md)
+
 - [Tools](./tools/README.md)
     - [zsh](./tools/zsh.md)
     - [bash](./tools/bash.md)
