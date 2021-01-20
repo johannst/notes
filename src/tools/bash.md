@@ -106,7 +106,7 @@ command 2>&1 >file
 The `getopts` builtin uses following global variables:
 - `OPTARG`, value of last option argument
 - `OPTIND`, index of the next argument to process (user must reset)
-- `OPTERR`, display errors if set to `1` 
+- `OPTERR`, display errors if set to `1`
 
 ```bash
 getopts <optstring> <param> [<args>]
@@ -121,15 +121,15 @@ getopts <optstring> <param> [<args>]
 ```bash
 #!/bin/bash
 function parse_args() {
-	while getopts "f:c" PARAM; do
-		case $PARAM in
-			f) echo "GOT -f $OPTARG";;
-			c) echo "GOT -c";;
-			*) echo "ERR: print usage"; exit 1;;
-		esac
-	done
-	# users responsibility to reset OPTIND
-	OPTIND=0
+    while getopts "f:c" PARAM; do
+        case $PARAM in
+            f) echo "GOT -f $OPTARG";;
+            c) echo "GOT -c";;
+            *) echo "ERR: print usage"; exit 1;;
+        esac
+    done
+    # users responsibility to reset OPTIND
+    OPTIND=0
 }
 
 parse_args -f xxx -c
