@@ -162,6 +162,24 @@ echo ${(L)foo}        # aabb
 echo ${(U)foo}        # AABB
 ```
 
+## Regular Expressions
+
+Zsh supports regular expression matching with the binary operator `=~`.
+The match results can be accessed via the `$MATCH` variable and
+`$match` indexed array:
+- `$MATCH` contains the full match
+- `$match[1]` contains match of the first capture group
+
+```zsh
+INPUT='title foo : 1234'
+REGEX='^title (.+) : ([0-9]+)$'
+if [[ $INPUT =~ $REGEX ]]; then
+    echo "$MATCH"       # title foo : 1234
+    echo "$match[1]"    # foo
+    echo "$match[2]"    # 1234
+fi
+```
+
 ## Completion
 
 ### Installation

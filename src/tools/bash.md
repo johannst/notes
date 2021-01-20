@@ -136,6 +136,25 @@ parse_args -f xxx -c
 parse_args -f yyy
 ```
 
+## Regular Expressions
+
+Bash supports regular expression matching with the binary operator `=~`.
+The match results can be accessed via the `$BASH_REMATCH` variable:
+- `${BASH_REMATCH[0]}` contains the full match
+- `${BASH_REMATCH[1]}` contains match of the first capture group
+
+```bash
+INPUT='title foo : 1234'
+REGEX='^title (.+) : ([0-9]+)$'
+if [[ $INPUT =~ $REGEX ]]; then
+    echo "${BASH_REMATCH[0]}"    # title foo : 1234
+    echo "${BASH_REMATCH[1]}"    # foo
+    echo "${BASH_REMATCH[2]}"    # 1234
+fi
+```
+> **Caution**: When specifying a `regex` in the `[[ ]]` block directly, quotes will be treated as part of the pattern.
+> `[[ $INPUT =~ "foo" ]]` will match against `"foo"` not `foo`!
+
 ## Completion
 
 The `complete` builtin is used to interact with the completion system.
