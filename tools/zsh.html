@@ -272,6 +272,22 @@ echo $bar[2]          # 2
 echo ${(L)foo}        # aabb
 echo ${(U)foo}        # AABB
 </code></pre>
+<h2><a class="header" href="#regular-expressions" id="regular-expressions">Regular Expressions</a></h2>
+<p>Zsh supports regular expression matching with the binary operator <code>=~</code>.
+The match results can be accessed via the <code>$MATCH</code> variable and
+<code>$match</code> indexed array:</p>
+<ul>
+<li><code>$MATCH</code> contains the full match</li>
+<li><code>$match[1]</code> contains match of the first capture group</li>
+</ul>
+<pre><code class="language-zsh">INPUT='title foo : 1234'
+REGEX='^title (.+) : ([0-9]+)$'
+if [[ $INPUT =~ $REGEX ]]; then
+    echo &quot;$MATCH&quot;       # title foo : 1234
+    echo &quot;$match[1]&quot;    # foo
+    echo &quot;$match[2]&quot;    # 1234
+fi
+</code></pre>
 <h2><a class="header" href="#completion" id="completion">Completion</a></h2>
 <h3><a class="header" href="#installation" id="installation">Installation</a></h3>
 <p>Completion functions are provided via files and need to be placed in a location

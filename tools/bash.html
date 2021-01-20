@@ -241,7 +241,7 @@ command 2&gt;&amp;1 &gt;file
 <ul>
 <li><code>OPTARG</code>, value of last option argument</li>
 <li><code>OPTIND</code>, index of the next argument to process (user must reset)</li>
-<li><code>OPTERR</code>, display errors if set to <code>1</code> </li>
+<li><code>OPTERR</code>, display errors if set to <code>1</code></li>
 </ul>
 <pre><code class="language-bash">getopts &lt;optstring&gt; &lt;param&gt; [&lt;args&gt;]
 </code></pre>
@@ -258,20 +258,39 @@ command 2&gt;&amp;1 &gt;file
 <h3><a class="header" href="#example" id="example">Example</a></h3>
 <pre><code class="language-bash">#!/bin/bash
 function parse_args() {
-	while getopts &quot;f:c&quot; PARAM; do
-		case $PARAM in
-			f) echo &quot;GOT -f $OPTARG&quot;;;
-			c) echo &quot;GOT -c&quot;;;
-			*) echo &quot;ERR: print usage&quot;; exit 1;;
-		esac
-	done
-	# users responsibility to reset OPTIND
-	OPTIND=0
+    while getopts &quot;f:c&quot; PARAM; do
+        case $PARAM in
+            f) echo &quot;GOT -f $OPTARG&quot;;;
+            c) echo &quot;GOT -c&quot;;;
+            *) echo &quot;ERR: print usage&quot;; exit 1;;
+        esac
+    done
+    # users responsibility to reset OPTIND
+    OPTIND=0
 }
 
 parse_args -f xxx -c
 parse_args -f yyy
 </code></pre>
+<h2><a class="header" href="#regular-expressions" id="regular-expressions">Regular Expressions</a></h2>
+<p>Bash supports regular expression matching with the binary operator <code>=~</code>.
+The match results can be accessed via the <code>$BASH_REMATCH</code> variable:</p>
+<ul>
+<li><code>${BASH_REMATCH[0]}</code> contains the full match</li>
+<li><code>${BASH_REMATCH[1]}</code> contains match of the first capture group</li>
+</ul>
+<pre><code class="language-bash">INPUT='title foo : 1234'
+REGEX='^title (.+) : ([0-9]+)$'
+if [[ $INPUT =~ $REGEX ]]; then
+    echo &quot;${BASH_REMATCH[0]}&quot;    # title foo : 1234
+    echo &quot;${BASH_REMATCH[1]}&quot;    # foo
+    echo &quot;${BASH_REMATCH[2]}&quot;    # 1234
+fi
+</code></pre>
+<blockquote>
+<p><strong>Caution</strong>: When specifying a <code>regex</code> in the <code>[[ ]]</code> block directly, quotes will be treated as part of the pattern.
+<code>[[ $INPUT =~ &quot;foo&quot; ]]</code> will match against <code>&quot;foo&quot;</code> not <code>foo</code>!</p>
+</blockquote>
 <h2><a class="header" href="#completion" id="completion">Completion</a></h2>
 <p>The <code>complete</code> builtin is used to interact with the completion system.</p>
 <pre><code class="language-bash">complete                    # print currently installed completion handler
