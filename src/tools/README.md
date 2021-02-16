@@ -10,3 +10,4 @@
 - [gpg](./gpg.md)
 - [gdb](./gdb.md)
 - [radare2](./radare2.md)
+- [qemu](./qemu.md)
