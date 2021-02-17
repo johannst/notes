@@ -160,24 +160,48 @@
       --tty &lt;tty&gt;     set I/O tty for debugee
 </code></pre>
 <h1><a class="header" href="#interactive-usage" id="interactive-usage">Interactive usage</a></h1>
+<h2><a class="header" href="#misc" id="misc">Misc</a></h2>
 <pre><code class="language-markdown">  tty &lt;tty&gt;
           Set &lt;tty&gt; as tty for debugee.
           Make sure nobody reads from target tty, easiest is to spawn a shell
           and run following in target tty:
           &gt; while true; do sleep 1024; done
 
-  set follow-fork-mode &lt;child | parent&gt;
-          Specify which process to follow when debuggee makes a fork(2)
-          syscall.
-
   sharedlibrary [&lt;regex&gt;]
           Load symbols of shared libs loaded by debugee. Optionally use &lt;regex&gt;
           to filter libs for symbol loading.
 
-  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
+  display [/FMT] &lt;expr&gt;
+          Print &lt;expr&gt; every time debugee stops. Eg print next instr, see
+          examples below.
+
+  undisplay [&lt;num&gt;]
+          Delete display expressions either all or one referenced by &lt;num&gt;.
+
+  info display
+          List display expressions.
+</code></pre>
+<h2><a class="header" href="#breakpoints" id="breakpoints">Breakpoints</a></h2>
+<pre><code class="language-markdown">  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
           Set a breakpoint only for a specific thread.
-          -qualified: Tred &lt;sym&gt; as fully qualified symbol (quiet handy to set
+          -qualified: Treat &lt;sym&gt; as fully qualified symbol (quiet handy to set
           breakpoints on C symbols in C++ contexts)
+
+  break &lt;sym&gt; if &lt;cond&gt;
+          Set conditional breakpoint (see examples below).
+
+  delete [&lt;num&gt;]
+          Delete breakpoint either all or one referenced by &lt;num&gt;.
+
+  info break
+          List breakpoints.
+
+  cond &lt;bp&gt; &lt;cond&gt;
+          Make existing breakpoint &lt;bp&gt; conditional with &lt;cond&gt;.
+
+  tbreak
+          Set temporary breakpoint, will be deleted when hit.
+          Same syntax as `break`.
 
   rbreak &lt;regex&gt;
           Set breakpoints matching &lt;regex&gt;, where matching internally is done
@@ -190,16 +214,18 @@
 
           &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
-
-  info functions [&lt;regex&gt;]
+</code></pre>
+<h2><a class="header" href="#inspection" id="inspection">Inspection</a></h2>
+<pre><code class="language-markdown">  info functions [&lt;regex&gt;]
           List functions matching &lt;regex&gt;. List all functions if no &lt;regex&gt;
           provided.
 
   info variables [&lt;regex&gt;]
           List variables matching &lt;regex&gt;. List all variables if no &lt;regex&gt;
           provided.
-
-  info handle [&lt;signal&gt;]
+</code></pre>
+<h2><a class="header" href="#signal-handling" id="signal-handling">Signal handling</a></h2>
+<pre><code class="language-markdown">  info handle [&lt;signal&gt;]
           Print how to handle &lt;signal&gt;. If no &lt;signal&gt; specified print for all
           signals.
 
@@ -212,6 +238,45 @@
 
   catch signal &lt;signal&gt;
           Create a catchpoint for &lt;signal&gt;.
+</code></pre>
+<h2><a class="header" href="#source-file-locations" id="source-file-locations">Source file locations</a></h2>
+<pre><code class="language-markdown">  dir &lt;path&gt;
+          Add &lt;path&gt; to the beginning of the searh path for source files.
+
+  show dir
+          Show current search path.
+
+  set substitute-path &lt;from&gt; &lt;to&gt;
+          Add substitution rule checked during source file lookup.
+
+  show substitute-path
+          Show current substitution rules.
+</code></pre>
+<h2><a class="header" href="#configuration" id="configuration">Configuration</a></h2>
+<pre><code class="language-markdown">  set follow-fork-mode &lt;child | parent&gt;
+          Specify which process to follow when debuggee makes a fork(2)
+          syscall.
+
+  set pagination &lt;on | off&gt;
+          Turn on/off gdb's pagination.
+
+  set breakpoint pending &lt;on | off | auto&gt;
+          on: always set pending breakpoints.
+          off: error when trying to set pending breakpoints.
+          auto: interatively query user to set breakpoint.
+
+  set print pretty &lt;on | off&gt;
+          Turn on/off pertty printing of structures.
+
+  set logging &lt;on | off&gt;
+          Enable output logging to file (default gdb.txt).
+
+  set logging file &lt;fname&gt;
+          Change output log file to &lt;fname&gt;
+
+  set logging redirect &lt;on/off&gt;
+          on: only log to file.
+          off: log to file and tty.
 </code></pre>
 <h1><a class="header" href="#user-commands-macros" id="user-commands-macros">User commands (macros)</a></h1>
 <p>Gdb allows to create &amp; document user commands as follows:</p>
@@ -242,6 +307,24 @@
   end
 </code></pre>
 <h1><a class="header" href="#examples" id="examples">Examples</a></h1>
+<h2><a class="header" href="#automatically-print-next-instr" id="automatically-print-next-instr">Automatically print next instr</a></h2>
+<p>When ever the debugee stops automatically print the memory at the current
+instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</code>.</p>
+<pre><code class="language-markdown">  # rip - x86
+  display /i $rip
+
+  # step instruction, after the step the next instruction is automatically printed
+  si
+</code></pre>
+<h2><a class="header" href="#conditional-breakpoints" id="conditional-breakpoints">Conditional breakpoints</a></h2>
+<p>Create conditional breakpoints for a function <code>void foo(int i)</code> in the debugee.</p>
+<pre><code class="language-markdown">  # Create conditional breakpoint
+  b foo if i == 42
+
+  b foo     # would create bp 2
+  # Make existing breakpoint conditional
+  cond 2 if i == 7
+</code></pre>
 <h2><a class="header" href="#catch-sigsegv-and-execute-commands" id="catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
 <p>This creates a <code>catchpoint</code> for the <code>SIGSEGV</code> signal and attached the <code>command</code>
 to it.</p>
