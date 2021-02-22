@@ -188,6 +188,24 @@ sp_el3      stack pointer EL3
 elr_el3     exception link register EL3
 spsr_el3    saved process status register EL3
 </code></pre>
+<h2><a class="header" href="#instructions-cheatsheet" id="instructions-cheatsheet">Instructions cheatsheet</a></h2>
+<h3><a class="header" href="#accessing-system-registers" id="accessing-system-registers">Accessing system registers</a></h3>
+<p>Reading from system registers:</p>
+<pre><code class="language-armasm">mrs x0, vbar_el1      // move vbar_el1 into x0
+</code></pre>
+<p>Writing to system registers:</p>
+<pre><code class="language-armasm">msr vbar_el1, x0      // move x0 into vbar_el1
+</code></pre>
+<h3><a class="header" href="#control-flow" id="control-flow">Control Flow</a></h3>
+<pre><code class="language-armasm">b &lt;offset&gt;    // relative forward/back branch
+br &lt;Xn&gt;       // absolute branch to address in register Xn
+
+// branch &amp; link, store return address in X30 (LR)
+bl &lt;offset&gt;   // relative forward/back branch
+blr &lt;Xn&gt;      // absolute branch to address in register Xn
+
+ret {Xn}      // return to address in X30, or Xn if supplied
+</code></pre>
 <h2><a class="header" href="#addressing" id="addressing">Addressing</a></h2>
 <h3><a class="header" href="#offset" id="offset">Offset</a></h3>
 <pre><code class="language-armasm">ldr x0, [x1]                // x0 = [x1]
@@ -336,13 +354,16 @@ greeting_len:
 Hi ASM-World!
 </code></pre>
 <blockquote>
-<p>Cross-compiling on <code>Ubuntu 20.04</code>, paths might differ on other distributions.
-Compiling natively on arm64, specifying the dynamic linker should not be required.</p>
+<p>Cross-compiling on <code>Ubuntu 20.04 (x86_64)</code>, paths might differ on other
+distributions. Explicitly specifying the dynamic linker should not be
+required when compiling natively on arm64.</p>
 </blockquote>
 <h2><a class="header" href="#references" id="references">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
-<li><a href="https://developer.arm.com/documentation/den0024/a">ARMv8 Programmer's Guide</a></li>
+<li><a href="https://developer.arm.com/documentation/den0024/a">ARMv8-A Programmer's Guide</a></li>
+<li><a href="https://developer.arm.com/documentation/ddi0487/latest">ARMv8-A Architecture Reference Manual</a></li>
+<li><a href="https://developer.arm.com/documentation/dai0527/a">AppNote: ARMv8 Bare-metal boot code</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 </ul>
