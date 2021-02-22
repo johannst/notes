@@ -40,6 +40,31 @@ elr_el3     exception link register EL3
 spsr_el3    saved process status register EL3
 ```
 
+## Instructions cheatsheet
+
+### Accessing system registers
+Reading from system registers:
+```armasm
+mrs x0, vbar_el1      // move vbar_el1 into x0
+```
+
+Writing to system registers:
+```armasm
+msr vbar_el1, x0      // move x0 into vbar_el1
+```
+
+### Control Flow
+```armasm
+b <offset>    // relative forward/back branch
+br <Xn>       // absolute branch to address in register Xn
+
+// branch & link, store return address in X30 (LR)
+bl <offset>   // relative forward/back branch
+blr <Xn>      // absolute branch to address in register Xn
+
+ret {Xn}      // return to address in X30, or Xn if supplied
+```
+
 ## Addressing
 ### Offset
 ```armasm
