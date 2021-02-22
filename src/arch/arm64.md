@@ -182,17 +182,22 @@ To cross-compile and run:
   && qemu-aarch64 ./greet
 Hi ASM-World!
 ```
-> Cross-compiling on `Ubuntu 20.04`, paths might differ on other distributions.
-> Compiling natively on arm64, specifying the dynamic linker should not be required.
+> Cross-compiling on `Ubuntu 20.04 (x86_64)`, paths might differ on other
+> distributions. Explicitly specifying the dynamic linker should not be
+> required when compiling natively on arm64.
 
 ## References
 - [Procedure Call Standard ARM64][aapcs64]
-- [ARMv8 Programmer's Guide][armv8a_prog_guide]
+- [ARMv8-A Programmer's Guide][armv8a_prog_guide]
+- [ARMv8-A Architecture Reference Manual][armv8a_arm]
+- [AppNote: ARMv8 Bare-metal boot code][armv8_baremetal_boot]
 - [GNU Assembler][gas_doc]
 - [GNU Assembler Directives][gas_directives]
 
 
 [aapcs64]: https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst
 [armv8a_prog_guide]: https://developer.arm.com/documentation/den0024/a
+[armv8a_arm]: https://developer.arm.com/documentation/ddi0487/latest
+[armv8_baremetal_boot]: https://developer.arm.com/documentation/dai0527/a
 [gas_doc]: https://sourceware.org/binutils/docs/as
 [gas_directives]: https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops
