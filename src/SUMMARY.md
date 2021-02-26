@@ -48,3 +48,4 @@
 - [Arch](./arch/README.md)
     - [x86_64](./arch/x86_64.md)
     - [arm64](./arch/arm64.md)
+    - [armv7](./arch/armv7.md)
