@@ -68,6 +68,32 @@ blx <Rm>      // absolute branch to address in register Rm &
               // link return addr in r14 (LR)
 ```
 
+### Load/Store
+Different addressing modes.
+```armasm
+str r1, [r0]         // [r0]=r1
+str r1, [r0, #4]     // [r0+4]=r1
+str r1, [r0, #4]!    // r0+=4; [r0]=r1
+str r1, [r0], 4      // [r0]=r1; r0+=4
+```
+
+Load/store multiple registers full-descending.
+```armasm
+stmfd r0!, {r1-r2, r5}    // r0-=4; [r0]=r5
+                          // r0-=4; [r0]=r2
+                          // r0-=4; [r0]=r1
+ldmfd r0!, {r1-r2, r5}    // r1=[r0]; r0+=4
+                          // r2=[r0]; r0+=4
+                          // r5=[r0]; r0+=4
+```
+> `!` is optional but has the effect to update the base pointer register `r0` here.
+
+Push/Pop
+```armasm
+push {r0-r2}    // effectively stmfd sp!, {r0-r2}
+pop {r0-r2}     // effectively ldmfd sp!, {r0-r2}
+```
+
 ## Procedure Call Standard ARM ([`aapcs32`][aapcs32])
 ### Passing arguments to functions
 - integer/pointer arguments
