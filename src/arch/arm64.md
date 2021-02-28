@@ -124,7 +124,9 @@ stp x1, x2, [x0]    // [x0] = x1; [x0 + 8] = x2
 - `SP`
 
 ### Stack
-- grows downwards
+- full descending
+  - full: `sp` points to the last used location (valid item)
+  - descending: stack grows downwards
 - `sp` must be 16byte aligned when used to access memory for r/w
 - `sp` must be 16byte aligned on public interface interfaces
 
@@ -218,11 +220,13 @@ Hi ASM-World!
 - [AppNote: ARMv8 Bare-metal boot code][armv8_baremetal_boot]
 - [GNU Assembler][gas_doc]
 - [GNU Assembler Directives][gas_directives]
+- [GNU Assembler `AArch64` dependent features][gas_arm64]
 
 
 [aapcs64]: https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst
-[armv8a_prog_guide]: https://developer.arm.com/documentation/den0024/a
+[armv8a_prog_guide]: https://developer.arm.com/documentation/den0024/latest
 [armv8a_arm]: https://developer.arm.com/documentation/ddi0487/latest
-[armv8_baremetal_boot]: https://developer.arm.com/documentation/dai0527/a
+[armv8_baremetal_boot]: https://developer.arm.com/documentation/dai0527/latest
 [gas_doc]: https://sourceware.org/binutils/docs/as
 [gas_directives]: https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops
+[gas_arm64]: https://sourceware.org/binutils/docs/as/AArch64_002dDependent.html
