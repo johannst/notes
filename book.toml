@@ -7,3 +7,5 @@ title = "Notes"
 
 [output.html]
 default-theme = "light"
+git-repository-url = "https://github.com/johannst/notes"
+git-repository-icon = "fa-github"
