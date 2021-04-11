@@ -295,6 +295,39 @@ echo $bar[2]          # 2
 echo ${(L)foo}        # aabb
 echo ${(U)foo}        # AABB
 </code></pre>
+<h2><a class="header" href="#argument-parsing-with-zparseopts" id="argument-parsing-with-zparseopts">Argument parsing with <code>zparseopts</code></a></h2>
+<pre><code class="language-zsh">zparseopts [-D] [-E] [-A assoc] specs
+</code></pre>
+<p>Arguments are copied into the associative array <code>assoc</code> according to <code>specs</code>.
+Each spec is described by an entry as <code>opt[:][=array]</code>.</p>
+<ul>
+<li><code>opt</code> is the option without the <code>-</code> char. Passing <code>-f</code> is matched against <code>f</code>
+opt, <code>--long</code> is matched against <code>-long</code>.</li>
+<li>Using <code>:</code> means the option will take an argument.</li>
+<li>The optional <code>=array</code> specifies an alternate storage container where this
+option should be stored.</li>
+</ul>
+<blockquote>
+<p>Documentation can be found in <code>man zshmodules</code>.</p>
+</blockquote>
+<h3><a class="header" href="#example" id="example">Example</a></h3>
+<pre><code class="language-zsh">#!/bin/zsh
+function test() {
+    zparseopts -D -E -A opts f=flag o: -long:
+    echo &quot;flag $flag&quot;
+    echo &quot;o    $opts[-o]&quot;
+    echo &quot;long $opts[--long]&quot;
+    echo &quot;pos  $1&quot;
+}
+
+test -f -o OPTION --long LONG_OPT POSITIONAL
+
+# Outputs:
+#   flag -f
+#   o    OPTION
+#   long LONG_OPT
+#   pos  POSITIONAL
+</code></pre>
 <h2><a class="header" href="#regular-expressions" id="regular-expressions">Regular Expressions</a></h2>
 <p>Zsh supports regular expression matching with the binary operator <code>=~</code>.
 The match results can be accessed via the <code>$MATCH</code> variable and
@@ -368,7 +401,7 @@ blu  -- desc for blu
 FUNC        call func to generate matches
 {STR}       evaluate `STR` to generate matches
 </code></pre>
-<h3><a class="header" href="#example" id="example">Example</a></h3>
+<h3><a class="header" href="#example-1" id="example-1">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
 <p>Assume a program <code>foo</code> with the following interface:</p>
 <pre><code class="language-zsh">foo -c green|red|blue -s low|high -f &lt;file&gt; -d &lt;dir&gt; -h
@@ -511,7 +544,7 @@ command 2&gt;&amp;1 &gt;file
 <li><code>&lt;param&gt;</code> specifies a variable name which <code>getopts</code> fills with the last parsed option argument</li>
 <li><code>&lt;args&gt;</code> optionally specify argument string to parse, by default <code>getopts</code> parses <code>$@</code></li>
 </ul>
-<h3><a class="header" href="#example-1" id="example-1">Example</a></h3>
+<h3><a class="header" href="#example-2" id="example-2">Example</a></h3>
 <pre><code class="language-bash">#!/bin/bash
 function parse_args() {
     while getopts &quot;f:c&quot; PARAM; do
@@ -582,7 +615,7 @@ compgen -W &quot;foo foobar bar&quot; &quot;f&quot;
 # compare &quot;hom&quot; against file/dir names and generate matches
 compgen -d -f &quot;hom&quot;
 </code></pre>
-<h3><a class="header" href="#example-2" id="example-2">Example</a></h3>
+<h3><a class="header" href="#example-3" id="example-3">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
 <p>Assume a program <code>foo</code> with the following interface:</p>
 <pre><code class="language-bash">foo -c green|red|blue -s low|high -f &lt;file&gt; -h
@@ -1876,7 +1909,7 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
   -l &lt;filter&gt; . show who calls into lib matched by &lt;filter&gt;
   -C .......... demangle
 </code></pre>
-<h1><a class="header" href="#example-3" id="example-3">Example</a></h1>
+<h1><a class="header" href="#example-4" id="example-4">Example</a></h1>
 <p>List which program/libs call into <code>libstdc++</code>:</p>
 <pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
 </code></pre>
