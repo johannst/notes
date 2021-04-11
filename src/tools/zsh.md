@@ -162,6 +162,40 @@ echo ${(L)foo}        # aabb
 echo ${(U)foo}        # AABB
 ```
 
+## Argument parsing with `zparseopts`
+
+```zsh
+zparseopts [-D] [-E] [-A assoc] specs
+```
+Arguments are copied into the associative array `assoc` according to `specs`.
+Each spec is described by an entry as `opt[:][=array]`.
+- `opt` is the option without the `-` char. Passing `-f` is matched against `f`
+  opt, `--long` is matched against `-long`.
+- Using `:` means the option will take an argument.
+- The optional `=array` specifies an alternate storage container where this
+  option should be stored.
+> Documentation can be found in `man zshmodules`.
+
+### Example
+```zsh
+#!/bin/zsh
+function test() {
+    zparseopts -D -E -A opts f=flag o: -long:
+    echo "flag $flag"
+    echo "o    $opts[-o]"
+    echo "long $opts[--long]"
+    echo "pos  $1"
+}
+
+test -f -o OPTION --long LONG_OPT POSITIONAL
+
+# Outputs:
+#   flag -f
+#   o    OPTION
+#   long LONG_OPT
+#   pos  POSITIONAL
+```
+
 ## Regular Expressions
 
 Zsh supports regular expression matching with the binary operator `=~`.
