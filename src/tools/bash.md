@@ -129,7 +129,7 @@ function parse_args() {
         esac
     done
     # users responsibility to reset OPTIND
-    OPTIND=0
+    OPTIND=1
 }
 
 parse_args -f xxx -c
