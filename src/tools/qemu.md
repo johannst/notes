@@ -5,11 +5,19 @@ this can be swapped with the system emulator for other architectures.
 
 ## Keybindings
 
+Graphic mode:
 ```markdown
 Ctrl+Alt+g         release mouse capture from VM
 
 Ctrl+Alt+1         switch to display of VM
 Ctrl+Alt+2         switch to qemu monitor
+```
+
+No graphic mode:
+```markdown
+Ctrl+a h           print help
+Ctrl+a x           exit emulator
+Ctrl+a c           switch between monitor and console
 ```
 
 ## VM config snippet
@@ -85,6 +93,11 @@ lsblk -f /dev/sda
 
 #### USB Device
 - `-device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408` pass-through USB device from host identified by vendorid & productid and attach to usb bus `xhci.0` (defined with controller `id`)
+
+## Debugging
+
+- `-gdb tcp::<port>` open gdbstub on tcp `<port>` (`-s` shorthand for `-gdb tcp::1234`).
+- `-S` freeze CPU at startup.
 
 ## References
 - [QEMU USB][doc-qemu-usb]
