@@ -1658,10 +1658,16 @@ executed. To workaround that bug one can create a wrapper function which calls
 <p>All the examples &amp; notes use <code>qemu-system-x86_64</code> but in most cases
 this can be swapped with the system emulator for other architectures.</p>
 <h2><a class="header" href="#keybindings-1" id="keybindings-1">Keybindings</a></h2>
+<p>Graphic mode:</p>
 <pre><code class="language-markdown">Ctrl+Alt+g         release mouse capture from VM
 
 Ctrl+Alt+1         switch to display of VM
 Ctrl+Alt+2         switch to qemu monitor
+</code></pre>
+<p>No graphic mode:</p>
+<pre><code class="language-markdown">Ctrl+a h           print help
+Ctrl+a x           exit emulator
+Ctrl+a c           switch between monitor and console
 </code></pre>
 <h2><a class="header" href="#vm-config-snippet" id="vm-config-snippet">VM config snippet</a></h2>
 <p>Following command-line gives a good starting point to assemble a VM:</p>
@@ -1733,6 +1739,11 @@ lsblk -f /dev/sda
 <h4><a class="header" href="#usb-device" id="usb-device">USB Device</a></h4>
 <ul>
 <li><code>-device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408</code> pass-through USB device from host identified by vendorid &amp; productid and attach to usb bus <code>xhci.0</code> (defined with controller <code>id</code>)</li>
+</ul>
+<h2><a class="header" href="#debugging" id="debugging">Debugging</a></h2>
+<ul>
+<li><code>-gdb tcp::&lt;port&gt;</code> open gdbstub on tcp <code>&lt;port&gt;</code> (<code>-s</code> shorthand for <code>-gdb tcp::1234</code>).</li>
+<li><code>-S</code> freeze CPU at startup.</li>
 </ul>
 <h2><a class="header" href="#references" id="references">References</a></h2>
 <ul>
@@ -2430,26 +2441,31 @@ rip        eip       ip         instruction pointer
 </code></pre>
 <h3><a class="header" href="#flags-register" id="flags-register">FLAGS register</a></h3>
 <pre><code class="language-markdown">rflags
-bits  desc
------------------------------
-[11]  OF overflow flag
-[10]  DF direction flag
- [7]  SF sign flag
- [6]  ZF zero flag
- [4]  AF auxiliary carry flag
- [2]  PF parity flag
- [0]  CF carry flag
+bits    desc                            instr        comment
+--------------------------------------------------------------------------------------------------------------
+   [21]   ID   identification                        ability to set/clear -&gt; indicates support for CPUID instr
+   [18]   AC   alignment check                       alignment exception for PL 3 (user), requires CR0.AM
+[13:12] IOPL   io privilege level
+   [11]   OF   overflow flag
+   [10]   DF   direction flag           cld/std
+    [9]   IF   interrupt enable         cli/sti
+    [7]   SF   sign flag
+    [6]   ZF   zero flag
+    [4]   AF   auxiliary carry flag
+    [2]   PF   parity flag
+    [0]   CF   carry flag
 </code></pre>
-<h2><a class="header" href="#addressing" id="addressing">Addressing</a></h2>
-<pre><code class="language-asm">movw [rax], rbx         // save val in rbx at [rax]
-movw [imm], rbx         // save val in rbx at [imm]
-movw rax, [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
+<p>Change flag bits with <code>pushf</code> / <code>popf</code> instructions:</p>
+<pre><code class="language-x86asm">pushfd                          // push flags (4bytes) onto stack
+or dword ptr [esp], (1 &lt;&lt; 18)   // enable AC flag
+popfd                           // pop flags (4byte) from stack
 </code></pre>
-<p><code>rip</code> relative addressing:</p>
-<pre><code class="language-asm">lea rax, [rip+.my_str]       // load addr of .my_str into rax
-...
-.my_str:
-.asciz &quot;Foo&quot;
+<blockquote>
+<p>There is also <code>pushfq</code> / <code>popfq</code> to push and pop all 8 bytes of <code>rflags</code>.</p>
+</blockquote>
+<h3><a class="header" href="#model-specific-register-msr" id="model-specific-register-msr">Model Specific Register (MSR)</a></h3>
+<pre><code class="language-x86asm">rdmsr     // Read MSR register, effectively does EDX:EAX &lt;- MSR[ECX]
+wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 </code></pre>
 <h2><a class="header" href="#size-directives" id="size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
@@ -2457,6 +2473,61 @@ movw rax, [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
 mov  word ptr [rax], 0xff    // save 2 byte(s) at [rax]
 mov dword ptr [rax], 0xff    // save 4 byte(s) at [rax]
 mov qword ptr [rax], 0xff    // save 8 byte(s) at [rax]
+</code></pre>
+<h2><a class="header" href="#addressing" id="addressing">Addressing</a></h2>
+<pre><code class="language-x86asm">mov qword ptr [rax], rbx         // save val in rbx at [rax]
+mov qword ptr [imm], rbx         // save val in rbx at [imm]
+mov rax, qword ptr [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
+</code></pre>
+<p><code>rip</code> relative addressing:</p>
+<pre><code class="language-x86asm">lea rax, [rip+.my_str]       // load addr of .my_str into rax
+...
+.my_str:
+.asciz &quot;Foo&quot;
+</code></pre>
+<h2><a class="header" href="#string-instructions" id="string-instructions">String instructions</a></h2>
+<p>The operand size of a string instruction is defined by the instruction suffix
+<code>b | w | d | q</code>.</p>
+<p>Source and destination registers are modified according to the <code>direction flag (DF)</code> in the <code>flags</code> register</p>
+<ul>
+<li><code>DF=0</code> increment src/dest registers</li>
+<li><code>DF=1</code> decrement src/dest registers</li>
+</ul>
+<p>Following explanation assumes <code>byte</code> operands with <code>DF=0</code>:</p>
+<pre><code class="language-x86asm">movsb   // move data from string to string
+        // ES:[DI] &lt;- DS:[SI]
+        // DI &lt;- DI + 1
+        // SI &lt;- SI + 1
+
+lodsb   // load string
+        // AL &lt;- DS:[SI]
+        // SI &lt;- SI + 1
+
+stosb   // store string
+        // ES:[DI] &lt;- AL
+        // DI &lt;- DI + 1
+
+cmpsb   // compare string operands
+        // DS:[SI] - ES:[DI]    ; set status flag (eg ZF)
+        // SI &lt;- SI + 1
+        // DI &lt;- DI + 1
+
+scasb   // scan string
+        // AL - ES:[DI]         ; set status flag (eg ZF)
+        // DI &lt;- DI + 1
+</code></pre>
+<p>String operations can be repeated:</p>
+<pre><code class="language-x86asm">rep     // repeat until rcx = 0
+repz    // repeat until rcx = 0 or while ZF = 0
+repnz   // repeat until rcx = 0 or while ZF = 1
+</code></pre>
+<h3><a class="header" href="#example-simple-memset" id="example-simple-memset">Example: Simple <code>memset</code></a></h3>
+<pre><code class="language-x86asm">// memset (dest, 0xaa /* char */, 0x10 /* len */)
+
+lea di, [dest]
+mov al, 0xaa
+mov cx, 0x10
+rep stosb
 </code></pre>
 <h2><a class="header" href="#a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia" id="a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
 <h3><a class="header" href="#passing-arguments-to-functions" id="passing-arguments-to-functions">Passing arguments to functions</a></h3>
