@@ -75,6 +75,11 @@ multiple times. Actions with those patterns are **executed exactly once**.
   For floats one can use `%N.Mf`, `N` is the total number including `.` and
   `M`.
 
+- `sprintf("fmt", expr, ...)`
+
+    Format the expressions according to the format string. Similar as `printf`,
+    but this is a function and return value can be assigned to a variable.
+
 - `strftime("fmt")`
 
   Print time stamp formatted by `fmt`.
@@ -101,7 +106,7 @@ prints the whole record.
 ```bash
 echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 ```
-Access last fields with arithmetic on the `NR` number of fields variable.
+Access last fields with arithmetic on the `NF` number of fields variable.
 
 ### Capture in variables
 ```bash
