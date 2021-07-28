@@ -23,43 +23,70 @@ Ctrl+a c           switch between monitor and console
 ## VM config snippet
 
 Following command-line gives a good starting point to assemble a VM:
-```bash
-qemu-system-x86_64                              \
-        -cpu host -enable-kvm -smp 4            \
-        -m 8G                                   \
-        -vga virtio -display sdl,gl=on          \
-        -boot menu=on                           \
-        -cdrom <iso>                            \
-        -hda <disk>                             \
-        -device qemu-xhci,id=xhci               \
-        -device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408,id=capture-card
+```
+qemu-system-x86_64                 \
+    -cpu host -enable-kvm -smp 4   \
+    -m 8G                          \
+    -vga virtio -display sdl,gl=on \
+    -boot menu=on                  \
+    -cdrom <iso>                   \
+    -hda <disk>                    \
+    -device qemu-xhci,id=xhci      \
+    -device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408,id=capture-card
 ```
 
 ### CPU & RAM
 
-- `-cpu host` emulate host CPU in guest VM
-- `-enable-kvm` use KVM instead software models (requires KVM on host machine)
-- `-smp <N>` number of guest CPUs
-> List available CPUs `qemu-system-x86_64 -cpu help`.
+```bash
+# Emulate host CPU in guest VM, enabling all supported host featured (requires KVM).
+# List available CPUs `qemu-system-x86_64 -cpu help`.
+-cpu host
 
-- `-m 8G` size of guest RAM
+# Enable KVM instead software emulation.
+-enable-kvm
+
+# Configure number of guest CPUs.
+-smp <N>
+
+# Configure size of guest RAM.
+-m 8G
+```
 
 ### Graphic & Display
 
-- `-vga virtio` use virtio as 3D video graphic accelerator (requires virgl in guest)
-- `-display sdl,gl=on` use sdl window and enable openGL context
+```bash
+# Use sdl window as display and enable openGL context.
+-display sdl,gl=on
+
+# Use vnc server as display (eg on display `:42` here).
+-display vnc=localhost:42
+
+# Confifure virtio as 3D video graphic accelerator (requires virgl in guest).
+-vga virtio
+```
 
 ### Boot Menu
 
-- `-boot menu=on` enables boot menu to select boot device (enter with `ESC`)
+```bash
+# Enables boot menu to select boot device (enter with `ESC`).
+-boot menu=on
+```
 
 ### Block devices
 
-- `-cdrom <iso>` attach cdrom drive with iso to a VM
-- `-hda <disk>` attach disk drive to a VM
-- `-drive file=<file>,format=qcow2` generic way to configure & attach a drive to a VM
+```bash
+# Attach cdrom drive with iso to a VM.
+-cdrom <iso>
+
+# Attach disk drive to a VM.
+-hda <disk>
+
+# Generic way to configure & attach a drive to a VM.
+-drive file=<file>,format=qcow2
+```
 
 #### Create a disk with [`qemu-img`][doc-qemu-img]
+
 To create a `qcow2` disk (qemu copy-on-write) of size `10G`:
 ```bash
 qemu-img create -f qcow2 disk.qcow2 10G
@@ -87,26 +114,106 @@ lsblk -f /dev/sda
 ```
 
 ### USB
-
 #### Host Controller
-- `-device qemu-xhci,id=xhci` add XHCI USB controller to the VM (supports USB 3.0, 2.0, 1.1). `id=xhci` creates a usb bus named `xhci`.
+
+```bash
+# Add XHCI USB controller to the VM (supports USB 3.0, 2.0, 1.1).
+# `id=xhci` creates a usb bus named `xhci`.
+-device qemu-xhci,id=xhci
+```
 
 #### USB Device
-- `-device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408` pass-through USB device from host identified by vendorid & productid and attach to usb bus `xhci.0` (defined with controller `id`)
+
+```bash
+# Pass-through USB device from host identified by vendorid & productid and
+# attach to usb bus `xhci.0` (defined with controller `id`).
+-device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408
+```
 
 ## Debugging
 
-- `-gdb tcp::<port>` open gdbstub on tcp `<port>` (`-s` shorthand for `-gdb tcp::1234`).
-- `-S` freeze CPU at startup.
+```bash
+# Open gdbstub on tcp `<port>` (`-s` shorthand for `-gdb tcp::1234`).
+-gdb tcp::<port>
+
+# Freeze guest CPU at startup and wait for debugger connection.
+-S
+```
+
+## IO redirection
+
+```bash
+# Create raw tcp server for `serial IO` and wait until a client connects
+# before executing the guest.
+-serial tcp:localhost:12345,server,wait
+
+# Create telnet server for `serial IO` and wait until a client connects
+# before executing the guest.
+-serial telnet:localhost:12345,server,wait
+
+# Configure redirection for the QEMU `mointor`, arguments similar to `-serial`
+# above.
+-monitor ...
+```
+> In `server` mode use `nowait` to execute guest without waiting for a client
+> connection.
+
+## Network
+
+```bash
+# Redirect host tcp port `1234` to guest port `4321`.
+-nic user,hostfwd=tcp:localhost:1234-:4321
+```
+
+## Shared drives
+
+```bash
+# Attach a `virtio-9p-pci` device to the VM.
+# The guest requires 9p support and can mount the shared drive as:
+#   mount -t 9p -o trans=virtio someName /mnt
+-virtfs local,id=someName,path=<someHostPath>,mount_tag=someName,security_model=none
+```
+
+## Tracing
+
+```bash
+# List name of all trace points.
+-trace help
+
+# Enable trace points matching pattern and optionally write trace to file.
+-trace <pattern>[,file=<file>]
+
+# Enable trace points for all events listed in the <events> file.
+# File must contain one event/pattern per line.
+-trace events=<events>
+```
+
+## Appendix: Direct `Kernel` boot
+
+Example command line to directly boot a `Kernel` with an `initrd` ramdisk.
+```bash
+qemu-system-x86_64                                                     \
+    -cpu host                                                          \
+    -enable-kvm                                                        \
+    -kernel <dir>/arch/x86/boot/bzImage                                \
+    -append "earlyprintk=ttyS0 console=ttyS0 nokaslr init=/init debug" \
+    -initrd <dir>/initramfs.cpio.gz                                    \
+    ...
+```
+Instructions to build a minimal [`Kernel` and `initrd`][blog-qemu-dbg].
 
 ## References
+
 - [QEMU USB][doc-qemu-usb]
 - [QEMU IMG][doc-qemu-img]
 - [QEMU Tools][doc-qemu-tools]
 - [QEMU System][doc-qemu-system]
+- [QEMU Invocation (command line args)][doc-qemu-invocation]
 
 
 [doc-qemu-usb]: https://github.com/qemu/qemu/blob/master/docs/usb2.txt
-[doc-qemu-img]: https://qemu.readthedocs.io/en/latest/tools/qemu-img.html
-[doc-qemu-tools]: https://qemu.readthedocs.io/en/latest/tools/index.html
-[doc-qemu-system]: https://www.qemu.org/docs/master/system/index.html
+[doc-qemu-img]: https://qemu-project.gitlab.io/qemu/tools/qemu-img.html
+[doc-qemu-tools]: https://qemu-project.gitlab.io/qemu/tools/index.html
+[doc-qemu-system]: https://qemu-project.gitlab.io/qemu/system/index.html
+[doc-qemu-invocation]: https://qemu-project.gitlab.io/qemu/system/invocation.html
+[blog-qemu-dbg]: https://blog.memzero.de/kernel-debugging-qemu
