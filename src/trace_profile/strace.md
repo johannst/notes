@@ -8,6 +8,7 @@ strace [opts] [prg]
   -e <expr> ... expression for trace filtering
   -o <file> ... log output into <file>
   -c .......... dump syscall statitics at the end
+  -k .......... dump stack trace for each syscall
 ```
 
 ```markdown
