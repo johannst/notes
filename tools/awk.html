@@ -223,6 +223,11 @@ For floats one can use <code>%N.Mf</code>, <code>N</code> is the total number in
 <code>M</code>.</p>
 </li>
 <li>
+<p><code>sprintf(&quot;fmt&quot;, expr, ...)</code></p>
+<p>Format the expressions according to the format string. Similar as <code>printf</code>,
+but this is a function and return value can be assigned to a variable.</p>
+</li>
+<li>
 <p><code>strftime(&quot;fmt&quot;)</code></p>
 <p>Print time stamp formatted by <code>fmt</code>.</p>
 <ul>
@@ -246,7 +251,7 @@ prints the whole record.</p>
 <h3><a class="header" href="#access-last-fields-in-records" id="access-last-fields-in-records">Access last fields in records</a></h3>
 <pre><code class="language-bash">echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 </code></pre>
-<p>Access last fields with arithmetic on the <code>NR</code> number of fields variable.</p>
+<p>Access last fields with arithmetic on the <code>NF</code> number of fields variable.</p>
 <h3><a class="header" href="#capture-in-variables" id="capture-in-variables">Capture in variables</a></h3>
 <pre><code class="language-bash"># /proc/&lt;pid&gt;/status
 #   Name:    cat
