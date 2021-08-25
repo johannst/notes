@@ -188,6 +188,29 @@ lsblk -f /dev/sda
 -trace events=<events>
 ```
 
+## VM snapshots
+
+VM snapshots require that there is at least on `qcow2` disk attached to the VM
+([VM Snapshots][qemu-doc-snapshot]).
+
+Commands for qemu [Monitor][qemu-doc-monitor] or [QMP][qemu-doc-qmp]:
+```bash
+# List available snapshots.
+info snapshots
+
+# Create/Load/Delete snapshot with name <tag>
+savevm <tag>
+loadvm <tag>
+delvm <tag>
+```
+
+The snapshot can also be directly specified when invoking qemu as:
+```bash
+qemu-system-x86_64 \
+    -loadvm <tag>  \
+    ...
+```
+
 ## Appendix: Direct `Kernel` boot
 
 Example command line to directly boot a `Kernel` with an `initrd` ramdisk.
@@ -209,6 +232,9 @@ Instructions to build a minimal [`Kernel` and `initrd`][blog-qemu-dbg].
 - [QEMU Tools][doc-qemu-tools]
 - [QEMU System][doc-qemu-system]
 - [QEMU Invocation (command line args)][doc-qemu-invocation]
+- [QEMU Monitor][doc-qemu-monitor]
+- [QEMU machine protocol (QMP)][doc-qemu-qmp]
+- [QEMU VM Snapshots][doc-qemu-snapshot]
 
 
 [doc-qemu-usb]: https://github.com/qemu/qemu/blob/master/docs/usb2.txt
@@ -216,4 +242,7 @@ Instructions to build a minimal [`Kernel` and `initrd`][blog-qemu-dbg].
 [doc-qemu-tools]: https://qemu-project.gitlab.io/qemu/tools/index.html
 [doc-qemu-system]: https://qemu-project.gitlab.io/qemu/system/index.html
 [doc-qemu-invocation]: https://qemu-project.gitlab.io/qemu/system/invocation.html
+[doc-qemu-monitor]: https://qemu-project.gitlab.io/qemu/system/monitor.html
+[doc-qemu-qmp]: https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html
+[doc-qemu-snapshot]: https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots
 [blog-qemu-dbg]: https://blog.memzero.de/kernel-debugging-qemu
