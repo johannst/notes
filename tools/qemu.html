@@ -296,6 +296,23 @@ connection.</p>
 # File must contain one event/pattern per line.
 -trace events=&lt;events&gt;
 </code></pre>
+<h2><a class="header" href="#vm-snapshots" id="vm-snapshots">VM snapshots</a></h2>
+<p>VM snapshots require that there is at least on <code>qcow2</code> disk attached to the VM
+([VM Snapshots][qemu-doc-snapshot]).</p>
+<p>Commands for qemu [Monitor][qemu-doc-monitor] or [QMP][qemu-doc-qmp]:</p>
+<pre><code class="language-bash"># List available snapshots.
+info snapshots
+
+# Create/Load/Delete snapshot with name &lt;tag&gt;
+savevm &lt;tag&gt;
+loadvm &lt;tag&gt;
+delvm &lt;tag&gt;
+</code></pre>
+<p>The snapshot can also be directly specified when invoking qemu as:</p>
+<pre><code class="language-bash">qemu-system-x86_64 \
+    -loadvm &lt;tag&gt;  \
+    ...
+</code></pre>
 <h2><a class="header" href="#appendix-direct-kernel-boot" id="appendix-direct-kernel-boot">Appendix: Direct <code>Kernel</code> boot</a></h2>
 <p>Example command line to directly boot a <code>Kernel</code> with an <code>initrd</code> ramdisk.</p>
 <pre><code class="language-bash">qemu-system-x86_64                                                     \
@@ -314,6 +331,9 @@ connection.</p>
 <li><a href="https://qemu-project.gitlab.io/qemu/tools/index.html">QEMU Tools</a></li>
 <li><a href="https://qemu-project.gitlab.io/qemu/system/index.html">QEMU System</a></li>
 <li><a href="https://qemu-project.gitlab.io/qemu/system/invocation.html">QEMU Invocation (command line args)</a></li>
+<li><a href="https://qemu-project.gitlab.io/qemu/system/monitor.html">QEMU Monitor</a></li>
+<li><a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QEMU machine protocol (QMP)</a></li>
+<li><a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">QEMU VM Snapshots</a></li>
 </ul>
 
                     </main>
