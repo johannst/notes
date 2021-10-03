@@ -897,23 +897,18 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
                                    remote branches
   git branch -vv ................. list branch &amp; annotate with head sha1 &amp;
                                    remote tracking branch
-  git branch &lt;bname&gt; ............. create branch with name &lt;bname&gt;
+  git branch &lt;bname&gt; ............. create local branch with name &lt;bname&gt;
+  git branch -d &lt;bname&gt; .......... delete local branch with name &lt;bname&gt;
   git checkout &lt;bname&gt; ........... switch to branch with name &lt;bname&gt;
   git checkout --track &lt;branch&gt; .. start to locally track a remote branch
-  git push -u origin &lt;rbname&gt; .... push branch to origin (or other remote), and
-                                   setup &lt;rbname&gt; as tracking branch
-</code></pre>
-<h2><a class="header" href="#resetting" id="resetting">Resetting</a></h2>
-<pre><code class="language-markdown">  git reset [opt] &lt;ref|commit&gt;
-    opt:
-      --mixed .................... resets index, but not working tree
-      --hard ..................... matches the working tree and index to that
-                                   of the tree being switched to any changes to
-                                   tracked files in the working tree since
-                                   &lt;commit&gt; are lost
-  git reset HEAD &lt;file&gt; .......... remove file from staging
-  git reset --soft HEAD~1 ........ delete most recent commit but keep work
-  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+
+  # Remote
+
+  git push -u origin &lt;rbname&gt; ........ push local branch to origin (or other
+                                       remote), and setup &lt;rbname&gt; as tracking
+                                       branch
+  git push origin --delete &lt;rbname&gt; .. delete branch &lt;rbname&gt; from origin (or
+                                       other remote)
 </code></pre>
 <h2><a class="header" href="#tags" id="tags">Tags</a></h2>
 <pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m &quot;descr&quot; ........ creates an annotated tag (full object
@@ -921,21 +916,30 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   git tag -l ........................... list available tags
   git checkout tag/&lt;tname&gt; ............. checkout specific tag
   git checkout tag/&lt;tname&gt; -b &lt;bname&gt; .. checkout specific tag in a new branch
+
+  # Remote
+
+  git push origin --tags .... push local tags to origin (or other remote)
 </code></pre>
-<h2><a class="header" href="#diff" id="diff">Diff</a></h2>
-<pre><code class="language-markdown">  git diff HEAD:&lt;fname&gt; origin/HEAD:&lt;fname&gt; ... diff files for different refs
-  git diff -U$(wc -l &lt;fname&gt;) &lt;fname&gt; ......... shows complete file with diffs
-                                                instead of usual diff snippets
-</code></pre>
-<h2><a class="header" href="#log" id="log">Log</a></h2>
-<pre><code class="language-markdown">  git log --oneline .... shows log in single line per commit -&gt; alias for
-                         '--pretty=oneline --abbrev-commit'
-  git log --graph ...... text based graph of commit history
-  git log --decorate ... decorate log with REFs
-</code></pre>
-<h2><a class="header" href="#file-history" id="file-history">File history</a></h2>
-<pre><code class="language-markdown">  git log -p &lt;file&gt; ......... show commit history + diffs for &lt;file&gt;
+<h2><a class="header" href="#log--commit-history" id="log--commit-history">Log &amp; Commit History</a></h2>
+<pre><code class="language-markdown">  git log --oneline ......... shows log in single line per commit -&gt; alias for
+                              '--pretty=oneline --abbrev-commit'
+  git log --graph ........... text based graph of commit history
+  git log --decorate ........ decorate log with REFs
+
+  git log -p &lt;file&gt; ......... show commit history + diffs for &lt;file&gt;
   git log --oneline &lt;file&gt; .. show commit history for &lt;file&gt; in compact format
+</code></pre>
+<h2><a class="header" href="#diff--commit-info" id="diff--commit-info">Diff &amp; Commit Info</a></h2>
+<pre><code class="language-markdown">  git diff &lt;commit&gt;..&lt;commit&gt; [&lt;file&gt;] .... show changes between two arbitrary
+                                            commits. If one &lt;commit&gt; is omitted
+                                            it is if HEAD is specified.
+  git diff -U$(wc -l &lt;file&gt;) &lt;file&gt; ....... shows complete file with diffs
+                                            instead of usual diff snippets
+  git diff --staged ....................... show diffs of staged files
+
+  git show --stat &lt;commit&gt; ................ show files changed by &lt;commit&gt;
+  git show &lt;commit&gt; [&lt;file&gt;] .............. show diffs for &lt;commit&gt;
 </code></pre>
 <h2><a class="header" href="#patching" id="patching">Patching</a></h2>
 <pre><code class="language-markdown">  git format-patch &lt;opt&gt; &lt;since&gt;/&lt;revision range&gt;
@@ -960,6 +964,18 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
 
   # generate single patch file from a certain commit/ref
   git format-patch &lt;COMMIT/REF&gt; --stdout &gt; my-patch.patch
+</code></pre>
+<h2><a class="header" href="#resetting" id="resetting">Resetting</a></h2>
+<pre><code class="language-markdown">  git reset [opt] &lt;ref|commit&gt;
+    opt:
+      --mixed .................... resets index, but not working tree
+      --hard ..................... matches the working tree and index to that
+                                   of the tree being switched to any changes to
+                                   tracked files in the working tree since
+                                   &lt;commit&gt; are lost
+  git reset HEAD &lt;file&gt; .......... remove file from staging
+  git reset --soft HEAD~1 ........ delete most recent commit but keep work
+  git reset --hard HEAD~1 ........ delete most recent commit and delete work
 </code></pre>
 <h2><a class="header" href="#submodules" id="submodules">Submodules</a></h2>
 <pre><code class="language-markdown">  git submodule add &lt;url&gt; [&lt;path&gt;] .......... add new submodule to current project
