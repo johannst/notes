@@ -18,25 +18,18 @@
                                    remote branches
   git branch -vv ................. list branch & annotate with head sha1 &
                                    remote tracking branch
-  git branch <bname> ............. create branch with name <bname>
+  git branch <bname> ............. create local branch with name <bname>
+  git branch -d <bname> .......... delete local branch with name <bname>
   git checkout <bname> ........... switch to branch with name <bname>
   git checkout --track <branch> .. start to locally track a remote branch
-  git push -u origin <rbname> .... push branch to origin (or other remote), and
-                                   setup <rbname> as tracking branch
-```
 
-## Resetting
-```markdown
-  git reset [opt] <ref|commit>
-    opt:
-      --mixed .................... resets index, but not working tree
-      --hard ..................... matches the working tree and index to that
-                                   of the tree being switched to any changes to
-                                   tracked files in the working tree since
-                                   <commit> are lost
-  git reset HEAD <file> .......... remove file from staging
-  git reset --soft HEAD~1 ........ delete most recent commit but keep work
-  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+  # Remote
+
+  git push -u origin <rbname> ........ push local branch to origin (or other
+                                       remote), and setup <rbname> as tracking
+                                       branch
+  git push origin --delete <rbname> .. delete branch <rbname> from origin (or
+                                       other remote)
 ```
 
 ## Tags
@@ -46,27 +39,34 @@
   git tag -l ........................... list available tags
   git checkout tag/<tname> ............. checkout specific tag
   git checkout tag/<tname> -b <bname> .. checkout specific tag in a new branch
+
+  # Remote
+
+  git push origin --tags .... push local tags to origin (or other remote)
 ```
 
-## Diff
+## Log & Commit History
 ```markdown
-  git diff HEAD:<fname> origin/HEAD:<fname> ... diff files for different refs
-  git diff -U$(wc -l <fname>) <fname> ......... shows complete file with diffs
-                                                instead of usual diff snippets
-```
+  git log --oneline ......... shows log in single line per commit -> alias for
+                              '--pretty=oneline --abbrev-commit'
+  git log --graph ........... text based graph of commit history
+  git log --decorate ........ decorate log with REFs
 
-## Log
-```markdown
-  git log --oneline .... shows log in single line per commit -> alias for
-                         '--pretty=oneline --abbrev-commit'
-  git log --graph ...... text based graph of commit history
-  git log --decorate ... decorate log with REFs
-```
-
-## File history
-```markdown
   git log -p <file> ......... show commit history + diffs for <file>
   git log --oneline <file> .. show commit history for <file> in compact format
+```
+
+## Diff & Commit Info
+```markdown
+  git diff <commit>..<commit> [<file>] .... show changes between two arbitrary
+                                            commits. If one <commit> is omitted
+                                            it is if HEAD is specified.
+  git diff -U$(wc -l <file>) <file> ....... shows complete file with diffs
+                                            instead of usual diff snippets
+  git diff --staged ....................... show diffs of staged files
+
+  git show --stat <commit> ................ show files changed by <commit>
+  git show <commit> [<file>] .............. show diffs for <commit>
 ```
 
 ## Patching
@@ -93,6 +93,20 @@
 
   # generate single patch file from a certain commit/ref
   git format-patch <COMMIT/REF> --stdout > my-patch.patch
+```
+
+## Resetting
+```markdown
+  git reset [opt] <ref|commit>
+    opt:
+      --mixed .................... resets index, but not working tree
+      --hard ..................... matches the working tree and index to that
+                                   of the tree being switched to any changes to
+                                   tracked files in the working tree since
+                                   <commit> are lost
+  git reset HEAD <file> .......... remove file from staging
+  git reset --soft HEAD~1 ........ delete most recent commit but keep work
+  git reset --hard HEAD~1 ........ delete most recent commit and delete work
 ```
 
 ## Submodules
