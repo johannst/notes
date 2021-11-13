@@ -9,6 +9,10 @@ strace [opts] [prg]
   -o <file> ... log output into <file>
   -c .......... dump syscall statitics at the end
   -k .......... dump stack trace for each syscall
+  -P <path> ... only trace syscall accesing path
+  -y .......... print paths for FDs
+  -tt ......... print absolute timestamp (with us precision)
+  -r .......... print relative timestamp
 ```
 
 ```markdown
@@ -29,5 +33,5 @@ strace -f -e trace=open,socket -p <pid>
 
 Trace signals delivered to a running process:
 ```markdown
-strace -f -e signal -p <pid>
+strace -e signal -e 'trace=!all' -p <pid>
 ```
