@@ -191,9 +191,9 @@ lsblk -f /dev/sda
 ## VM snapshots
 
 VM snapshots require that there is at least on `qcow2` disk attached to the VM
-([VM Snapshots][qemu-doc-snapshot]).
+([VM Snapshots][doc-qemu-snapshot]).
 
-Commands for qemu [Monitor][qemu-doc-monitor] or [QMP][qemu-doc-qmp]:
+Commands for qemu [Monitor][doc-qemu-monitor] or [QMP][doc-qemu-qmp]:
 ```bash
 # List available snapshots.
 info snapshots
