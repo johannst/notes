@@ -69,6 +69,9 @@ Running above `Makefile` gives:
 ----
 ```
 
+Variables related to filesystem paths:
+- `$(CURDIR)`: Path of current working dir after using `make -C path`
+
 ## Useful functions
 
 ### Substitution references
