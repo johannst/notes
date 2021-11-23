@@ -75,9 +75,10 @@ gpg -o <file> --decrypt <file>.gpg
 ## Signing
 Generate a signed file and write to `<file>.gpg`.
 ```bash
+# Sign with private key of foo@bar.de
 gpg --sign -u foor@bar.de <file>
 
-# Verify
+# Verify with public key of foo@bar.de
 gpg --verify <file>
 
 # Extract content from signed file
@@ -88,7 +89,7 @@ gpg -o <file> --decrypt <file>.gpg
 Files can also be `signed` and `encrypted` at once, gpg will first sign the
 file and then encrypt it.
 ```bash
-gpg --sign --encrypt <file>
+gpg --sign --encrypt -r <recipient> <file>
 ```
 
 ## Signing (detached)
