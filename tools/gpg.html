@@ -210,9 +210,10 @@ gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </code></pre>
 <h2><a class="header" href="#signing" id="signing">Signing</a></h2>
 <p>Generate a signed file and write to <code>&lt;file&gt;.gpg</code>.</p>
-<pre><code class="language-bash">gpg --sign -u foor@bar.de &lt;file&gt;
+<pre><code class="language-bash"># Sign with private key of foo@bar.de
+gpg --sign -u foor@bar.de &lt;file&gt;
 
-# Verify
+# Verify with public key of foo@bar.de
 gpg --verify &lt;file&gt;
 
 # Extract content from signed file
@@ -223,7 +224,7 @@ gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </blockquote>
 <p>Files can also be <code>signed</code> and <code>encrypted</code> at once, gpg will first sign the
 file and then encrypt it.</p>
-<pre><code class="language-bash">gpg --sign --encrypt &lt;file&gt;
+<pre><code class="language-bash">gpg --sign --encrypt -r &lt;recipient&gt; &lt;file&gt;
 </code></pre>
 <h2><a class="header" href="#signing-detached" id="signing-detached">Signing (detached)</a></h2>
 <p>Generate a <code>detached</code> signature and write to <code>&lt;file&gt;.asc</code>.

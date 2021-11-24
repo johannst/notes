@@ -161,6 +161,10 @@
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -c .......... dump syscall statitics at the end
   -k .......... dump stack trace for each syscall
+  -P &lt;path&gt; ... only trace syscall accesing path
+  -y .......... print paths for FDs
+  -tt ......... print absolute timestamp (with us precision)
+  -r .......... print relative timestamp
 </code></pre>
 <pre><code class="language-markdown">&lt;expr&gt;:
   trace=syscall[,syscall] .... trace only syscall listed
@@ -174,7 +178,7 @@
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
 <p>Trace signals delivered to a running process:</p>
-<pre><code class="language-markdown">strace -f -e signal -p &lt;pid&gt;
+<pre><code class="language-markdown">strace -e signal -e 'trace=!all' -p &lt;pid&gt;
 </code></pre>
 
                     </main>

@@ -298,12 +298,12 @@ connection.</p>
 </code></pre>
 <h2><a class="header" href="#vm-snapshots" id="vm-snapshots">VM snapshots</a></h2>
 <p>VM snapshots require that there is at least on <code>qcow2</code> disk attached to the VM
-([VM Snapshots][qemu-doc-snapshot]).</p>
-<p>Commands for qemu [Monitor][qemu-doc-monitor] or [QMP][qemu-doc-qmp]:</p>
+(<a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">VM Snapshots</a>).</p>
+<p>Commands for qemu <a href="https://qemu-project.gitlab.io/qemu/system/monitor.html">Monitor</a> or <a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QMP</a>:</p>
 <pre><code class="language-bash"># List available snapshots.
 info snapshots
 
-# Create/Load/Delete snapshot with name &lt;tag&gt;
+# Create/Load/Delete snapshot with name &lt;tag&gt;.
 savevm &lt;tag&gt;
 loadvm &lt;tag&gt;
 delvm &lt;tag&gt;
@@ -313,6 +313,33 @@ delvm &lt;tag&gt;
     -loadvm &lt;tag&gt;  \
     ...
 </code></pre>
+<h2><a class="header" href="#vm-migration" id="vm-migration">VM Migration</a></h2>
+<p><code>Online</code> migration example:</p>
+<pre><code class="language-bash"># Start machine 1 on host ABC.
+qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
+
+# Prepare machine 2 on host DEF as migration target.
+# Listen for any connection on port 12345.
+qemu-system-x86_64 -monitor stdio -incoming tcp:0.0.0.0:12345
+
+# Start migration from the machine 1 monitor console.
+(qemu) migrate tcp:DEF:12345
+</code></pre>
+<p>Save to external file example:</p>
+<pre><code class="language-bash">```bash
+# Start machine 1.
+qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
+
+# Save VM state to file.
+(qemu) migrate &quot;exec:gzip -c &gt; vm.gz&quot;
+
+# Load VM from file.
+qemu-system-x86_64 -monitor stdio -incoming &quot;exec: gzip -d -c vm.gz&quot;
+</code></pre>
+<blockquote>
+<p>The migration source machine and the migration target machine should be
+launched with the <strong>same</strong> parameters.</p>
+</blockquote>
 <h2><a class="header" href="#appendix-direct-kernel-boot" id="appendix-direct-kernel-boot">Appendix: Direct <code>Kernel</code> boot</a></h2>
 <p>Example command line to directly boot a <code>Kernel</code> with an <code>initrd</code> ramdisk.</p>
 <pre><code class="language-bash">qemu-system-x86_64                                                     \

@@ -1395,9 +1395,10 @@ gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </code></pre>
 <h2><a class="header" href="#signing" id="signing">Signing</a></h2>
 <p>Generate a signed file and write to <code>&lt;file&gt;.gpg</code>.</p>
-<pre><code class="language-bash">gpg --sign -u foor@bar.de &lt;file&gt;
+<pre><code class="language-bash"># Sign with private key of foo@bar.de
+gpg --sign -u foor@bar.de &lt;file&gt;
 
-# Verify
+# Verify with public key of foo@bar.de
 gpg --verify &lt;file&gt;
 
 # Extract content from signed file
@@ -1408,7 +1409,7 @@ gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </blockquote>
 <p>Files can also be <code>signed</code> and <code>encrypted</code> at once, gpg will first sign the
 file and then encrypt it.</p>
-<pre><code class="language-bash">gpg --sign --encrypt &lt;file&gt;
+<pre><code class="language-bash">gpg --sign --encrypt -r &lt;recipient&gt; &lt;file&gt;
 </code></pre>
 <h2><a class="header" href="#signing-detached" id="signing-detached">Signing (detached)</a></h2>
 <p>Generate a <code>detached</code> signature and write to <code>&lt;file&gt;.asc</code>.
@@ -1821,12 +1822,12 @@ connection.</p>
 </code></pre>
 <h2><a class="header" href="#vm-snapshots" id="vm-snapshots">VM snapshots</a></h2>
 <p>VM snapshots require that there is at least on <code>qcow2</code> disk attached to the VM
-([VM Snapshots][qemu-doc-snapshot]).</p>
-<p>Commands for qemu [Monitor][qemu-doc-monitor] or [QMP][qemu-doc-qmp]:</p>
+(<a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">VM Snapshots</a>).</p>
+<p>Commands for qemu <a href="https://qemu-project.gitlab.io/qemu/system/monitor.html">Monitor</a> or <a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QMP</a>:</p>
 <pre><code class="language-bash"># List available snapshots.
 info snapshots
 
-# Create/Load/Delete snapshot with name &lt;tag&gt;
+# Create/Load/Delete snapshot with name &lt;tag&gt;.
 savevm &lt;tag&gt;
 loadvm &lt;tag&gt;
 delvm &lt;tag&gt;
@@ -1836,6 +1837,33 @@ delvm &lt;tag&gt;
     -loadvm &lt;tag&gt;  \
     ...
 </code></pre>
+<h2><a class="header" href="#vm-migration" id="vm-migration">VM Migration</a></h2>
+<p><code>Online</code> migration example:</p>
+<pre><code class="language-bash"># Start machine 1 on host ABC.
+qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
+
+# Prepare machine 2 on host DEF as migration target.
+# Listen for any connection on port 12345.
+qemu-system-x86_64 -monitor stdio -incoming tcp:0.0.0.0:12345
+
+# Start migration from the machine 1 monitor console.
+(qemu) migrate tcp:DEF:12345
+</code></pre>
+<p>Save to external file example:</p>
+<pre><code class="language-bash">```bash
+# Start machine 1.
+qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
+
+# Save VM state to file.
+(qemu) migrate &quot;exec:gzip -c &gt; vm.gz&quot;
+
+# Load VM from file.
+qemu-system-x86_64 -monitor stdio -incoming &quot;exec: gzip -d -c vm.gz&quot;
+</code></pre>
+<blockquote>
+<p>The migration source machine and the migration target machine should be
+launched with the <strong>same</strong> parameters.</p>
+</blockquote>
 <h2><a class="header" href="#appendix-direct-kernel-boot" id="appendix-direct-kernel-boot">Appendix: Direct <code>Kernel</code> boot</a></h2>
 <p>Example command line to directly boot a <code>Kernel</code> with an <code>initrd</code> ramdisk.</p>
 <pre><code class="language-bash">qemu-system-x86_64                                                     \
@@ -2004,6 +2032,10 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -c .......... dump syscall statitics at the end
   -k .......... dump stack trace for each syscall
+  -P &lt;path&gt; ... only trace syscall accesing path
+  -y .......... print paths for FDs
+  -tt ......... print absolute timestamp (with us precision)
+  -r .......... print relative timestamp
 </code></pre>
 <pre><code class="language-markdown">&lt;expr&gt;:
   trace=syscall[,syscall] .... trace only syscall listed
@@ -2017,7 +2049,7 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
 <p>Trace signals delivered to a running process:</p>
-<pre><code class="language-markdown">strace -f -e signal -p &lt;pid&gt;
+<pre><code class="language-markdown">strace -e signal -e 'trace=!all' -p &lt;pid&gt;
 </code></pre>
 <h1><a class="header" href="#ltrace1" id="ltrace1">ltrace(1)</a></h1>
 <pre><code class="language-markdown">ltrace [opts] [prg]
@@ -2371,6 +2403,10 @@ bbb:
 * = bla
 ----
 </code></pre>
+<p>Variables related to filesystem paths:</p>
+<ul>
+<li><code>$(CURDIR)</code>: Path of current working dir after using <code>make -C path</code></li>
+</ul>
 <h2><a class="header" href="#useful-functions" id="useful-functions">Useful functions</a></h2>
 <h3><a class="header" href="#substitution-references" id="substitution-references">Substitution references</a></h3>
 <p>Substitute strings matching pattern in a list.</p>
