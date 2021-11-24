@@ -198,7 +198,7 @@ Commands for qemu [Monitor][doc-qemu-monitor] or [QMP][doc-qemu-qmp]:
 # List available snapshots.
 info snapshots
 
-# Create/Load/Delete snapshot with name <tag>
+# Create/Load/Delete snapshot with name <tag>.
 savevm <tag>
 loadvm <tag>
 delvm <tag>
@@ -210,6 +210,37 @@ qemu-system-x86_64 \
     -loadvm <tag>  \
     ...
 ```
+
+## VM Migration
+
+`Online` migration example:
+```bash
+# Start machine 1 on host ABC.
+qemu-system-x86_64 -monitor stdio -cdrom <iso>
+
+# Prepare machine 2 on host DEF as migration target.
+# Listen for any connection on port 12345.
+qemu-system-x86_64 -monitor stdio -incoming tcp:0.0.0.0:12345
+
+# Start migration from the machine 1 monitor console.
+(qemu) migrate tcp:DEF:12345
+```
+
+Save to external file example:
+```bash
+```bash
+# Start machine 1.
+qemu-system-x86_64 -monitor stdio -cdrom <iso>
+
+# Save VM state to file.
+(qemu) migrate "exec:gzip -c > vm.gz"
+
+# Load VM from file.
+qemu-system-x86_64 -monitor stdio -incoming "exec: gzip -d -c vm.gz"
+```
+
+> The migration source machine and the migration target machine should be
+> launched with the **same** parameters.
 
 ## Appendix: Direct `Kernel` boot
 
