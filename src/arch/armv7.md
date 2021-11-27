@@ -71,10 +71,13 @@ blx <Rm>      // absolute branch to address in register Rm &
 ### Load/Store
 Different addressing modes.
 ```armasm
-str r1, [r0]         // [r0]=r1
-str r1, [r0, #4]     // [r0+4]=r1
-str r1, [r0, #4]!    // r0+=4; [r0]=r1
-str r1, [r0], 4      // [r0]=r1; r0+=4
+ldr r1, [r0]                // r1 = [r0]
+ldr r1, [r0, #4]            // r1 = [r0+4]
+
+ldr r1, [r0, #4]!           // pre-inc : r0+=4; r1 = [r0]
+ldr r1, [r0], #4            // post-inc: [r0] = r1; r0+=4
+
+ldr r0, [r1, r2, lsl #3]    // r0 = [r1 + (r2<<3)]
 ```
 
 Load/store multiple registers full-descending.
