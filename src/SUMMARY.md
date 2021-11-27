@@ -14,6 +14,7 @@
     - [gdb](./tools/gdb.md)
     - [radare2](./tools/radare2.md)
     - [qemu](./tools/qemu.md)
+    - [pacman](./tools/pacman.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
