@@ -45,6 +45,7 @@
     - [gcc](./development/gcc.md)
     - [make](./development/make.md)
     - [ld.so](./development/ld.so.md)
+    - [python](./development/python.md)
 
 - [Arch](./arch/README.md)
     - [x86_64](./arch/x86_64.md)

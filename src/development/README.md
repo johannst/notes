@@ -6,3 +6,4 @@
 - [gcc](./gcc.md)
 - [make] (./make.md)
 - [ld.so](./ld.so.md)
+- [python](./python.md)
