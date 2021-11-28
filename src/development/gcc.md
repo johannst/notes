@@ -11,6 +11,15 @@ gcc -E [-dM] ...
 - `-E` run only preprocessor
 - `-dM` list only `#define` statements
 
+### Target options
+```bash
+# List all target options with their description.
+gcc --help=target
+
+# Configure for current cpu arch and query (-Q) value of options.
+gcc -march=native -Q --help=target
+```
+
 ## [Builtins][builtins]
 
 ### `__builtin_expect(expr, cond)`
