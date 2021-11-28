@@ -45,6 +45,7 @@
     - [gcc](./development/gcc.md)
     - [make](./development/make.md)
     - [ld.so](./development/ld.so.md)
+    - [symbol versioning](./development/symbolver.md)
     - [python](./development/python.md)
 
 - [Arch](./arch/README.md)
