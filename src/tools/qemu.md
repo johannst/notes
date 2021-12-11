@@ -174,6 +174,19 @@ lsblk -f /dev/sda
 -virtfs local,id=someName,path=<someHostPath>,mount_tag=someName,security_model=none
 ```
 
+## Debug logging
+
+```bash
+# List debug items.
+-d help
+
+# Write debug log to file instead stderr.
+-D <file>
+
+# Examples
+-d in_asm       Log executed guest instructions.
+```
+
 ## Tracing
 
 ```bash
