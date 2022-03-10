@@ -9,6 +9,7 @@
 - [emacs](./emacs.md)
 - [gpg](./gpg.md)
 - [gdb](./gdb.md)
+- [gdbserver](./gdbserver.md)
 - [radare2](./radare2.md)
 - [qemu](./qemu.md)
 - [pacman](./pacman.md)
