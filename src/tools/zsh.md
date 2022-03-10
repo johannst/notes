@@ -162,6 +162,18 @@ echo ${(L)foo}        # aabb
 echo ${(U)foo}        # AABB
 ```
 
+Key/values in associative arrays:
+```zsh
+typeset -A vec; vec[a]='aa'; vec[b]='bb'
+
+echo ${(k)vec}        # a b
+echo ${(v)vec}        # aa bb
+echo ${(kv)vec}       # a aa b bb
+
+# Iterate over key value pairs.
+for k v in ${(kv)vec)}; do ...; done
+```
+
 ## Argument parsing with `zparseopts`
 
 ```zsh
