@@ -74,6 +74,19 @@
           for breakpoints: 2,5,6,7,8.
 ```
 
+## Watchpoints
+```markdown
+  watch [-location|-l] <expr> [thread <tnum>]
+          Create a watchpoint for <expr>, will break if <expr> is written to.
+          Watchpoints respect scope of variables, -l can be used to watch the
+          memory location instead.
+  rwatch ...
+          Sets a read watchpoint, will break if <expr> is read from.
+  awatch ...
+          Sets an access watchpoint, will break if <expr> is written to or read
+          from.
+```
+
 ## Inspection
 ```markdown
   info functions [<regex>]
