@@ -1,6 +1,35 @@
 # git(1)
 
-## staging
+## Working areas
+```text
++-------------------+ --- stash -----> +-------+
+| working directory |                  | stash |  // Shelving area.
++-------------------+ <-- stash pop -- +-------+
+      |       ^
+     add      |
+      |     reset
+      v       |
++-------------------+
+|   staging area    |
++-------------------+
+      |
+    commit
+      |
+      v
++-------------------+
+| local repository  |
++-------------------+
+      |       ^
+     push     |
+      |     fetch /
+      |      pull
+      v       |
++-------------------+
+| remote repository |
++-------------------+
+```
+
+## Staging
 ```markdown
   git add -p [<file>] ............ partial staging (interactive)
 ```
@@ -67,6 +96,8 @@
 
   git show --stat <commit> ................ show files changed by <commit>
   git show <commit> [<file>] .............. show diffs for <commit>
+
+  git git show <commit>:<file> ............ show <file> at <commit>
 ```
 
 ## Patching
