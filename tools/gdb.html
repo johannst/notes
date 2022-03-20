@@ -219,6 +219,17 @@
           &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
 </code></pre>
+<h2><a class="header" href="#watchpoints" id="watchpoints">Watchpoints</a></h2>
+<pre><code class="language-markdown">  watch [-location|-l] &lt;expr&gt; [thread &lt;tnum&gt;]
+          Create a watchpoint for &lt;expr&gt;, will break if &lt;expr&gt; is written to.
+          Watchpoints respect scope of variables, -l can be used to watch the
+          memory location instead.
+  rwatch ...
+          Sets a read watchpoint, will break if &lt;expr&gt; is read from.
+  awatch ...
+          Sets an access watchpoint, will break if &lt;expr&gt; is written to or read
+          from.
+</code></pre>
 <h2><a class="header" href="#inspection" id="inspection">Inspection</a></h2>
 <pre><code class="language-markdown">  info functions [&lt;regex&gt;]
           List functions matching &lt;regex&gt;. List all functions if no &lt;regex&gt;

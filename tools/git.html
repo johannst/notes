@@ -153,7 +153,34 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#git1" id="git1">git(1)</a></h1>
-<h2><a class="header" href="#staging" id="staging">staging</a></h2>
+<h2><a class="header" href="#working-areas" id="working-areas">Working areas</a></h2>
+<pre><code class="language-text">+-------------------+ --- stash -----&gt; +-------+
+| working directory |                  | stash |  // Shelving area.
++-------------------+ &lt;-- stash pop -- +-------+
+      |       ^
+     add      |
+      |     reset
+      v       |
++-------------------+
+|   staging area    |
++-------------------+
+      |
+    commit
+      |
+      v
++-------------------+
+| local repository  |
++-------------------+
+      |       ^
+     push     |
+      |     fetch /
+      |      pull
+      v       |
++-------------------+
+| remote repository |
++-------------------+
+</code></pre>
+<h2><a class="header" href="#staging" id="staging">Staging</a></h2>
 <pre><code class="language-markdown">  git add -p [&lt;file&gt;] ............ partial staging (interactive)
 </code></pre>
 <h2><a class="header" href="#remote" id="remote">Remote</a></h2>
@@ -209,6 +236,8 @@
 
   git show --stat &lt;commit&gt; ................ show files changed by &lt;commit&gt;
   git show &lt;commit&gt; [&lt;file&gt;] .............. show diffs for &lt;commit&gt;
+
+  git git show &lt;commit&gt;:&lt;file&gt; ............ show &lt;file&gt; at &lt;commit&gt;
 </code></pre>
 <h2><a class="header" href="#patching" id="patching">Patching</a></h2>
 <pre><code class="language-markdown">  git format-patch &lt;opt&gt; &lt;since&gt;/&lt;revision range&gt;
