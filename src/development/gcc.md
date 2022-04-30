@@ -10,6 +10,8 @@ gcc -E [-dM] ...
 ```
 - `-E` run only preprocessor
 - `-dM` list only `#define` statements
+- `-###` dry-run, outputting exact compiler/linker invocations
+- `-print-multi-lib` print available multilib configurations
 
 ### Target options
 ```bash
