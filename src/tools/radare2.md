@@ -25,3 +25,24 @@
   > r2 -B <baddr> <exe>         # open <exe> mapped to addr <baddr>
   oob <addr>                    # reopen current file at <baddr>
 ```
+
+# Examples
+
+## Patch file (alter bytes)
+```markdown
+  > r2 [-w] <file>
+  oo+           # re-open for write if -w was not passed
+  s <addr>      # seek to position
+  wv <data>     # write 4 byte (dword)
+```
+
+## Assemble / Disassmble (rasm2)
+```markdown
+  rasm2 -L      # list supported archs
+
+  > rasm2 -a x86 'mov eax, 0xdeadbeef'
+  b8efbeadde
+
+  > rasm2 -a x86 -d "b8efbeadde"
+  mov eax, 0xdeadbeef
+```
