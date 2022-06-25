@@ -52,3 +52,4 @@ Rendered `svg` file.
 - [Attributes](https://graphviz.org/doc/info/attrs.html)
 - [Node shapes](https://graphviz.org/doc/info/shapes.html)
 - [Colors](https://graphviz.org/doc/info/colors.html)
+- [User manual](https://graphviz.org/pdf/dotguide.pdf)
