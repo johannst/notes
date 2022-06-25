@@ -45,7 +45,7 @@ digraph {
 ```
 
 Rendered `svg` file.
-![g.svg](/assets/g.svg)
+![g.svg](https://johannst.github.io/notes/assets/g.svg)
 
 ## References
 - [DOT language](https://graphviz.org/doc/info/lang.html)
