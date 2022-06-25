@@ -16,6 +16,7 @@
     - [radare2](./tools/radare2.md)
     - [qemu](./tools/qemu.md)
     - [pacman](./tools/pacman.md)
+    - [dot](./tools/dot.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)

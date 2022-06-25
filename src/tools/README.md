@@ -13,3 +13,4 @@
 - [radare2](./radare2.md)
 - [qemu](./qemu.md)
 - [pacman](./pacman.md)
+- [dot](./dot.md)
