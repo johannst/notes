@@ -1,6 +1,8 @@
 # dot(1)
 
-Example `dot` file to copy & paste from.
+[Online playground](https://edotor.net/)
+
+## Example `dot` file to copy & paste from.
 
 Can be rendered to `svg` with the following command.
 ```bash
