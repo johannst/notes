@@ -59,7 +59,7 @@ ${foo/pattern/string}  # replace pattern with string when expanding foo
               print,punct,space,upper,word,xdigit
 ```
 
-Wit `extglob` shell option enabled it is possible to have more powerful
+With `extglob` shell option enabled it is possible to have more powerful
 patterns. In the following `pattern-list` is one ore more patterns separated
 by `|` char.
 
@@ -86,6 +86,9 @@ command &>file
 # stderr to stdout & stdout to file
 command 2>&1 >file
 ```
+> The article [Bash One-Liners Explained, Part III: All about
+> redirections](https://catonmat.net/bash-one-liners-explained-part-three)
+> contains some nice visualization to explain bash redirections.
 
 ### Explanation
 
