@@ -204,7 +204,7 @@ ${foo/pattern/string}  # replace pattern with string when expanding foo
               alnum,alpha,ascii,blank,cntrl,digit,graph,lower,
               print,punct,space,upper,word,xdigit
 </code></pre>
-<p>Wit <code>extglob</code> shell option enabled it is possible to have more powerful
+<p>With <code>extglob</code> shell option enabled it is possible to have more powerful
 patterns. In the following <code>pattern-list</code> is one ore more patterns separated
 by <code>|</code> char.</p>
 <pre><code class="language-bash">?(pattern-list)   matches zero or one occurrence of the given patterns
@@ -229,6 +229,11 @@ command &amp;&gt;file
 # stderr to stdout &amp; stdout to file
 command 2&gt;&amp;1 &gt;file
 </code></pre>
+<blockquote>
+<p>The article <a href="https://catonmat.net/bash-one-liners-explained-part-three">Bash One-Liners Explained, Part III: All about
+redirections</a>
+contains some nice visualization to explain bash redirections.</p>
+</blockquote>
 <h3><a class="header" href="#explanation" id="explanation">Explanation</a></h3>
 <pre><code class="language-bash">j&gt;&amp;i
 </code></pre>
