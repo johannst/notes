@@ -4,41 +4,34 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Notes</title>
-        
         <meta name="robots" content="noindex" />
-        
-
+        <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
+        <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
-
+        <link rel="stylesheet" href="fonts/fonts.css">
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -82,8 +75,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded affix "><a href="intro.html">Introduction</a></li><li class="expanded "><a href="tools/index.html"><strong aria-hidden="true">1.</strong> Tools</a></li><li><ol class="section"><li class="expanded "><a href="tools/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="expanded "><a href="tools/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="expanded "><a href="tools/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li><li class="expanded "><a href="tools/tmux.html"><strong aria-hidden="true">1.4.</strong> tmux</a></li><li class="expanded "><a href="tools/git.html"><strong aria-hidden="true">1.5.</strong> git</a></li><li class="expanded "><a href="tools/awk.html"><strong aria-hidden="true">1.6.</strong> awk</a></li><li class="expanded "><a href="tools/emacs.html"><strong aria-hidden="true">1.7.</strong> emacs</a></li><li class="expanded "><a href="tools/gpg.html"><strong aria-hidden="true">1.8.</strong> gpg</a></li><li class="expanded "><a href="tools/gdb.html"><strong aria-hidden="true">1.9.</strong> gdb</a></li><li class="expanded "><a href="tools/gdbserver.html"><strong aria-hidden="true">1.10.</strong> gdbserver</a></li><li class="expanded "><a href="tools/radare2.html"><strong aria-hidden="true">1.11.</strong> radare2</a></li><li class="expanded "><a href="tools/qemu.html"><strong aria-hidden="true">1.12.</strong> qemu</a></li><li class="expanded "><a href="tools/pacman.html"><strong aria-hidden="true">1.13.</strong> pacman</a></li><li class="expanded "><a href="tools/dot.html"><strong aria-hidden="true">1.14.</strong> dot</a></li></ol></li><li class="expanded "><a href="monitor/index.html"><strong aria-hidden="true">2.</strong> Resource analysis &amp; monitor</a></li><li><ol class="section"><li class="expanded "><a href="monitor/lsof.html"><strong aria-hidden="true">2.1.</strong> lsof</a></li><li class="expanded "><a href="monitor/ss.html"><strong aria-hidden="true">2.2.</strong> ss</a></li><li class="expanded "><a href="monitor/pidstat.html"><strong aria-hidden="true">2.3.</strong> pidstat</a></li><li class="expanded "><a href="monitor/pgrep.html"><strong aria-hidden="true">2.4.</strong> pgrep</a></li><li class="expanded "><a href="monitor/pmap.html"><strong aria-hidden="true">2.5.</strong> pmap</a></li><li class="expanded "><a href="monitor/pstack.html"><strong aria-hidden="true">2.6.</strong> pstack</a></li></ol></li><li class="expanded "><a href="trace_profile/index.html"><strong aria-hidden="true">3.</strong> Trace and Profile</a></li><li><ol class="section"><li class="expanded "><a href="trace_profile/strace.html"><strong aria-hidden="true">3.1.</strong> strace</a></li><li class="expanded "><a href="trace_profile/ltrace.html"><strong aria-hidden="true">3.2.</strong> ltrace</a></li><li class="expanded "><a href="trace_profile/perf.html"><strong aria-hidden="true">3.3.</strong> perf</a></li><li class="expanded "><a href="trace_profile/oprofile.html"><strong aria-hidden="true">3.4.</strong> OProfile</a></li><li class="expanded "><a href="trace_profile/time.html"><strong aria-hidden="true">3.5.</strong> time</a></li></ol></li><li class="expanded "><a href="binary/index.html"><strong aria-hidden="true">4.</strong> Binary</a></li><li><ol class="section"><li class="expanded "><a href="binary/od.html"><strong aria-hidden="true">4.1.</strong> od</a></li><li class="expanded "><a href="binary/xxd.html"><strong aria-hidden="true">4.2.</strong> xxd</a></li><li class="expanded "><a href="binary/readelf.html"><strong aria-hidden="true">4.3.</strong> readelf</a></li><li class="expanded "><a href="binary/objdump.html"><strong aria-hidden="true">4.4.</strong> objdump</a></li><li class="expanded "><a href="binary/nm.html"><strong aria-hidden="true">4.5.</strong> nm</a></li></ol></li><li class="expanded "><a href="development/index.html"><strong aria-hidden="true">5.</strong> Development</a></li><li><ol class="section"><li class="expanded "><a href="development/c++filt.html"><strong aria-hidden="true">5.1.</strong> c++filt</a></li><li class="expanded "><a href="development/c++.html"><strong aria-hidden="true">5.2.</strong> c++</a></li><li class="expanded "><a href="development/glibc.html"><strong aria-hidden="true">5.3.</strong> glibc</a></li><li class="expanded "><a href="development/gcc.html"><strong aria-hidden="true">5.4.</strong> gcc</a></li><li class="expanded "><a href="development/make.html"><strong aria-hidden="true">5.5.</strong> make</a></li><li class="expanded "><a href="development/ld.so.html"><strong aria-hidden="true">5.6.</strong> ld.so</a></li><li class="expanded "><a href="development/symbolver.html"><strong aria-hidden="true">5.7.</strong> symbol versioning</a></li><li class="expanded "><a href="development/python.html"><strong aria-hidden="true">5.8.</strong> python</a></li></ol></li><li class="expanded "><a href="linux/index.html"><strong aria-hidden="true">6.</strong> Linux</a></li><li><ol class="section"><li class="expanded "><a href="linux/systemd.html"><strong aria-hidden="true">6.1.</strong> systemd</a></li><li class="expanded "><a href="linux/coredump.html"><strong aria-hidden="true">6.2.</strong> coredump</a></li><li class="expanded "><a href="linux/ptrace_scope.html"><strong aria-hidden="true">6.3.</strong> ptrace_scope</a></li></ol></li><li class="expanded "><a href="network/index.html"><strong aria-hidden="true">7.</strong> Network</a></li><li><ol class="section"><li class="expanded "><a href="network/tcpdump.html"><strong aria-hidden="true">7.1.</strong> tcpdump</a></li></ol></li><li class="expanded "><a href="arch/index.html"><strong aria-hidden="true">8.</strong> Arch</a></li><li><ol class="section"><li class="expanded "><a href="arch/x86_64.html"><strong aria-hidden="true">8.1.</strong> x86_64</a></li><li class="expanded "><a href="arch/arm64.html"><strong aria-hidden="true">8.2.</strong> arm64</a></li><li class="expanded "><a href="arch/armv7.html"><strong aria-hidden="true">8.3.</strong> armv7</a></li><li class="expanded "><a href="arch/riscv.html"><strong aria-hidden="true">8.4.</strong> riscv</a></li></ol></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="tools/index.html"><strong aria-hidden="true">1.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tools/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="chapter-item expanded "><a href="tools/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="chapter-item expanded "><a href="tools/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li><li class="chapter-item expanded "><a href="tools/tmux.html"><strong aria-hidden="true">1.4.</strong> tmux</a></li><li class="chapter-item expanded "><a href="tools/git.html"><strong aria-hidden="true">1.5.</strong> git</a></li><li class="chapter-item expanded "><a href="tools/awk.html"><strong aria-hidden="true">1.6.</strong> awk</a></li><li class="chapter-item expanded "><a href="tools/emacs.html"><strong aria-hidden="true">1.7.</strong> emacs</a></li><li class="chapter-item expanded "><a href="tools/gpg.html"><strong aria-hidden="true">1.8.</strong> gpg</a></li><li class="chapter-item expanded "><a href="tools/gdb.html"><strong aria-hidden="true">1.9.</strong> gdb</a></li><li class="chapter-item expanded "><a href="tools/gdbserver.html"><strong aria-hidden="true">1.10.</strong> gdbserver</a></li><li class="chapter-item expanded "><a href="tools/radare2.html"><strong aria-hidden="true">1.11.</strong> radare2</a></li><li class="chapter-item expanded "><a href="tools/qemu.html"><strong aria-hidden="true">1.12.</strong> qemu</a></li><li class="chapter-item expanded "><a href="tools/pacman.html"><strong aria-hidden="true">1.13.</strong> pacman</a></li><li class="chapter-item expanded "><a href="tools/dot.html"><strong aria-hidden="true">1.14.</strong> dot</a></li></ol></li><li class="chapter-item expanded "><a href="monitor/index.html"><strong aria-hidden="true">2.</strong> Resource analysis & monitor</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="monitor/lsof.html"><strong aria-hidden="true">2.1.</strong> lsof</a></li><li class="chapter-item expanded "><a href="monitor/ss.html"><strong aria-hidden="true">2.2.</strong> ss</a></li><li class="chapter-item expanded "><a href="monitor/pidstat.html"><strong aria-hidden="true">2.3.</strong> pidstat</a></li><li class="chapter-item expanded "><a href="monitor/pgrep.html"><strong aria-hidden="true">2.4.</strong> pgrep</a></li><li class="chapter-item expanded "><a href="monitor/pmap.html"><strong aria-hidden="true">2.5.</strong> pmap</a></li><li class="chapter-item expanded "><a href="monitor/pstack.html"><strong aria-hidden="true">2.6.</strong> pstack</a></li></ol></li><li class="chapter-item expanded "><a href="trace_profile/index.html"><strong aria-hidden="true">3.</strong> Trace and Profile</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="trace_profile/strace.html"><strong aria-hidden="true">3.1.</strong> strace</a></li><li class="chapter-item expanded "><a href="trace_profile/ltrace.html"><strong aria-hidden="true">3.2.</strong> ltrace</a></li><li class="chapter-item expanded "><a href="trace_profile/perf.html"><strong aria-hidden="true">3.3.</strong> perf</a></li><li class="chapter-item expanded "><a href="trace_profile/oprofile.html"><strong aria-hidden="true">3.4.</strong> OProfile</a></li><li class="chapter-item expanded "><a href="trace_profile/time.html"><strong aria-hidden="true">3.5.</strong> time</a></li></ol></li><li class="chapter-item expanded "><a href="binary/index.html"><strong aria-hidden="true">4.</strong> Binary</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="binary/od.html"><strong aria-hidden="true">4.1.</strong> od</a></li><li class="chapter-item expanded "><a href="binary/xxd.html"><strong aria-hidden="true">4.2.</strong> xxd</a></li><li class="chapter-item expanded "><a href="binary/readelf.html"><strong aria-hidden="true">4.3.</strong> readelf</a></li><li class="chapter-item expanded "><a href="binary/objdump.html"><strong aria-hidden="true">4.4.</strong> objdump</a></li><li class="chapter-item expanded "><a href="binary/nm.html"><strong aria-hidden="true">4.5.</strong> nm</a></li></ol></li><li class="chapter-item expanded "><a href="development/index.html"><strong aria-hidden="true">5.</strong> Development</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="development/c++filt.html"><strong aria-hidden="true">5.1.</strong> c++filt</a></li><li class="chapter-item expanded "><a href="development/c++.html"><strong aria-hidden="true">5.2.</strong> c++</a></li><li class="chapter-item expanded "><a href="development/glibc.html"><strong aria-hidden="true">5.3.</strong> glibc</a></li><li class="chapter-item expanded "><a href="development/gcc.html"><strong aria-hidden="true">5.4.</strong> gcc</a></li><li class="chapter-item expanded "><a href="development/make.html"><strong aria-hidden="true">5.5.</strong> make</a></li><li class="chapter-item expanded "><a href="development/ld.so.html"><strong aria-hidden="true">5.6.</strong> ld.so</a></li><li class="chapter-item expanded "><a href="development/symbolver.html"><strong aria-hidden="true">5.7.</strong> symbol versioning</a></li><li class="chapter-item expanded "><a href="development/python.html"><strong aria-hidden="true">5.8.</strong> python</a></li></ol></li><li class="chapter-item expanded "><a href="linux/index.html"><strong aria-hidden="true">6.</strong> Linux</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="linux/systemd.html"><strong aria-hidden="true">6.1.</strong> systemd</a></li><li class="chapter-item expanded "><a href="linux/coredump.html"><strong aria-hidden="true">6.2.</strong> coredump</a></li><li class="chapter-item expanded "><a href="linux/ptrace_scope.html"><strong aria-hidden="true">6.3.</strong> ptrace_scope</a></li></ol></li><li class="chapter-item expanded "><a href="network/index.html"><strong aria-hidden="true">7.</strong> Network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="network/tcpdump.html"><strong aria-hidden="true">7.1.</strong> tcpdump</a></li></ol></li><li class="chapter-item expanded "><a href="arch/index.html"><strong aria-hidden="true">8.</strong> Arch</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arch/x86_64.html"><strong aria-hidden="true">8.1.</strong> x86_64</a></li><li class="chapter-item expanded "><a href="arch/arm64.html"><strong aria-hidden="true">8.2.</strong> arm64</a></li><li class="chapter-item expanded "><a href="arch/armv7.html"><strong aria-hidden="true">8.3.</strong> armv7</a></li><li class="chapter-item expanded "><a href="arch/riscv.html"><strong aria-hidden="true">8.4.</strong> riscv</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -91,49 +84,42 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                            
-                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            
-                        </div>
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
 
-                        <h1 class="menu-title">Notes</h1>
+                    <h1 class="menu-title">Notes</h1>
 
-                        <div class="right-buttons">
-                            <a href="print.html" title="Print this book" aria-label="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                            
-                            <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
-                                <i id="git-repository-button" class="fa fa-github"></i>
-                            </a>
-                            
-                        </div>
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -141,8 +127,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -154,10 +138,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#notes" id="notes">Notes</a></h1>
+                        <h1 id="notes"><a class="header" href="#notes">Notes</a></h1>
 <p>A personal collection of notes and cheatsheets.</p>
 <p>Source code is located at <a href="https://github.com/johannst/notes">johannst/notes</a>.</p>
-<h1><a class="header" href="#tools" id="tools">Tools</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
 <ul>
 <li><a href="tools/./zsh.html">zsh</a></li>
 <li><a href="tools/./bash.html">bash</a></li>
@@ -174,8 +158,8 @@
 <li><a href="tools/./pacman.html">pacman</a></li>
 <li><a href="tools/./dot.html">dot</a></li>
 </ul>
-<h1><a class="header" href="#zsh1" id="zsh1">zsh(1)</a></h1>
-<h2><a class="header" href="#keybindings" id="keybindings">Keybindings</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zsh1"><a class="header" href="#zsh1">zsh(1)</a></h1>
+<h2 id="keybindings"><a class="header" href="#keybindings">Keybindings</a></h2>
 <p>Change input mode:</p>
 <pre><code class="language-zsh">bindkey -v              change to vi keymap
 bindkey -e              change to emacs keymap
@@ -202,7 +186,7 @@ zle -N add-text
 
 bindkey &quot;^p&quot; add-text
 </code></pre>
-<h2><a class="header" href="#parameter" id="parameter">Parameter</a></h2>
+<h2 id="parameter"><a class="header" href="#parameter">Parameter</a></h2>
 <p>Default value:</p>
 <pre><code class="language-zsh"># default value
 echo ${foo:-defval}   # defval
@@ -245,7 +229,7 @@ echo ${foo/%dd/XX}   # aabbccbbXX
 <blockquote>
 <p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as pathnames.</p>
 </blockquote>
-<h2><a class="header" href="#variables" id="variables">Variables</a></h2>
+<h2 id="variables"><a class="header" href="#variables">Variables</a></h2>
 <pre><code class="language-zsh"># Variable with local scope
 local var=val
 
@@ -281,7 +265,7 @@ echo $vec             # 1 2 3
 vec+=(1 2 4)
 echo $vec             # 1 2 3 4
 </code></pre>
-<h3><a class="header" href="#expansion-flags" id="expansion-flags">Expansion Flags</a></h3>
+<h3 id="expansion-flags"><a class="header" href="#expansion-flags">Expansion Flags</a></h3>
 <p>Join array to string <code>j:sep:</code>:</p>
 <pre><code class="language-zsh">foo=(1 2 3 4)
 echo ${(j:-:)foo}     # 1-2-3-4
@@ -308,7 +292,7 @@ echo ${(kv)vec}       # a aa b bb
 # Iterate over key value pairs.
 for k v in ${(kv)vec)}; do ...; done
 </code></pre>
-<h2><a class="header" href="#argument-parsing-with-zparseopts" id="argument-parsing-with-zparseopts">Argument parsing with <code>zparseopts</code></a></h2>
+<h2 id="argument-parsing-with-zparseopts"><a class="header" href="#argument-parsing-with-zparseopts">Argument parsing with <code>zparseopts</code></a></h2>
 <pre><code class="language-zsh">zparseopts [-D] [-E] [-A assoc] specs
 </code></pre>
 <p>Arguments are copied into the associative array <code>assoc</code> according to <code>specs</code>.
@@ -323,7 +307,7 @@ option should be stored.</li>
 <blockquote>
 <p>Documentation can be found in <code>man zshmodules</code>.</p>
 </blockquote>
-<h3><a class="header" href="#example" id="example">Example</a></h3>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
 <pre><code class="language-zsh">#!/bin/zsh
 function test() {
     zparseopts -D -E -A opts f=flag o: -long:
@@ -341,7 +325,7 @@ test -f -o OPTION --long LONG_OPT POSITIONAL
 #   long LONG_OPT
 #   pos  POSITIONAL
 </code></pre>
-<h2><a class="header" href="#regular-expressions" id="regular-expressions">Regular Expressions</a></h2>
+<h2 id="regular-expressions"><a class="header" href="#regular-expressions">Regular Expressions</a></h2>
 <p>Zsh supports regular expression matching with the binary operator <code>=~</code>.
 The match results can be accessed via the <code>$MATCH</code> variable and
 <code>$match</code> indexed array:</p>
@@ -357,8 +341,8 @@ if [[ $INPUT =~ $REGEX ]]; then
     echo &quot;$match[2]&quot;    # 1234
 fi
 </code></pre>
-<h2><a class="header" href="#completion" id="completion">Completion</a></h2>
-<h3><a class="header" href="#installation" id="installation">Installation</a></h3>
+<h2 id="completion"><a class="header" href="#completion">Completion</a></h2>
+<h3 id="installation"><a class="header" href="#installation">Installation</a></h3>
 <p>Completion functions are provided via files and need to be placed in a location
 covered by <code>$fpath</code>. By convention the completion files are names as <code>_&lt;CMD&gt;</code>.</p>
 <p>A completion skeleton for the command <code>foo</code>, stored in <code>_foo</code></p>
@@ -369,19 +353,19 @@ function _foo() {
 }
 </code></pre>
 <p>Alternatively one can install a completion function explicitly by calling <code>compdef &lt;FUNC&gt; &lt;CMD&gt;</code>.</p>
-<h3><a class="header" href="#completion-variables" id="completion-variables">Completion Variables</a></h3>
+<h3 id="completion-variables"><a class="header" href="#completion-variables">Completion Variables</a></h3>
 <p>Following variables are available in Completion functions:</p>
 <pre><code class="language-zsh">$words              # array with command line in words
 $#words             # number words
 $CURRENT            # index into $words for cursor position
 $words[CURRENT-1]   # previous word (relative to cursor position)
 </code></pre>
-<h3><a class="header" href="#completion-functions" id="completion-functions">Completion Functions</a></h3>
+<h3 id="completion-functions"><a class="header" href="#completion-functions">Completion Functions</a></h3>
 <ul>
 <li><code>_describe</code>     simple completion, just words + description</li>
 <li><code>_arguments</code>    sophisticated completion, allow to specify actions</li>
 </ul>
-<h4><a class="header" href="#completion-with-a-hrefhttpzshsourceforgenetdocreleasecompletion-systemhtmlcompletion-functions_describea" id="completion-with-a-hrefhttpzshsourceforgenetdocreleasecompletion-systemhtmlcompletion-functions_describea">Completion with <a href="http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions"><code>_describe</code></a></a></h4>
+<h4 id="completion-with-_describe"><a class="header" href="#completion-with-_describe">Completion with <a href="http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions"><code>_describe</code></a></a></h4>
 <pre><code class="language-zsh">_describe MSG COMP
 </code></pre>
 <ul>
@@ -400,7 +384,7 @@ foo &lt;TAB&gt;&lt;TAB&gt;
 bla  -- desc for bla
 blu  -- desc for blu
 </code></pre>
-<h4><a class="header" href="#completion-with-a-hrefhttpzshsourceforgenetdocreleasecompletion-systemhtmlcompletion-functions_argumentsa" id="completion-with-a-hrefhttpzshsourceforgenetdocreleasecompletion-systemhtmlcompletion-functions_argumentsa">Completion with <a href="http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions"><code>_arguments</code></a></a></h4>
+<h4 id="completion-with-_arguments"><a class="header" href="#completion-with-_arguments">Completion with <a href="http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions"><code>_arguments</code></a></a></h4>
 <pre><code class="language-zsh">_arguments SPEC [SPEC...]
 </code></pre>
 <p>where <code>SPEC</code> can have one of the following forms:</p>
@@ -414,7 +398,7 @@ blu  -- desc for blu
 FUNC        call func to generate matches
 {STR}       evaluate `STR` to generate matches
 </code></pre>
-<h3><a class="header" href="#example-1" id="example-1">Example</a></h3>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
 <p>Assume a program <code>foo</code> with the following interface:</p>
 <pre><code class="language-zsh">foo -c green|red|blue -s low|high -f &lt;file&gt; -d &lt;dir&gt; -h
@@ -450,9 +434,9 @@ function _foo() {
 <li><a href="https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#utility-functions">zsh completion utility functions</a></li>
 </ul>
 </blockquote>
-<h1><a class="header" href="#bash1" id="bash1">bash(1)</a></h1>
-<h2><a class="header" href="#expansion" id="expansion">Expansion</a></h2>
-<h3><a class="header" href="#generator" id="generator">Generator</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bash1"><a class="header" href="#bash1">bash(1)</a></h1>
+<h2 id="expansion"><a class="header" href="#expansion">Expansion</a></h2>
+<h3 id="generator"><a class="header" href="#generator">Generator</a></h3>
 <pre><code class="language-bash"># generate sequence from n to m
 {n..m}
 # generate sequence from n to m step by s
@@ -461,7 +445,7 @@ function _foo() {
 # expand cartesian product
 {a,b}{c,d}
 </code></pre>
-<h3><a class="header" href="#parameter-1" id="parameter-1">Parameter</a></h3>
+<h3 id="parameter-1"><a class="header" href="#parameter-1">Parameter</a></h3>
 <pre><code class="language-bash"># default value
 bar=${foo:-some_val}  # if $foo set, then bar=$foo else bar=some_val
 
@@ -491,7 +475,7 @@ ${foo/pattern/string}  # replace pattern with string when expanding foo
 <blockquote>
 <p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="tools/bash.html#pathname">pathnames</a>.</p>
 </blockquote>
-<h3><a class="header" href="#pathname" id="pathname">Pathname</a></h3>
+<h3 id="pathname"><a class="header" href="#pathname">Pathname</a></h3>
 <pre><code class="language-bash">*           match any string
 ?           match any single char
 \\          match backslash
@@ -515,7 +499,7 @@ by <code>|</code> char.</p>
 <p>Note: <code>shopt -s extglob</code>/<code>shopt -u extglob</code> to enable/disable <code>extglob</code>
 option.</p>
 </blockquote>
-<h2><a class="header" href="#io-redirection" id="io-redirection">I/O redirection</a></h2>
+<h2 id="io-redirection"><a class="header" href="#io-redirection">I/O redirection</a></h2>
 <blockquote>
 <p>Note: The trick with bash I/O redirection is to interpret from left-to-right.</p>
 </blockquote>
@@ -532,7 +516,7 @@ command 2&gt;&amp;1 &gt;file
 redirections</a>
 contains some nice visualization to explain bash redirections.</p>
 </blockquote>
-<h3><a class="header" href="#explanation" id="explanation">Explanation</a></h3>
+<h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
 <pre><code class="language-bash">j&gt;&amp;i
 </code></pre>
 <p>Duplicate <code>fd i</code> to <code>fd j</code>, making <code>j</code> a copy of <code>i</code>. See <a href="http://man7.org/linux/man-pages/man2/dup.2.html">dup2(2)</a>.</p>
@@ -543,7 +527,7 @@ contains some nice visualization to explain bash redirections.</p>
 <li>duplicate <code>fd 1</code> to <code>fd 2</code>, effectively redirecting <code>stderr</code> to <code>stdout</code></li>
 <li>redirect <code>stdout</code> to <code>file</code></li>
 </ol>
-<h2><a class="header" href="#argument-parsing-with-getopts" id="argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
+<h2 id="argument-parsing-with-getopts"><a class="header" href="#argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
 <p>The <code>getopts</code> builtin uses following global variables:</p>
 <ul>
 <li><code>OPTARG</code>, value of last option argument</li>
@@ -562,7 +546,7 @@ contains some nice visualization to explain bash redirections.</p>
 <li><code>&lt;param&gt;</code> specifies a variable name which <code>getopts</code> fills with the last parsed option argument</li>
 <li><code>&lt;args&gt;</code> optionally specify argument string to parse, by default <code>getopts</code> parses <code>$@</code></li>
 </ul>
-<h3><a class="header" href="#example-2" id="example-2">Example</a></h3>
+<h3 id="example-2"><a class="header" href="#example-2">Example</a></h3>
 <pre><code class="language-bash">#!/bin/bash
 function parse_args() {
     while getopts &quot;f:c&quot; PARAM; do
@@ -579,7 +563,7 @@ function parse_args() {
 parse_args -f xxx -c
 parse_args -f yyy
 </code></pre>
-<h2><a class="header" href="#regular-expressions-1" id="regular-expressions-1">Regular Expressions</a></h2>
+<h2 id="regular-expressions-1"><a class="header" href="#regular-expressions-1">Regular Expressions</a></h2>
 <p>Bash supports regular expression matching with the binary operator <code>=~</code>.
 The match results can be accessed via the <code>$BASH_REMATCH</code> variable:</p>
 <ul>
@@ -598,7 +582,7 @@ fi
 <p><strong>Caution</strong>: When specifying a <code>regex</code> in the <code>[[ ]]</code> block directly, quotes will be treated as part of the pattern.
 <code>[[ $INPUT =~ &quot;foo&quot; ]]</code> will match against <code>&quot;foo&quot;</code> not <code>foo</code>!</p>
 </blockquote>
-<h2><a class="header" href="#completion-1" id="completion-1">Completion</a></h2>
+<h2 id="completion-1"><a class="header" href="#completion-1">Completion</a></h2>
 <p>The <code>complete</code> builtin is used to interact with the completion system.</p>
 <pre><code class="language-bash">complete                    # print currently installed completion handler
 complete -F &lt;func&gt; &lt;cmd&gt;    # install &lt;func&gt; as completion handler for &lt;cmd&gt;
@@ -633,7 +617,7 @@ compgen -W &quot;foo foobar bar&quot; &quot;f&quot;
 # compare &quot;hom&quot; against file/dir names and generate matches
 compgen -d -f &quot;hom&quot;
 </code></pre>
-<h3><a class="header" href="#example-3" id="example-3">Example</a></h3>
+<h3 id="example-3"><a class="header" href="#example-3">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
 <p>Assume a program <code>foo</code> with the following interface:</p>
 <pre><code class="language-bash">foo -c green|red|blue -s low|high -f &lt;file&gt; -h
@@ -654,15 +638,15 @@ compgen -d -f &quot;hom&quot;
 
 complete -F _foo foo
 </code></pre>
-<h1><a class="header" href="#fish1" id="fish1">fish(1)</a></h1>
-<h2><a class="header" href="#quick-info" id="quick-info">Quick Info</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fish1"><a class="header" href="#fish1">fish(1)</a></h1>
+<h2 id="quick-info"><a class="header" href="#quick-info">Quick Info</a></h2>
 <p>Fish initialization file <code>~/.config/fish/config.fish</code></p>
 <p>Switch between different key bindings:</p>
 <ul>
 <li><code>fish_default_key_bindings</code> to use default key bindings</li>
 <li><code>fish_vi_key_bindings</code> to use vi key bindings</li>
 </ul>
-<h2><a class="header" href="#variables-1" id="variables-1">Variables</a></h2>
+<h2 id="variables-1"><a class="header" href="#variables-1">Variables</a></h2>
 <p>Available scopes</p>
 <ul>
 <li><code>local</code> variable local to a block</li>
@@ -670,7 +654,7 @@ complete -F _foo foo
 <li><code>universal</code> variable universal to all shell instances + preserved across
 shell restart</li>
 </ul>
-<h3><a class="header" href="#setunset-variables" id="setunset-variables">Set/Unset Variables</a></h3>
+<h3 id="setunset-variables"><a class="header" href="#setunset-variables">Set/Unset Variables</a></h3>
 <pre><code class="language-text">set &lt;name&gt; [&lt;values&gt;]
     -l  local scope
     -g  global scope
@@ -680,7 +664,7 @@ shell restart</li>
     -x  export to ENV
     -u  unexport from ENV
 </code></pre>
-<h3><a class="header" href="#lists" id="lists">Lists</a></h3>
+<h3 id="lists"><a class="header" href="#lists">Lists</a></h3>
 <p>In <code>fish</code> all variables are lists (start with index <code>1</code>, but lists can't
 contain lists.</p>
 <pre><code class="language-text">set foo a b c d
@@ -701,29 +685,29 @@ echo $$foo  # outputs 1337
 echo {a,b}{1,2}
 # a1 b1 b2
 </code></pre>
-<h3><a class="header" href="#special-variables-lists" id="special-variables-lists">Special Variables (Lists)</a></h3>
+<h3 id="special-variables-lists"><a class="header" href="#special-variables-lists">Special Variables (Lists)</a></h3>
 <pre><code class="language-text">$status      # exit code of last command
 $pipestatus  # list of exit codes of pipe chain
 
 $CMD_DURATION   # runtime of last command in ms
 </code></pre>
-<h4><a class="header" href="#path" id="path"><code>*PATH</code></a></h4>
+<h4 id="path"><a class="header" href="#path"><code>*PATH</code></a></h4>
 <p>Lists ending with <code>PATH</code> are automatically split at <code>:</code> when used and joined
 with <code>:</code> when exported to the environment.</p>
 <pre><code class="language-text">set -x BLA_PATH a:b:c:d
 echo $BLA_PATH              # a b c d
 env | grep BLA_PATH         # BLA_PATH=a:b:c:d
 </code></pre>
-<h2><a class="header" href="#command-handling" id="command-handling">Command Handling</a></h2>
+<h2 id="command-handling"><a class="header" href="#command-handling">Command Handling</a></h2>
 <pre><code class="language-text"># sub-commands are not run in quotes
 echo &quot;ls output: &quot;(ls)
 </code></pre>
-<h3><a class="header" href="#io-redirection-1" id="io-redirection-1">I/O redirection</a></h3>
+<h3 id="io-redirection-1"><a class="header" href="#io-redirection-1">I/O redirection</a></h3>
 <pre><code class="language-text"># 'noclobber', fail if 'log' already exists
 echo foo &gt;? log
 </code></pre>
-<h2><a class="header" href="#control-flow" id="control-flow">Control Flow</a></h2>
-<h3><a class="header" href="#if--else" id="if--else"><code>if</code> / <code>else</code></a></h3>
+<h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
+<h3 id="if--else"><a class="header" href="#if--else"><code>if</code> / <code>else</code></a></h3>
 <pre><code class="language-text">if grep foo bar
     # do sth
 else if grep foobar bar
@@ -732,7 +716,7 @@ else
     # do sth else
 end
 </code></pre>
-<h3><a class="header" href="#switch" id="switch"><code>switch</code></a></h3>
+<h3 id="switch"><a class="header" href="#switch"><code>switch</code></a></h3>
 <pre><code class="language-text">switch (echo foo)
 case 'foo*'
     # do start with foo
@@ -742,29 +726,29 @@ case '*'
     # do else
 end
 </code></pre>
-<h3><a class="header" href="#while-loop" id="while-loop"><code>while</code> Loop</a></h3>
+<h3 id="while-loop"><a class="header" href="#while-loop"><code>while</code> Loop</a></h3>
 <pre><code class="language-text">while true
     echo foo
 end
 </code></pre>
-<h3><a class="header" href="#for-loop" id="for-loop"><code>for</code> Loop</a></h3>
+<h3 id="for-loop"><a class="header" href="#for-loop"><code>for</code> Loop</a></h3>
 <pre><code class="language-text">for f in (ls)
     echo $f
 end
 </code></pre>
-<h2><a class="header" href="#functions" id="functions">Functions</a></h2>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
 <p>Function arguments are passed via <code>$argv</code> list.</p>
 <pre><code class="language-text">function fn_foo
     echo $argv
 end
 </code></pre>
-<h3><a class="header" href="#autoloading" id="autoloading">Autoloading</a></h3>
+<h3 id="autoloading"><a class="header" href="#autoloading">Autoloading</a></h3>
 <p>When running a command fish attempts to autoload a function. The shell looks
 for <code>&lt;cmd&gt;.fish</code> in the locations defined by <code>$fish_function_path</code> and loads
 the function lazily if found.</p>
 <p>This is the preferred way over monolithically defining all functions in a
 startup script.</p>
-<h3><a class="header" href="#helper" id="helper">Helper</a></h3>
+<h3 id="helper"><a class="header" href="#helper">Helper</a></h3>
 <pre><code class="language-text">functions         # list al functions
 functions foo     # describe function 'foo'
 functions -e foo  # erase function 'foo'
@@ -772,7 +756,7 @@ functions -e foo  # erase function 'foo'
 funced foo        # edit function 'foo'
                   # '-e vim' to edit in vim
 </code></pre>
-<h2><a class="header" href="#prompt" id="prompt">Prompt</a></h2>
+<h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>The prompt is defined by the output of the <code>fish_prompt</code> function.</p>
 <pre><code class="language-text">function fish_prompt
     set -l cmd_ret
@@ -782,7 +766,7 @@ end
 <blockquote>
 <p>Use <code>set_color</code> to manipulate terminal colors.</p>
 </blockquote>
-<h2><a class="header" href="#useful-builtins" id="useful-builtins">Useful Builtins</a></h2>
+<h2 id="useful-builtins"><a class="header" href="#useful-builtins">Useful Builtins</a></h2>
 <pre><code class="language-text"># history
 history search &lt;str&gt;   # search history for &lt;str&gt;
 history merge          # merge histories from fish sessions
@@ -793,18 +777,18 @@ count $var            # count elements in list
 # string
 string split SEP STRING
 </code></pre>
-<h2><a class="header" href="#keymaps" id="keymaps">Keymaps</a></h2>
+<h2 id="keymaps"><a class="header" href="#keymaps">Keymaps</a></h2>
 <pre><code class="language-text">  Shift-Tab ........... tab-completion with search
   Alt-Up / Alt-Down ... search history with token under the cursor
   Alt-l ............... list content of dir under cursor
   Alt-p ............... append '2&gt;&amp;1 | less;' to current cmdline
 </code></pre>
-<h2><a class="header" href="#debug" id="debug">Debug</a></h2>
+<h2 id="debug"><a class="header" href="#debug">Debug</a></h2>
 <pre><code class="language-text">  status print-stack-trace .. prints function stacktrace (can be used in scripts)
   breakpoint ................ halt script execution and gives shell (C-d | exit
                               to continue)
 </code></pre>
-<h1><a class="header" href="#tmux1" id="tmux1">tmux(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tmux1"><a class="header" href="#tmux1">tmux(1)</a></h1>
 <p>Terminology:</p>
 <ul>
 <li><code>session</code> is a collection of pseudo terminals which can have multiple
@@ -812,7 +796,7 @@ string split SEP STRING
 <li><code>window</code> uses the entire screen and can be split into rectangular <code>panes</code></li>
 <li><code>pane</code> is a single pseudo terminal instance</li>
 </ul>
-<h1><a class="header" href="#tmux-cli" id="tmux-cli">Tmux cli</a></h1>
+<h1 id="tmux-cli"><a class="header" href="#tmux-cli">Tmux cli</a></h1>
 <pre><code class="language-markdown"># Session
 tmux                        creates new session
 tmux ls                     list running sessions
@@ -830,7 +814,7 @@ tmux lscm                   list available tmux commnds
 tmux show -g                show global tmux options
 tmux display &lt;msg&gt;          display message in tmux status line
 </code></pre>
-<h2><a class="header" href="#scripting" id="scripting">Scripting</a></h2>
+<h2 id="scripting"><a class="header" href="#scripting">Scripting</a></h2>
 <pre><code class="language-markdown"># Session
 tmux list-sessions -F '#S'           list running sessions, only IDs
 
@@ -856,7 +840,7 @@ for s in $(tmux list-sessions -F '#S'); do
     done
 done
 </code></pre>
-<h1><a class="header" href="#bindings" id="bindings">Bindings</a></h1>
+<h1 id="bindings"><a class="header" href="#bindings">Bindings</a></h1>
 <pre><code class="language-markdown">prefix d    detach from current session
 prefix c    create new window
 prefix w    open window list
@@ -895,14 +879,14 @@ prefix C-b    open copy-buffer list
 v     enable visual mode
 y     yank selected text
 </code></pre>
-<h1><a class="header" href="#command-mode" id="command-mode">Command mode</a></h1>
+<h1 id="command-mode"><a class="header" href="#command-mode">Command mode</a></h1>
 <p>To enter command mode <code>prefix :</code>.</p>
 <p>Some useful commands are:</p>
 <pre><code class="language-markdown">setw synchronize-panes on/off       enables/disables synchronized input to all panes
 list-keys -t vi-copy                list keymaps for vi-copy mode
 </code></pre>
-<h1><a class="header" href="#git1" id="git1">git(1)</a></h1>
-<h2><a class="header" href="#working-areas" id="working-areas">Working areas</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
+<h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
 <pre><code class="language-text">+-------------------+ --- stash -----&gt; +-------+
 | working directory |                  | stash |  // Shelving area.
 +-------------------+ &lt;-- stash pop -- +-------+
@@ -929,15 +913,15 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
 | remote repository |
 +-------------------+
 </code></pre>
-<h2><a class="header" href="#staging" id="staging">Staging</a></h2>
+<h2 id="staging"><a class="header" href="#staging">Staging</a></h2>
 <pre><code class="language-markdown">  git add -p [&lt;file&gt;] ............ partial staging (interactive)
 </code></pre>
-<h2><a class="header" href="#remote" id="remote">Remote</a></h2>
+<h2 id="remote"><a class="header" href="#remote">Remote</a></h2>
 <pre><code class="language-markdown">  git remote -v .................. list remotes verbose (with URLs)
   git remote show [-n] &lt;remote&gt; .. list info for &lt;remote&gt; (like remote HEAD,
                                    remote branches, tracking mapping)
 </code></pre>
-<h2><a class="header" href="#branching" id="branching">Branching</a></h2>
+<h2 id="branching"><a class="header" href="#branching">Branching</a></h2>
 <pre><code class="language-markdown">  git branch [-a] ................ list available branches; -a to include
                                    remote branches
   git branch -vv ................. list branch &amp; annotate with head sha1 &amp;
@@ -955,7 +939,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   git push origin --delete &lt;rbname&gt; .. delete branch &lt;rbname&gt; from origin (or
                                        other remote)
 </code></pre>
-<h2><a class="header" href="#tags" id="tags">Tags</a></h2>
+<h2 id="tags"><a class="header" href="#tags">Tags</a></h2>
 <pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m &quot;descr&quot; ........ creates an annotated tag (full object
                                          containing tagger, date, ...)
   git tag -l ........................... list available tags
@@ -966,7 +950,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
 
   git push origin --tags .... push local tags to origin (or other remote)
 </code></pre>
-<h2><a class="header" href="#log--commit-history" id="log--commit-history">Log &amp; Commit History</a></h2>
+<h2 id="log--commit-history"><a class="header" href="#log--commit-history">Log &amp; Commit History</a></h2>
 <pre><code class="language-markdown">  git log --oneline ......... shows log in single line per commit -&gt; alias for
                               '--pretty=oneline --abbrev-commit'
   git log --graph ........... text based graph of commit history
@@ -975,7 +959,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   git log -p &lt;file&gt; ......... show commit history + diffs for &lt;file&gt;
   git log --oneline &lt;file&gt; .. show commit history for &lt;file&gt; in compact format
 </code></pre>
-<h2><a class="header" href="#diff--commit-info" id="diff--commit-info">Diff &amp; Commit Info</a></h2>
+<h2 id="diff--commit-info"><a class="header" href="#diff--commit-info">Diff &amp; Commit Info</a></h2>
 <pre><code class="language-markdown">  git diff &lt;commit&gt;..&lt;commit&gt; [&lt;file&gt;] .... show changes between two arbitrary
                                             commits. If one &lt;commit&gt; is omitted
                                             it is if HEAD is specified.
@@ -988,7 +972,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
 
   git git show &lt;commit&gt;:&lt;file&gt; ............ show &lt;file&gt; at &lt;commit&gt;
 </code></pre>
-<h2><a class="header" href="#patching" id="patching">Patching</a></h2>
+<h2 id="patching"><a class="header" href="#patching">Patching</a></h2>
 <pre><code class="language-markdown">  git format-patch &lt;opt&gt; &lt;since&gt;/&lt;revision range&gt;
     opt:
       -N ................... use [PATCH] instead [PATCH n/m] in subject when
@@ -1012,7 +996,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   # generate single patch file from a certain commit/ref
   git format-patch &lt;COMMIT/REF&gt; --stdout &gt; my-patch.patch
 </code></pre>
-<h2><a class="header" href="#resetting" id="resetting">Resetting</a></h2>
+<h2 id="resetting"><a class="header" href="#resetting">Resetting</a></h2>
 <pre><code class="language-markdown">  git reset [opt] &lt;ref|commit&gt;
     opt:
       --mixed .................... resets index, but not working tree
@@ -1024,7 +1008,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   git reset --soft HEAD~1 ........ delete most recent commit but keep work
   git reset --hard HEAD~1 ........ delete most recent commit and delete work
 </code></pre>
-<h2><a class="header" href="#submodules" id="submodules">Submodules</a></h2>
+<h2 id="submodules"><a class="header" href="#submodules">Submodules</a></h2>
 <pre><code class="language-markdown">  git submodule add &lt;url&gt; [&lt;path&gt;] .......... add new submodule to current project
   git clone --recursive &lt;url&gt; ............... clone project and recursively all
                                               submodules (same as using
@@ -1040,25 +1024,25 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
   git diff --submodule ...................... show commits that are part of the
                                               submodule diff
 </code></pre>
-<h2><a class="header" href="#inspection" id="inspection">Inspection</a></h2>
+<h2 id="inspection"><a class="header" href="#inspection">Inspection</a></h2>
 <pre><code class="language-markdown">  git ls-tree [-r] &lt;ref&gt; .... show git tree for &lt;ref&gt;, -r to recursively ls sub-trees
   git show &lt;obj&gt; ............ show &lt;obj&gt;
   git cat-file -p &lt;obj&gt; ..... print content of &lt;obj&gt;
 </code></pre>
-<h2><a class="header" href="#revision-specifier" id="revision-specifier">Revision Specifier</a></h2>
+<h2 id="revision-specifier"><a class="header" href="#revision-specifier">Revision Specifier</a></h2>
 <pre><code class="language-markdown">  HEAD ........ last commit
   HEAD~1 ...... last commit-1
   HEAD~N ...... last commit-N (linear backwards when in tree structure, check
                 difference between HEAD^ and HEAD~)
   git rev-list --max-parents=0 HEAD ........... first commit
 </code></pre>
-<h1><a class="header" href="#awk1" id="awk1">awk(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
 <pre><code class="language-markdown">awk [opt] program [input]
     -F &lt;sepstr&gt;        field separator string (can be regex)
     program            awk program
     input              file or stdin if not file given
 </code></pre>
-<h2><a class="header" href="#input-processing" id="input-processing">Input processing</a></h2>
+<h2 id="input-processing"><a class="header" href="#input-processing">Input processing</a></h2>
 <p>Input is processed in two stages:</p>
 <ol>
 <li>Splitting input into a sequence of <code>records</code>.
@@ -1075,7 +1059,7 @@ but can be changed via the builtin variable <code>FS</code> or command line opti
 <li><code>$2</code> field two</li>
 <li>...</li>
 </ul>
-<h2><a class="header" href="#program" id="program">Program</a></h2>
+<h2 id="program"><a class="header" href="#program">Program</a></h2>
 <p>An <code>awk</code> program is composed of pairs of the form:</p>
 <pre><code class="language-markdown">pattern { action }
 </code></pre>
@@ -1091,14 +1075,14 @@ record ----&gt; ∀ pattern matched
 fields ----&gt; run associated action
 </code></pre>
 <p>Any valid awk <code>expr</code> can be a <code>pattern</code>.</p>
-<h3><a class="header" href="#special-pattern" id="special-pattern">Special pattern</a></h3>
+<h3 id="special-pattern"><a class="header" href="#special-pattern">Special pattern</a></h3>
 <p>awk provides two special patterns, <code>BEGIN</code> and <code>END</code>, which can be used
 multiple times. Actions with those patterns are <strong>executed exactly once</strong>.</p>
 <ul>
 <li><code>BEGIN</code> actions are run before processing the first record</li>
 <li><code>END</code> actions are run after processing the last record</li>
 </ul>
-<h3><a class="header" href="#special-variables" id="special-variables">Special variables</a></h3>
+<h3 id="special-variables"><a class="header" href="#special-variables">Special variables</a></h3>
 <ul>
 <li><code>RS</code> <em>record separator</em>: first char is the record separator, by default
 <newline></li>
@@ -1107,7 +1091,7 @@ multiple times. Actions with those patterns are <strong>executed exactly once</s
 <li><code>NR</code> <em>number record</em>: number of current record</li>
 <li><code>NF</code> <em>number fields</em>: number of fields in the current record</li>
 </ul>
-<h3><a class="header" href="#special-statements--functions" id="special-statements--functions">Special statements &amp; functions</a></h3>
+<h3 id="special-statements--functions"><a class="header" href="#special-statements--functions">Special statements &amp; functions</a></h3>
 <ul>
 <li>
 <p><code>printf &quot;fmt&quot;, args...</code></p>
@@ -1142,17 +1126,17 @@ but this is a function and return value can be assigned to a variable.</p>
 </ul>
 </li>
 </ul>
-<h2><a class="header" href="#examples" id="examples">Examples</a></h2>
-<h3><a class="header" href="#filter-records" id="filter-records">Filter records</a></h3>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="filter-records"><a class="header" href="#filter-records">Filter records</a></h3>
 <pre><code class="language-bash">awk 'NR%2 == 0 { print $0 }' &lt;file&gt;
 </code></pre>
 <p>The pattern <code>NR%2 == 0</code> matches every second record and the action <code>{ print $0 }</code>
 prints the whole record.</p>
-<h3><a class="header" href="#access-last-fields-in-records" id="access-last-fields-in-records">Access last fields in records</a></h3>
+<h3 id="access-last-fields-in-records"><a class="header" href="#access-last-fields-in-records">Access last fields in records</a></h3>
 <pre><code class="language-bash">echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 </code></pre>
 <p>Access last fields with arithmetic on the <code>NF</code> number of fields variable.</p>
-<h3><a class="header" href="#capture-in-variables" id="capture-in-variables">Capture in variables</a></h3>
+<h3 id="capture-in-variables"><a class="header" href="#capture-in-variables">Capture in variables</a></h3>
 <pre><code class="language-bash"># /proc/&lt;pid&gt;/status
 #   Name:    cat
 #   ...
@@ -1168,7 +1152,7 @@ done | sort -k2 -n
 </code></pre>
 <p>We capture values from <code>VmRSS</code> and <code>Name</code> into variables and print them at the
 <code>END</code> once processing all records is done.</p>
-<h3><a class="header" href="#run-shell-command-and-capture-output" id="run-shell-command-and-capture-output">Run shell command and capture output</a></h3>
+<h3 id="run-shell-command-and-capture-output"><a class="header" href="#run-shell-command-and-capture-output">Run shell command and capture output</a></h3>
 <pre><code class="language-bash">cat /proc/1/status | awk '
                      /^Pid/ {
                         &quot;ps --no-header -o user &quot; $2 | getline user;
@@ -1177,8 +1161,8 @@ done | sort -k2 -n
 </code></pre>
 <p>We build a <code>ps</code> command line and capture the first line of the processes output
 in the <code>user</code> variable and then print it.</p>
-<h1><a class="header" href="#emacs1" id="emacs1">emacs(1)</a></h1>
-<h2><a class="header" href="#help" id="help">help</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="emacs1"><a class="header" href="#emacs1">emacs(1)</a></h1>
+<h2 id="help"><a class="header" href="#help">help</a></h2>
 <pre><code class="language-markdown">  C-h ?         list available help modes
   C-h e         show message output (`*Messages*` buffer)
   C-h f         describe function
@@ -1190,14 +1174,14 @@ in the <code>user</code> variable and then print it.</p>
   &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
 </code></pre>
-<h2><a class="header" href="#package-manager" id="package-manager">package manager</a></h2>
+<h2 id="package-manager"><a class="header" href="#package-manager">package manager</a></h2>
 <pre><code class="language-markdown">  key    fn                          description
 ------------------------------------------------
          package-refresh-contents    refresh package list
          package-list-packages       list available/installed packages
                                      `U x` to mark packages for Upgrade &amp; eXecute
 </code></pre>
-<h2><a class="header" href="#window" id="window">window</a></h2>
+<h2 id="window"><a class="header" href="#window">window</a></h2>
 <pre><code class="language-markdown">  key      fn                      description
 ----------------------------------------------
   C-x 0    delete-window           kill focused window
@@ -1206,7 +1190,7 @@ in the <code>user</code> variable and then print it.</p>
   C-x 3    split-window-right      split vertical
   C-x o    other-window            other window (cycle)
 </code></pre>
-<h2><a class="header" href="#buffer" id="buffer">buffer</a></h2>
+<h2 id="buffer"><a class="header" href="#buffer">buffer</a></h2>
 <pre><code class="language-markdown">  key        fn                   description
 ---------------------------------------------
   C-x C-q    read-only-mode       toggle read-only mode for buffer
@@ -1216,7 +1200,7 @@ in the <code>user</code> variable and then print it.</p>
   C-x b      switch-to-buffer     switch buffer
   C-x C-b    list-buffers         buffer list
 </code></pre>
-<h2><a class="header" href="#ibuffer" id="ibuffer">ibuffer</a></h2>
+<h2 id="ibuffer"><a class="header" href="#ibuffer">ibuffer</a></h2>
 <p>Builtin advanced buffer selection mode</p>
 <pre><code class="language-markdown">  key        fn            description
 --------------------------------------
@@ -1243,7 +1227,7 @@ in the <code>user</code> variable and then print it.</p>
   /g                       create filter group
   /\                       remove all filter groups
 </code></pre>
-<h2><a class="header" href="#isearch" id="isearch">isearch</a></h2>
+<h2 id="isearch"><a class="header" href="#isearch">isearch</a></h2>
 <pre><code class="language-markdown">  key    fn                           description
 -------------------------------------------------
   C-s    isearch-forward              search forward from current position (C-s to go to next match)
@@ -1252,7 +1236,7 @@ in the <code>user</code> variable and then print it.</p>
   M-p    isearch-ring-advance         previous search input
   M-n    isearch-ring-retreat         next search input
 </code></pre>
-<h2><a class="header" href="#occur" id="occur">occur</a></h2>
+<h2 id="occur"><a class="header" href="#occur">occur</a></h2>
 <pre><code class="language-markdown">  key      fn           description
 -----------------------------------
   M-s o    occur        get matches for regexp in buffer
@@ -1267,7 +1251,7 @@ in the <code>user</code> variable and then print it.</p>
 ---------------------------------------------------------
            multi-occur-in-matching-buffers    run occur in buffers matching regexp
 </code></pre>
-<h2><a class="header" href="#grep" id="grep">grep</a></h2>
+<h2 id="grep"><a class="header" href="#grep">grep</a></h2>
 <pre><code class="language-markdown">  key    fn           description
 -----------------------------------
          rgrep        recursive grep
@@ -1276,7 +1260,7 @@ in the <code>user</code> variable and then print it.</p>
   n/p                 navigate next/previous match in *grep* buffer
   q                   quit *grep* buffer
 </code></pre>
-<h2><a class="header" href="#yankpaste" id="yankpaste">yank/paste</a></h2>
+<h2 id="yankpaste"><a class="header" href="#yankpaste">yank/paste</a></h2>
 <pre><code class="language-markdown">  key         fn                  description
 ---------------------------------------------
   C-&lt;SPACE&gt;   set-mark-command    set start mark to select text
@@ -1285,19 +1269,19 @@ in the <code>user</code> variable and then print it.</p>
   C-y         yank                paste selected text
   M-y         yank-pop            cycle through kill-ring (only after paste)
 </code></pre>
-<h2><a class="header" href="#register" id="register">register</a></h2>
+<h2 id="register"><a class="header" href="#register">register</a></h2>
 <pre><code class="language-markdown">  key             fn                 description
 ------------------------------------------------
   C-x r s &lt;reg&gt;   copy-to-register   save region in register &lt;reg&gt;
   C-x r i &lt;reg&gt;   insert-register    insert content of register &lt;reg&gt;
 </code></pre>
-<h2><a class="header" href="#blockrect" id="blockrect">block/rect</a></h2>
+<h2 id="blockrect"><a class="header" href="#blockrect">block/rect</a></h2>
 <pre><code class="language-markdown">  key          fn                    description
 ------------------------------------------------
   C-x &lt;SPC&gt;    rectangle-mark-mode   activate rectangle-mark-mode
                string-rectangle      insert text in marked rect
 </code></pre>
-<h2><a class="header" href="#mass-edit" id="mass-edit">mass edit</a></h2>
+<h2 id="mass-edit"><a class="header" href="#mass-edit">mass edit</a></h2>
 <pre><code class="language-markdown">  key       fn                       description
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
@@ -1305,13 +1289,13 @@ in the <code>user</code> variable and then print it.</p>
   M-%       query-replace            search &amp; replace
   C-M-%     query-replace-regexp     search &amp; replace regex
 </code></pre>
-<h2><a class="header" href="#narrow" id="narrow">narrow</a></h2>
+<h2 id="narrow"><a class="header" href="#narrow">narrow</a></h2>
 <pre><code class="language-markdown">  key       fn                    description
 ---------------------------------------------
   C-x n n   narrow-to-region      show only focused region (narrow)
   C-x n w   widen                 show whole buffer (wide)
 </code></pre>
-<h2><a class="header" href="#org" id="org">org</a></h2>
+<h2 id="org"><a class="header" href="#org">org</a></h2>
 <pre><code class="language-markdown">  key              fn   description
 ------------------------------------
   M-up/M-down           re-arrange items in same hierarchy
@@ -1320,14 +1304,14 @@ in the <code>user</code> variable and then print it.</p>
   C-S-RET               create new TODO item below current
   S-left/S-right        cycle TODO states
 </code></pre>
-<h3><a class="header" href="#org-source" id="org-source">org source</a></h3>
+<h3 id="org-source"><a class="header" href="#org-source">org source</a></h3>
 <pre><code class="language-markdown">  key       fn     description
 ------------------------------
   &lt;s TAB           generate a source block
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 </code></pre>
-<h2><a class="header" href="#comapny" id="comapny">comapny</a></h2>
+<h2 id="comapny"><a class="header" href="#comapny">comapny</a></h2>
 <pre><code class="language-markdown">  key         fn   description
 -------------------------------
   C-s              search through completion candidates
@@ -1335,7 +1319,7 @@ in the <code>user</code> variable and then print it.</p>
   &lt;f1&gt;             get doc for completion condidate
   M-&lt;digit&gt;        select completion candidate
 </code></pre>
-<h2><a class="header" href="#tags-1" id="tags-1">tags</a></h2>
+<h2 id="tags-1"><a class="header" href="#tags-1">tags</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
 <pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
 </code></pre>
@@ -1346,7 +1330,7 @@ in the <code>user</code> variable and then print it.</p>
            xref-find-apropos        find symbols matching regexp
            xref-find-references     find references of tag
 </code></pre>
-<h2><a class="header" href="#lisp" id="lisp">lisp</a></h2>
+<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
 <pre><code class="language-markdown">  key   fn        description
 ------------------------------
         ielm      open interactive elips shell
@@ -1359,7 +1343,7 @@ in the <code>user</code> variable and then print it.</p>
   C-x C-e          eval-last-sexp            evaluate lisp expr
   C-u C-x C-e      eval-last-sexp            evaluate &amp; print
 </code></pre>
-<h2><a class="header" href="#ido" id="ido">ido</a></h2>
+<h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
 <pre><code class="language-markdown">  key              fn          description
 ------------------------------------------
@@ -1367,7 +1351,7 @@ in the <code>user</code> variable and then print it.</p>
   &lt;Left&gt;/&lt;Right&gt;               cycle through available competions
   &lt;RET&gt;                        select completion
 </code></pre>
-<h2><a class="header" href="#evil" id="evil">evil</a></h2>
+<h2 id="evil"><a class="header" href="#evil">evil</a></h2>
 <pre><code class="language-markdown">  key    fn    description
 --------------------------
   C-z          toggle emacs/evil mode
@@ -1375,7 +1359,7 @@ in the <code>user</code> variable and then print it.</p>
   C-p          after paste cycle kill-ring back
   C-n          after paste cycle kill-ring forward
 </code></pre>
-<h2><a class="header" href="#dired" id="dired">dired</a></h2>
+<h2 id="dired"><a class="header" href="#dired">dired</a></h2>
 <pre><code class="language-markdown">  key    fn    description
 --------------------------
   i            open sub-dir in same buffer
@@ -1384,21 +1368,21 @@ in the <code>user</code> variable and then print it.</p>
 
   q            quit
 </code></pre>
-<h1><a class="header" href="#gpg1" id="gpg1">gpg(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
   -o|--output                 Specify output file
   -a|--armor                  Create ascii output
   -u|--local-user &lt;name&gt;      Specify key for signing
   -r|--recipient              Encrypt for user
 </code></pre>
-<h2><a class="header" href="#generate-new-keypair" id="generate-new-keypair">Generate new keypair</a></h2>
+<h2 id="generate-new-keypair"><a class="header" href="#generate-new-keypair">Generate new keypair</a></h2>
 <pre><code class="language-bash">gpg --full-generate-key
 </code></pre>
-<h2><a class="header" href="#list-keys" id="list-keys">List keys</a></h2>
+<h2 id="list-keys"><a class="header" href="#list-keys">List keys</a></h2>
 <pre><code>gpg -k / --list-key               # public keys
 gpg -K / --list-secret-keys       # secret keys
 </code></pre>
-<h2><a class="header" href="#edit-keys" id="edit-keys">Edit keys</a></h2>
+<h2 id="edit-keys"><a class="header" href="#edit-keys">Edit keys</a></h2>
 <pre><code class="language-bash">gpg --edit-key &lt;KEY ID&gt;
 </code></pre>
 <p>Gives prompt to modify <code>KEY ID</code>, common commands:</p>
@@ -1417,23 +1401,23 @@ deluid       delete selected user ID
 addkey       add subkey
 delkey       delete selected subkey
 </code></pre>
-<h2><a class="header" href="#export--import-keys" id="export--import-keys">Export &amp; Import Keys</a></h2>
+<h2 id="export--import-keys"><a class="header" href="#export--import-keys">Export &amp; Import Keys</a></h2>
 <pre><code class="language-bash">gpg --export --armor --output &lt;KEY.PUB&gt; &lt;KEY ID&gt;
 gpg --export-secret-key --armor --output &lt;KEY.PUB&gt; &lt;KEY ID&gt;
 gpg --import &lt;FILE&gt;
 </code></pre>
-<h2><a class="header" href="#search--send-keys" id="search--send-keys">Search &amp; Send keys</a></h2>
+<h2 id="search--send-keys"><a class="header" href="#search--send-keys">Search &amp; Send keys</a></h2>
 <pre><code class="language-bash">gpg --keyserver &lt;SERVER&gt; --send-keys &lt;KEY ID&gt;
 gpg --keyserver &lt;SERVER&gt; --search-keys &lt;KEY ID&gt;
 </code></pre>
-<h2><a class="header" href="#encrypt-passphrase" id="encrypt-passphrase">Encrypt (passphrase)</a></h2>
+<h2 id="encrypt-passphrase"><a class="header" href="#encrypt-passphrase">Encrypt (passphrase)</a></h2>
 <p>Encrypt file using <code>passphrase</code> and write encrypted data to <code>&lt;file&gt;.gpg</code>.</p>
 <pre><code class="language-bash">gpg --symmetric &lt;file&gt;
 
 # Decrypt using passphrase
 gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </code></pre>
-<h2><a class="header" href="#encrypt-public-key" id="encrypt-public-key">Encrypt (public key)</a></h2>
+<h2 id="encrypt-public-key"><a class="header" href="#encrypt-public-key">Encrypt (public key)</a></h2>
 <p>Encrypt file with <code>public key</code> of specified <code>recipient</code> and write encrypted
 data to <code>&lt;file&gt;.gpg</code>.</p>
 <pre><code class="language-bash">gpg --encrypt -r foo@bar.de &lt;file&gt;
@@ -1441,7 +1425,7 @@ data to <code>&lt;file&gt;.gpg</code>.</p>
 # Decrypt at foos side (private key required)
 gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 </code></pre>
-<h2><a class="header" href="#signing" id="signing">Signing</a></h2>
+<h2 id="signing"><a class="header" href="#signing">Signing</a></h2>
 <p>Generate a signed file and write to <code>&lt;file&gt;.gpg</code>.</p>
 <pre><code class="language-bash"># Sign with private key of foo@bar.de
 gpg --sign -u foor@bar.de &lt;file&gt;
@@ -1459,7 +1443,7 @@ gpg -o &lt;file&gt; --decrypt &lt;file&gt;.gpg
 file and then encrypt it.</p>
 <pre><code class="language-bash">gpg --sign --encrypt -r &lt;recipient&gt; &lt;file&gt;
 </code></pre>
-<h2><a class="header" href="#signing-detached" id="signing-detached">Signing (detached)</a></h2>
+<h2 id="signing-detached"><a class="header" href="#signing-detached">Signing (detached)</a></h2>
 <p>Generate a <code>detached</code> signature and write to <code>&lt;file&gt;.asc</code>.
 Send <code>&lt;file&gt;.asc</code> along with <code>&lt;file&gt;</code> when distributing.</p>
 <pre><code class="language-bash">gpg --detach-sign --armor -u foor@bar.de &lt;file&gt;
@@ -1470,21 +1454,21 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
 <blockquote>
 <p>Without <code>-u</code> use first private key in list <code>gpg -K</code> for signing.</p>
 </blockquote>
-<h2><a class="header" href="#abbreviations" id="abbreviations">Abbreviations</a></h2>
+<h2 id="abbreviations"><a class="header" href="#abbreviations">Abbreviations</a></h2>
 <ul>
 <li><code>sec</code> secret key</li>
 <li><code>ssb</code> secret subkey</li>
 <li><code>pub</code> public key</li>
 <li><code>sub</code> public subkey</li>
 </ul>
-<h2><a class="header" href="#keyservers" id="keyservers">Keyservers</a></h2>
+<h2 id="keyservers"><a class="header" href="#keyservers">Keyservers</a></h2>
 <ul>
 <li>http://pgp.mit.edu</li>
 <li>http://keyserver.ubuntu.com</li>
 <li>hkps://pgp.mailbox.org</li>
 </ul>
-<h1><a class="header" href="#gdb1" id="gdb1">gdb(1)</a></h1>
-<h1><a class="header" href="#cli" id="cli">CLI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gdb1"><a class="header" href="#gdb1">gdb(1)</a></h1>
+<h1 id="cli"><a class="header" href="#cli">CLI</a></h1>
 <pre><code class="language-markdown">  gdb [opts] [prg [-c coredump | -p pid]]
   gdb [opts] --args prg &lt;prg-args&gt;
     opts:
@@ -1494,8 +1478,8 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
       -ex &lt;cmd&gt;       execute command &lt;cmd&gt; before prompt
       --tty &lt;tty&gt;     set I/O tty for debugee
 </code></pre>
-<h1><a class="header" href="#interactive-usage" id="interactive-usage">Interactive usage</a></h1>
-<h2><a class="header" href="#misc" id="misc">Misc</a></h2>
+<h1 id="interactive-usage"><a class="header" href="#interactive-usage">Interactive usage</a></h1>
+<h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
 <pre><code class="language-markdown">  tty &lt;tty&gt;
           Set &lt;tty&gt; as tty for debugee.
           Make sure nobody reads from target tty, easiest is to spawn a shell
@@ -1516,7 +1500,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
   info display
           List display expressions.
 </code></pre>
-<h2><a class="header" href="#breakpoints" id="breakpoints">Breakpoints</a></h2>
+<h2 id="breakpoints"><a class="header" href="#breakpoints">Breakpoints</a></h2>
 <pre><code class="language-markdown">  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
           Set a breakpoint only for a specific thread.
           -qualified: Treat &lt;sym&gt; as fully qualified symbol (quiet handy to set
@@ -1550,7 +1534,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
           &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
 </code></pre>
-<h2><a class="header" href="#watchpoints" id="watchpoints">Watchpoints</a></h2>
+<h2 id="watchpoints"><a class="header" href="#watchpoints">Watchpoints</a></h2>
 <pre><code class="language-markdown">  watch [-location|-l] &lt;expr&gt; [thread &lt;tnum&gt;]
           Create a watchpoint for &lt;expr&gt;, will break if &lt;expr&gt; is written to.
           Watchpoints respect scope of variables, -l can be used to watch the
@@ -1561,7 +1545,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
           Sets an access watchpoint, will break if &lt;expr&gt; is written to or read
           from.
 </code></pre>
-<h2><a class="header" href="#inspection-1" id="inspection-1">Inspection</a></h2>
+<h2 id="inspection-1"><a class="header" href="#inspection-1">Inspection</a></h2>
 <pre><code class="language-markdown">  info functions [&lt;regex&gt;]
           List functions matching &lt;regex&gt;. List all functions if no &lt;regex&gt;
           provided.
@@ -1570,7 +1554,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
           List variables matching &lt;regex&gt;. List all variables if no &lt;regex&gt;
           provided.
 </code></pre>
-<h2><a class="header" href="#signal-handling" id="signal-handling">Signal handling</a></h2>
+<h2 id="signal-handling"><a class="header" href="#signal-handling">Signal handling</a></h2>
 <pre><code class="language-markdown">  info handle [&lt;signal&gt;]
           Print how to handle &lt;signal&gt;. If no &lt;signal&gt; specified print for all
           signals.
@@ -1585,7 +1569,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
   catch signal &lt;signal&gt;
           Create a catchpoint for &lt;signal&gt;.
 </code></pre>
-<h2><a class="header" href="#source-file-locations" id="source-file-locations">Source file locations</a></h2>
+<h2 id="source-file-locations"><a class="header" href="#source-file-locations">Source file locations</a></h2>
 <pre><code class="language-markdown">  dir &lt;path&gt;
           Add &lt;path&gt; to the beginning of the searh path for source files.
 
@@ -1598,7 +1582,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
   show substitute-path
           Show current substitution rules.
 </code></pre>
-<h2><a class="header" href="#configuration" id="configuration">Configuration</a></h2>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
 <pre><code class="language-markdown">  set follow-fork-mode &lt;child | parent&gt;
           Specify which process to follow when debuggee makes a fork(2)
           syscall.
@@ -1624,7 +1608,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
           on: only log to file.
           off: log to file and tty.
 </code></pre>
-<h1><a class="header" href="#user-commands-macros" id="user-commands-macros">User commands (macros)</a></h1>
+<h1 id="user-commands-macros"><a class="header" href="#user-commands-macros">User commands (macros)</a></h1>
 <p>Gdb allows to create &amp; document user commands as follows:</p>
 <pre><code class="language-markdown">  define &lt;cmd&gt;
     # cmds
@@ -1638,7 +1622,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
 <pre><code class="language-markdown">  help user-defined
   help &lt;cmd&gt;
 </code></pre>
-<h1><a class="header" href="#hooks" id="hooks">Hooks</a></h1>
+<h1 id="hooks"><a class="header" href="#hooks">Hooks</a></h1>
 <p>Gdb allows to create two types of command <code>hooks</code></p>
 <ul>
 <li><code>hook-</code> will be run before <code>&lt;cmd&gt;</code></li>
@@ -1652,8 +1636,8 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
     # cmds
   end
 </code></pre>
-<h1><a class="header" href="#examples-1" id="examples-1">Examples</a></h1>
-<h2><a class="header" href="#automatically-print-next-instr" id="automatically-print-next-instr">Automatically print next instr</a></h2>
+<h1 id="examples-1"><a class="header" href="#examples-1">Examples</a></h1>
+<h2 id="automatically-print-next-instr"><a class="header" href="#automatically-print-next-instr">Automatically print next instr</a></h2>
 <p>When ever the debugee stops automatically print the memory at the current
 instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</code>.</p>
 <pre><code class="language-markdown">  # rip - x86
@@ -1662,7 +1646,7 @@ instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</
   # step instruction, after the step the next instruction is automatically printed
   si
 </code></pre>
-<h2><a class="header" href="#conditional-breakpoints" id="conditional-breakpoints">Conditional breakpoints</a></h2>
+<h2 id="conditional-breakpoints"><a class="header" href="#conditional-breakpoints">Conditional breakpoints</a></h2>
 <p>Create conditional breakpoints for a function <code>void foo(int i)</code> in the debugee.</p>
 <pre><code class="language-markdown">  # Create conditional breakpoint
   b foo if i == 42
@@ -1671,7 +1655,7 @@ instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</
   # Make existing breakpoint conditional
   cond 2 if i == 7
 </code></pre>
-<h2><a class="header" href="#catch-sigsegv-and-execute-commands" id="catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
+<h2 id="catch-sigsegv-and-execute-commands"><a class="header" href="#catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
 <p>This creates a <code>catchpoint</code> for the <code>SIGSEGV</code> signal and attached the <code>command</code>
 to it.</p>
 <pre><code class="language-markdown">  catch signal SIGSEGV
@@ -1680,10 +1664,10 @@ to it.</p>
     c
   end
 </code></pre>
-<h2><a class="header" href="#run-backtrace-on-thread-1-batch-mode" id="run-backtrace-on-thread-1-batch-mode">Run <code>backtrace</code> on thread 1 (batch mode)</a></h2>
+<h2 id="run-backtrace-on-thread-1-batch-mode"><a class="header" href="#run-backtrace-on-thread-1-batch-mode">Run <code>backtrace</code> on thread 1 (batch mode)</a></h2>
 <pre><code class="language-markdown">  gdb --batch -ex 'thread 1' -ex 'bt' -p &lt;pid&gt;
 </code></pre>
-<h2><a class="header" href="#script-gdb-for-automating-debugging-sessions" id="script-gdb-for-automating-debugging-sessions">Script gdb for automating debugging sessions</a></h2>
+<h2 id="script-gdb-for-automating-debugging-sessions"><a class="header" href="#script-gdb-for-automating-debugging-sessions">Script gdb for automating debugging sessions</a></h2>
 <p>To script gdb add commands into a file and pass it to gdb via <code>-x</code>.
 For example create <code>run.gdb</code>:</p>
 <pre><code class="language-markdown">  set pagination off
@@ -1701,8 +1685,8 @@ For example create <code>run.gdb</code>:</p>
 <p>This script can be used as:</p>
 <pre><code class="language-markdown">  gdb --batch -x ./run.gdb -p &lt;pid&gt;
 </code></pre>
-<h1><a class="header" href="#know-bugs" id="know-bugs">Know Bugs</a></h1>
-<h2><a class="header" href="#workaround-command--finish-bug" id="workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
+<h1 id="know-bugs"><a class="header" href="#know-bugs">Know Bugs</a></h1>
+<h2 id="workaround-command--finish-bug"><a class="header" href="#workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
 <p>When using <code>finish</code> inside a <code>command</code> block, commands after <code>finish</code> are not
 executed. To workaround that bug one can create a wrapper function which calls
 <code>finish</code>.</p>
@@ -1716,8 +1700,8 @@ executed. To workaround that bug one can create a wrapper function which calls
     handler
   end
 </code></pre>
-<h1><a class="header" href="#gdbserver1" id="gdbserver1">gdbserver(1)</a></h1>
-<h1><a class="header" href="#cli-1" id="cli-1">CLI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gdbserver1"><a class="header" href="#gdbserver1">gdbserver(1)</a></h1>
+<h1 id="cli-1"><a class="header" href="#cli-1">CLI</a></h1>
 <pre><code class="language-markdown">  gdbserver [opts] comm prog [args]
     opts:
       --disable-randomization
@@ -1727,40 +1711,40 @@ executed. To workaround that bug one can create a wrapper function which calls
       host:port
       tty
 </code></pre>
-<h1><a class="header" href="#example-4" id="example-4">Example</a></h1>
+<h1 id="example-4"><a class="header" href="#example-4">Example</a></h1>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
 # Attach gdb.
 gdb -ex 'target remote localhost:1234'
 </code></pre>
-<h1><a class="header" href="#radare21" id="radare21">radare2(1)</a></h1>
-<h2><a class="header" href="#print" id="print">print</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="radare21"><a class="header" href="#radare21">radare2(1)</a></h1>
+<h2 id="print"><a class="header" href="#print">print</a></h2>
 <pre><code class="language-markdown">
   pd &lt;n&gt; [@ &lt;addr&gt;]     # print disassembly for &lt;n&gt; instructions
                         # with optional temporary seek to &lt;addr&gt;
 </code></pre>
-<h2><a class="header" href="#flags" id="flags">flags</a></h2>
+<h2 id="flags"><a class="header" href="#flags">flags</a></h2>
 <pre><code class="language-markdown">  fs            # list flag-spaces
   fs &lt;fs&gt;       # select flag-space &lt;fs&gt;
   f             # print flags of selected flag-space
 </code></pre>
-<h2><a class="header" href="#help-1" id="help-1">help</a></h2>
+<h2 id="help-1"><a class="header" href="#help-1">help</a></h2>
 <pre><code class="language-markdown">  ?*~&lt;kw&gt;       # '?*' list all commands and '~' grep for &lt;kw&gt;
   ?*~...        # '..' less mode /'...' interactive search
 </code></pre>
-<h2><a class="header" href="#relocation" id="relocation">relocation</a></h2>
+<h2 id="relocation"><a class="header" href="#relocation">relocation</a></h2>
 <pre><code class="language-markdown">  &gt; r2 -B &lt;baddr&gt; &lt;exe&gt;         # open &lt;exe&gt; mapped to addr &lt;baddr&gt;
   oob &lt;addr&gt;                    # reopen current file at &lt;baddr&gt;
 </code></pre>
-<h1><a class="header" href="#examples-2" id="examples-2">Examples</a></h1>
-<h2><a class="header" href="#patch-file-alter-bytes" id="patch-file-alter-bytes">Patch file (alter bytes)</a></h2>
+<h1 id="examples-2"><a class="header" href="#examples-2">Examples</a></h1>
+<h2 id="patch-file-alter-bytes"><a class="header" href="#patch-file-alter-bytes">Patch file (alter bytes)</a></h2>
 <pre><code class="language-markdown">  &gt; r2 [-w] &lt;file&gt;
   oo+           # re-open for write if -w was not passed
   s &lt;addr&gt;      # seek to position
   wv &lt;data&gt;     # write 4 byte (dword)
 </code></pre>
-<h2><a class="header" href="#assemble--disassmble-rasm2" id="assemble--disassmble-rasm2">Assemble / Disassmble (rasm2)</a></h2>
+<h2 id="assemble--disassmble-rasm2"><a class="header" href="#assemble--disassmble-rasm2">Assemble / Disassmble (rasm2)</a></h2>
 <pre><code class="language-markdown">  rasm2 -L      # list supported archs
 
   &gt; rasm2 -a x86 'mov eax, 0xdeadbeef'
@@ -1769,10 +1753,10 @@ gdb -ex 'target remote localhost:1234'
   &gt; rasm2 -a x86 -d &quot;b8efbeadde&quot;
   mov eax, 0xdeadbeef
 </code></pre>
-<h1><a class="header" href="#qemu1" id="qemu1">qemu(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="qemu1"><a class="header" href="#qemu1">qemu(1)</a></h1>
 <p>All the examples &amp; notes use <code>qemu-system-x86_64</code> but in most cases
 this can be swapped with the system emulator for other architectures.</p>
-<h2><a class="header" href="#keybindings-1" id="keybindings-1">Keybindings</a></h2>
+<h2 id="keybindings-1"><a class="header" href="#keybindings-1">Keybindings</a></h2>
 <p>Graphic mode:</p>
 <pre><code class="language-markdown">Ctrl+Alt+g         release mouse capture from VM
 
@@ -1784,7 +1768,7 @@ Ctrl+Alt+2         switch to qemu monitor
 Ctrl+a x           exit emulator
 Ctrl+a c           switch between monitor and console
 </code></pre>
-<h2><a class="header" href="#vm-config-snippet" id="vm-config-snippet">VM config snippet</a></h2>
+<h2 id="vm-config-snippet"><a class="header" href="#vm-config-snippet">VM config snippet</a></h2>
 <p>Following command-line gives a good starting point to assemble a VM:</p>
 <pre><code>qemu-system-x86_64                 \
     -cpu host -enable-kvm -smp 4   \
@@ -1796,7 +1780,7 @@ Ctrl+a c           switch between monitor and console
     -device qemu-xhci,id=xhci      \
     -device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408,id=capture-card
 </code></pre>
-<h3><a class="header" href="#cpu--ram" id="cpu--ram">CPU &amp; RAM</a></h3>
+<h3 id="cpu--ram"><a class="header" href="#cpu--ram">CPU &amp; RAM</a></h3>
 <pre><code class="language-bash"># Emulate host CPU in guest VM, enabling all supported host featured (requires KVM).
 # List available CPUs `qemu-system-x86_64 -cpu help`.
 -cpu host
@@ -1810,7 +1794,7 @@ Ctrl+a c           switch between monitor and console
 # Configure size of guest RAM.
 -m 8G
 </code></pre>
-<h3><a class="header" href="#graphic--display" id="graphic--display">Graphic &amp; Display</a></h3>
+<h3 id="graphic--display"><a class="header" href="#graphic--display">Graphic &amp; Display</a></h3>
 <pre><code class="language-bash"># Use sdl window as display and enable openGL context.
 -display sdl,gl=on
 
@@ -1820,11 +1804,11 @@ Ctrl+a c           switch between monitor and console
 # Confifure virtio as 3D video graphic accelerator (requires virgl in guest).
 -vga virtio
 </code></pre>
-<h3><a class="header" href="#boot-menu" id="boot-menu">Boot Menu</a></h3>
+<h3 id="boot-menu"><a class="header" href="#boot-menu">Boot Menu</a></h3>
 <pre><code class="language-bash"># Enables boot menu to select boot device (enter with `ESC`).
 -boot menu=on
 </code></pre>
-<h3><a class="header" href="#block-devices" id="block-devices">Block devices</a></h3>
+<h3 id="block-devices"><a class="header" href="#block-devices">Block devices</a></h3>
 <pre><code class="language-bash"># Attach cdrom drive with iso to a VM.
 -cdrom &lt;iso&gt;
 
@@ -1834,7 +1818,7 @@ Ctrl+a c           switch between monitor and console
 # Generic way to configure &amp; attach a drive to a VM.
 -drive file=&lt;file&gt;,format=qcow2
 </code></pre>
-<h4><a class="header" href="#create-a-disk-with-a-hrefhttpsqemu-projectgitlabioqemutoolsqemu-imghtmlqemu-imga" id="create-a-disk-with-a-hrefhttpsqemu-projectgitlabioqemutoolsqemu-imghtmlqemu-imga">Create a disk with <a href="https://qemu-project.gitlab.io/qemu/tools/qemu-img.html"><code>qemu-img</code></a></a></h4>
+<h4 id="create-a-disk-with-qemu-img"><a class="header" href="#create-a-disk-with-qemu-img">Create a disk with <a href="https://qemu-project.gitlab.io/qemu/tools/qemu-img.html"><code>qemu-img</code></a></a></h4>
 <p>To create a <code>qcow2</code> disk (qemu copy-on-write) of size <code>10G</code>:</p>
 <pre><code class="language-bash">qemu-img create -f qcow2 disk.qcow2 10G
 </code></pre>
@@ -1857,25 +1841,25 @@ lsblk -f /dev/sda
   ├─sda1 ext3         ....
   └─sda2 ext4         ....
 </code></pre>
-<h3><a class="header" href="#usb" id="usb">USB</a></h3>
-<h4><a class="header" href="#host-controller" id="host-controller">Host Controller</a></h4>
+<h3 id="usb"><a class="header" href="#usb">USB</a></h3>
+<h4 id="host-controller"><a class="header" href="#host-controller">Host Controller</a></h4>
 <pre><code class="language-bash"># Add XHCI USB controller to the VM (supports USB 3.0, 2.0, 1.1).
 # `id=xhci` creates a usb bus named `xhci`.
 -device qemu-xhci,id=xhci
 </code></pre>
-<h4><a class="header" href="#usb-device" id="usb-device">USB Device</a></h4>
+<h4 id="usb-device"><a class="header" href="#usb-device">USB Device</a></h4>
 <pre><code class="language-bash"># Pass-through USB device from host identified by vendorid &amp; productid and
 # attach to usb bus `xhci.0` (defined with controller `id`).
 -device usb-host,bus=xhci.0,vendorid=0x05e1,productid=0x0408
 </code></pre>
-<h2><a class="header" href="#debugging" id="debugging">Debugging</a></h2>
+<h2 id="debugging"><a class="header" href="#debugging">Debugging</a></h2>
 <pre><code class="language-bash"># Open gdbstub on tcp `&lt;port&gt;` (`-s` shorthand for `-gdb tcp::1234`).
 -gdb tcp::&lt;port&gt;
 
 # Freeze guest CPU at startup and wait for debugger connection.
 -S
 </code></pre>
-<h2><a class="header" href="#io-redirection-2" id="io-redirection-2">IO redirection</a></h2>
+<h2 id="io-redirection-2"><a class="header" href="#io-redirection-2">IO redirection</a></h2>
 <pre><code class="language-bash"># Create raw tcp server for `serial IO` and wait until a client connects
 # before executing the guest.
 -serial tcp:localhost:12345,server,wait
@@ -1892,17 +1876,17 @@ lsblk -f /dev/sda
 <p>In <code>server</code> mode use <code>nowait</code> to execute guest without waiting for a client
 connection.</p>
 </blockquote>
-<h2><a class="header" href="#network" id="network">Network</a></h2>
+<h2 id="network"><a class="header" href="#network">Network</a></h2>
 <pre><code class="language-bash"># Redirect host tcp port `1234` to guest port `4321`.
 -nic user,hostfwd=tcp:localhost:1234-:4321
 </code></pre>
-<h2><a class="header" href="#shared-drives" id="shared-drives">Shared drives</a></h2>
+<h2 id="shared-drives"><a class="header" href="#shared-drives">Shared drives</a></h2>
 <pre><code class="language-bash"># Attach a `virtio-9p-pci` device to the VM.
 # The guest requires 9p support and can mount the shared drive as:
 #   mount -t 9p -o trans=virtio someName /mnt
 -virtfs local,id=someName,path=&lt;someHostPath&gt;,mount_tag=someName,security_model=none
 </code></pre>
-<h2><a class="header" href="#debug-logging" id="debug-logging">Debug logging</a></h2>
+<h2 id="debug-logging"><a class="header" href="#debug-logging">Debug logging</a></h2>
 <pre><code class="language-bash"># List debug items.
 -d help
 
@@ -1912,7 +1896,7 @@ connection.</p>
 # Examples
 -d in_asm       Log executed guest instructions.
 </code></pre>
-<h2><a class="header" href="#tracing" id="tracing">Tracing</a></h2>
+<h2 id="tracing"><a class="header" href="#tracing">Tracing</a></h2>
 <pre><code class="language-bash"># List name of all trace points.
 -trace help
 
@@ -1923,7 +1907,7 @@ connection.</p>
 # File must contain one event/pattern per line.
 -trace events=&lt;events&gt;
 </code></pre>
-<h2><a class="header" href="#vm-snapshots" id="vm-snapshots">VM snapshots</a></h2>
+<h2 id="vm-snapshots"><a class="header" href="#vm-snapshots">VM snapshots</a></h2>
 <p>VM snapshots require that there is at least on <code>qcow2</code> disk attached to the VM
 (<a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">VM Snapshots</a>).</p>
 <p>Commands for qemu <a href="https://qemu-project.gitlab.io/qemu/system/monitor.html">Monitor</a> or <a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QMP</a>:</p>
@@ -1940,7 +1924,7 @@ delvm &lt;tag&gt;
     -loadvm &lt;tag&gt;  \
     ...
 </code></pre>
-<h2><a class="header" href="#vm-migration" id="vm-migration">VM Migration</a></h2>
+<h2 id="vm-migration"><a class="header" href="#vm-migration">VM Migration</a></h2>
 <p><code>Online</code> migration example:</p>
 <pre><code class="language-bash"># Start machine 1 on host ABC.
 qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
@@ -1967,7 +1951,7 @@ qemu-system-x86_64 -monitor stdio -incoming &quot;exec: gzip -d -c vm.gz&quot;
 <p>The migration source machine and the migration target machine should be
 launched with the <strong>same</strong> parameters.</p>
 </blockquote>
-<h2><a class="header" href="#appendix-direct-kernel-boot" id="appendix-direct-kernel-boot">Appendix: Direct <code>Kernel</code> boot</a></h2>
+<h2 id="appendix-direct-kernel-boot"><a class="header" href="#appendix-direct-kernel-boot">Appendix: Direct <code>Kernel</code> boot</a></h2>
 <p>Example command line to directly boot a <code>Kernel</code> with an <code>initrd</code> ramdisk.</p>
 <pre><code class="language-bash">qemu-system-x86_64                                                     \
     -cpu host                                                          \
@@ -1978,7 +1962,7 @@ launched with the <strong>same</strong> parameters.</p>
     ...
 </code></pre>
 <p>Instructions to build a minimal <a href="https://blog.memzero.de/kernel-debugging-qemu"><code>Kernel</code> and <code>initrd</code></a>.</p>
-<h2><a class="header" href="#references" id="references">References</a></h2>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li><a href="https://github.com/qemu/qemu/blob/master/docs/usb2.txt">QEMU USB</a></li>
 <li><a href="https://qemu-project.gitlab.io/qemu/tools/qemu-img.html">QEMU IMG</a></li>
@@ -1989,8 +1973,8 @@ launched with the <strong>same</strong> parameters.</p>
 <li><a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QEMU machine protocol (QMP)</a></li>
 <li><a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">QEMU VM Snapshots</a></li>
 </ul>
-<h1><a class="header" href="#pacman1" id="pacman1">pacman(1)</a></h1>
-<h2><a class="header" href="#remote-package-repositories" id="remote-package-repositories">Remote package repositories</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pacman1"><a class="header" href="#pacman1">pacman(1)</a></h1>
+<h2 id="remote-package-repositories"><a class="header" href="#remote-package-repositories">Remote package repositories</a></h2>
 <pre><code class="language-text">pacman -Sy              refresh package database
 pacman -S &lt;pkg&gt;         install pkg
 pacman -Ss &lt;regex&gt;      search remote package database
@@ -1998,10 +1982,10 @@ pacman -Si &lt;pkg&gt;        get info for pkg
 pacman -Su              upgrade installed packages
 pacman -Sc              clean local package cache
 </code></pre>
-<h2><a class="header" href="#remove-packages" id="remove-packages">Remove packages</a></h2>
+<h2 id="remove-packages"><a class="header" href="#remove-packages">Remove packages</a></h2>
 <pre><code class="language-text">pacman -Rsn &lt;pkg&gt;               uninstall package and unneeded deps + config files
 </code></pre>
-<h2><a class="header" href="#local-package-database" id="local-package-database">Local package database</a></h2>
+<h2 id="local-package-database"><a class="header" href="#local-package-database">Local package database</a></h2>
 <p>Local package database of installed packages.</p>
 <pre><code class="language-text">pacman -Q               list all installed packages
 pacman -Qs &lt;regex&gt;      search local package database
@@ -2009,14 +1993,14 @@ pacman -Ql &lt;pkg&gt;        list files installed by pkg
 pacman -Qo &lt;file&gt;       query package that owns file
 pacman -Qe              only list explicitly installed packages
 </code></pre>
-<h2><a class="header" href="#local-file-database" id="local-file-database">Local file database</a></h2>
+<h2 id="local-file-database"><a class="header" href="#local-file-database">Local file database</a></h2>
 <p>Local file database which allows to search packages owning certain files.
 Also searches non installed packages, but database must be synced.</p>
 <pre><code class="language-text">pacman -Fy              refresh file database
 pacman -Fl &lt;pkg&gt;        list files in pkg (must not be installed)
 pacman -Fx &lt;regex&gt;      search 
 </code></pre>
-<h2><a class="header" href="#hacks" id="hacks">Hacks</a></h2>
+<h2 id="hacks"><a class="header" href="#hacks">Hacks</a></h2>
 <p>Uninstall all orphaned packages (including config files) that were installed as
 dependencies.</p>
 <pre><code class="language-text">pacman -Rsn $(pacman -Qqtq)
@@ -2028,9 +2012,9 @@ package and sort by size.</p>
          /Installed Size/ { printf &quot;%8.2f%s %s\n&quot;, $4, $5, name }' |
     sort -h
 </code></pre>
-<h1><a class="header" href="#dot1" id="dot1">dot(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dot1"><a class="header" href="#dot1">dot(1)</a></h1>
 <p><a href="https://edotor.net/">Online playground</a></p>
-<h2><a class="header" href="#example-dot-file-to-copy--paste-from" id="example-dot-file-to-copy--paste-from">Example <code>dot</code> file to copy &amp; paste from.</a></h2>
+<h2 id="example-dot-file-to-copy--paste-from"><a class="header" href="#example-dot-file-to-copy--paste-from">Example <code>dot</code> file to copy &amp; paste from.</a></h2>
 <p>Can be rendered to <code>svg</code> with the following command.</p>
 <pre><code class="language-bash">dot -T svg -o g.svg g.dot
 </code></pre>
@@ -2071,7 +2055,7 @@ digraph {
 </code></pre>
 <p>Rendered <code>svg</code> file.
 <img src="https://johannst.github.io/notes/assets/g.svg" alt="g.svg" /></p>
-<h2><a class="header" href="#references-1" id="references-1">References</a></h2>
+<h2 id="references-1"><a class="header" href="#references-1">References</a></h2>
 <ul>
 <li><a href="https://graphviz.org/doc/info/lang.html">DOT language</a></li>
 <li><a href="https://graphviz.org/doc/info/attrs.html">Attributes</a></li>
@@ -2079,7 +2063,7 @@ digraph {
 <li><a href="https://graphviz.org/doc/info/colors.html">Colors</a></li>
 <li><a href="https://graphviz.org/pdf/dotguide.pdf">User manual</a></li>
 </ul>
-<h1><a class="header" href="#resource-analysis--monitor" id="resource-analysis--monitor">Resource analysis &amp; monitor</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="resource-analysis--monitor"><a class="header" href="#resource-analysis--monitor">Resource analysis &amp; monitor</a></h1>
 <ul>
 <li><a href="monitor/./lsof.html">lsof</a></li>
 <li><a href="monitor/./ss.html">ss</a></li>
@@ -2088,7 +2072,7 @@ digraph {
 <li><a href="monitor/./pmap.html">pmap</a></li>
 <li><a href="monitor/./pstack.html">pstack</a></li>
 </ul>
-<h1><a class="header" href="#lsof8" id="lsof8">lsof(8)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lsof8"><a class="header" href="#lsof8">lsof(8)</a></h1>
 <pre><code class="language-markdown">lsof
   -r &lt;s&gt; ..... repeatedly execute command ervery &lt;s&gt; seconds
   -a ......... AND slection filters instead ORing (OR: default)
@@ -2116,29 +2100,29 @@ digraph {
 -s states (UDP)
   Unbound, Idle
 </code></pre>
-<h1><a class="header" href="#examples-3" id="examples-3">Examples</a></h1>
-<h2><a class="header" href="#file-flags" id="file-flags">File flags</a></h2>
+<h1 id="examples-3"><a class="header" href="#examples-3">Examples</a></h1>
+<h2 id="file-flags"><a class="header" href="#file-flags">File flags</a></h2>
 <p>Show open files with file flags for process:</p>
 <pre><code class="language-markdown">lsof +fg -p &lt;pid&gt;
 </code></pre>
-<h2><a class="header" href="#open-tcp-connections" id="open-tcp-connections">Open TCP connections</a></h2>
+<h2 id="open-tcp-connections"><a class="header" href="#open-tcp-connections">Open TCP connections</a></h2>
 <p>Show open tcp connections for <code>$USER</code>:</p>
 <pre><code class="language-markdown">lsof -a -u $USER -i TCP
 </code></pre>
 <p><strong>Note</strong>: <code>-a</code> <em>ands</em> the results. If <code>-a</code> is not given all open files matching
 <code>$USER</code> and all tcp connections are listed (<em>ored</em>).</p>
-<h2><a class="header" href="#open-connection-to-specific-host" id="open-connection-to-specific-host">Open connection to specific host</a></h2>
+<h2 id="open-connection-to-specific-host"><a class="header" href="#open-connection-to-specific-host">Open connection to specific host</a></h2>
 <p>Show open connections to <code>localhost</code> for <code>$USER</code>:</p>
 <pre><code class="language-markdown">lsof -a -u $USER -i @localhost
 </code></pre>
-<h2><a class="header" href="#open-connection-to-specific-port" id="open-connection-to-specific-port">Open connection to specific port</a></h2>
+<h2 id="open-connection-to-specific-port"><a class="header" href="#open-connection-to-specific-port">Open connection to specific port</a></h2>
 <p>Show open connections to port <code>:1234</code> for <code>$USER</code>:</p>
 <pre><code class="language-markdown">lsof -a -u $USER -i :1234
 </code></pre>
-<h2><a class="header" href="#ipv4-tcp-connections-in-established-state" id="ipv4-tcp-connections-in-established-state">IPv4 TCP connections in <code>ESTABLISHED</code> state</a></h2>
+<h2 id="ipv4-tcp-connections-in-established-state"><a class="header" href="#ipv4-tcp-connections-in-established-state">IPv4 TCP connections in <code>ESTABLISHED</code> state</a></h2>
 <pre><code class="language-markdown">lsof -i 4TCP -s TCP:ESTABLISHED
 </code></pre>
-<h1><a class="header" href="#ss8" id="ss8">ss(8)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ss8"><a class="header" href="#ss8">ss(8)</a></h1>
 <pre><code class="language-markdown">ss [option] [filter]
 </code></pre>
 <pre><code class="language-markdown">[option]
@@ -2158,21 +2142,21 @@ digraph {
 
   (EXPR) .............. Group exprs
 </code></pre>
-<h1><a class="header" href="#examples-4" id="examples-4">Examples</a></h1>
+<h1 id="examples-4"><a class="header" href="#examples-4">Examples</a></h1>
 <p>Show all tcp IPv4 sockets connecting to port <code>443</code>:</p>
 <pre><code class="language-markdown">ss -4 'dport 443'
 </code></pre>
 <p>Show all tcp IPv4 sockets that don't connect to port <code>443</code> or connect to address <code>1.2.3.4</code>.</p>
 <pre><code class="language-markdown">ss -4 'dport != 443 or dst 1.2.3.4'
 </code></pre>
-<h1><a class="header" href="#pidstat1" id="pidstat1">pidstat(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pidstat1"><a class="header" href="#pidstat1">pidstat(1)</a></h1>
 <pre><code class="language-markdown">pidstat [opt] [interval] [cont]
   -U [user]     show username instead UID, optionally only show for user
   -r            memory statistics
   -d            I/O statistics
   -h            single line per process and no lines with average
 </code></pre>
-<h1><a class="header" href="#page-fault-and-memory-utilization" id="page-fault-and-memory-utilization">Page fault and memory utilization</a></h1>
+<h1 id="page-fault-and-memory-utilization"><a class="header" href="#page-fault-and-memory-utilization">Page fault and memory utilization</a></h1>
 <pre><code class="language-markdown">pidstat -r -p &lt;pid&gt; [interval] [count]
 </code></pre>
 <pre><code class="language-markdown">minor_pagefault: Happens when the page needed is already in memory but not
@@ -2185,30 +2169,30 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
                  has to create a new page-table entry and populate the
                  physical page (required to load a memory page from disk).
 </code></pre>
-<h1><a class="header" href="#io-statistics" id="io-statistics">I/O statistics</a></h1>
+<h1 id="io-statistics"><a class="header" href="#io-statistics">I/O statistics</a></h1>
 <pre><code class="language-markdown">pidstat -d -p &lt;pid&gt; [interval] [count]
 </code></pre>
-<h1><a class="header" href="#pgrep1" id="pgrep1">pgrep(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pgrep1"><a class="header" href="#pgrep1">pgrep(1)</a></h1>
 <pre><code class="language-markdown">pgrep [opts] &lt;pattern&gt;
   -n         only list newest matching process
   -u &lt;usr&gt;   only show matching for user &lt;usr&gt;
   -l         additionally list command
   -a         additionally list command + arguments
 </code></pre>
-<h2><a class="header" href="#debug-newest-process" id="debug-newest-process">Debug newest process</a></h2>
+<h2 id="debug-newest-process"><a class="header" href="#debug-newest-process">Debug newest process</a></h2>
 <p>For example attach gdb to newest zsh process from <code>$USER</code>.</p>
 <pre><code class="language-markdown">gdb -p $(pgrep -n -u $USER zsh)
 </code></pre>
-<h1><a class="header" href="#pmap1" id="pmap1">pmap(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pmap1"><a class="header" href="#pmap1">pmap(1)</a></h1>
 <pre><code class="language-markdown">pmap &lt;pid&gt;
     Dump virtual memory map of process.
     Compared to /proc/&lt;pid&gt;/maps it shows the size of the mappings.
 </code></pre>
-<h1><a class="header" href="#pstack1" id="pstack1">pstack(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pstack1"><a class="header" href="#pstack1">pstack(1)</a></h1>
 <pre><code class="language-markdown">pstack &lt;pid&gt;
     Dump stack for all threads of process.
 </code></pre>
-<h1><a class="header" href="#trace-and-profile" id="trace-and-profile">Trace and Profile</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="trace-and-profile"><a class="header" href="#trace-and-profile">Trace and Profile</a></h1>
 <ul>
 <li><a href="trace_profile/./strace.html">strace</a></li>
 <li><a href="trace_profile/./ltrace.html">ltrace</a></li>
@@ -2216,7 +2200,7 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <li><a href="trace_profile/./oprofile.html">OProfile</a></li>
 <li><a href="trace_profile/./time.html">time</a></li>
 </ul>
-<h1><a class="header" href="#strace1" id="strace1">strace(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="strace1"><a class="header" href="#strace1">strace(1)</a></h1>
 <pre><code class="language-markdown">strace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -p &lt;pid&gt; .... attach to running process
@@ -2237,14 +2221,14 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
   trace=signal ............... trace signal related syscalls
   signal ..................... trace signals delivered to the process
 </code></pre>
-<h1><a class="header" href="#examples-5" id="examples-5">Examples</a></h1>
+<h1 id="examples-5"><a class="header" href="#examples-5">Examples</a></h1>
 <p>Trace <code>open(2)</code> &amp; <code>socket(2)</code> syscalls for a running process + child processes:</p>
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
 <p>Trace signals delivered to a running process:</p>
 <pre><code class="language-markdown">strace -e signal -e 'trace=!all' -p &lt;pid&gt;
 </code></pre>
-<h1><a class="header" href="#ltrace1" id="ltrace1">ltrace(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ltrace1"><a class="header" href="#ltrace1">ltrace(1)</a></h1>
 <pre><code class="language-markdown">ltrace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -p &lt;pid&gt; .... attach to running process
@@ -2252,11 +2236,11 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
   -l &lt;filter&gt; . show who calls into lib matched by &lt;filter&gt;
   -C .......... demangle
 </code></pre>
-<h1><a class="header" href="#example-5" id="example-5">Example</a></h1>
+<h1 id="example-5"><a class="header" href="#example-5">Example</a></h1>
 <p>List which program/libs call into <code>libstdc++</code>:</p>
 <pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
 </code></pre>
-<h1><a class="header" href="#perf1" id="perf1">perf(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="perf1"><a class="header" href="#perf1">perf(1)</a></h1>
 <pre><code class="language-markdown">perf list      show supported hw/sw events
 
 perf stat
@@ -2292,17 +2276,17 @@ perf report
   cpu-cycles`
   task-clock
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsgithubcombrendangreggflamegraphflamegrapha" id="a-hrefhttpsgithubcombrendangreggflamegraphflamegrapha"><a href="https://github.com/brendangregg/FlameGraph"><code>Flamegraph</code></a></a></h2>
-<h3><a class="header" href="#flamegraph-with-single-event-trace" id="flamegraph-with-single-event-trace">Flamegraph with single event trace</a></h3>
+<h2 id="flamegraph"><a class="header" href="#flamegraph"><a href="https://github.com/brendangregg/FlameGraph"><code>Flamegraph</code></a></a></h2>
+<h3 id="flamegraph-with-single-event-trace"><a class="header" href="#flamegraph-with-single-event-trace">Flamegraph with single event trace</a></h3>
 <pre><code class="language-markdown">perf record -g -e cpu-cycles -p &lt;pid&gt;
 perf script | FlameGraph/stackcollapse-perf.pl | FlameGraph/flamegraph.pl &gt; cycles-flamegraph.svg
 </code></pre>
-<h3><a class="header" href="#flamegraph-with-multiple-event-traces" id="flamegraph-with-multiple-event-traces">Flamegraph with multiple event traces</a></h3>
+<h3 id="flamegraph-with-multiple-event-traces"><a class="header" href="#flamegraph-with-multiple-event-traces">Flamegraph with multiple event traces</a></h3>
 <pre><code class="language-markdown">perf record -g -e cpu-cycles,page-faults -p &lt;pid&gt;
 perf script --per-event-dump
 # fold &amp; generate as above
 </code></pre>
-<h1><a class="header" href="#a-hrefhttpsoprofilesourceforgeiooprofilea" id="a-hrefhttpsoprofilesourceforgeiooprofilea"><a href="https://oprofile.sourceforge.io/">OProfile</a></a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="oprofile"><a class="header" href="#oprofile"><a href="https://oprofile.sourceforge.io/">OProfile</a></a></h1>
 <pre><code class="language-markdown">operf -g -p &lt;pid&gt;
   -g ...... caputre call-graph information
 
@@ -2314,11 +2298,11 @@ opreport [opt] FILE
 
 ophelp      show supported hw/sw events
 </code></pre>
-<h1><a class="header" href="#usrbintime1" id="usrbintime1">/usr/bin/time(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="usrbintime1"><a class="header" href="#usrbintime1">/usr/bin/time(1)</a></h1>
 <pre><code class="language-markdown"># statistics of process run
 /usr/bin/time -v &lt;cmd&gt;
 </code></pre>
-<h1><a class="header" href="#binary" id="binary">Binary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="binary"><a class="header" href="#binary">Binary</a></h1>
 <ul>
 <li><a href="binary/./od.html">od</a></li>
 <li><a href="binary/./xxd.html">xxd</a></li>
@@ -2326,7 +2310,7 @@ ophelp      show supported hw/sw events
 <li><a href="binary/./objdump.html">objdump</a></li>
 <li><a href="binary/./nm.html">nm</a></li>
 </ul>
-<h1><a class="header" href="#od1" id="od1">od(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="od1"><a class="header" href="#od1">od(1)</a></h1>
 <pre><code class="language-markdown">  od [opts] &lt;file&gt;
     -An         don't print addr info
     -tx4        print hex in 4 byte chunks
@@ -2336,7 +2320,7 @@ ophelp      show supported hw/sw events
     -j &lt;n&gt;      skip &lt;n&gt; bytes from &lt;file&gt; (hex if start with 0x)
     -N &lt;n&gt;      dump &lt;n&gt; bytes (hex of start with 0x)
 </code></pre>
-<h2><a class="header" href="#ascii-to-hex-string" id="ascii-to-hex-string">ASCII to hex string</a></h2>
+<h2 id="ascii-to-hex-string"><a class="header" href="#ascii-to-hex-string">ASCII to hex string</a></h2>
 <pre><code class="language-markdown">  echo -n AAAABBBB | od -An -w4 -tx4
     &gt;&gt; 41414141
     &gt;&gt; 42424242
@@ -2346,7 +2330,7 @@ ophelp      show supported hw/sw events
     &gt;&gt;         del   E   L   F  nl      # ta
     &gt;&gt;         177   E   L   F  \n      # tc
 </code></pre>
-<h2><a class="header" href="#extract-parts-of-file" id="extract-parts-of-file">Extract parts of file</a></h2>
+<h2 id="extract-parts-of-file"><a class="header" href="#extract-parts-of-file">Extract parts of file</a></h2>
 <p>For example <code>.rodata</code> section from an elf file. We can use <code>readelf</code> to get the
 offset into the file where the <code>.rodata</code> section starts.</p>
 <pre><code class="language-markdown">  readelf -W -S foo
@@ -2367,33 +2351,33 @@ the <code>.rodata</code> section as follows:</p>
     &gt;&gt; 0004754 00000004
 </code></pre>
 <p><strong>Note</strong>: Numbers starting with <code>0x</code> will be interpreted as hex by <code>od</code>.</p>
-<h1><a class="header" href="#xxd1" id="xxd1">xxd(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="xxd1"><a class="header" href="#xxd1">xxd(1)</a></h1>
 <pre><code class="language-markdown">  xxd [opts]
     -p          dump continuous hexdump
     -r          convert hexdump into binary ('revert')
     -e          dump as little endian mode
     -i          output as C array
 </code></pre>
-<h2><a class="header" href="#ascii-to-hex-stream" id="ascii-to-hex-stream">ASCII to hex stream</a></h2>
+<h2 id="ascii-to-hex-stream"><a class="header" href="#ascii-to-hex-stream">ASCII to hex stream</a></h2>
 <pre><code class="language-markdown">  echo -n 'aabb' | xxd -p
     &gt;&gt; 61616262
 </code></pre>
-<h2><a class="header" href="#hex-to-binary-stream" id="hex-to-binary-stream">Hex to binary stream</a></h2>
+<h2 id="hex-to-binary-stream"><a class="header" href="#hex-to-binary-stream">Hex to binary stream</a></h2>
 <pre><code class="language-markdown">  echo -n '61616262' | xxd -p -r
     &gt;&gt; aabb
 </code></pre>
-<h2><a class="header" href="#ascii-to-binary" id="ascii-to-binary">ASCII to binary</a></h2>
+<h2 id="ascii-to-binary"><a class="header" href="#ascii-to-binary">ASCII to binary</a></h2>
 <pre><code class="language-markdown">  echo -n '\x7fELF' | xxd -p | xxd -p -r | file -p -
     &gt;&gt; ELF
 </code></pre>
-<h2><a class="header" href="#ascii-to-c-array-hex-encoded" id="ascii-to-c-array-hex-encoded">ASCII to <code>C</code> array (hex encoded)</a></h2>
+<h2 id="ascii-to-c-array-hex-encoded"><a class="header" href="#ascii-to-c-array-hex-encoded">ASCII to <code>C</code> array (hex encoded)</a></h2>
 <pre><code class="language-markdown">  xxd -i &lt;(echo -n '\x7fELF')
     &gt;&gt; unsigned char _proc_self_fd_11[] = {
     &gt;&gt;   0x7f, 0x45, 0x4c, 0x46
     &gt;&gt; };
     &gt;&gt; unsigned int _proc_self_fd_11_len = 4;
 </code></pre>
-<h1><a class="header" href="#readelf1" id="readelf1">readelf(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="readelf1"><a class="header" href="#readelf1">readelf(1)</a></h1>
 <pre><code class="language-markdown">  readelf [opts] &lt;elf&gt;
     -W|--wide     wide output, dont break output at 80 chars
     -h            print ELF header
@@ -2404,7 +2388,7 @@ the <code>.rodata</code> section as follows:</p>
     --dyn-syms    print dynamic symbol table (exported symbols for dynamic linker)
     -r            print relocation sections (.rel.*, .rela.*)
 </code></pre>
-<h1><a class="header" href="#objdump1" id="objdump1">objdump(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="objdump1"><a class="header" href="#objdump1">objdump(1)</a></h1>
 <pre><code class="language-markdown">  objdump [opts] &lt;elf&gt;
     -M intel                use intil syntax
     -d                      disassemble text section
@@ -2414,51 +2398,164 @@ the <code>.rodata</code> section as follows:</p>
     -j &lt;section&gt;            display info for section
     --[no-]show-raw-insn    [dont] show object code next to disassembly
 </code></pre>
-<h2><a class="header" href="#disassemble-section" id="disassemble-section">Disassemble section</a></h2>
+<h2 id="disassemble-section"><a class="header" href="#disassemble-section">Disassemble section</a></h2>
 <p>For example <code>.plt</code> section:</p>
 <pre><code class="language-markdown">  objdump -j .plt -d &lt;elf&gt;
 </code></pre>
-<h1><a class="header" href="#nm1" id="nm1">nm(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nm1"><a class="header" href="#nm1">nm(1)</a></h1>
 <pre><code class="language-markdown">  nm [opts] &lt;elf&gt;
     -C          demangle
     -u          undefined only
 </code></pre>
-<h1><a class="header" href="#development" id="development">Development</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="development"><a class="header" href="#development">Development</a></h1>
 <ul>
 <li><a href="development/./c++filt.html">c++filt</a></li>
 <li><a href="development/./c++.html">c++</a></li>
 <li><a href="development/./glibc.html">glibc</a></li>
 <li><a href="development/./gcc.html">gcc</a></li>
-<li>[make] (./make.md)</li>
+<li><a href="development/./make.html">make</a></li>
 <li><a href="development/./ld.so.html">ld.so</a></li>
 <li><a href="development/./symbolver.html">symbol versioning</a></li>
 <li><a href="development/./python.html">python</a></li>
 </ul>
-<h1><a class="header" href="#cfilt1" id="cfilt1">c++filt(1)</a></h1>
-<h2><a class="header" href="#demangle-symbol" id="demangle-symbol">Demangle symbol</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cfilt1"><a class="header" href="#cfilt1">c++filt(1)</a></h1>
+<h2 id="demangle-symbol"><a class="header" href="#demangle-symbol">Demangle symbol</a></h2>
 <pre><code class="language-markdown">  c++-filt &lt;symbol_str&gt;
 </code></pre>
-<h2><a class="header" href="#demangle-stream" id="demangle-stream">Demangle stream</a></h2>
+<h2 id="demangle-stream"><a class="header" href="#demangle-stream">Demangle stream</a></h2>
 <p>For example dynamic symbol table:</p>
 <pre><code class="language-markdown">  readelf -W --dyn-syms &lt;elf&gt; | c++filt
 </code></pre>
-<h1><a class="header" href="#c" id="c">c++</a></h1>
-<h2><a class="header" href="#type-deduction" id="type-deduction">Type deduction</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="c"><a class="header" href="#c">c++</a></h1>
+<h2 id="type-deduction"><a class="header" href="#type-deduction">Type deduction</a></h2>
 <p>Force compile error to see what <code>auto</code> is deduced to.</p>
 <pre><code class="language-cpp">auto foo = bar();
 
 // force compile error
 typename decltype(foo)::_;
 </code></pre>
-<h2><a class="header" href="#variadic-templates-a-hrefhttpsencppreferencecomwcpplanguageparameter_packparameter-packa" id="variadic-templates-a-hrefhttpsencppreferencecomwcpplanguageparameter_packparameter-packa">Variadic templates (<a href="https://en.cppreference.com/w/cpp/language/parameter_pack">parameter pack</a>)</a></h2>
-<pre><code class="language-cpp">{{#include c++/meta.cc:3:}}
+<h2 id="variadic-templates-parameter-pack"><a class="header" href="#variadic-templates-parameter-pack">Variadic templates (<a href="https://en.cppreference.com/w/cpp/language/parameter_pack">parameter pack</a>)</a></h2>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+// Base case with one parameter.
+template&lt;int P&gt;
+void show_int() {
+    printf(&quot;%d\n&quot;, P);
+}
+
+// General case with at least two parameters, to disambiguate from base case.
+template&lt;int P0, int P1, int... Params&gt;
+void show_int() {
+    printf(&quot;%d, &quot;, P0);
+    show_int&lt;P1, Params...&gt;();
+}
+
+// Base case with one parameter.
+template&lt;typename T&gt;
+void show(const T&amp; t) {
+    std::cout &lt;&lt; t &lt;&lt; '\n';
+}
+
+// General case with at least two parameters, to disambiguate from base case.
+template&lt;typename T0, typename T1, typename... Types&gt;
+void show(const T0&amp; t0, const T1&amp; t1, const Types&amp;... types) {
+    std::cout &lt;&lt; t0 &lt;&lt; &quot;, &quot;;
+    show(t1, types...);
+}
+
+int main() {
+    show_int&lt;1, 2, 3, 4, 5&gt;();
+    show(1, 1.0, &quot;foo&quot;, 'a');
+}
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsencppreferencecomwcpplanguagesfinaesfinaea-example-a-hrefhttpsencppreferencecomwcpptypesenable_ifenable_ifa" id="a-hrefhttpsencppreferencecomwcpplanguagesfinaesfinaea-example-a-hrefhttpsencppreferencecomwcpptypesenable_ifenable_ifa"><a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a> example (<a href="https://en.cppreference.com/w/cpp/types/enable_if">enable_if</a>)</a></h2>
-<pre><code class="language-cpp">{{#include c++/meta2.cc:3:}}
+<h2 id="sfinae-example-enable_if"><a class="header" href="#sfinae-example-enable_if"><a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a> example (<a href="https://en.cppreference.com/w/cpp/types/enable_if">enable_if</a>)</a></h2>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;type_traits&gt;
+
+// Helper meta fns.
+
+template&lt;typename T&gt;
+using enable_if_bool = std::enable_if_t&lt;T::value, bool&gt;;
+
+template&lt;typename T&gt;
+using disable_if_bool = std::enable_if_t&lt;!T::value, bool&gt;;
+
+template&lt;typename T&gt;
+using has_dst = std::integral_constant&lt;bool, !std::is_same&lt;typename T::Return, void&gt;::value&gt;;
+
+// Template meta programming invoke machinery.
+
+namespace impl {
+    // Invoke an OPERATION which *USES* a context.
+    template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
+             enable_if_bool&lt;typename Op&lt;Ctx&gt;::HasCtx&gt; = true&gt;
+    typename Op&lt;Ctx&gt;::Return Invoke(const Ctx&amp; C, P... params) {
+        return Op&lt;Ctx&gt;()(C, params...);
+    }
+
+    // Invoke an OPERATION which uses *NO* context.
+    template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
+             disable_if_bool&lt;typename Op&lt;Ctx&gt;::HasCtx&gt; = true&gt;
+    typename Op&lt;Ctx&gt;::Return Invoke(const Ctx&amp;, P... params) {
+        return Op&lt;Ctx&gt;()(params...);
+    }
+}  // namespace impl
+
+// Invoke an OPERATION which *HAS* a DESTINATION with arbitrary number of arguments.
+template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
+         enable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
+void Invoke(const Ctx&amp; C, P... params) {
+    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; '\n';
+    typename Op&lt;Ctx&gt;::Return R = impl::Invoke&lt;Ctx, Op&gt;(C, params...);
+    std::cout &lt;&lt; &quot;returned -&gt; &quot; &lt;&lt; R &lt;&lt; '\n';
+}
+
+// Invoke an OPERATION which has *NOT* a DESTINATION with arbitrary number of arguments.
+template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
+         disable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
+void Invoke(const Ctx&amp; C, P... params) {
+    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; &quot; without destination.&quot; &lt;&lt; '\n';
+    impl::Invoke&lt;Ctx, Op&gt;(C, params...);
+}
+
+// Custom context.
+
+struct Ctx {
+    void out(const char* s, unsigned v) const { printf(&quot;%s%x\n&quot;, s, v); }
+};
+
+// Operations to invoke.
+
+template&lt;typename Ctx&gt;
+struct OpA {
+    using HasCtx = std::false_type;
+    using Return = int;
+    static constexpr const char* const Name = &quot;OpA&quot;;
+
+    constexpr Return operator()(int a, int b) const { return a + b; }
+};
+
+template&lt;typename Ctx&gt;
+struct OpB {
+    using HasCtx = std::true_type;
+    using Return = void;
+    static constexpr const char* const Name = &quot;OpB&quot;;
+
+    Return operator()(const Ctx&amp; C, unsigned a) const { C.out(&quot;a = &quot;, a); }
+};
+
+int main() {
+    Ctx C;
+
+    Invoke&lt;Ctx, OpA&gt;(C, 1, 2);
+    Invoke&lt;Ctx, OpB&gt;(C, 0xf00du);
+
+    return 0;
+}
 
 </code></pre>
-<h1><a class="header" href="#glibc" id="glibc">glibc</a></h1>
-<h2><a class="header" href="#malloc-tracer-a-hrefhttpman7orglinuxman-pagesman3mtrace3htmlmtrace3a" id="malloc-tracer-a-hrefhttpman7orglinuxman-pagesman3mtrace3htmlmtrace3a">malloc tracer <a href="http://man7.org/linux/man-pages/man3/mtrace.3.html"><code>mtrace(3)</code></a></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="glibc"><a class="header" href="#glibc">glibc</a></h1>
+<h2 id="malloc-tracer-mtrace3"><a class="header" href="#malloc-tracer-mtrace3">malloc tracer <a href="http://man7.org/linux/man-pages/man3/mtrace.3.html"><code>mtrace(3)</code></a></a></h2>
 <p>Trace memory allocation and de-allocation to detect memory leaks.
 Need to call <code>mtrace(3)</code> to install the tracing hooks.</p>
 <p>If we can't modify the binary to call <code>mtrace</code> we can create a small shared
@@ -2478,7 +2575,7 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 <p>To get the results of the trace file:</p>
 <pre><code class="language-bash">mtrace &lt;binary&gt; $MALLOC_TRACE
 </code></pre>
-<h2><a class="header" href="#malloc-check-a-hrefhttpman7orglinuxman-pagesman3mallopt3htmlmallopt3a" id="malloc-check-a-hrefhttpman7orglinuxman-pagesman3mallopt3htmlmallopt3a">malloc check <a href="http://man7.org/linux/man-pages/man3/mallopt.3.html"><code>mallopt(3)</code></a></a></h2>
+<h2 id="malloc-check-mallopt3"><a class="header" href="#malloc-check-mallopt3">malloc check <a href="http://man7.org/linux/man-pages/man3/mallopt.3.html"><code>mallopt(3)</code></a></a></h2>
 <p>Configure action when glibc detects memory error.</p>
 <pre><code class="language-bash">export MALLOC_CHECK_=&lt;N&gt;
 </code></pre>
@@ -2487,9 +2584,9 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 3   print detailed error + stack trace + memory mappings &amp; abort
 7   print simple error message + stack trace + memory mappings &amp; abort
 </code></pre>
-<h1><a class="header" href="#gcc1" id="gcc1">gcc(1)</a></h1>
-<h2><a class="header" href="#cli-2" id="cli-2">CLI</a></h2>
-<h3><a class="header" href="#preprocessing" id="preprocessing">Preprocessing</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
+<h2 id="cli-2"><a class="header" href="#cli-2">CLI</a></h2>
+<h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
 <p>While debugging can be helpful to just pre-process files.</p>
 <pre><code class="language-bash">gcc -E [-dM] ...
 </code></pre>
@@ -2499,15 +2596,15 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 <li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
 <li><code>-print-multi-lib</code> print available multilib configurations</li>
 </ul>
-<h3><a class="header" href="#target-options" id="target-options">Target options</a></h3>
+<h3 id="target-options"><a class="header" href="#target-options">Target options</a></h3>
 <pre><code class="language-bash"># List all target options with their description.
 gcc --help=target
 
 # Configure for current cpu arch and query (-Q) value of options.
 gcc -march=native -Q --help=target
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsgccgnuorgonlinedocsgccother-builtinshtmlbuiltinsa" id="a-hrefhttpsgccgnuorgonlinedocsgccother-builtinshtmlbuiltinsa"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
-<h3><a class="header" href="#__builtin_expectexpr-cond" id="__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
+<h2 id="builtins"><a class="header" href="#builtins"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
+<h3 id="__builtin_expectexpr-cond"><a class="header" href="#__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
 <p>Give the compiler a hint which branch is hot, so it can lay out the code
 accordingly to reduce number of jump instructions.
 See on <a href="https://godbolt.org/z/MbTHAP">compiler explorer</a>.</p>
@@ -2546,13 +2643,13 @@ run1:
         xor     eax, eax
         jmp     bar
 </code></pre>
-<h2><a class="header" href="#abi-linux" id="abi-linux">ABI (Linux)</a></h2>
+<h2 id="abi-linux"><a class="header" href="#abi-linux">ABI (Linux)</a></h2>
 <ul>
 <li>C ABI - <a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV ABI</a></li>
 <li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
 </ul>
-<h1><a class="header" href="#make1" id="make1">make(1)</a></h1>
-<h2><a class="header" href="#anatomy-of-make-rules" id="anatomy-of-make-rules">Anatomy of <code>make</code> rules</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="make1"><a class="header" href="#make1">make(1)</a></h1>
+<h2 id="anatomy-of-make-rules"><a class="header" href="#anatomy-of-make-rules">Anatomy of <code>make</code> rules</a></h2>
 <pre><code class="language-make">target .. : prerequisite ..
 	recipe
 	..
@@ -2565,8 +2662,8 @@ run1:
 <blockquote>
 <p>Use <code>make -p</code> to print all rules and variables (implicitly + explicitly defined).</p>
 </blockquote>
-<h2><a class="header" href="#pattern-rules--automatic-variables" id="pattern-rules--automatic-variables">Pattern rules &amp; Automatic variables</a></h2>
-<h3><a class="header" href="#pattern-rules" id="pattern-rules">Pattern rules</a></h3>
+<h2 id="pattern-rules--automatic-variables"><a class="header" href="#pattern-rules--automatic-variables">Pattern rules &amp; Automatic variables</a></h2>
+<h3 id="pattern-rules"><a class="header" href="#pattern-rules">Pattern rules</a></h3>
 <p>A pattern rule contains the <code>%</code> char (exactly one of them) and look like this example:</p>
 <pre><code class="language-make">%.o : %.c
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $&lt; -o $@
@@ -2575,7 +2672,7 @@ run1:
 substring and other character match just them self.</p>
 <p>The substring matched by <code>%</code> is called the <code>stem</code>.</p>
 <p><code>%</code> in the prerequisite stands for the matched <code>stem</code> in the target.</p>
-<h3><a class="header" href="#automatic-variables" id="automatic-variables">Automatic variables</a></h3>
+<h3 id="automatic-variables"><a class="header" href="#automatic-variables">Automatic variables</a></h3>
 <p>As targets and prerequisites in pattern rules can't be spelled explicitly in
 the recipe, make provides a set of automatic variables to work with:</p>
 <ul>
@@ -2618,26 +2715,26 @@ bbb:
 <ul>
 <li><code>$(CURDIR)</code>: Path of current working dir after using <code>make -C path</code></li>
 </ul>
-<h2><a class="header" href="#useful-functions" id="useful-functions">Useful functions</a></h2>
-<h3><a class="header" href="#substitution-references" id="substitution-references">Substitution references</a></h3>
+<h2 id="useful-functions"><a class="header" href="#useful-functions">Useful functions</a></h2>
+<h3 id="substitution-references"><a class="header" href="#substitution-references">Substitution references</a></h3>
 <p>Substitute strings matching pattern in a list.</p>
 <pre><code class="language-make">in  := a.o l.a c.o
 out := $(in:.o=.c)
 # =&gt; out = a.c l.a c.c
 </code></pre>
-<h3><a class="header" href="#filter" id="filter"><code>filter</code></a></h3>
+<h3 id="filter"><a class="header" href="#filter"><code>filter</code></a></h3>
 <p>Keep strings matching a pattern in a list.</p>
 <pre><code class="language-make">in  := a.a b.b c.c d.d
 out := $(filter %.b %.c, $(in))
 # =&gt; out = b.b c.c
 </code></pre>
-<h3><a class="header" href="#filter-out" id="filter-out"><code>filter-out</code></a></h3>
+<h3 id="filter-out"><a class="header" href="#filter-out"><code>filter-out</code></a></h3>
 <p>Remove strings matching a pattern from a list.</p>
 <pre><code class="language-make">in  := a.a b.b c.c d.d
 out := $(filter-out %.b %.c, $(in))
 # =&gt; out = a.a d.d
 </code></pre>
-<h3><a class="header" href="#abspath" id="abspath"><code>abspath</code></a></h3>
+<h3 id="abspath"><a class="header" href="#abspath"><code>abspath</code></a></h3>
 <p>Resolve each file name as absolute path (don't resolve symlinks).</p>
 <pre><code class="language-make">$(abspath fname1 fname2 ..)
 
@@ -2646,8 +2743,8 @@ Resolve each file name as canonical path.
 ```make
 $(realpath fname1 fname2 ..)
 </code></pre>
-<h1><a class="header" href="#ldso8" id="ldso8">ld.so(8)</a></h1>
-<h2><a class="header" href="#environment-variables" id="environment-variables">Environment Variables</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ldso8"><a class="header" href="#ldso8">ld.so(8)</a></h1>
+<h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
 <pre><code class="language-console">  LD_PRELOAD=&lt;l_so&gt;       colon separated list of libso's to be pre loaded
   LD_DEBUG=&lt;opts&gt;         comma separated list of debug options
           =help           list available options
@@ -2656,7 +2753,7 @@ $(realpath fname1 fname2 ..)
           =symbols        show search path for symbol lookup
           =bindings       show against which definition a symbol is bound
 </code></pre>
-<h2><a class="header" href="#ld_preload-initialization-order-and-link-map" id="ld_preload-initialization-order-and-link-map">LD_PRELOAD: Initialization Order and Link Map</a></h2>
+<h2 id="ld_preload-initialization-order-and-link-map"><a class="header" href="#ld_preload-initialization-order-and-link-map">LD_PRELOAD: Initialization Order and Link Map</a></h2>
 <p>Libraries specified in <code>LD_PRELOAD</code> are loaded from <code>left-to-right</code> but
 initialized from <code>right-to-left</code>.</p>
 <pre><code class="language-markdown">  &gt; ldd ./main
@@ -2702,7 +2799,7 @@ to see the resolving in action.</p>
     &gt;&gt; symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
     &gt;&gt; binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol `memcpy' [GLIBC_2.14]
 </code></pre>
-<h2><a class="header" href="#dynamic-linking-x86_64" id="dynamic-linking-x86_64">Dynamic Linking (x86_64)</a></h2>
+<h2 id="dynamic-linking-x86_64"><a class="header" href="#dynamic-linking-x86_64">Dynamic Linking (x86_64)</a></h2>
 <p>Dynamic linking basically works via one indirect jump. It uses a combination of
 function trampolines (<code>.plt</code> section) and a function pointer table (<code>.got.plt</code>
 section).
@@ -2757,7 +2854,7 @@ search for and where to put the function pointer:
 </code></pre>
 As we can see the offset from relocation at index <code>0</code> points to <code>GOT[3]</code>.</li>
 </ul>
-<h1><a class="header" href="#elf-symbol-versioning" id="elf-symbol-versioning">ELF Symbol Versioning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="elf-symbol-versioning"><a class="header" href="#elf-symbol-versioning">ELF Symbol Versioning</a></h1>
 <p>The <a href="https://refspecs.linuxbase.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic/symversion.html">ELF symbol versioning</a> mechanism allows to attach version
 information to symbols.
 This can be used to express symbol version requirements or to provide certain
@@ -2842,7 +2939,7 @@ by setting the <code>LD_DEBUG</code> environment variable accordingly.</p>
     718123: symbol=pthread_cond_wait;  lookup in file=/usr/lib/libpthread.so.0 [0]
     718123: binding file ./tmp [0] to /usr/lib/libpthread.so.0 [0]: normal symbol `pthread_cond_wait' [GLIBC_2.3.2]
 </code></pre>
-<h2><a class="header" href="#example-version-script" id="example-version-script">Example: version script</a></h2>
+<h2 id="example-version-script"><a class="header" href="#example-version-script">Example: version script</a></h2>
 <p>The following shows an example C++ library <code>libfoo</code> which provides the same
 symbol multiple times but in different versions.</p>
 <pre><code class="language-cpp">// file: libfoo.cc
@@ -2954,15 +3051,15 @@ func_v0
 func_v1
 func_v2
 </code></pre>
-<h2><a class="header" href="#references-2" id="references-2">References</a></h2>
+<h2 id="references-2"><a class="header" href="#references-2">References</a></h2>
 <ul>
 <li><a href="https://akkadia.org/drepper/symbol-versioning">ELF Symbol Versioning</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/VERSION.html">Binutils ld: Symbol Versioning</a></li>
 <li><a href="https://refspecs.linuxbase.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic/symversion.html">LSB: Symbol Versioning</a></li>
 <li><a href="https://akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a></li>
 </ul>
-<h1><a class="header" href="#python" id="python">python</a></h1>
-<h2><a class="header" href="#decorator-a-hrefhttpswwwonline-pythoncomiddie0gpyuruna" id="decorator-a-hrefhttpswwwonline-pythoncomiddie0gpyuruna">Decorator [<a href="https://www.online-python.com/IDdiE0gpYU">run</a>]</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="python"><a class="header" href="#python">python</a></h1>
+<h2 id="decorator-run"><a class="header" href="#decorator-run">Decorator [<a href="https://www.online-python.com/IDdiE0gpYU">run</a>]</a></h2>
 <p>Some decorator examples with type annotation.</p>
 <pre><code class="language-python">from typing import Callable
 
@@ -2989,7 +3086,7 @@ def log_tag(tag: str) -&gt; Callable[[Callable[[int], None]], Callable[[int], No
 def some_fn2(x: int):
     print(f&quot;some_fn2 x={x}&quot;)
 </code></pre>
-<h2><a class="header" href="#walrus-operator-a-hrefhttpswwwonline-pythoncom9t12pvmkvyruna" id="walrus-operator-a-hrefhttpswwwonline-pythoncom9t12pvmkvyruna">Walrus operator [<a href="https://www.online-python.com/9T12PvmKVy">run</a>]</a></h2>
+<h2 id="walrus-operator-run"><a class="header" href="#walrus-operator-run">Walrus operator [<a href="https://www.online-python.com/9T12PvmKVy">run</a>]</a></h2>
 <p>Walrus operator <code>:=</code> added since <strong>python 3.8</strong>.</p>
 <pre><code class="language-python">from typing import Optional
 
@@ -3014,7 +3111,7 @@ while tok := next(toks, None):
 
 print([tok for t in [&quot;  a&quot;, &quot;  &quot;, &quot; b &quot;] if (tok := t.strip())])
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsdocspythonorg3libraryunittesthtmlunittesta-a-hrefhttpswwwonline-pythoncom2fit4ucbziruna" id="a-hrefhttpsdocspythonorg3libraryunittesthtmlunittesta-a-hrefhttpswwwonline-pythoncom2fit4ucbziruna"><a href="https://docs.python.org/3/library/unittest.html">Unittest</a> [<a href="https://www.online-python.com/2fit4UcbzI">run</a>]</a></h2>
+<h2 id="unittest-run"><a class="header" href="#unittest-run"><a href="https://docs.python.org/3/library/unittest.html">Unittest</a> [<a href="https://www.online-python.com/2fit4UcbzI">run</a>]</a></h2>
 <p>Run unittests directly from the command line as <br />
 <code>python3 -m unittest -v test</code></p>
 <p>Optionally pass <code>-k &lt;patter&gt;</code> to only run subset of tests.</p>
@@ -3034,7 +3131,7 @@ class MyTest(unittest.TestCase):
         with self.assertRaises(IndexError):
             list()[0]
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsdocspythonorg3librarydoctesthtmldoctesta-a-hrefhttpswwwonline-pythoncomlzst51unihruna" id="a-hrefhttpsdocspythonorg3librarydoctesthtmldoctesta-a-hrefhttpswwwonline-pythoncomlzst51unihruna"><a href="https://docs.python.org/3/library/doctest.html">Doctest</a> [<a href="https://www.online-python.com/LZst51UNIH">run</a>]</a></h2>
+<h2 id="doctest-run"><a class="header" href="#doctest-run"><a href="https://docs.python.org/3/library/doctest.html">Doctest</a> [<a href="https://www.online-python.com/LZst51UNIH">run</a>]</a></h2>
 <p>Run doctests directly from the command line as <br />
 <code>python -m doctest -v test.py</code></p>
 <pre><code class="language-python"># file: test.py
@@ -3050,18 +3147,18 @@ def sum(a: int, b: int) -&gt; int:
     &quot;&quot;&quot;
     return a + b
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpsdocspythonorg3librarytimeithtmltimeita" id="a-hrefhttpsdocspythonorg3librarytimeithtmltimeita"><a href="https://docs.python.org/3/library/timeit.html">timeit</a></a></h2>
+<h2 id="timeit"><a class="header" href="#timeit"><a href="https://docs.python.org/3/library/timeit.html">timeit</a></a></h2>
 <p>Micro benchmarking.</p>
 <pre><code class="language-bash">python -m timeit '[x.strip() for x in [&quot;a &quot;, &quot; b&quot;]]'
 </code></pre>
-<h1><a class="header" href="#linux" id="linux">Linux</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <ul>
 <li><a href="linux/./systemd.html">systemd</a></li>
 <li><a href="linux/./coredump.html">coredump</a></li>
 <li><a href="linux/./ptrace_scope.html">ptrace_scope</a></li>
 </ul>
-<h1><a class="header" href="#systemd" id="systemd">systemd</a></h1>
-<h2><a class="header" href="#systemctl" id="systemctl">systemctl</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="systemd"><a class="header" href="#systemd">systemd</a></h1>
+<h2 id="systemctl"><a class="header" href="#systemctl">systemctl</a></h2>
 <p>Inspect units:</p>
 <pre><code class="language-text">systemctl [opts] [cmd]
 [opts]
@@ -3083,7 +3180,7 @@ def sum(a: int, b: int) -&gt; int:
     cat &lt;unit&gt;      Print unit file
     show &lt;unit&gt;     Show properties of unit
 </code></pre>
-<h3><a class="header" href="#example-trivial-user-unit" id="example-trivial-user-unit">Example: Trivial user unit</a></h3>
+<h3 id="example-trivial-user-unit"><a class="header" href="#example-trivial-user-unit">Example: Trivial user unit</a></h3>
 <pre><code class="language-bash"># Generate unit
 mkdir -p ~/.config/systemd/user
 echo '[Unit]
@@ -3099,7 +3196,7 @@ systemctl --user start test
 # See log message
 journalctl --user -u test -n 5
 </code></pre>
-<h2><a class="header" href="#journalctl" id="journalctl">journalctl</a></h2>
+<h2 id="journalctl"><a class="header" href="#journalctl">journalctl</a></h2>
 <p>Inspect journal logs:</p>
 <pre><code class="language-text">journalctl [opts] [matches]
     --user          Current user journal (system by default)
@@ -3113,12 +3210,12 @@ journalctl --user -u test -n 5
     --disk-usage            Show current disk usage
     --vacuum-size=&lt;size&gt;    Reduce journal log to &lt;size&gt; (K/M/G)
 </code></pre>
-<h2><a class="header" href="#references-3" id="references-3">References</a></h2>
+<h2 id="references-3"><a class="header" href="#references-3">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.unit.5.html">man systemd.unit(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.service.5.html">man systemd.service(5)</a></li>
 </ul>
-<h1><a class="header" href="#core5" id="core5">core(5)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="core5"><a class="header" href="#core5">core(5)</a></h1>
 <p>There are multiple requirements that must be satisfied that <code>coredumps</code> are
 being generated, a full list can be found in <a href="https://man7.org/linux/man-pages/man5/core.5.html">core(5)</a>.</p>
 <p>An important one is to configure the soft resource limit <code>RLMIT_CORE</code>
@@ -3126,7 +3223,7 @@ being generated, a full list can be found in <a href="https://man7.org/linux/man
 In a typical bash/zsh this can be done as</p>
 <pre><code class="language-bash">ulimit -Sc unlimited
 </code></pre>
-<h2><a class="header" href="#naming-of-coredump-files" id="naming-of-coredump-files">Naming of coredump files</a></h2>
+<h2 id="naming-of-coredump-files"><a class="header" href="#naming-of-coredump-files">Naming of coredump files</a></h2>
 <p>There are two important kernel configs to control the naming:</p>
 <pre><code class="language-config">/proc/sys/kernel/core_pattern
     &lt;pattern&gt;    =&gt; Specifies a name pattern for the coredump file. This can
@@ -3147,7 +3244,7 @@ In a typical bash/zsh this can be done as</p>
           (pid of the dumping process).
     0  =&gt; Do not append the suffix.
 </code></pre>
-<h2><a class="header" href="#control-which-segments-are-dumped" id="control-which-segments-are-dumped">Control which segments are dumped</a></h2>
+<h2 id="control-which-segments-are-dumped"><a class="header" href="#control-which-segments-are-dumped">Control which segments are dumped</a></h2>
 <p>Each process has a coredump filter defined in <code>/proc/&lt;pid&gt;/coredump_filter</code>
 which specifies which memory segments are being dumped.
 Filters are preseved across <code>fork/exec</code> calls and hence child processes inherit
@@ -3166,8 +3263,8 @@ the parents filters.</p>
 
 Default filter 0x33.
 </code></pre>
-<h1><a class="header" href="#some-examples-out-there" id="some-examples-out-there">Some examples out there</a></h1>
-<h2><a class="header" href="#coredumpctl-systemd" id="coredumpctl-systemd">coredumpctl (systemd)</a></h2>
+<h1 id="some-examples-out-there"><a class="header" href="#some-examples-out-there">Some examples out there</a></h1>
+<h2 id="coredumpctl-systemd"><a class="header" href="#coredumpctl-systemd">coredumpctl (systemd)</a></h2>
 <pre><code class="language-bash"># List available coredumps.
 coredumpctl list
     TIME                             PID  UID  GID SIG     COREFILE EXE               SIZE
@@ -3183,7 +3280,7 @@ coredumpctl debug 6363
 # Dump specific coredump to file.
 coredumpctl dump 6363 -o &lt;file&gt;
 </code></pre>
-<h2><a class="header" href="#apport-ubuntu" id="apport-ubuntu">apport (ubuntu)</a></h2>
+<h2 id="apport-ubuntu"><a class="header" href="#apport-ubuntu">apport (ubuntu)</a></h2>
 <p>Known crash report locations:</p>
 <ul>
 <li><code>/var/crash</code></li>
@@ -3192,7 +3289,7 @@ coredumpctl dump 6363 -o &lt;file&gt;
 <pre><code class="language-bash">apport-unpack &lt;crash_repot&gt; &lt;dest_dir&gt;
 </code></pre>
 <p>The coredump resides under <code>&lt;dest_dir&gt;/CoreDump</code>.</p>
-<h1><a class="header" href="#ptrace_scope" id="ptrace_scope">ptrace_scope</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ptrace_scope"><a class="header" href="#ptrace_scope">ptrace_scope</a></h1>
 <p>In case the kernel was compiled with the <code>yama</code> security module
 (<code>CONFIG_SECURITY_YAMA</code>), tracing processes with <code>ptrace(2)</code> can be restricted.</p>
 <pre><code class="language-config">/proc/sys/kernel/yama/ptrace_scope
@@ -3207,12 +3304,12 @@ coredumpctl dump 6363 -o &lt;file&gt;
     3 =&gt; No tracing allowed.
 </code></pre>
 <p>Further details in <a href="https://man7.org/linux/man-pages/man2/ptrace.2.html"><code>ptrace(2)</code></a>.</p>
-<h1><a class="header" href="#network-1" id="network-1">Network</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="network-1"><a class="header" href="#network-1">Network</a></h1>
 <ul>
 <li><a href="network/./tcpdump.html">tcpdump</a></li>
 </ul>
-<h1><a class="header" href="#tcpdump1" id="tcpdump1">tcpdump(1)</a></h1>
-<h1><a class="header" href="#cli-3" id="cli-3">CLI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tcpdump1"><a class="header" href="#tcpdump1">tcpdump(1)</a></h1>
+<h1 id="cli-3"><a class="header" href="#cli-3">CLI</a></h1>
 <pre><code class="language-markdown">tcpdump [opts] -i &lt;if&gt; [&lt;filter&gt;]
     -n              Don't covert host/port names.
     -w &lt;file|-&gt;     Write pcap trace to file or stdout (-).
@@ -3229,19 +3326,19 @@ tcp/udp/icmp            Filter for protocol.
 <blockquote>
 <p>Use <code>and/or/not</code> and <code>()</code> to build filter expressions.</p>
 </blockquote>
-<h1><a class="header" href="#examples-6" id="examples-6">Examples</a></h1>
-<h2><a class="header" href="#capture-packets-from-remote-host" id="capture-packets-from-remote-host">Capture packets from remote host</a></h2>
+<h1 id="examples-6"><a class="header" href="#examples-6">Examples</a></h1>
+<h2 id="capture-packets-from-remote-host"><a class="header" href="#capture-packets-from-remote-host">Capture packets from remote host</a></h2>
 <pre><code class="language-makrdown"># -k: Start capturing immediately.
 ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -
 </code></pre>
-<h1><a class="header" href="#arch" id="arch">Arch</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="arch"><a class="header" href="#arch">Arch</a></h1>
 <ul>
 <li><a href="arch/./x86_64.html">x86_64</a></li>
 <li><a href="arch/./arm64.html">arm64</a></li>
 <li><a href="arch/./armv7.html">armv7</a></li>
 <li><a href="arch/./riscv.html">riscv</a></li>
 </ul>
-<h1><a class="header" href="#x86_64" id="x86_64">x86_64</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="x86_64"><a class="header" href="#x86_64">x86_64</a></h1>
 <p>keywords: x86_64, x86, abi</p>
 <ul>
 <li>64bit synonyms: <code>x86_64</code>, <code>x64</code>, <code>amd64</code>, <code>intel 64</code></li>
@@ -3249,8 +3346,8 @@ ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -
 <li>ISA type: <code>CISC</code></li>
 <li>Endianness: <code>little</code></li>
 </ul>
-<h2><a class="header" href="#registers" id="registers">Registers</a></h2>
-<h3><a class="header" href="#general-purpose-register" id="general-purpose-register">General purpose register</a></h3>
+<h2 id="registers"><a class="header" href="#registers">Registers</a></h2>
+<h3 id="general-purpose-register"><a class="header" href="#general-purpose-register">General purpose register</a></h3>
 <pre><code class="language-markdown">bytes
 [7:0]      [3:0]   [1:0]   [1]   [0]     desc
 ----------------------------------------------------------
@@ -3264,14 +3361,14 @@ rbp        ebp     bp      -     bpl     base pointer
 rsp        esp     sp      -     spl     stack pointer
 r8-15      rNd     rNw     -     rNb
 </code></pre>
-<h3><a class="header" href="#special-register" id="special-register">Special register</a></h3>
+<h3 id="special-register"><a class="header" href="#special-register">Special register</a></h3>
 <pre><code class="language-markdown">bytes
 [7:0]      [3:0]     [1:0]      desc
 ---------------------------------------------------
 rflags     eflags    flags      flags register
 rip        eip       ip         instruction pointer
 </code></pre>
-<h3><a class="header" href="#flags-register" id="flags-register">FLAGS register</a></h3>
+<h3 id="flags-register"><a class="header" href="#flags-register">FLAGS register</a></h3>
 <pre><code class="language-markdown">rflags
 bits    desc                            instr        comment
 --------------------------------------------------------------------------------------------------------------
@@ -3295,18 +3392,18 @@ popfd                           // pop flags (4byte) from stack
 <blockquote>
 <p>There is also <code>pushfq</code> / <code>popfq</code> to push and pop all 8 bytes of <code>rflags</code>.</p>
 </blockquote>
-<h3><a class="header" href="#model-specific-register-msr" id="model-specific-register-msr">Model Specific Register (MSR)</a></h3>
+<h3 id="model-specific-register-msr"><a class="header" href="#model-specific-register-msr">Model Specific Register (MSR)</a></h3>
 <pre><code class="language-x86asm">rdmsr     // Read MSR register, effectively does EDX:EAX &lt;- MSR[ECX]
 wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 </code></pre>
-<h2><a class="header" href="#size-directives" id="size-directives">Size directives</a></h2>
+<h2 id="size-directives"><a class="header" href="#size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
 <pre><code class="language-x86asm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
 mov  word ptr [rax], 0xff    // save 2 byte(s) at [rax]
 mov dword ptr [rax], 0xff    // save 4 byte(s) at [rax]
 mov qword ptr [rax], 0xff    // save 8 byte(s) at [rax]
 </code></pre>
-<h2><a class="header" href="#addressing" id="addressing">Addressing</a></h2>
+<h2 id="addressing"><a class="header" href="#addressing">Addressing</a></h2>
 <pre><code class="language-x86asm">mov qword ptr [rax], rbx         // save val in rbx at [rax]
 mov qword ptr [imm], rbx         // save val in rbx at [imm]
 mov rax, qword ptr [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
@@ -3317,7 +3414,7 @@ mov rax, qword ptr [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
 .my_str:
 .asciz &quot;Foo&quot;
 </code></pre>
-<h2><a class="header" href="#string-instructions" id="string-instructions">String instructions</a></h2>
+<h2 id="string-instructions"><a class="header" href="#string-instructions">String instructions</a></h2>
 <p>The operand size of a string instruction is defined by the instruction suffix
 <code>b | w | d | q</code>.</p>
 <p>Source and destination registers are modified according to the <code>direction flag (DF)</code> in the <code>flags</code> register</p>
@@ -3353,7 +3450,7 @@ scasb   // scan string
 repz    // repeat until rcx = 0 or while ZF = 0
 repnz   // repeat until rcx = 0 or while ZF = 1
 </code></pre>
-<h3><a class="header" href="#example-simple-memset" id="example-simple-memset">Example: Simple <code>memset</code></a></h3>
+<h3 id="example-simple-memset"><a class="header" href="#example-simple-memset">Example: Simple <code>memset</code></a></h3>
 <pre><code class="language-x86asm">// memset (dest, 0xaa /* char */, 0x10 /* len */)
 
 lea di, [dest]
@@ -3361,8 +3458,8 @@ mov al, 0xaa
 mov cx, 0x10
 rep stosb
 </code></pre>
-<h2><a class="header" href="#a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia" id="a-hrefhttpswwwuclibcorgdocspsabi-x86_64pdfsysv-x86_64-abia"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
-<h3><a class="header" href="#passing-arguments-to-functions" id="passing-arguments-to-functions">Passing arguments to functions</a></h3>
+<h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
+<h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
 <ul>
 <li>Integer/Pointer arguments
 <pre><code class="language-markdown">reg     arg
@@ -3386,7 +3483,7 @@ xmm7      8
 <li>Additional arguments are passed on the stack. Arguments are pushed
 right-to-left (RTL), meaning next arguments are closer to current <code>rsp</code>.</li>
 </ul>
-<h3><a class="header" href="#return-values-from-functions" id="return-values-from-functions">Return values from functions</a></h3>
+<h3 id="return-values-from-functions"><a class="header" href="#return-values-from-functions">Return values from functions</a></h3>
 <ul>
 <li>Integer/Pointer return values
 <pre><code class="language-markdown">reg          size
@@ -3403,7 +3500,7 @@ xmm0+xmm1   128 bit
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#caller-saved-registers" id="caller-saved-registers">Caller saved registers</a></h3>
+<h3 id="caller-saved-registers"><a class="header" href="#caller-saved-registers">Caller saved registers</a></h3>
 <p>Caller must save these registers if they should be preserved across function
 calls.</p>
 <ul>
@@ -3415,7 +3512,7 @@ calls.</p>
 <li><code>rsp</code></li>
 <li><code>r8</code> - <code>r11</code></li>
 </ul>
-<h3><a class="header" href="#callee-saved-registers" id="callee-saved-registers">Callee saved registers</a></h3>
+<h3 id="callee-saved-registers"><a class="header" href="#callee-saved-registers">Callee saved registers</a></h3>
 <p>Caller can expect these registers to be preserved across function calls. Callee
 must must save these registers in case they are used.</p>
 <ul>
@@ -3423,7 +3520,7 @@ must must save these registers in case they are used.</p>
 <li><code>rbp</code></li>
 <li><code>r12</code> – <code>r15</code></li>
 </ul>
-<h3><a class="header" href="#stack" id="stack">Stack</a></h3>
+<h3 id="stack"><a class="header" href="#stack">Stack</a></h3>
 <ul>
 <li>grows downwards</li>
 <li>frames aligned on 16 byte boundary
@@ -3440,7 +3537,7 @@ Lo ADDR
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#function-prologue--epilogue" id="function-prologue--epilogue">Function prologue &amp; epilogue</a></h3>
+<h3 id="function-prologue--epilogue"><a class="header" href="#function-prologue--epilogue">Function prologue &amp; epilogue</a></h3>
 <ul>
 <li>prologue
 <pre><code class="language-x86asm">push rbp        // save caller base pointer
@@ -3456,7 +3553,7 @@ pop rbp         // restore caller base pointer
 </blockquote>
 </li>
 </ul>
-<h2><a class="header" href="#asm-skeleton" id="asm-skeleton">ASM skeleton</a></h2>
+<h2 id="asm-skeleton"><a class="header" href="#asm-skeleton">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -3494,7 +3591,7 @@ greeting_len:
 <pre><code class="language-bash">&gt; gcc -o greet greet.s -nostartfiles -nostdlib &amp;&amp; ./greet
 Hi ASM-World!
 </code></pre>
-<h2><a class="header" href="#references-4" id="references-4">References</a></h2>
+<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
 <ul>
 <li><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
@@ -3508,15 +3605,15 @@ Hi ASM-World!
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></li>
 </ul>
-<h1><a class="header" href="#arm64" id="arm64">arm64</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="arm64"><a class="header" href="#arm64">arm64</a></h1>
 <p>keywords: arm64, aarch64, abi</p>
 <ul>
 <li>64bit synonyms: <code>arm64</code>, <code>aarch64</code></li>
 <li>ISA type: <code>RISC</code></li>
 <li>Endianness: <code>little</code>, <code>big</code></li>
 </ul>
-<h2><a class="header" href="#registers-1" id="registers-1">Registers</a></h2>
-<h3><a class="header" href="#general-purpose-registers" id="general-purpose-registers">General purpose registers</a></h3>
+<h2 id="registers-1"><a class="header" href="#registers-1">Registers</a></h2>
+<h3 id="general-purpose-registers"><a class="header" href="#general-purpose-registers">General purpose registers</a></h3>
 <pre><code class="language-markdown">bytes
 [7:0]     [3:0]     desc
 ---------------------------------------------
@@ -3530,7 +3627,7 @@ xzr       wzr       zero register
 <blockquote>
 <p>Write to <code>wN</code> register clears upper 32bit.</p>
 </blockquote>
-<h3><a class="header" href="#special-registers-per-el" id="special-registers-per-el">Special registers per EL</a></h3>
+<h3 id="special-registers-per-el"><a class="header" href="#special-registers-per-el">Special registers per EL</a></h3>
 <pre><code class="language-markdown">bytes
 [7:0]       desc
 ---------------------------------------------
@@ -3548,15 +3645,15 @@ sp_el3      stack pointer EL3
 elr_el3     exception link register EL3
 spsr_el3    saved process status register EL3
 </code></pre>
-<h2><a class="header" href="#instructions-cheatsheet" id="instructions-cheatsheet">Instructions cheatsheet</a></h2>
-<h3><a class="header" href="#accessing-system-registers" id="accessing-system-registers">Accessing system registers</a></h3>
+<h2 id="instructions-cheatsheet"><a class="header" href="#instructions-cheatsheet">Instructions cheatsheet</a></h2>
+<h3 id="accessing-system-registers"><a class="header" href="#accessing-system-registers">Accessing system registers</a></h3>
 <p>Reading from system registers:</p>
 <pre><code class="language-armasm">mrs x0, vbar_el1      // move vbar_el1 into x0
 </code></pre>
 <p>Writing to system registers:</p>
 <pre><code class="language-armasm">msr vbar_el1, x0      // move x0 into vbar_el1
 </code></pre>
-<h3><a class="header" href="#control-flow-1" id="control-flow-1">Control Flow</a></h3>
+<h3 id="control-flow-1"><a class="header" href="#control-flow-1">Control Flow</a></h3>
 <pre><code class="language-armasm">b &lt;offset&gt;    // relative forward/back branch
 br &lt;Xn&gt;       // absolute branch to address in register Xn
 
@@ -3566,8 +3663,8 @@ blr &lt;Xn&gt;      // absolute branch to address in register Xn
 
 ret {Xn}      // return to address in X30, or Xn if supplied
 </code></pre>
-<h2><a class="header" href="#addressing-1" id="addressing-1">Addressing</a></h2>
-<h3><a class="header" href="#offset" id="offset">Offset</a></h3>
+<h2 id="addressing-1"><a class="header" href="#addressing-1">Addressing</a></h2>
+<h3 id="offset"><a class="header" href="#offset">Offset</a></h3>
 <pre><code class="language-armasm">ldr x0, [x1]                // x0 = [x1]
 ldr x0, [x1, 8]             // x0 = [x1 + 8]
 ldr x0, [x1, x2, lsl #3]    // x0 = [x1 + (x2&lt;&lt;3)]
@@ -3578,16 +3675,16 @@ ldr x0, [x1, w2, stxw #3]   // x0 = [x1 + (sign_ext(w2)&lt;&lt;3)]
 <p>Shift amount can either be <code>0</code> or <code>log2(access_size_bytes)</code>. Eg for 8byte
 access it can either be <code>{0, 3}</code>.</p>
 </blockquote>
-<h3><a class="header" href="#index" id="index">Index</a></h3>
+<h3 id="index"><a class="header" href="#index">Index</a></h3>
 <pre><code class="language-armasm">ldr x0, [x1, 8]!    // pre-inc : x1+=8; x0 = [x1]
 ldr x0, [x1], 8     // post-inc: x0 = [x1]; x1+=8
 </code></pre>
-<h3><a class="header" href="#pair-access" id="pair-access">Pair access</a></h3>
+<h3 id="pair-access"><a class="header" href="#pair-access">Pair access</a></h3>
 <pre><code class="language-armasm">ldp x1, x2, [x0]    // x1 = [x0]; x2 = [x0 + 8]
 stp x1, x2, [x0]    // [x0] = x1; [x0 + 8] = x2
 </code></pre>
-<h2><a class="header" href="#procedure-call-standard-arm64-a-hrefhttpsgithubcomarm-softwareabi-aablobmasteraapcs64aapcs64rstaapcs64a" id="procedure-call-standard-arm64-a-hrefhttpsgithubcomarm-softwareabi-aablobmasteraapcs64aapcs64rstaapcs64a">Procedure Call Standard ARM64 (<a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst"><code>aapcs64</code></a>)</a></h2>
-<h3><a class="header" href="#passing-arguments-to-functions-1" id="passing-arguments-to-functions-1">Passing arguments to functions</a></h3>
+<h2 id="procedure-call-standard-arm64-aapcs64"><a class="header" href="#procedure-call-standard-arm64-aapcs64">Procedure Call Standard ARM64 (<a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst"><code>aapcs64</code></a>)</a></h2>
+<h3 id="passing-arguments-to-functions-1"><a class="header" href="#passing-arguments-to-functions-1">Passing arguments to functions</a></h3>
 <ul>
 <li>Integer/Pointer arguments
 <pre><code class="language-markdown">reg     arg
@@ -3608,7 +3705,7 @@ x7        8
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#return-values-from-functions-1" id="return-values-from-functions-1">Return values from functions</a></h3>
+<h3 id="return-values-from-functions-1"><a class="header" href="#return-values-from-functions-1">Return values from functions</a></h3>
 <ul>
 <li>Integer/Pointer return values
 <pre><code class="language-markdown">reg          size
@@ -3617,12 +3714,12 @@ x0         64 bit
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#callee-saved-registers-1" id="callee-saved-registers-1">Callee saved registers</a></h3>
+<h3 id="callee-saved-registers-1"><a class="header" href="#callee-saved-registers-1">Callee saved registers</a></h3>
 <ul>
 <li><code>x19</code> - <code>x28</code></li>
 <li><code>SP</code></li>
 </ul>
-<h3><a class="header" href="#stack-1" id="stack-1">Stack</a></h3>
+<h3 id="stack-1"><a class="header" href="#stack-1">Stack</a></h3>
 <ul>
 <li>full descending
 <ul>
@@ -3633,7 +3730,7 @@ x0         64 bit
 <li><code>sp</code> must be 16byte aligned when used to access memory for r/w</li>
 <li><code>sp</code> must be 16byte aligned on public interface interfaces</li>
 </ul>
-<h3><a class="header" href="#frame-chain" id="frame-chain">Frame chain</a></h3>
+<h3 id="frame-chain"><a class="header" href="#frame-chain">Frame chain</a></h3>
 <ul>
 <li>linked list of stack-frames</li>
 <li>each frame links to the frame of its caller by a <code>frame record</code>
@@ -3659,7 +3756,7 @@ x29 -&gt;|  FP  |--+  frame         v
 <li>end of the frame chain is indicated by following frame record <code>(0,-)</code></li>
 <li>location of the frame record in the stack frame is not specified</li>
 </ul>
-<h3><a class="header" href="#function-prologue--epilogue-1" id="function-prologue--epilogue-1">Function prologue &amp; epilogue</a></h3>
+<h3 id="function-prologue--epilogue-1"><a class="header" href="#function-prologue--epilogue-1">Function prologue &amp; epilogue</a></h3>
 <ul>
 <li>prologue
 <pre><code class="language-armasm">sub sp, sp, 16
@@ -3674,7 +3771,7 @@ ret
 </code></pre>
 </li>
 </ul>
-<h2><a class="header" href="#asm-skeleton-1" id="asm-skeleton-1">ASM skeleton</a></h2>
+<h2 id="asm-skeleton-1"><a class="header" href="#asm-skeleton-1">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -3723,7 +3820,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm64.</p>
 </blockquote>
-<h2><a class="header" href="#references-5" id="references-5">References</a></h2>
+<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
 <li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer's Guide</a></li>
@@ -3733,14 +3830,14 @@ required when compiling natively on arm64.</p>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/AArch64_002dDependent.html">GNU Assembler <code>AArch64</code> dependent features</a></li>
 </ul>
-<h1><a class="header" href="#armv7a" id="armv7a">armv7a</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="armv7a"><a class="header" href="#armv7a">armv7a</a></h1>
 <p>keywords: arm, armv7, abi</p>
 <ul>
 <li>ISA type: <code>RISC</code></li>
 <li>Endianness: <code>little</code>, <code>big</code></li>
 </ul>
-<h2><a class="header" href="#registers-2" id="registers-2">Registers</a></h2>
-<h3><a class="header" href="#general-purpose-registers-1" id="general-purpose-registers-1">General purpose registers</a></h3>
+<h2 id="registers-2"><a class="header" href="#registers-2">Registers</a></h2>
+<h3 id="general-purpose-registers-1"><a class="header" href="#general-purpose-registers-1">General purpose registers</a></h3>
 <pre><code class="language-markdown">bytes
 [3:0]     alt     desc
 ---------------------------------------------
@@ -3750,13 +3847,13 @@ r13       sp      stack pointer
 r14       lr      link register
 r15       pc      program counter
 </code></pre>
-<h3><a class="header" href="#special-registers" id="special-registers">Special registers</a></h3>
+<h3 id="special-registers"><a class="header" href="#special-registers">Special registers</a></h3>
 <pre><code class="language-markdown">bytes
 [3:0]             desc
 ---------------------------------------------
 cpsr              current program status register
 </code></pre>
-<h3><a class="header" href="#cpsr-register" id="cpsr-register">CPSR register</a></h3>
+<h3 id="cpsr-register"><a class="header" href="#cpsr-register">CPSR register</a></h3>
 <pre><code class="language-markdown">cpsr
 bits  desc
 -----------------------------
@@ -3772,15 +3869,15 @@ bits  desc
   [5]  T indicate Thumb state
 [4:0]  M process mode (USR, FIQ, IRQ, SVC, ABT, UND, SYS)
 </code></pre>
-<h2><a class="header" href="#instructions-cheatsheet-1" id="instructions-cheatsheet-1">Instructions cheatsheet</a></h2>
-<h3><a class="header" href="#accessing-system-registers-1" id="accessing-system-registers-1">Accessing system registers</a></h3>
+<h2 id="instructions-cheatsheet-1"><a class="header" href="#instructions-cheatsheet-1">Instructions cheatsheet</a></h2>
+<h3 id="accessing-system-registers-1"><a class="header" href="#accessing-system-registers-1">Accessing system registers</a></h3>
 <p>Reading from system registers:</p>
 <pre><code class="language-armasm">mrs r0, cpsr      // move cpsr into r0
 </code></pre>
 <p>Writing to system registers:</p>
 <pre><code class="language-armasm">msr cpsr, r0      // move r0 into cpsr
 </code></pre>
-<h3><a class="header" href="#control-flow-2" id="control-flow-2">Control Flow</a></h3>
+<h3 id="control-flow-2"><a class="header" href="#control-flow-2">Control Flow</a></h3>
 <pre><code class="language-armasm">b &lt;lable&gt;     // relative forward/back branch
 bl &lt;lable&gt;    // relative forward/back branch &amp; link return addr in r14 (LR)
 
@@ -3791,7 +3888,7 @@ bx &lt;Rm&gt;       // absolute branch to address in register Rm
 blx &lt;Rm&gt;      // absolute branch to address in register Rm &amp;
               // link return addr in r14 (LR)
 </code></pre>
-<h3><a class="header" href="#loadstore" id="loadstore">Load/Store</a></h3>
+<h3 id="loadstore"><a class="header" href="#loadstore">Load/Store</a></h3>
 <p>Different addressing modes.</p>
 <pre><code class="language-armasm">ldr r1, [r0]                // r1 = [r0]
 ldr r1, [r0, #4]            // r1 = [r0+4]
@@ -3816,8 +3913,8 @@ ldmfd r0!, {r1-r2, r5}    // r1=[r0]; r0+=4
 <pre><code class="language-armasm">push {r0-r2}    // effectively stmfd sp!, {r0-r2}
 pop {r0-r2}     // effectively ldmfd sp!, {r0-r2}
 </code></pre>
-<h2><a class="header" href="#procedure-call-standard-arm-a-hrefhttpsgithubcomarm-softwareabi-aablobmasteraapcs32aapcs32rstaapcs32a" id="procedure-call-standard-arm-a-hrefhttpsgithubcomarm-softwareabi-aablobmasteraapcs32aapcs32rstaapcs32a">Procedure Call Standard ARM (<a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst"><code>aapcs32</code></a>)</a></h2>
-<h3><a class="header" href="#passing-arguments-to-functions-2" id="passing-arguments-to-functions-2">Passing arguments to functions</a></h3>
+<h2 id="procedure-call-standard-arm-aapcs32"><a class="header" href="#procedure-call-standard-arm-aapcs32">Procedure Call Standard ARM (<a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst"><code>aapcs32</code></a>)</a></h2>
+<h3 id="passing-arguments-to-functions-2"><a class="header" href="#passing-arguments-to-functions-2">Passing arguments to functions</a></h3>
 <ul>
 <li>integer/pointer arguments
 <pre><code class="language-markdown">reg     arg
@@ -3839,7 +3936,7 @@ r3        4
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#return-values-from-functions-2" id="return-values-from-functions-2">Return values from functions</a></h3>
+<h3 id="return-values-from-functions-2"><a class="header" href="#return-values-from-functions-2">Return values from functions</a></h3>
 <ul>
 <li>integer/pointer return values
 <pre><code class="language-markdown">reg          size
@@ -3849,12 +3946,12 @@ r0+r1      64 bit
 </code></pre>
 </li>
 </ul>
-<h3><a class="header" href="#callee-saved-registers-2" id="callee-saved-registers-2">Callee saved registers</a></h3>
+<h3 id="callee-saved-registers-2"><a class="header" href="#callee-saved-registers-2">Callee saved registers</a></h3>
 <ul>
 <li><code>r4</code> - <code>r11</code></li>
 <li><code>sp</code></li>
 </ul>
-<h3><a class="header" href="#stack-2" id="stack-2">Stack</a></h3>
+<h3 id="stack-2"><a class="header" href="#stack-2">Stack</a></h3>
 <ul>
 <li>full descending
 <ul>
@@ -3865,7 +3962,7 @@ r0+r1      64 bit
 <li><code>sp</code> must be 4byte aligned (word boundary) at all time</li>
 <li><code>sp</code> must be 8byte aligned on public interface interfaces</li>
 </ul>
-<h3><a class="header" href="#frame-chain-1" id="frame-chain-1">Frame chain</a></h3>
+<h3 id="frame-chain-1"><a class="header" href="#frame-chain-1">Frame chain</a></h3>
 <ul>
 <li>not strictly required by each platform</li>
 <li>linked list of stack-frames</li>
@@ -3893,7 +3990,7 @@ r11 -&gt;|  FP  |--+  frame         v
 <li>location of the frame record in the stack frame is not specified</li>
 <li><code>r11</code> is not updated before the new frame record is fully constructed</li>
 </ul>
-<h3><a class="header" href="#function-prologue--epilogue-2" id="function-prologue--epilogue-2">Function prologue &amp; epilogue</a></h3>
+<h3 id="function-prologue--epilogue-2"><a class="header" href="#function-prologue--epilogue-2">Function prologue &amp; epilogue</a></h3>
 <ul>
 <li>prologue
 <pre><code class="language-armasm">push {fp, lr}
@@ -3905,7 +4002,7 @@ mov fp, sp              // FP points to frame record
 </code></pre>
 </li>
 </ul>
-<h2><a class="header" href="#asm-skeleton-2" id="asm-skeleton-2">ASM skeleton</a></h2>
+<h2 id="asm-skeleton-2"><a class="header" href="#asm-skeleton-2">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -3967,7 +4064,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm.</p>
 </blockquote>
-<h2><a class="header" href="#references-6" id="references-6">References</a></h2>
+<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
 <li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer's Guide</a></li>
@@ -3976,18 +4073,18 @@ required when compiling natively on arm.</p>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/ARM_002dDependent.html">GNU Assembler <code>ARM</code> dependent features</a></li>
 </ul>
-<h1><a class="header" href="#riscv" id="riscv">riscv</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="riscv"><a class="header" href="#riscv">riscv</a></h1>
 <p>keywords: rv32, rv64</p>
 <ul>
 <li>ISA type: <code>RISC</code></li>
 <li>Endianness: <code>little</code>, <code>big</code></li>
 </ul>
-<h2><a class="header" href="#registers-3" id="registers-3">Registers</a></h2>
+<h2 id="registers-3"><a class="header" href="#registers-3">Registers</a></h2>
 <ul>
 <li>riscv32 =&gt; <code>XLEN=32</code></li>
 <li>riscv64 =&gt; <code>XLEN=64</code></li>
 </ul>
-<h3><a class="header" href="#general-purpose-registers-2" id="general-purpose-registers-2">General purpose registers</a></h3>
+<h3 id="general-purpose-registers-2"><a class="header" href="#general-purpose-registers-2">General purpose registers</a></h3>
 <pre><code class="language-markdown">[XLEN-1:0]     abi name     desc
 ---------------------------------------------
 x0             zero         zero register
@@ -4001,7 +4098,7 @@ x10-x17        a0-a7        arg regs
 x18-x27        s2-s11       saved regs
 x28-x31        t3-t6        temp regs
 </code></pre>
-<h2><a class="header" href="#asm-skeleton-3" id="asm-skeleton-3">ASM skeleton</a></h2>
+<h2 id="asm-skeleton-3"><a class="header" href="#asm-skeleton-3">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -4048,7 +4145,7 @@ distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on riscv.</p>
 <p>Select dynamic linker according to abi used during compile &amp; link.</p>
 </blockquote>
-<h2><a class="header" href="#references-7" id="references-7">References</a></h2>
+<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
@@ -4058,59 +4155,31 @@ required when compiling natively on riscv.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
-
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-        
-        
         <script type="text/javascript">
-            window.playpen_copyable = true;
+            window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-        
         <script type="text/javascript">
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
-        
-        
-
     </body>
 </html>

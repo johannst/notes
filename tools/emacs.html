@@ -4,39 +4,33 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>emacs - Notes</title>
-        
-
+        <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
+        <link rel="icon" href="../favicon.svg">
         <link rel="shortcut icon" href="../favicon.png">
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
         <link rel="stylesheet" href="../css/print.css" media="print">
-
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
-
+        <link rel="stylesheet" href="../fonts/fonts.css">
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -80,8 +74,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
-                <ol class="chapter"><li class="expanded affix "><a href="../intro.html">Introduction</a></li><li class="expanded "><a href="../tools/index.html"><strong aria-hidden="true">1.</strong> Tools</a></li><li><ol class="section"><li class="expanded "><a href="../tools/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="expanded "><a href="../tools/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="expanded "><a href="../tools/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li><li class="expanded "><a href="../tools/tmux.html"><strong aria-hidden="true">1.4.</strong> tmux</a></li><li class="expanded "><a href="../tools/git.html"><strong aria-hidden="true">1.5.</strong> git</a></li><li class="expanded "><a href="../tools/awk.html"><strong aria-hidden="true">1.6.</strong> awk</a></li><li class="expanded "><a href="../tools/emacs.html" class="active"><strong aria-hidden="true">1.7.</strong> emacs</a></li><li class="expanded "><a href="../tools/gpg.html"><strong aria-hidden="true">1.8.</strong> gpg</a></li><li class="expanded "><a href="../tools/gdb.html"><strong aria-hidden="true">1.9.</strong> gdb</a></li><li class="expanded "><a href="../tools/gdbserver.html"><strong aria-hidden="true">1.10.</strong> gdbserver</a></li><li class="expanded "><a href="../tools/radare2.html"><strong aria-hidden="true">1.11.</strong> radare2</a></li><li class="expanded "><a href="../tools/qemu.html"><strong aria-hidden="true">1.12.</strong> qemu</a></li><li class="expanded "><a href="../tools/pacman.html"><strong aria-hidden="true">1.13.</strong> pacman</a></li><li class="expanded "><a href="../tools/dot.html"><strong aria-hidden="true">1.14.</strong> dot</a></li></ol></li><li class="expanded "><a href="../monitor/index.html"><strong aria-hidden="true">2.</strong> Resource analysis &amp; monitor</a></li><li><ol class="section"><li class="expanded "><a href="../monitor/lsof.html"><strong aria-hidden="true">2.1.</strong> lsof</a></li><li class="expanded "><a href="../monitor/ss.html"><strong aria-hidden="true">2.2.</strong> ss</a></li><li class="expanded "><a href="../monitor/pidstat.html"><strong aria-hidden="true">2.3.</strong> pidstat</a></li><li class="expanded "><a href="../monitor/pgrep.html"><strong aria-hidden="true">2.4.</strong> pgrep</a></li><li class="expanded "><a href="../monitor/pmap.html"><strong aria-hidden="true">2.5.</strong> pmap</a></li><li class="expanded "><a href="../monitor/pstack.html"><strong aria-hidden="true">2.6.</strong> pstack</a></li></ol></li><li class="expanded "><a href="../trace_profile/index.html"><strong aria-hidden="true">3.</strong> Trace and Profile</a></li><li><ol class="section"><li class="expanded "><a href="../trace_profile/strace.html"><strong aria-hidden="true">3.1.</strong> strace</a></li><li class="expanded "><a href="../trace_profile/ltrace.html"><strong aria-hidden="true">3.2.</strong> ltrace</a></li><li class="expanded "><a href="../trace_profile/perf.html"><strong aria-hidden="true">3.3.</strong> perf</a></li><li class="expanded "><a href="../trace_profile/oprofile.html"><strong aria-hidden="true">3.4.</strong> OProfile</a></li><li class="expanded "><a href="../trace_profile/time.html"><strong aria-hidden="true">3.5.</strong> time</a></li></ol></li><li class="expanded "><a href="../binary/index.html"><strong aria-hidden="true">4.</strong> Binary</a></li><li><ol class="section"><li class="expanded "><a href="../binary/od.html"><strong aria-hidden="true">4.1.</strong> od</a></li><li class="expanded "><a href="../binary/xxd.html"><strong aria-hidden="true">4.2.</strong> xxd</a></li><li class="expanded "><a href="../binary/readelf.html"><strong aria-hidden="true">4.3.</strong> readelf</a></li><li class="expanded "><a href="../binary/objdump.html"><strong aria-hidden="true">4.4.</strong> objdump</a></li><li class="expanded "><a href="../binary/nm.html"><strong aria-hidden="true">4.5.</strong> nm</a></li></ol></li><li class="expanded "><a href="../development/index.html"><strong aria-hidden="true">5.</strong> Development</a></li><li><ol class="section"><li class="expanded "><a href="../development/c++filt.html"><strong aria-hidden="true">5.1.</strong> c++filt</a></li><li class="expanded "><a href="../development/c++.html"><strong aria-hidden="true">5.2.</strong> c++</a></li><li class="expanded "><a href="../development/glibc.html"><strong aria-hidden="true">5.3.</strong> glibc</a></li><li class="expanded "><a href="../development/gcc.html"><strong aria-hidden="true">5.4.</strong> gcc</a></li><li class="expanded "><a href="../development/make.html"><strong aria-hidden="true">5.5.</strong> make</a></li><li class="expanded "><a href="../development/ld.so.html"><strong aria-hidden="true">5.6.</strong> ld.so</a></li><li class="expanded "><a href="../development/symbolver.html"><strong aria-hidden="true">5.7.</strong> symbol versioning</a></li><li class="expanded "><a href="../development/python.html"><strong aria-hidden="true">5.8.</strong> python</a></li></ol></li><li class="expanded "><a href="../linux/index.html"><strong aria-hidden="true">6.</strong> Linux</a></li><li><ol class="section"><li class="expanded "><a href="../linux/systemd.html"><strong aria-hidden="true">6.1.</strong> systemd</a></li><li class="expanded "><a href="../linux/coredump.html"><strong aria-hidden="true">6.2.</strong> coredump</a></li><li class="expanded "><a href="../linux/ptrace_scope.html"><strong aria-hidden="true">6.3.</strong> ptrace_scope</a></li></ol></li><li class="expanded "><a href="../network/index.html"><strong aria-hidden="true">7.</strong> Network</a></li><li><ol class="section"><li class="expanded "><a href="../network/tcpdump.html"><strong aria-hidden="true">7.1.</strong> tcpdump</a></li></ol></li><li class="expanded "><a href="../arch/index.html"><strong aria-hidden="true">8.</strong> Arch</a></li><li><ol class="section"><li class="expanded "><a href="../arch/x86_64.html"><strong aria-hidden="true">8.1.</strong> x86_64</a></li><li class="expanded "><a href="../arch/arm64.html"><strong aria-hidden="true">8.2.</strong> arm64</a></li><li class="expanded "><a href="../arch/armv7.html"><strong aria-hidden="true">8.3.</strong> armv7</a></li><li class="expanded "><a href="../arch/riscv.html"><strong aria-hidden="true">8.4.</strong> riscv</a></li></ol></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tools/index.html"><strong aria-hidden="true">1.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tools/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="chapter-item expanded "><a href="../tools/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="chapter-item expanded "><a href="../tools/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li><li class="chapter-item expanded "><a href="../tools/tmux.html"><strong aria-hidden="true">1.4.</strong> tmux</a></li><li class="chapter-item expanded "><a href="../tools/git.html"><strong aria-hidden="true">1.5.</strong> git</a></li><li class="chapter-item expanded "><a href="../tools/awk.html"><strong aria-hidden="true">1.6.</strong> awk</a></li><li class="chapter-item expanded "><a href="../tools/emacs.html" class="active"><strong aria-hidden="true">1.7.</strong> emacs</a></li><li class="chapter-item expanded "><a href="../tools/gpg.html"><strong aria-hidden="true">1.8.</strong> gpg</a></li><li class="chapter-item expanded "><a href="../tools/gdb.html"><strong aria-hidden="true">1.9.</strong> gdb</a></li><li class="chapter-item expanded "><a href="../tools/gdbserver.html"><strong aria-hidden="true">1.10.</strong> gdbserver</a></li><li class="chapter-item expanded "><a href="../tools/radare2.html"><strong aria-hidden="true">1.11.</strong> radare2</a></li><li class="chapter-item expanded "><a href="../tools/qemu.html"><strong aria-hidden="true">1.12.</strong> qemu</a></li><li class="chapter-item expanded "><a href="../tools/pacman.html"><strong aria-hidden="true">1.13.</strong> pacman</a></li><li class="chapter-item expanded "><a href="../tools/dot.html"><strong aria-hidden="true">1.14.</strong> dot</a></li></ol></li><li class="chapter-item expanded "><a href="../monitor/index.html"><strong aria-hidden="true">2.</strong> Resource analysis & monitor</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../monitor/lsof.html"><strong aria-hidden="true">2.1.</strong> lsof</a></li><li class="chapter-item expanded "><a href="../monitor/ss.html"><strong aria-hidden="true">2.2.</strong> ss</a></li><li class="chapter-item expanded "><a href="../monitor/pidstat.html"><strong aria-hidden="true">2.3.</strong> pidstat</a></li><li class="chapter-item expanded "><a href="../monitor/pgrep.html"><strong aria-hidden="true">2.4.</strong> pgrep</a></li><li class="chapter-item expanded "><a href="../monitor/pmap.html"><strong aria-hidden="true">2.5.</strong> pmap</a></li><li class="chapter-item expanded "><a href="../monitor/pstack.html"><strong aria-hidden="true">2.6.</strong> pstack</a></li></ol></li><li class="chapter-item expanded "><a href="../trace_profile/index.html"><strong aria-hidden="true">3.</strong> Trace and Profile</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trace_profile/strace.html"><strong aria-hidden="true">3.1.</strong> strace</a></li><li class="chapter-item expanded "><a href="../trace_profile/ltrace.html"><strong aria-hidden="true">3.2.</strong> ltrace</a></li><li class="chapter-item expanded "><a href="../trace_profile/perf.html"><strong aria-hidden="true">3.3.</strong> perf</a></li><li class="chapter-item expanded "><a href="../trace_profile/oprofile.html"><strong aria-hidden="true">3.4.</strong> OProfile</a></li><li class="chapter-item expanded "><a href="../trace_profile/time.html"><strong aria-hidden="true">3.5.</strong> time</a></li></ol></li><li class="chapter-item expanded "><a href="../binary/index.html"><strong aria-hidden="true">4.</strong> Binary</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../binary/od.html"><strong aria-hidden="true">4.1.</strong> od</a></li><li class="chapter-item expanded "><a href="../binary/xxd.html"><strong aria-hidden="true">4.2.</strong> xxd</a></li><li class="chapter-item expanded "><a href="../binary/readelf.html"><strong aria-hidden="true">4.3.</strong> readelf</a></li><li class="chapter-item expanded "><a href="../binary/objdump.html"><strong aria-hidden="true">4.4.</strong> objdump</a></li><li class="chapter-item expanded "><a href="../binary/nm.html"><strong aria-hidden="true">4.5.</strong> nm</a></li></ol></li><li class="chapter-item expanded "><a href="../development/index.html"><strong aria-hidden="true">5.</strong> Development</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../development/c++filt.html"><strong aria-hidden="true">5.1.</strong> c++filt</a></li><li class="chapter-item expanded "><a href="../development/c++.html"><strong aria-hidden="true">5.2.</strong> c++</a></li><li class="chapter-item expanded "><a href="../development/glibc.html"><strong aria-hidden="true">5.3.</strong> glibc</a></li><li class="chapter-item expanded "><a href="../development/gcc.html"><strong aria-hidden="true">5.4.</strong> gcc</a></li><li class="chapter-item expanded "><a href="../development/make.html"><strong aria-hidden="true">5.5.</strong> make</a></li><li class="chapter-item expanded "><a href="../development/ld.so.html"><strong aria-hidden="true">5.6.</strong> ld.so</a></li><li class="chapter-item expanded "><a href="../development/symbolver.html"><strong aria-hidden="true">5.7.</strong> symbol versioning</a></li><li class="chapter-item expanded "><a href="../development/python.html"><strong aria-hidden="true">5.8.</strong> python</a></li></ol></li><li class="chapter-item expanded "><a href="../linux/index.html"><strong aria-hidden="true">6.</strong> Linux</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/systemd.html"><strong aria-hidden="true">6.1.</strong> systemd</a></li><li class="chapter-item expanded "><a href="../linux/coredump.html"><strong aria-hidden="true">6.2.</strong> coredump</a></li><li class="chapter-item expanded "><a href="../linux/ptrace_scope.html"><strong aria-hidden="true">6.3.</strong> ptrace_scope</a></li></ol></li><li class="chapter-item expanded "><a href="../network/index.html"><strong aria-hidden="true">7.</strong> Network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/tcpdump.html"><strong aria-hidden="true">7.1.</strong> tcpdump</a></li></ol></li><li class="chapter-item expanded "><a href="../arch/index.html"><strong aria-hidden="true">8.</strong> Arch</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arch/x86_64.html"><strong aria-hidden="true">8.1.</strong> x86_64</a></li><li class="chapter-item expanded "><a href="../arch/arm64.html"><strong aria-hidden="true">8.2.</strong> arm64</a></li><li class="chapter-item expanded "><a href="../arch/armv7.html"><strong aria-hidden="true">8.3.</strong> armv7</a></li><li class="chapter-item expanded "><a href="../arch/riscv.html"><strong aria-hidden="true">8.4.</strong> riscv</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -89,49 +83,42 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                            
-                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            
-                        </div>
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
 
-                        <h1 class="menu-title">Notes</h1>
+                    <h1 class="menu-title">Notes</h1>
 
-                        <div class="right-buttons">
-                            <a href="../print.html" title="Print this book" aria-label="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                            
-                            <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
-                                <i id="git-repository-button" class="fa fa-github"></i>
-                            </a>
-                            
-                        </div>
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -139,8 +126,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -152,8 +137,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#emacs1" id="emacs1">emacs(1)</a></h1>
-<h2><a class="header" href="#help" id="help">help</a></h2>
+                        <h1 id="emacs1"><a class="header" href="#emacs1">emacs(1)</a></h1>
+<h2 id="help"><a class="header" href="#help">help</a></h2>
 <pre><code class="language-markdown">  C-h ?         list available help modes
   C-h e         show message output (`*Messages*` buffer)
   C-h f         describe function
@@ -165,14 +150,14 @@
   &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
 </code></pre>
-<h2><a class="header" href="#package-manager" id="package-manager">package manager</a></h2>
+<h2 id="package-manager"><a class="header" href="#package-manager">package manager</a></h2>
 <pre><code class="language-markdown">  key    fn                          description
 ------------------------------------------------
          package-refresh-contents    refresh package list
          package-list-packages       list available/installed packages
                                      `U x` to mark packages for Upgrade &amp; eXecute
 </code></pre>
-<h2><a class="header" href="#window" id="window">window</a></h2>
+<h2 id="window"><a class="header" href="#window">window</a></h2>
 <pre><code class="language-markdown">  key      fn                      description
 ----------------------------------------------
   C-x 0    delete-window           kill focused window
@@ -181,7 +166,7 @@
   C-x 3    split-window-right      split vertical
   C-x o    other-window            other window (cycle)
 </code></pre>
-<h2><a class="header" href="#buffer" id="buffer">buffer</a></h2>
+<h2 id="buffer"><a class="header" href="#buffer">buffer</a></h2>
 <pre><code class="language-markdown">  key        fn                   description
 ---------------------------------------------
   C-x C-q    read-only-mode       toggle read-only mode for buffer
@@ -191,7 +176,7 @@
   C-x b      switch-to-buffer     switch buffer
   C-x C-b    list-buffers         buffer list
 </code></pre>
-<h2><a class="header" href="#ibuffer" id="ibuffer">ibuffer</a></h2>
+<h2 id="ibuffer"><a class="header" href="#ibuffer">ibuffer</a></h2>
 <p>Builtin advanced buffer selection mode</p>
 <pre><code class="language-markdown">  key        fn            description
 --------------------------------------
@@ -218,7 +203,7 @@
   /g                       create filter group
   /\                       remove all filter groups
 </code></pre>
-<h2><a class="header" href="#isearch" id="isearch">isearch</a></h2>
+<h2 id="isearch"><a class="header" href="#isearch">isearch</a></h2>
 <pre><code class="language-markdown">  key    fn                           description
 -------------------------------------------------
   C-s    isearch-forward              search forward from current position (C-s to go to next match)
@@ -227,7 +212,7 @@
   M-p    isearch-ring-advance         previous search input
   M-n    isearch-ring-retreat         next search input
 </code></pre>
-<h2><a class="header" href="#occur" id="occur">occur</a></h2>
+<h2 id="occur"><a class="header" href="#occur">occur</a></h2>
 <pre><code class="language-markdown">  key      fn           description
 -----------------------------------
   M-s o    occur        get matches for regexp in buffer
@@ -242,7 +227,7 @@
 ---------------------------------------------------------
            multi-occur-in-matching-buffers    run occur in buffers matching regexp
 </code></pre>
-<h2><a class="header" href="#grep" id="grep">grep</a></h2>
+<h2 id="grep"><a class="header" href="#grep">grep</a></h2>
 <pre><code class="language-markdown">  key    fn           description
 -----------------------------------
          rgrep        recursive grep
@@ -251,7 +236,7 @@
   n/p                 navigate next/previous match in *grep* buffer
   q                   quit *grep* buffer
 </code></pre>
-<h2><a class="header" href="#yankpaste" id="yankpaste">yank/paste</a></h2>
+<h2 id="yankpaste"><a class="header" href="#yankpaste">yank/paste</a></h2>
 <pre><code class="language-markdown">  key         fn                  description
 ---------------------------------------------
   C-&lt;SPACE&gt;   set-mark-command    set start mark to select text
@@ -260,19 +245,19 @@
   C-y         yank                paste selected text
   M-y         yank-pop            cycle through kill-ring (only after paste)
 </code></pre>
-<h2><a class="header" href="#register" id="register">register</a></h2>
+<h2 id="register"><a class="header" href="#register">register</a></h2>
 <pre><code class="language-markdown">  key             fn                 description
 ------------------------------------------------
   C-x r s &lt;reg&gt;   copy-to-register   save region in register &lt;reg&gt;
   C-x r i &lt;reg&gt;   insert-register    insert content of register &lt;reg&gt;
 </code></pre>
-<h2><a class="header" href="#blockrect" id="blockrect">block/rect</a></h2>
+<h2 id="blockrect"><a class="header" href="#blockrect">block/rect</a></h2>
 <pre><code class="language-markdown">  key          fn                    description
 ------------------------------------------------
   C-x &lt;SPC&gt;    rectangle-mark-mode   activate rectangle-mark-mode
                string-rectangle      insert text in marked rect
 </code></pre>
-<h2><a class="header" href="#mass-edit" id="mass-edit">mass edit</a></h2>
+<h2 id="mass-edit"><a class="header" href="#mass-edit">mass edit</a></h2>
 <pre><code class="language-markdown">  key       fn                       description
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
@@ -280,13 +265,13 @@
   M-%       query-replace            search &amp; replace
   C-M-%     query-replace-regexp     search &amp; replace regex
 </code></pre>
-<h2><a class="header" href="#narrow" id="narrow">narrow</a></h2>
+<h2 id="narrow"><a class="header" href="#narrow">narrow</a></h2>
 <pre><code class="language-markdown">  key       fn                    description
 ---------------------------------------------
   C-x n n   narrow-to-region      show only focused region (narrow)
   C-x n w   widen                 show whole buffer (wide)
 </code></pre>
-<h2><a class="header" href="#org" id="org">org</a></h2>
+<h2 id="org"><a class="header" href="#org">org</a></h2>
 <pre><code class="language-markdown">  key              fn   description
 ------------------------------------
   M-up/M-down           re-arrange items in same hierarchy
@@ -295,14 +280,14 @@
   C-S-RET               create new TODO item below current
   S-left/S-right        cycle TODO states
 </code></pre>
-<h3><a class="header" href="#org-source" id="org-source">org source</a></h3>
+<h3 id="org-source"><a class="header" href="#org-source">org source</a></h3>
 <pre><code class="language-markdown">  key       fn     description
 ------------------------------
   &lt;s TAB           generate a source block
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 </code></pre>
-<h2><a class="header" href="#comapny" id="comapny">comapny</a></h2>
+<h2 id="comapny"><a class="header" href="#comapny">comapny</a></h2>
 <pre><code class="language-markdown">  key         fn   description
 -------------------------------
   C-s              search through completion candidates
@@ -310,7 +295,7 @@
   &lt;f1&gt;             get doc for completion condidate
   M-&lt;digit&gt;        select completion candidate
 </code></pre>
-<h2><a class="header" href="#tags" id="tags">tags</a></h2>
+<h2 id="tags"><a class="header" href="#tags">tags</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
 <pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
 </code></pre>
@@ -321,7 +306,7 @@
            xref-find-apropos        find symbols matching regexp
            xref-find-references     find references of tag
 </code></pre>
-<h2><a class="header" href="#lisp" id="lisp">lisp</a></h2>
+<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
 <pre><code class="language-markdown">  key   fn        description
 ------------------------------
         ielm      open interactive elips shell
@@ -334,7 +319,7 @@
   C-x C-e          eval-last-sexp            evaluate lisp expr
   C-u C-x C-e      eval-last-sexp            evaluate &amp; print
 </code></pre>
-<h2><a class="header" href="#ido" id="ido">ido</a></h2>
+<h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
 <pre><code class="language-markdown">  key              fn          description
 ------------------------------------------
@@ -342,7 +327,7 @@
   &lt;Left&gt;/&lt;Right&gt;               cycle through available competions
   &lt;RET&gt;                        select completion
 </code></pre>
-<h2><a class="header" href="#evil" id="evil">evil</a></h2>
+<h2 id="evil"><a class="header" href="#evil">evil</a></h2>
 <pre><code class="language-markdown">  key    fn    description
 --------------------------
   C-z          toggle emacs/evil mode
@@ -350,7 +335,7 @@
   C-p          after paste cycle kill-ring back
   C-n          after paste cycle kill-ring forward
 </code></pre>
-<h2><a class="header" href="#dired" id="dired">dired</a></h2>
+<h2 id="dired"><a class="header" href="#dired">dired</a></h2>
 <pre><code class="language-markdown">  key    fn    description
 --------------------------
   i            open sub-dir in same buffer
@@ -364,67 +349,38 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../tools/awk.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="../tools/gpg.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-                    <a href="../tools/awk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../tools/awk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
-                    <a href="../tools/gpg.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../tools/gpg.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-        
-        
         <script type="text/javascript">
-            window.playpen_copyable = true;
+            window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-
     </body>
 </html>
