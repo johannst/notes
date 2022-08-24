@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+// -- Example 1 - print template value arguments.
+
 // Base case with one parameter.
 template<int P>
 void show_int() {
@@ -14,6 +16,8 @@ void show_int() {
     printf("%d, ", P0);
     show_int<P1, Params...>();
 }
+
+// -- Example 2 - print values of different types.
 
 // Base case with one parameter.
 template<typename T>

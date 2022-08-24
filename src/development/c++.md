@@ -16,7 +16,19 @@ typename decltype(foo)::_;
 {{#include c++/meta.cc:3:}}
 ```
 
-## [SFINAE][sfinae] example ([enable_if][enable-if])
+## Example: `is_any_of` template meta function
+
+```cpp
+{{#include c++/meta3.cc:3:}}
+```
+
+## Example: [SFINAE][sfinae] ([enable_if][enable-if])
+
+Provide a single entry point `Invoke` to call some `Operations`.
+Use `enable_if` to enable/disable the template functions depending on the two
+available traits an operation can have:
+- Operation returns a result
+- Operation requires a context
 
 ```cpp
 {{#include c++/meta2.cc:3:}}
