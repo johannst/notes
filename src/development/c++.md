@@ -16,7 +16,7 @@ typename decltype(foo)::_;
 {{#include c++/meta.cc:3:}}
 ```
 
-## Example: `is_any_of` template meta function
+## Example: `any_of` template meta function
 
 ```cpp
 {{#include c++/meta3.cc:3:}}
