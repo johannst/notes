@@ -29,6 +29,10 @@ Give the compiler a hint which branch is hot, so it can lay out the code
 accordingly to reduce number of jump instructions.
 See on [compiler explorer](https://godbolt.org/z/MbTHAP).
 
+The semantics of this hint are as follows, the compiler prioritises `expr ==
+cond`. So `__builtin_expect(expr, 0)` means that we expect the `expr` to be `0`
+most of the time.
+
 ```bash
 echo "
 extern void foo();
