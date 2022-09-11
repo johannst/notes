@@ -55,6 +55,7 @@
     - [coredump](./linux/coredump.md)
     - [ptrace_scope](./linux/ptrace_scope.md)
     - [cryptsetup](./linux/cryptsetup.md)
+    - [swap](./linux/swap.md)
 
 - [Network](./network/README.md)
     - [tcpdump](./network/tcpdump.md)
