@@ -60,6 +60,9 @@
 - [Network](./network/README.md)
     - [tcpdump](./network/tcpdump.md)
 
+- [Web](./web/README.md)
+    - [html](./web/html.md)
+
 - [Arch](./arch/README.md)
     - [x86_64](./arch/x86_64.md)
     - [arm64](./arch/arm64.md)
