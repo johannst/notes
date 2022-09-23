@@ -126,6 +126,23 @@ done | sort -k2 -n
 We capture values from `VmRSS` and `Name` into variables and print them at the
 `END` once processing all records is done.
 
+### Capture in array
+```bash
+echo 'a 10
+b 2
+b 4
+a 1' | awk '{
+    vals[$1] += $2
+    cnts[$1] += 1
+}
+END {
+    for (v in vals)
+        printf "%s %d\n", v, vals[v] / cnts [v]
+}'
+```
+Capture keys and values from different columns and some up the values.
+At the `END` we compute the average of each key.
+
 ### Run shell command and capture output
 ```bash
 cat /proc/1/status | awk '
