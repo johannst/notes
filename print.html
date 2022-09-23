@@ -1132,6 +1132,10 @@ but this is a function and return value can be assigned to a variable.</p>
 </code></pre>
 <p>The pattern <code>NR%2 == 0</code> matches every second record and the action <code>{ print $0 }</code>
 prints the whole record.</p>
+<h3 id="negative-patterns"><a class="header" href="#negative-patterns">Negative patterns</a></h3>
+<pre><code class="language-bash">awk '!/^#/ { print $1 }' &lt;file&gt;
+</code></pre>
+<p>Matches records not starting with <code>#</code>.</p>
 <h3 id="access-last-fields-in-records"><a class="header" href="#access-last-fields-in-records">Access last fields in records</a></h3>
 <pre><code class="language-bash">echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 </code></pre>
