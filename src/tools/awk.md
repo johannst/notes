@@ -102,6 +102,12 @@ awk 'NR%2 == 0 { print $0 }' <file>
 The pattern `NR%2 == 0` matches every second record and the action `{ print $0 }`
 prints the whole record.
 
+### Negative patterns
+```bash
+awk '!/^#/ { print $1 }' <file>
+```
+Matches records not starting with `#`.
+
 ### Access last fields in records
 ```bash
 echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
