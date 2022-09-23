@@ -1,0 +1,25 @@
+<style>
+.grid-2col {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1em
+}
+.col1 {
+  grid-column-start: 1;
+  background-color: red;
+  padding-left: 1em;
+}
+.col2 {
+  grid-column-start: 2;
+  background-color: green;
+  padding-left: 1em;
+}
+</style>
+<div class="grid-2col">
+  <div class="col1">
+    <p>Some text in the first column.</p>
+  </div>
+  <div class="col2">
+    <p>Some text in the second column.</p>
+  </div>
+</div>
