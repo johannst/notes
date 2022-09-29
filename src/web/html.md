@@ -13,3 +13,8 @@
 {{#include src/grid-2col.html }}
 ```
 
+# Minimal grid area
+[Rendered html](src/grid-area.html)
+```html
+{{#include src/grid-area.html }}
+```

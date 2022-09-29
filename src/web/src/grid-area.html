@@ -1,0 +1,55 @@
+<style>
+.page-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+      "h h"
+      "s m"
+      "f f";
+  gap: 1em;
+}
+.gh {
+  grid-area: h;
+  background-color: orange;
+}
+.gs {
+  grid-area: s;
+  background-color: green;
+}
+.gm {
+  grid-area: m;
+  background-color: gray;
+}
+.gf {
+  grid-area: f;
+  background-color: yellow;
+}
+.nav-items {
+  display: flex;                  /* flexbox model => flexible layout on row */
+  justify-content: space-around;  /* align flex boxes horizontally with space around */
+  align-items: center;            /* center flex items vertically */
+  list-style: none;
+}
+p {
+  margin: 1em;
+}
+</style>
+<div class="page-grid">
+  <div class="gh">
+      <ul class="nav-items">
+          <li class="nav-item"><a href="">aa</a></li>
+          <li class="nav-item"><a href="">bb</a></li>
+          <li class="nav-item"><a href="">cc</a></li>
+      </ul>
+  </div>
+  <div class="gs">
+    <p>Some text in the second column.</p>
+  </div>
+  <div class="gm">
+    <p>Some text in the second column.</p>
+  </div>
+  <div class="gf">
+    <p>Some text in the second column.</p>
+  </div>
+</div>
+
