@@ -2221,9 +2221,12 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <pre><code class="language-markdown">gdb -p $(pgrep -n -u $USER zsh)
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pmap1"><a class="header" href="#pmap1">pmap(1)</a></h1>
-<pre><code class="language-markdown">pmap &lt;pid&gt;
+<pre><code class="language-markdown">pmap [opts] &lt;pid&gt;
     Dump virtual memory map of process.
     Compared to /proc/&lt;pid&gt;/maps it shows the size of the mappings.
+opts:
+  -p         show full path in the mapping
+  -x         show details (eg RSS usage of each segment)
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pstack1"><a class="header" href="#pstack1">pstack(1)</a></h1>
 <pre><code class="language-markdown">pstack &lt;pid&gt;

@@ -138,9 +138,12 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="pmap1"><a class="header" href="#pmap1">pmap(1)</a></h1>
-<pre><code class="language-markdown">pmap &lt;pid&gt;
+<pre><code class="language-markdown">pmap [opts] &lt;pid&gt;
     Dump virtual memory map of process.
     Compared to /proc/&lt;pid&gt;/maps it shows the size of the mappings.
+opts:
+  -p         show full path in the mapping
+  -x         show details (eg RSS usage of each segment)
 </code></pre>
 
                     </main>
