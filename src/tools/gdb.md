@@ -72,6 +72,9 @@
 
           <bp_list>: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
+
+  save break <file>
+          Save breakpoints to <file>. Can be loaded with the `source` command.
 ```
 
 ## Watchpoints
@@ -133,6 +136,9 @@
 ## Configuration
 
 ```markdown
+  set disassembly-flavor <intel | att>
+          Set the disassembly style "flavor".
+
   set follow-fork-mode <child | parent>
           Specify which process to follow when debuggee makes a fork(2)
           syscall.
@@ -252,6 +258,20 @@ For example create `run.gdb`:
 This script can be used as:
 ```markdown
   gdb --batch -x ./run.gdb -p <pid>
+```
+
+## Hook to automatically save breakpoints on `quit`
+```markdown
+define break-save
+    save breakpoint $arg0.gdb.bp
+end
+define break-load
+    source $arg0.gdb.bp
+end
+
+define hook-quit
+    break-save quit
+end
 ```
 
 # Know Bugs
