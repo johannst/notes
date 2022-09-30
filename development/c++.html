@@ -296,8 +296,79 @@ int main() {
 
     return 0;
 }
-
 </code></pre>
+<h2 id="example-concepts-pre-c20"><a class="header" href="#example-concepts-pre-c20">Example: Concepts pre c++20</a></h2>
+<p>Prior to c++20's concepts, <code>SFINAE</code> and <code>std::void_t</code> can be leveraged to build
+something similar allowing to define an interface (aka trait) for a template
+parameter.</p>
+<pre><code class="language-cpp">
+template&lt;typename T, template&lt;typename&gt; class Checker, typename = void&gt;
+struct is_valid : std::false_type {};
+
+template&lt;typename T, template&lt;typename&gt; class Checker&gt;
+struct is_valid&lt;T, Checker, std::void_t&lt;Checker&lt;T&gt;&gt;&gt; : std::true_type {};
+
+template&lt;typename T, template&lt;typename&gt; class Checker&gt;
+static constexpr bool is_valid_v = is_valid&lt;T, Checker&gt;::value;
+
+// -----------------------------------------------------------------------------
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker, typename = void&gt;
+struct is_valid_with_ret : std::false_type {};
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker&gt;
+struct is_valid_with_ret&lt;T, R, Checker, std::void_t&lt;Checker&lt;T&gt;&gt;&gt; : std::is_same&lt;R, Checker&lt;T&gt;&gt; {};
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker&gt;
+static constexpr bool is_valid_with_ret_v = is_valid_with_ret&lt;T, R, Checker&gt;::value;
+
+// -----------------------------------------------------------------------------
+
+template&lt;typename T&gt;
+struct is_entry {
+    template&lt;typename TT&gt;
+    using init = decltype(std::declval&lt;TT&gt;().init());
+    template&lt;typename TT&gt;
+    using tag = decltype(std::declval&lt;TT&gt;().tag());
+    template&lt;typename TT&gt;
+    using val = decltype(std::declval&lt;TT&gt;().val());
+
+    static constexpr bool value = is_valid_v&lt;T, init&gt; &amp;&amp;
+                                  is_valid_with_ret_v&lt;T, int, tag&gt; &amp;&amp;
+                                  is_valid_with_ret_v&lt;T, typename T::Type, val&gt;;
+};
+
+template&lt;typename T&gt;
+static constexpr bool is_entry_v = is_entry&lt;T&gt;::value;
+
+template&lt;typename E&gt;
+struct Entry {
+    using Type = E;
+    void init();
+    int tag() const;
+    E val() const;
+};
+
+int main() {
+    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, &quot;&quot;);
+}
+</code></pre>
+<p>The main mechanic can be explained with the following reduced example. If one
+of the <code>decltype(std:declval&lt;T&gt;...</code> expressions is ill-formed, the template
+specialization for <code>is_valid</code> will be removed from the candidate set due to
+<a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a>.</p>
+<pre><code class="language-cpp">template&lt;typename T, typename = void&gt;
+struct is_valid : std::false_type {};
+
+template&lt;typename T&gt;
+struct is_valid&lt;T, std::void_t&lt;
+                       decltype(std::declval&lt;T&gt;().some_fun1()),
+                       decltype(std::declval&lt;T&gt;().some_fun2())
+               &gt;&gt; : std::true_type {};
+</code></pre>
+<blockquote>
+<p><code>std::declval&lt;T&gt;()</code> creates an instance of type T in an unevaluated context.</p>
+</blockquote>
 
                     </main>
 

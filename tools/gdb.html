@@ -203,6 +203,9 @@
 
           &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
+
+  save break &lt;file&gt;
+          Save breakpoints to &lt;file&gt;. Can be loaded with the `source` command.
 </code></pre>
 <h2 id="watchpoints"><a class="header" href="#watchpoints">Watchpoints</a></h2>
 <pre><code class="language-markdown">  watch [-location|-l] &lt;expr&gt; [thread &lt;tnum&gt;]
@@ -253,7 +256,10 @@
           Show current substitution rules.
 </code></pre>
 <h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
-<pre><code class="language-markdown">  set follow-fork-mode &lt;child | parent&gt;
+<pre><code class="language-markdown">  set disassembly-flavor &lt;intel | att&gt;
+          Set the disassembly style &quot;flavor&quot;.
+
+  set follow-fork-mode &lt;child | parent&gt;
           Specify which process to follow when debuggee makes a fork(2)
           syscall.
 
@@ -354,6 +360,18 @@ For example create <code>run.gdb</code>:</p>
 </code></pre>
 <p>This script can be used as:</p>
 <pre><code class="language-markdown">  gdb --batch -x ./run.gdb -p &lt;pid&gt;
+</code></pre>
+<h2 id="hook-to-automatically-save-breakpoints-on-quit"><a class="header" href="#hook-to-automatically-save-breakpoints-on-quit">Hook to automatically save breakpoints on <code>quit</code></a></h2>
+<pre><code class="language-markdown">define break-save
+    save breakpoint $arg0.gdb.bp
+end
+define break-load
+    source $arg0.gdb.bp
+end
+
+define hook-quit
+    break-save quit
+end
 </code></pre>
 <h1 id="know-bugs"><a class="header" href="#know-bugs">Know Bugs</a></h1>
 <h2 id="workaround-command--finish-bug"><a class="header" href="#workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>

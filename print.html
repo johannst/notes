@@ -1552,6 +1552,9 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
 
           &lt;bp_list&gt;: Space separates list, eg 'command 2 5-8' to run command
           for breakpoints: 2,5,6,7,8.
+
+  save break &lt;file&gt;
+          Save breakpoints to &lt;file&gt;. Can be loaded with the `source` command.
 </code></pre>
 <h2 id="watchpoints"><a class="header" href="#watchpoints">Watchpoints</a></h2>
 <pre><code class="language-markdown">  watch [-location|-l] &lt;expr&gt; [thread &lt;tnum&gt;]
@@ -1602,7 +1605,10 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
           Show current substitution rules.
 </code></pre>
 <h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
-<pre><code class="language-markdown">  set follow-fork-mode &lt;child | parent&gt;
+<pre><code class="language-markdown">  set disassembly-flavor &lt;intel | att&gt;
+          Set the disassembly style &quot;flavor&quot;.
+
+  set follow-fork-mode &lt;child | parent&gt;
           Specify which process to follow when debuggee makes a fork(2)
           syscall.
 
@@ -1703,6 +1709,18 @@ For example create <code>run.gdb</code>:</p>
 </code></pre>
 <p>This script can be used as:</p>
 <pre><code class="language-markdown">  gdb --batch -x ./run.gdb -p &lt;pid&gt;
+</code></pre>
+<h2 id="hook-to-automatically-save-breakpoints-on-quit"><a class="header" href="#hook-to-automatically-save-breakpoints-on-quit">Hook to automatically save breakpoints on <code>quit</code></a></h2>
+<pre><code class="language-markdown">define break-save
+    save breakpoint $arg0.gdb.bp
+end
+define break-load
+    source $arg0.gdb.bp
+end
+
+define hook-quit
+    break-save quit
+end
 </code></pre>
 <h1 id="know-bugs"><a class="header" href="#know-bugs">Know Bugs</a></h1>
 <h2 id="workaround-command--finish-bug"><a class="header" href="#workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
@@ -2604,8 +2622,79 @@ int main() {
 
     return 0;
 }
-
 </code></pre>
+<h2 id="example-concepts-pre-c20"><a class="header" href="#example-concepts-pre-c20">Example: Concepts pre c++20</a></h2>
+<p>Prior to c++20's concepts, <code>SFINAE</code> and <code>std::void_t</code> can be leveraged to build
+something similar allowing to define an interface (aka trait) for a template
+parameter.</p>
+<pre><code class="language-cpp">
+template&lt;typename T, template&lt;typename&gt; class Checker, typename = void&gt;
+struct is_valid : std::false_type {};
+
+template&lt;typename T, template&lt;typename&gt; class Checker&gt;
+struct is_valid&lt;T, Checker, std::void_t&lt;Checker&lt;T&gt;&gt;&gt; : std::true_type {};
+
+template&lt;typename T, template&lt;typename&gt; class Checker&gt;
+static constexpr bool is_valid_v = is_valid&lt;T, Checker&gt;::value;
+
+// -----------------------------------------------------------------------------
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker, typename = void&gt;
+struct is_valid_with_ret : std::false_type {};
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker&gt;
+struct is_valid_with_ret&lt;T, R, Checker, std::void_t&lt;Checker&lt;T&gt;&gt;&gt; : std::is_same&lt;R, Checker&lt;T&gt;&gt; {};
+
+template&lt;typename T, typename R, template&lt;typename&gt; class Checker&gt;
+static constexpr bool is_valid_with_ret_v = is_valid_with_ret&lt;T, R, Checker&gt;::value;
+
+// -----------------------------------------------------------------------------
+
+template&lt;typename T&gt;
+struct is_entry {
+    template&lt;typename TT&gt;
+    using init = decltype(std::declval&lt;TT&gt;().init());
+    template&lt;typename TT&gt;
+    using tag = decltype(std::declval&lt;TT&gt;().tag());
+    template&lt;typename TT&gt;
+    using val = decltype(std::declval&lt;TT&gt;().val());
+
+    static constexpr bool value = is_valid_v&lt;T, init&gt; &amp;&amp;
+                                  is_valid_with_ret_v&lt;T, int, tag&gt; &amp;&amp;
+                                  is_valid_with_ret_v&lt;T, typename T::Type, val&gt;;
+};
+
+template&lt;typename T&gt;
+static constexpr bool is_entry_v = is_entry&lt;T&gt;::value;
+
+template&lt;typename E&gt;
+struct Entry {
+    using Type = E;
+    void init();
+    int tag() const;
+    E val() const;
+};
+
+int main() {
+    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, &quot;&quot;);
+}
+</code></pre>
+<p>The main mechanic can be explained with the following reduced example. If one
+of the <code>decltype(std:declval&lt;T&gt;...</code> expressions is ill-formed, the template
+specialization for <code>is_valid</code> will be removed from the candidate set due to
+<a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a>.</p>
+<pre><code class="language-cpp">template&lt;typename T, typename = void&gt;
+struct is_valid : std::false_type {};
+
+template&lt;typename T&gt;
+struct is_valid&lt;T, std::void_t&lt;
+                       decltype(std::declval&lt;T&gt;().some_fun1()),
+                       decltype(std::declval&lt;T&gt;().some_fun2())
+               &gt;&gt; : std::true_type {};
+</code></pre>
+<blockquote>
+<p><code>std::declval&lt;T&gt;()</code> creates an instance of type T in an unevaluated context.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="glibc"><a class="header" href="#glibc">glibc</a></h1>
 <h2 id="malloc-tracer-mtrace3"><a class="header" href="#malloc-tracer-mtrace3">malloc tracer <a href="http://man7.org/linux/man-pages/man3/mtrace.3.html"><code>mtrace(3)</code></a></a></h2>
 <p>Trace memory allocation and de-allocation to detect memory leaks.
@@ -3543,6 +3632,64 @@ ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
+</code></pre>
+<h1 id="minimal-grid-area"><a class="header" href="#minimal-grid-area">Minimal grid area</a></h1>
+<p><a href="web/src/grid-area.html">Rendered html</a></p>
+<pre><code class="language-html">&lt;style&gt;
+.page-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+      &quot;h h&quot;
+      &quot;s m&quot;
+      &quot;f f&quot;;
+  gap: 1em;
+}
+.gh {
+  grid-area: h;
+  background-color: orange;
+}
+.gs {
+  grid-area: s;
+  background-color: green;
+}
+.gm {
+  grid-area: m;
+  background-color: gray;
+}
+.gf {
+  grid-area: f;
+  background-color: yellow;
+}
+.nav-items {
+  display: flex;                  /* flexbox model =&gt; flexible layout on row */
+  justify-content: space-around;  /* align flex boxes horizontally with space around */
+  align-items: center;            /* center flex items vertically */
+  list-style: none;
+}
+p {
+  margin: 1em;
+}
+&lt;/style&gt;
+&lt;div class=&quot;page-grid&quot;&gt;
+  &lt;div class=&quot;gh&quot;&gt;
+      &lt;ul class=&quot;nav-items&quot;&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;aa&lt;/a&gt;&lt;/li&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;bb&lt;/a&gt;&lt;/li&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;cc&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gs&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gm&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gf&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="arch"><a class="header" href="#arch">Arch</a></h1>
 <ul>

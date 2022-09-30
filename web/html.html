@@ -176,6 +176,64 @@
   &lt;/div&gt;
 &lt;/div&gt;
 </code></pre>
+<h1 id="minimal-grid-area"><a class="header" href="#minimal-grid-area">Minimal grid area</a></h1>
+<p><a href="src/grid-area.html">Rendered html</a></p>
+<pre><code class="language-html">&lt;style&gt;
+.page-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+      &quot;h h&quot;
+      &quot;s m&quot;
+      &quot;f f&quot;;
+  gap: 1em;
+}
+.gh {
+  grid-area: h;
+  background-color: orange;
+}
+.gs {
+  grid-area: s;
+  background-color: green;
+}
+.gm {
+  grid-area: m;
+  background-color: gray;
+}
+.gf {
+  grid-area: f;
+  background-color: yellow;
+}
+.nav-items {
+  display: flex;                  /* flexbox model =&gt; flexible layout on row */
+  justify-content: space-around;  /* align flex boxes horizontally with space around */
+  align-items: center;            /* center flex items vertically */
+  list-style: none;
+}
+p {
+  margin: 1em;
+}
+&lt;/style&gt;
+&lt;div class=&quot;page-grid&quot;&gt;
+  &lt;div class=&quot;gh&quot;&gt;
+      &lt;ul class=&quot;nav-items&quot;&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;aa&lt;/a&gt;&lt;/li&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;bb&lt;/a&gt;&lt;/li&gt;
+          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;cc&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gs&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gm&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;gf&quot;&gt;
+    &lt;p&gt;Some text in the second column.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
 
                     </main>
 
