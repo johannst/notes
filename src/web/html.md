@@ -18,3 +18,9 @@
 ```html
 {{#include src/grid-area.html }}
 ```
+
+# Minimal tabs
+[Rendered html](src/tabs.html)
+```html
+{{#include src/tabs.html }}
+```
