@@ -56,6 +56,7 @@
     - [ptrace_scope](./linux/ptrace_scope.md)
     - [cryptsetup](./linux/cryptsetup.md)
     - [swap](./linux/swap.md)
+    - [input](./linux/input.md)
 
 - [Network](./network/README.md)
     - [tcpdump](./network/tcpdump.md)
