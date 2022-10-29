@@ -60,6 +60,7 @@
 
 - [Network](./network/README.md)
     - [tcpdump](./network/tcpdump.md)
+    - [firewall-cmd](./network/firewall-cmd.md)
 
 - [Web](./web/README.md)
     - [html](./web/html.md)
