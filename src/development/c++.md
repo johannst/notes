@@ -34,6 +34,15 @@ available traits an operation can have:
 {{#include c++/meta2.cc:3:}}
 ```
 
+## Example: Minimal templatized test registry
+
+A small test function registry bringing together a few different template
+features.
+
+```cpp
+{{#include c++/meta4.cc:3:}}
+```
+
 ## Example: Concepts pre c++20
 
 Prior to c++20's concepts, `SFINAE` and `std::void_t` can be leveraged to build
