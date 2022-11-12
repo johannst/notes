@@ -274,6 +274,79 @@ define hook-quit
 end
 ```
 
+## Watchpoint on struct / class member
+A symbolic watchpoint defined on a member variable for debugging is only valid
+as long as the expression is in scope. Once out of scope the watchpoint gets
+deleted.
+
+When debugging some memory corruption we want to keep the watchpoint even the
+expression goes out of scope to find the location that overrides the variable
+and introduces the corruption.
+
+```markdown
+(gdb) l
+1  struct S { int v; };
+2
+3  void set(struct S* s, int v) {
+4      s->v = v;
+5  }
+6
+7  int main() {
+8      struct S s;
+9      set(&s, 1);
+10     set(&s, 2);
+11     set(&s, 3);
+...
+
+(gdb) s
+set (s=0x7fffffffe594, v=1) at test.c:4
+4    s->v = v;
+
+# Define a new watchpoint on the member of the struct. The expression however
+# is only valid in the current functions scope.
+
+(gdb) watch s->v
+Hardware watchpoint 2: s->v
+
+(gdb) c
+Hardware watchpoint 2: s->v
+Old value = 0
+New value = 1
+set (s=0x7fffffffe594, v=1) at test.c:5
+5   }
+
+# The watchpoint gets deleted as soon as we leave the function scope.
+
+(gdb) c
+Watchpoint 2 deleted because the program has left the block in
+which its expression is valid.
+main () at test.c:10
+10      set(&s, 2);
+
+(gdb) p &s->v
+$1 = (int *) 0x7fffffffe594
+
+# Define a watchpoint o the address of the member variable of the s instance.
+# This of course only makes sense as long as the s instance is not moved in memory.
+
+(gdb) watch *0x7fffffffe594
+Hardware watchpoint 3: *0x7fffffffe594
+
+(gdb) c
+Hardware watchpoint 3: *0x7fffffffe594
+Old value = 1
+New value = 2
+set (s=0x7fffffffe594, v=2) at test.c:5
+5   }
+
+(gdb) c
+Hardware watchpoint 3: *0x7fffffffe594
+Old value = 2
+New value = 3
+set (s=0x7fffffffe594, v=3) at test.c:5
+5   }
+```
+
 # Know Bugs
 
 ## Workaround `command + finish` bug
