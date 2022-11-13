@@ -1,0 +1,30 @@
+<script>
+const showTab = (E, T) => {
+    const TABS = Array.from(document.getElementsByClassName("content"));
+    TABS.forEach(T => {
+        T.style.display = "none";
+    });
+
+    document.getElementById(T).style.display = "block";
+};
+
+window.onload = () => {
+    document.getElementById("bTab1").onclick = (E) => {
+        showTab(E, "tTab1");
+    };
+    document.getElementById("bTab2").onclick = (E) => {
+        showTab(E, "tTab2");
+    };
+}
+</script>
+
+<button type="button" id="bTab1">Tab1</button>
+<button type="button" id="bTab2">Tab2</button>
+
+<div id="tTab1" class="content" style="display: block;">
+    <p>Some content goes here ...</p>
+</div>
+
+<div id="tTab2" class="content" style="display: none;">
+    <p>... and there.</p>
+</div>

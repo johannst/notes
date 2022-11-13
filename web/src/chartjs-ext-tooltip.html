@@ -1,0 +1,101 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="myChart" style="margin:5em;"></canvas>
+
+<script>
+const get_or_create_tooltip = (id) => {
+  if (tooltip = document.getElementById(id)) {
+    return tooltip;
+  } else {
+    // -- Create a new Tooltip element.
+    const tooltip = document.createElement('div');
+    tooltip.id = id;
+    document.body.appendChild(tooltip);
+
+    // -- Some minimal styling.
+    tooltip.style.background = 'rgba(0, 0, 0, 0.1)';
+    tooltip.style.position   = 'absolute';
+    tooltip.style.transition = 'all .2s ease';
+
+    // -- Add a table element for the tooltip content.
+    const table = document.createElement('table');
+    tooltip.appendChild(table);
+
+    return tooltip
+  }
+}
+
+const render_tooltip = (context) => {
+  const {chart, tooltip} = context;
+
+  // -- Get Tooltip element.
+  const tooltip_elem = get_or_create_tooltip('myTooltip');
+
+  // -- Get data point values (only one data point).
+  const {label: x, formattedValue: y} = tooltip.dataPoints[0];
+
+  // -- Format new tooltip.
+  const link = document.createElement('a');
+  link.href =  "https://github.com/johannst";
+  link.innerHTML = "X:" + x + " Y:" + y;
+
+  // -- Remove previous child element and add new one.
+  const table = tooltip_elem.querySelector('table');
+  table.innerHTML = ""; 
+  table.appendChild(link);
+
+  // -- Get absolute X/Y position of the top left corner of the canvas.
+  const {offsetLeft: canvas_x, offsetTop: canvas_y} = chart.canvas;
+
+  // -- Set position and minimal style for the tooltip.
+  tooltip_elem.style.left = canvas_x + tooltip.caretX + 'px';
+  tooltip_elem.style.top  = canvas_y + tooltip.caretY + 'px';
+  tooltip_elem.style.font = tooltip.options.bodyFont.string;
+
+  // -- Place the tooltip (I) left or (II) right of the data point.
+  if (tooltip.xAlign === "right") {
+    tooltip_elem.style.transform = 'translate(-100%, 0)'; // (I)
+  } else if (tooltip.xAlign === "left") {
+    tooltip_elem.style.transform = 'translate(0%, 0)';    // (II)
+  }
+}
+
+// -- Render a chart with some dummy data on the canvas.
+const chart = new Chart(
+  document.getElementById('myChart'),
+  {
+    data: {
+      datasets: [{
+        // -- A single dataset.
+        label: 'Just some values',
+        type: 'scatter',
+        data: [
+          {x: 4, y: 4},
+          {x: 5, y: 1},
+          {x: 7, y: 6},
+          {x: 10, y: 8},
+          {x: 10, y: 7},
+          {x: 10, y: 3},
+        ],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgb(255, 99, 132)',
+      }],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true, // -- Start the Y-Axis at zero instead min(y) of dataset.
+        }
+      },
+      plugins: {
+        tooltip: {
+          enabled: false, // -- Disable builtin tooltips.
+          mode: 'nearest', // -- Get the item that is nearest to the mouse.
+          intersect: false, // -- 'mode' is active also when the mouse doesnt intersect with an item on the chart.
+          external: render_tooltip, // -- External tooltip handler, allows to create own HTML.
+        }
+      }
+    }
+  }
+);
+</script>
