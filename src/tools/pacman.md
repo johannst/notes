@@ -45,7 +45,7 @@ pacman -Fx <regex>      search
 Uninstall all orphaned packages (including config files) that were installed as
 dependencies.
 ```text
-pacman -Rsn $(pacman -Qqtq)
+pacman -Rsn $(pacman -Qtdq)
 ```
 
 List explicitly installed packages that are not required as dependency by any
