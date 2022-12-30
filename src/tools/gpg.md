@@ -114,3 +114,25 @@ gpg --verify <file>.asc <file>
 - http://pgp.mit.edu
 - http://keyserver.ubuntu.com
 - hkps://pgp.mailbox.org
+
+## Examples
+
+### List basic key information from file with long keyids
+```bash
+gpg --keyid-format 0xlong <key.asc>
+```
+
+### Extend expiring key
+```bash
+gpg --edit-key <key id>
+
+# By default we are on the primary key, can switch to sub key.
+gpg> key 1
+
+# Update the expire date.
+gpg> expire
+
+gpg> save
+
+# Update keyserver(s) and/or export new pub keyfile.
+```
