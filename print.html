@@ -1493,6 +1493,23 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
 <li>http://keyserver.ubuntu.com</li>
 <li>hkps://pgp.mailbox.org</li>
 </ul>
+<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<h3 id="list-basic-key-information-from-file-with-long-keyids"><a class="header" href="#list-basic-key-information-from-file-with-long-keyids">List basic key information from file with long keyids</a></h3>
+<pre><code class="language-bash">gpg --keyid-format 0xlong &lt;key.asc&gt;
+</code></pre>
+<h3 id="extend-expiring-key"><a class="header" href="#extend-expiring-key">Extend expiring key</a></h3>
+<pre><code class="language-bash">gpg --edit-key &lt;key id&gt;
+
+# By default we are on the primary key, can switch to sub key.
+gpg&gt; key 1
+
+# Update the expire date.
+gpg&gt; expire
+
+gpg&gt; save
+
+# Update keyserver(s) and/or export new pub keyfile.
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gdb1"><a class="header" href="#gdb1">gdb(1)</a></h1>
 <h1 id="cli"><a class="header" href="#cli">CLI</a></h1>
 <pre><code class="language-markdown">  gdb [opts] [prg [-c coredump | -p pid]]
@@ -1668,7 +1685,7 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
     # cmds
   end
 </code></pre>
-<h1 id="examples-1"><a class="header" href="#examples-1">Examples</a></h1>
+<h1 id="examples-2"><a class="header" href="#examples-2">Examples</a></h1>
 <h2 id="automatically-print-next-instr"><a class="header" href="#automatically-print-next-instr">Automatically print next instr</a></h2>
 <p>When ever the debugee stops automatically print the memory at the current
 instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</code>.</p>
@@ -1850,7 +1867,7 @@ gdb -ex 'target remote localhost:1234'
 <pre><code class="language-markdown">  &gt; r2 -B &lt;baddr&gt; &lt;exe&gt;         # open &lt;exe&gt; mapped to addr &lt;baddr&gt;
   oob &lt;addr&gt;                    # reopen current file at &lt;baddr&gt;
 </code></pre>
-<h1 id="examples-2"><a class="header" href="#examples-2">Examples</a></h1>
+<h1 id="examples-3"><a class="header" href="#examples-3">Examples</a></h1>
 <h2 id="patch-file-alter-bytes"><a class="header" href="#patch-file-alter-bytes">Patch file (alter bytes)</a></h2>
 <pre><code class="language-markdown">  &gt; r2 [-w] &lt;file&gt;
   oo+           # re-open for write if -w was not passed
@@ -2213,7 +2230,7 @@ digraph {
 -s states (UDP)
   Unbound, Idle
 </code></pre>
-<h1 id="examples-3"><a class="header" href="#examples-3">Examples</a></h1>
+<h1 id="examples-4"><a class="header" href="#examples-4">Examples</a></h1>
 <h2 id="file-flags"><a class="header" href="#file-flags">File flags</a></h2>
 <p>Show open files with file flags for process:</p>
 <pre><code class="language-markdown">lsof +fg -p &lt;pid&gt;
@@ -2255,7 +2272,7 @@ digraph {
 
   (EXPR) .............. Group exprs
 </code></pre>
-<h1 id="examples-4"><a class="header" href="#examples-4">Examples</a></h1>
+<h1 id="examples-5"><a class="header" href="#examples-5">Examples</a></h1>
 <p>Show all tcp IPv4 sockets connecting to port <code>443</code>:</p>
 <pre><code class="language-markdown">ss -4 'dport 443'
 </code></pre>
@@ -2337,7 +2354,7 @@ opts:
   trace=signal ............... trace signal related syscalls
   signal ..................... trace signals delivered to the process
 </code></pre>
-<h1 id="examples-5"><a class="header" href="#examples-5">Examples</a></h1>
+<h1 id="examples-6"><a class="header" href="#examples-6">Examples</a></h1>
 <p>Trace <code>open(2)</code> &amp; <code>socket(2)</code> syscalls for a running process + child processes:</p>
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
@@ -3891,7 +3908,7 @@ tcp/udp/icmp            Filter for protocol.
 <blockquote>
 <p>Use <code>and/or/not</code> and <code>()</code> to build filter expressions.</p>
 </blockquote>
-<h1 id="examples-6"><a class="header" href="#examples-6">Examples</a></h1>
+<h1 id="examples-7"><a class="header" href="#examples-7">Examples</a></h1>
 <h2 id="capture-packets-from-remote-host"><a class="header" href="#capture-packets-from-remote-host">Capture packets from remote host</a></h2>
 <pre><code class="language-makrdown"># -k: Start capturing immediately.
 ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -

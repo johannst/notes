@@ -243,6 +243,23 @@ gpg --verify &lt;file&gt;.asc &lt;file&gt;
 <li>http://keyserver.ubuntu.com</li>
 <li>hkps://pgp.mailbox.org</li>
 </ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="list-basic-key-information-from-file-with-long-keyids"><a class="header" href="#list-basic-key-information-from-file-with-long-keyids">List basic key information from file with long keyids</a></h3>
+<pre><code class="language-bash">gpg --keyid-format 0xlong &lt;key.asc&gt;
+</code></pre>
+<h3 id="extend-expiring-key"><a class="header" href="#extend-expiring-key">Extend expiring key</a></h3>
+<pre><code class="language-bash">gpg --edit-key &lt;key id&gt;
+
+# By default we are on the primary key, can switch to sub key.
+gpg&gt; key 1
+
+# Update the expire date.
+gpg&gt; expire
+
+gpg&gt; save
+
+# Update keyserver(s) and/or export new pub keyfile.
+</code></pre>
 
                     </main>
 
