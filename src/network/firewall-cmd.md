@@ -21,6 +21,8 @@ firewall-cmd --list-ports
 firewall-cmd --add-service <SERVICE>
 # Add a specific port.
 firewall-cmd --add-port 8000/tcp
+# Add a rich rule (eg port forwarding, dnat).
+firewall-cmd --add-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 ```
 
 ## Remove entries
@@ -29,6 +31,8 @@ firewall-cmd --add-port 8000/tcp
 firewall-cmd --remove-service <SERVICE>
 # Remove port.
 firewall-cmd --remove-port 8000/tcp
+# Remove rich rule.
+firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 ```
 
 ## References
