@@ -27,5 +27,6 @@ tcp/udp/icmp            Filter for protocol.
 
 ```makrdown
 # -k: Start capturing immediately.
-ssh <host> tcpdump -i <IF> -w - | sudo wireshark -k -i -
+ssh <host> tcpdump -i any -w - | sudo wireshark -k -i -
 ```
+> The `any` interface is a special keyword to capture traffic on all interfaces.
