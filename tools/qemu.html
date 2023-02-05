@@ -353,6 +353,34 @@ launched with the <strong>same</strong> parameters.</p>
     ...
 </code></pre>
 <p>Instructions to build a minimal <a href="https://blog.memzero.de/kernel-debugging-qemu"><code>Kernel</code> and <code>initrd</code></a>.</p>
+<h2 id="appendix-cheap-instruction-tracer"><a class="header" href="#appendix-cheap-instruction-tracer">Appendix: Cheap instruction tracer</a></h2>
+<pre><code class="language-make">test: test.s
+	as -o test.o test.s
+	ld -o test test.o testc.o
+
+trace: test
+	qemu-x86_64 -singlestep -d nochain,cpu ./test 2&gt;&amp;1 | awk '/RIP/ { print $$1; }'
+
+clean:
+	$(RM) test test-bin test.o
+</code></pre>
+<pre><code class="language-x86asm">.section .text, &quot;ax&quot;
+
+.global _start
+_start:
+    xor %rax, %rax
+    mov $0x8, %rax
+1:
+    cmp $0, %rax
+    je 2f
+    dec %rax
+    jmp 1b
+2:
+    # x86-64 exit(2) syscall
+    mov $0, %rdi
+    mov $60, %rax
+    syscall
+</code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li><a href="https://github.com/qemu/qemu/blob/master/docs/usb2.txt">QEMU USB</a></li>
