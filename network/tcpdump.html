@@ -165,8 +165,11 @@ tcp/udp/icmp            Filter for protocol.
 <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <h2 id="capture-packets-from-remote-host"><a class="header" href="#capture-packets-from-remote-host">Capture packets from remote host</a></h2>
 <pre><code class="language-makrdown"># -k: Start capturing immediately.
-ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -
+ssh &lt;host&gt; tcpdump -i any -w - | sudo wireshark -k -i -
 </code></pre>
+<blockquote>
+<p>The <code>any</code> interface is a special keyword to capture traffic on all interfaces.</p>
+</blockquote>
 
                     </main>
 

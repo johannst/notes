@@ -2535,6 +2535,39 @@ the <code>.rodata</code> section as follows:</p>
 <p>For example <code>.plt</code> section:</p>
 <pre><code class="language-markdown">  objdump -j .plt -d &lt;elf&gt;
 </code></pre>
+<h2 id="example-disassemble-raw-binary"><a class="header" href="#example-disassemble-raw-binary">Example: disassemble raw binary</a></h2>
+<p>This can be helpful for example as a cheap analysis tool when toying with JIT
+generating code. We could just write thee binary code buffer to a file and
+disassemble with <code>objdump</code>.</p>
+<p>To re-create that case, we just assemble and link some ELF file and then create
+a raw binary of the text section with <code>objcopy</code>.</p>
+<pre><code class="language-x86asm"># file: test.s
+.section .text, &quot;ax&quot;
+
+.global _start
+_start:
+    xor %rax, %rax
+    mov $0x8, %rax
+1:
+    cmp $0, %rax
+    je 2f
+    dec %rax
+    jmp 1b
+2:
+    # x86-64 exit(2) syscall
+    mov $0, %rdi
+    mov $60, %rax
+    syscall
+</code></pre>
+<pre><code class="language-bash"># Assemble &amp; link.
+as -o test.o test.s
+ld -o test test.o testc.o
+# ELF -&gt; binary (only take .text section).
+objcopy -O binary --only-section .text test test-bin
+
+# Disassemble raw binary.
+objdump -D -b binary -m i386:x86-64 test-bin
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="nm1"><a class="header" href="#nm1">nm(1)</a></h1>
 <pre><code class="language-markdown">  nm [opts] &lt;elf&gt;
     -C          demangle
@@ -3912,8 +3945,11 @@ tcp/udp/icmp            Filter for protocol.
 <h1 id="examples-7"><a class="header" href="#examples-7">Examples</a></h1>
 <h2 id="capture-packets-from-remote-host"><a class="header" href="#capture-packets-from-remote-host">Capture packets from remote host</a></h2>
 <pre><code class="language-makrdown"># -k: Start capturing immediately.
-ssh &lt;host&gt; tcpdump -i &lt;IF&gt; -w - | sudo wireshark -k -i -
+ssh &lt;host&gt; tcpdump -i any -w - | sudo wireshark -k -i -
 </code></pre>
+<blockquote>
+<p>The <code>any</code> interface is a special keyword to capture traffic on all interfaces.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="firewall-cmd1"><a class="header" href="#firewall-cmd1">firewall-cmd(1)</a></h1>
 <p>Command line interface to the <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a> daemon.</p>
 <h2 id="list-current-status-of-the-firewall"><a class="header" href="#list-current-status-of-the-firewall">List current status of the firewall</a></h2>
