@@ -269,6 +269,14 @@ qemu-system-x86_64                                                     \
 ```
 Instructions to build a minimal [`Kernel` and `initrd`][blog-qemu-dbg].
 
+## Appendix: Cheap instruction tracer
+```make
+{{ #include qemu-src/Makefile }}
+```
+```x86asm
+{{ #include qemu-src/test.s }}
+```
+
 ## References
 
 - [QEMU USB][doc-qemu-usb]
