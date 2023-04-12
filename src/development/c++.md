@@ -58,16 +58,12 @@ of the `decltype(std:declval<T>...` expressions is ill-formed, the template
 specialization for `is_valid` will be removed from the candidate set due to
 [SFINAE][sfinae].
 ```cpp
-template<typename T, typename = void>
-struct is_valid : std::false_type {};
-
-template<typename T>
-struct is_valid<T, std::void_t<
-                       decltype(std::declval<T>().some_fun1()),
-                       decltype(std::declval<T>().some_fun2())
-               >> : std::true_type {};
+{{#include c++/tmpl-void_t.cc:3:45}}
 ```
 > `std::declval<T>()` creates an instance of type T in an unevaluated context.
+
+A more detailed description is available in the SO discussion [How does
+`void_t` work](https://stackoverflow.com/a/27688405).
 
 ## Template selection with partially / fully specializations.
 ```cpp
