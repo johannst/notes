@@ -32,6 +32,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
@@ -69,10 +70,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -446,8 +449,7 @@ struct is_entry {
     template&lt;typename TT&gt;
     using val = decltype(std::declval&lt;TT&gt;().val());
 
-    static constexpr bool value = is_valid_v&lt;T, init&gt; &amp;&amp;
-                                  is_valid_with_ret_v&lt;T, int, tag&gt; &amp;&amp;
+    static constexpr bool value = is_valid_v&lt;T, init&gt; &amp;&amp; is_valid_with_ret_v&lt;T, int, tag&gt; &amp;&amp;
                                   is_valid_with_ret_v&lt;T, typename T::Type, val&gt;;
 };
 
@@ -470,18 +472,128 @@ int main() {
 of the <code>decltype(std:declval&lt;T&gt;...</code> expressions is ill-formed, the template
 specialization for <code>is_valid</code> will be removed from the candidate set due to
 <a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a>.</p>
-<pre><code class="language-cpp">template&lt;typename T, typename = void&gt;
+<pre><code class="language-cpp">#include &lt;type_traits&gt;
+
+// (1) Primary template.
+template&lt;typename T, typename = void&gt;
 struct is_valid : std::false_type {};
 
+// (2) Partial template specialization.
 template&lt;typename T&gt;
-struct is_valid&lt;T, std::void_t&lt;
-                       decltype(std::declval&lt;T&gt;().some_fun1()),
-                       decltype(std::declval&lt;T&gt;().some_fun2())
-               &gt;&gt; : std::true_type {};
+struct is_valid&lt;T, std::void_t&lt;decltype(std::declval&lt;T&gt;().some_fun1()),
+                               decltype(std::declval&lt;T&gt;().some_fun2())&gt;&gt; : std::true_type {};
+struct A {
+    void some_fun1() {}
+    void some_fun2() {}
+};
+
+struct B {};
+
+static_assert(is_valid&lt;A&gt;::value, &quot;is true&quot;);
+// * Compare template arg list with primary template, we only supplied one
+//   arg, the second one will be defaulted as
+//   is_valid&lt;A, void&gt;
+// * Compare template arg list against available specializations, this will
+//   try to match the pattern &lt;A, void&gt; against the patterns defined in the
+//   partial specializations.
+// * Try specialization (2)
+//   * T -&gt; A
+//   * Evaluate std::void_t -&gt; decltype's are well-formed
+//     std::void_t&lt;...&gt; -&gt; void
+//   * Specialization (2) matches &lt;A, void&gt;
+// * Pick the most specialized version -&gt; (2)
+
+static_assert(!is_valid&lt;B&gt;::value, &quot;is false&quot;);
+// * Compare template arg list with primary template, we only supplied one
+//   arg, the second one will be defaulted as
+//   is_valid&lt;A, void&gt;
+// * Compare template arg list against available specializations, this will
+//   try to match the pattern &lt;B, void&gt; against the patterns defined in the
+//   partial specializations.
+// * Try specialization (2)
+//   * T -&gt; B
+//   * Evaluate std::void_t -&gt; decltype's are ill-formed
+//   * Specialization (2) is removed from candidate set, no hard error (SFINAE)
+// * No specialization matches, take the primary template.
 </code></pre>
 <blockquote>
 <p><code>std::declval&lt;T&gt;()</code> creates an instance of type T in an unevaluated context.</p>
 </blockquote>
+<p>A more detailed description is available in the SO discussion <a href="https://stackoverflow.com/a/27688405">How does
+<code>void_t</code> work</a>.</p>
+<h2 id="template-selection-with-partially--fully-specializations"><a class="header" href="#template-selection-with-partially--fully-specializations">Template selection with partially / fully specializations.</a></h2>
+<pre><code class="language-cpp">enum Kind {
+    kPrimary,
+    kTT,
+    kIntBool,
+    kIntInt,
+};
+
+// (1) Primary template.
+template&lt;typename T, typename U = bool&gt;
+struct pair {
+    static constexpr Kind kind = kPrimary;
+};
+
+// (2) Partial template specialization.
+template&lt;typename T&gt;
+struct pair&lt;T, T&gt; {
+    static constexpr Kind kind = kTT;
+};
+
+// (3) Template specialization.
+template&lt;&gt;
+struct pair&lt;int, bool&gt; {
+    static constexpr Kind kind = kIntBool;
+};
+
+// (4) Template specialization.
+template&lt;&gt;
+struct pair&lt;int, int&gt; {
+    static constexpr Kind kind = kIntInt;
+};
+
+int main() {
+    static_assert(pair&lt;int&gt;::kind == kIntBool, &quot;&quot;);
+    // * Compare template arg list with primary template, we only supplied one
+    //   arg, the second one will be defaulted as
+    //   pair&lt;int, bool&gt;
+    // * Compare template arg list against available specializations, this will
+    //   try to match the pattern &lt;int, bool&gt; against the patterns defined in the
+    //   partial specializations.
+    // * (2) &lt;int, bool&gt; pattern does not match
+    // * (3) &lt;int, bool&gt; pattern does match
+    // * (4) &lt;int, bool&gt; pattern does not match
+    // * Pick the most specialized version -&gt; (3)
+
+    static_assert(pair&lt;char, char&gt;::kind == kTT, &quot;&quot;);
+    // * Compare template arg list against available specializations, this will
+    //   try to match the pattern &lt;char, char&gt; against the patterns defined in the
+    //   partial specializations.
+    // * (2) &lt;char, char&gt; pattern does match
+    // * (3) &lt;char, char&gt; pattern does not match
+    // * (4) &lt;char, char&gt; pattern does not match
+    // * Pick the most specialized version -&gt; (2)
+
+    static_assert(pair&lt;int, int&gt;::kind == kIntInt, &quot;&quot;);
+    // * Compare template arg list against available specializations, this will
+    //   try to match the pattern &lt;int, int&gt; against the patterns defined in the
+    //   partial specializations.
+    // * (2) &lt;int, int&gt; pattern does match
+    // * (3) &lt;int, int&gt; pattern does match
+    // * (4) &lt;int, int&gt; pattern does not match
+    // * Pick the most specialized version -&gt; (3)
+
+    static_assert(pair&lt;char, short&gt;::kind == kPrimary, &quot;&quot;);
+    // * Compare template arg list against available specializations, this will
+    //   try to match the pattern &lt;char, short&gt; against the patterns defined in the
+    //   partial specializations.
+    // * (2) &lt;char, short&gt; pattern does not match
+    // * (3) &lt;char, short&gt; pattern does not match
+    // * (4) &lt;char, short&gt; pattern does not match
+    // * No specialization matches, take the primary template.
+}
+</code></pre>
 
                     </main>
 
@@ -531,5 +643,6 @@ struct is_valid&lt;T, std::void_t&lt;
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>

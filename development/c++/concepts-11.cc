@@ -32,8 +32,7 @@ struct is_entry {
     template<typename TT>
     using val = decltype(std::declval<TT>().val());
 
-    static constexpr bool value = is_valid_v<T, init> &&
-                                  is_valid_with_ret_v<T, int, tag> &&
+    static constexpr bool value = is_valid_v<T, init> && is_valid_with_ret_v<T, int, tag> &&
                                   is_valid_with_ret_v<T, typename T::Type, val>;
 };
 
