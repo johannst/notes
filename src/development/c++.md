@@ -69,6 +69,10 @@ struct is_valid<T, std::void_t<
 ```
 > `std::declval<T>()` creates an instance of type T in an unevaluated context.
 
+## Template selection with partially / fully specializations.
+```cpp
+{{#include c++/tmpl-pair.cc:3:}}
+```
 
 [gist-strict-asliasing]: https://gist.github.com/shafik/848ae25ee209f698763cffee272a58f8
 [parameter-pack]: https://en.cppreference.com/w/cpp/language/parameter_pack
