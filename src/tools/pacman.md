@@ -56,3 +56,9 @@ pacman -Qetq | xargs pacman -Qi |
          /Installed Size/ { printf "%8.2f%s %s\n", $4, $5, name }' |
     sort -h
 ```
+
+Install package into different `root` directory but keep using the default
+database.
+```text
+pacman --root abc --dbpath /var/lib/pacman -S mingw-w64-gcc
+```
