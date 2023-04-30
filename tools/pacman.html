@@ -186,6 +186,10 @@ package and sort by size.</p>
          /Installed Size/ { printf &quot;%8.2f%s %s\n&quot;, $4, $5, name }' |
     sort -h
 </code></pre>
+<p>Install package into different <code>root</code> directory but keep using the default
+database.</p>
+<pre><code class="language-text">pacman --root abc --dbpath /var/lib/pacman -S mingw-w64-gcc
+</code></pre>
 
                     </main>
 
