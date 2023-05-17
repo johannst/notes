@@ -49,6 +49,7 @@
     - [ld.so](./development/ld.so.md)
     - [symbol versioning](./development/symbolver.md)
     - [python](./development/python.md)
+    - [gcov](./development/gcov.md)
 
 - [Linux](./linux/README.md)
     - [systemd](./linux/systemd.md)

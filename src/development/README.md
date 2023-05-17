@@ -8,3 +8,4 @@
 - [ld.so](./ld.so.md)
 - [symbol versioning](./symbolver.md)
 - [python](./python.md)
+- [gcov](./gcov.md)
