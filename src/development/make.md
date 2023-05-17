@@ -54,7 +54,7 @@ bbb:
 ```
 
 Running above `Makefile` gives:
-```test
+```text
 @ = foobar
 < = aaa
 ^ = aaa bbb
@@ -71,6 +71,25 @@ Running above `Makefile` gives:
 
 Variables related to filesystem paths:
 - `$(CURDIR)`: Path of current working dir after using `make -C path`
+
+## Arguments
+
+Arguments specified on the command line *override* ordinary variable
+assignments in the makefile ([overriding variables][make-var-override]).
+
+```make
+VAR = abc
+all:
+	@echo VAR=$(VAR)
+```
+
+```text
+# make
+VAR=abc
+
+# make VAR=123
+VAR=123
+```
 
 ## Useful functions
 
@@ -108,3 +127,5 @@ Resolve each file name as canonical path.
 ```make
 $(realpath fname1 fname2 ..)
 ```
+
+[make-var-override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
