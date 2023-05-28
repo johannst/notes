@@ -1,5 +1,7 @@
 # c++
 
+Source files of most examples is available [here][src-examples].
+
 ## Type deduction
 
 Force compile error to see what `auto` is deduced to.
@@ -14,6 +16,27 @@ typename decltype(foo)::_;
 
 ```cpp
 {{#include c++/meta.cc:3:}}
+```
+
+## Forwarding reference ([fwd ref][fwd-ref])
+
+A `forwarding reference` is a special references that preserves the `value
+category` of a function parameter and therefore allows for `perfect`
+forwarding.
+
+A forwarding reference is a parameter of a function template, which is declared
+as `rvalue` reference to a `non-cv` qualified `type` template parameter.
+```cpp
+template<typename T>
+void fn(T&& param); // param is a forwarding reference
+```
+
+Perfect forwarding can be achieved with [`std::forward`][std-fwd]. This for
+example allows a wrapper function to pass a parameter with the **exact** same
+value category to a down-stream function which is being invoked in the wrapper.
+
+```cpp
+{{#include c++/fwd.cc:3:}}
 ```
 
 ## Example: `any_of` template meta function
@@ -74,3 +97,6 @@ A more detailed description is available in the SO discussion [How does
 [parameter-pack]: https://en.cppreference.com/w/cpp/language/parameter_pack
 [enable-if]: https://en.cppreference.com/w/cpp/types/enable_if
 [sfinae]: https://en.cppreference.com/w/cpp/language/sfinae
+[fwd-ref]: https://en.cppreference.com/w/cpp/language/reference#Forwarding_references
+[std-fwd]: https://en.cppreference.com/w/cpp/utility/forward
+[src-examples]: https://github.com/johannst/notes/tree/master/src/development/c%2B%2B
