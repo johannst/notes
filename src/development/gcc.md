@@ -12,6 +12,8 @@ gcc -E [-dM] ...
 - `-dM` list only `#define` statements
 - `-###` dry-run, outputting exact compiler/linker invocations
 - `-print-multi-lib` print available multilib configurations
+- `--help=<class>` print description of cmdline options for given class, eg
+  `warnings`, `optimizers`, `target`, `c`, `c++`
 
 ### Target options
 ```bash
@@ -20,6 +22,17 @@ gcc --help=target
 
 # Configure for current cpu arch and query (-Q) value of options.
 gcc -march=native -Q --help=target
+```
+
+### Warnings / optimizations
+```bash
+# List available warnings with short description.
+gcc --help=warnings
+# List available optimizations with short description.
+gcc --help=optimizers
+
+# Prepend --help with `-Q` to print wheter options are enabled or disabled
+# instead showing their description.
 ```
 
 ## [Builtins][builtins]
