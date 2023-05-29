@@ -22,7 +22,9 @@ struct registry {
         return r.second;
     }
 
-    R invoke(const std::string& nm, P... p) const { return invoke_impl<R>(nm, p...); }
+    R invoke(const std::string& nm, P... p) const {
+        return invoke_impl<R>(nm, p...);
+    }
 
     void dump() const {
         for (const auto& it : m_fns) {

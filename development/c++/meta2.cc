@@ -52,7 +52,9 @@ void Invoke(const Ctx& C, P... params) {
 // Custom context.
 
 struct Ctx {
-    void out(const char* s, unsigned v) const { printf("%s%x\n", s, v); }
+    void out(const char* s, unsigned v) const {
+        printf("%s%x\n", s, v);
+    }
 };
 
 // Operations to invoke.
@@ -63,7 +65,9 @@ struct OpA {
     using Return = int;
     static constexpr const char* const Name = "OpA";
 
-    constexpr Return operator()(int a, int b) const { return a + b; }
+    constexpr Return operator()(int a, int b) const {
+        return a + b;
+    }
 };
 
 template<typename Ctx>
@@ -72,7 +76,9 @@ struct OpB {
     using Return = void;
     static constexpr const char* const Name = "OpB";
 
-    Return operator()(const Ctx& C, unsigned a) const { C.out("a = ", a); }
+    Return operator()(const Ctx& C, unsigned a) const {
+        C.out("a = ", a);
+    }
 };
 
 int main() {

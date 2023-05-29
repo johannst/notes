@@ -1,4 +1,4 @@
-SRC = concepts-11.cc meta.cc meta2.cc meta4.cc tmpl-pair.cc tmpl-void_t.cc
+SRC = concepts-11.cc meta.cc meta2.cc meta4.cc tmpl-pair.cc tmpl-void_t.cc fwd.cc fwd-perfect.cc
 BIN = $(SRC:.cc=)
 
 all: $(BIN)
