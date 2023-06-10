@@ -11,6 +11,21 @@
           =bindings       show against which definition a symbol is bound
 ```
 
+### LD_LIBRARY_PATH and dlopen(3)
+When dynamically loading a shared library during program runtime with
+`dlopen(3)`, only the `LD_LIBRARY_PATH` as it was during program startup is
+evaluated.
+Therefore the following is a code smell:
+```c
+// at startup LD_LIBRARY_PATH=/moose
+
+// Assume /foo/libbar.so
+setenv("LD_LIBRARY_PATH", "/foo", true /* overwrite */);
+
+// Will look in /moose and NOT in /foo.
+dlopen("libbar.so", RTLD_LAZY);
+```
+
 ## LD_PRELOAD: Initialization Order and Link Map
 Libraries specified in `LD_PRELOAD` are loaded from `left-to-right` but
 initialized from `right-to-left`.
