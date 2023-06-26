@@ -284,8 +284,8 @@ blu  -- desc for blu
 _arguments SPEC [SPEC...]
 ```
 where `SPEC` can have one of the following forms:
-- `OPT[DESC]:MSG:ACTION`
-- `N:MSG:ACTION`
+- `OPT[DESC]:MSG:ACTION` for option flags
+- `N:MSG:ACTION` for positional arguments
 
 Available actions
 ```zsh
@@ -328,6 +328,27 @@ function _foo() {
     esac
 }
 ```
+
+### Example with optional arguments
+For this example we assume that the command `foo` takes at least three optional
+arguments such as
+```zsh
+foo arg1 arg2 arg3 [argN..]
+```
+
+```zsh
+function _foo() {
+    _arguments              \
+        "1:opt 1:(a b c)"   \
+        ":opt next:(d e f)" \
+        "*:opt all:(u v w)"
+}
+```
+Explanation:
+- `1:MSG:ACTION` sets completion for the **first** optional argument
+- `:MSG:ACTION` sets completion for the **next** optional argument
+- `*:MSG:ACTION` sets completion for the optional argument where none of the
+  previous rules apply, so in our example for `arg3, argN..`.
 
 > `_files` is a zsh builtin utility function to complete files/dirs see
 > - [zsh completion functions][zsh-comp-fn]
