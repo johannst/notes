@@ -341,6 +341,12 @@ instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</
   # Make existing breakpoint conditional
   cond 2 if i == 7
 </code></pre>
+<h2 id="set-breakpoint-on-all-threads-except-one"><a class="header" href="#set-breakpoint-on-all-threads-except-one">Set breakpoint on all threads except one</a></h2>
+<p>Create conditional breakpoint using the <code>$_thread</code> <a href="https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars">convenience
+variable</a>.</p>
+<pre><code class="language-markdown">  # Create conditional breakpoint on all threads except thread 12.
+  b foo if $_thread != 12
+</code></pre>
 <h2 id="catch-sigsegv-and-execute-commands"><a class="header" href="#catch-sigsegv-and-execute-commands">Catch SIGSEGV and execute commands</a></h2>
 <p>This creates a <code>catchpoint</code> for the <code>SIGSEGV</code> signal and attached the <code>command</code>
 to it.</p>

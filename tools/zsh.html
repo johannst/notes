@@ -378,8 +378,8 @@ blu  -- desc for blu
 </code></pre>
 <p>where <code>SPEC</code> can have one of the following forms:</p>
 <ul>
-<li><code>OPT[DESC]:MSG:ACTION</code></li>
-<li><code>N:MSG:ACTION</code></li>
+<li><code>OPT[DESC]:MSG:ACTION</code> for option flags</li>
+<li><code>N:MSG:ACTION</code> for positional arguments</li>
 </ul>
 <p>Available actions</p>
 <pre><code class="language-zsh">(op1 op2)   list possible matches
@@ -416,6 +416,25 @@ function _foo() {
     esac
 }
 </code></pre>
+<h3 id="example-with-optional-arguments"><a class="header" href="#example-with-optional-arguments">Example with optional arguments</a></h3>
+<p>For this example we assume that the command <code>foo</code> takes at least three optional
+arguments such as</p>
+<pre><code class="language-zsh">foo arg1 arg2 arg3 [argN..]
+</code></pre>
+<pre><code class="language-zsh">function _foo() {
+    _arguments              \
+        &quot;1:opt 1:(a b c)&quot;   \
+        &quot;:opt next:(d e f)&quot; \
+        &quot;*:opt all:(u v w)&quot;
+}
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>1:MSG:ACTION</code> sets completion for the <strong>first</strong> optional argument</li>
+<li><code>:MSG:ACTION</code> sets completion for the <strong>next</strong> optional argument</li>
+<li><code>*:MSG:ACTION</code> sets completion for the optional argument where none of the
+previous rules apply, so in our example for <code>arg3, argN..</code>.</li>
+</ul>
 <blockquote>
 <p><code>_files</code> is a zsh builtin utility function to complete files/dirs see</p>
 <ul>
