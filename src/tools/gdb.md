@@ -223,6 +223,14 @@ Create conditional breakpoints for a function `void foo(int i)` in the debugee.
   cond 2 if i == 7
 ```
 
+## Set breakpoint on all threads except one
+Create conditional breakpoint using the `$_thread` [convenience
+variable][gdb-convenience-vars].
+```markdown
+  # Create conditional breakpoint on all threads except thread 12.
+  b foo if $_thread != 12
+```
+
 ## Catch SIGSEGV and execute commands
 This creates a `catchpoint` for the `SIGSEGV` signal and attached the `command`
 to it.
@@ -364,3 +372,5 @@ executed. To workaround that bug one can create a wrapper function which calls
     handler
   end
 ```
+
+[gdb-convenience-vars]: https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars
