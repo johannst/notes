@@ -50,7 +50,7 @@ echo file.{h,cc}
 # file.h file.cc
 
 echo {a,b}{1,2}
-# a1 b1 b2
+# a1 b1 a2 b2
 ```
 
 ### Special Variables (Lists)
