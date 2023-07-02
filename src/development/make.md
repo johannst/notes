@@ -101,6 +101,15 @@ out := $(in:.o=.c)
 # => out = a.c l.a c.c
 ```
 
+### `patsubst` ([ref][make-patsubst])
+```make
+in  := a.c b.c
+out := $(patsubst %.c, build/%.o, $(in))
+# => out = build/a.o build/b.o
+
+# This is actually equivalent to $(in:%.c=build/%.o)
+```
+
 ### `filter`
 Keep strings matching a pattern in a list.
 ```make
@@ -129,3 +138,4 @@ $(realpath fname1 fname2 ..)
 ```
 
 [make-var-override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
+[make-patsubst]: https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#index-patsubst-1
