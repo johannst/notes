@@ -88,11 +88,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -233,6 +255,13 @@ VAR=123
 <pre><code class="language-make">in  := a.o l.a c.o
 out := $(in:.o=.c)
 # =&gt; out = a.c l.a c.c
+</code></pre>
+<h3 id="patsubst-ref"><a class="header" href="#patsubst-ref"><code>patsubst</code> (<a href="https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#index-patsubst-1">ref</a>)</a></h3>
+<pre><code class="language-make">in  := a.c b.c
+out := $(patsubst %.c, build/%.o, $(in))
+# =&gt; out = build/a.o build/b.o
+
+# This is actually equivalent to $(in:%.c=build/%.o)
 </code></pre>
 <h3 id="filter"><a class="header" href="#filter"><code>filter</code></a></h3>
 <p>Keep strings matching a pattern in a list.</p>
