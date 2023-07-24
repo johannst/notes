@@ -11,6 +11,8 @@
       -x <file>       execute script <file> before prompt
       -ex <cmd>       execute command <cmd> before prompt
       --tty <tty>     set I/O tty for debugee
+      --batch         run in batch mode, exit after processing options (eg used
+                      for scripting)
 ```
 
 # Interactive usage
@@ -83,11 +85,38 @@
           Create a watchpoint for <expr>, will break if <expr> is written to.
           Watchpoints respect scope of variables, -l can be used to watch the
           memory location instead.
+
   rwatch ...
           Sets a read watchpoint, will break if <expr> is read from.
+
   awatch ...
           Sets an access watchpoint, will break if <expr> is written to or read
           from.
+```
+
+## Catchpoints
+```markdown
+  catch load [<regex>]
+          Stop when shared libraries are loaded, optionally specify a <regex>
+          to stop only on matches.
+  catch unload [<regex>]
+          Stop when shared libraries are unloaded, optionally specify a <regex>
+          to stop only on matches.
+
+  catch throw
+          Stop when an exception is thrown.
+  catch rethrow
+          Stop when an exception is rethrown.
+  catch catch
+          Stop when an exception is caught.
+
+  catch fork
+          Stop at calls to fork (also stops at clones, as some systems
+          implement fork via clone).
+
+  catch syscall [<syscall> <syscall> ..]
+          Stop at syscall. If no argument is given, stop at all syscalls.
+          Optionally give a list of syscalls to stop at.
 ```
 
 ## Inspection
@@ -99,6 +128,9 @@
   info variables [<regex>]
           List variables matching <regex>. List all variables if no <regex>
           provided.
+
+  info register [<reg> <reg> ..]
+          Dump content of all registers or only the specified <reg>ister.
 ```
 
 ## Signal handling
@@ -116,6 +148,37 @@
 
   catch signal <signal>
           Create a catchpoint for <signal>.
+```
+
+## Multi-threading
+```markdown
+info thread
+          List all threads.
+
+thread apply <id> [<id>] <command>
+          Run command on all threads listed by <id> (space separated list).
+          When 'all' is specified as <id> the <command> is run on all threads.
+
+thread name <name>
+          The <name> for the current thread.
+```
+
+## Multi-process
+```markdown
+  set follow-fork-mode <child | parent>
+          Specify which process to follow when debuggee makes a fork(2)
+          syscall.
+
+  set detach-on-frok <on | off>
+          Turn on/off detaching from new child processes (on by default).
+          Turning this off allows to debug multiple processes (inferiors) with
+          one gdb session.
+
+  info inferiors
+          List all processes gdb debugs.
+
+  inferior <id>
+          Switch to inferior with <id>.
 ```
 
 ## Source file locations
@@ -139,10 +202,6 @@
   set disassembly-flavor <intel | att>
           Set the disassembly style "flavor".
 
-  set follow-fork-mode <child | parent>
-          Specify which process to follow when debuggee makes a fork(2)
-          syscall.
-
   set pagination <on | off>
           Turn on/off gdb's pagination.
 
@@ -154,6 +213,9 @@
   set print pretty <on | off>
           Turn on/off pertty printing of structures.
 
+  set style enabled <on | off>
+          Turn on/off styling (eg colored output).
+
   set logging <on | off>
           Enable output logging to file (default gdb.txt).
 
@@ -163,6 +225,14 @@
   set logging redirect <on/off>
           on: only log to file.
           off: log to file and tty.
+```
+
+# Text user interface (TUI)
+```markdown
+  C-x a     Toggle UI.
+  C-l       Redraw UI (curses UI can be messed up after the debugee prints to
+            stdout/stderr).
+  C-x o     Change focus.
 ```
 
 # User commands (macros)
