@@ -172,16 +172,24 @@
                         <h1 id="strace1"><a class="header" href="#strace1">strace(1)</a></h1>
 <pre><code class="language-markdown">strace [opts] [prg]
   -f .......... follow child processes on fork(2)
+  -ff ......... follow fork and separate output file per child
   -p &lt;pid&gt; .... attach to running process
   -s &lt;size&gt; ... max string size, truncate of longer (default: 32)
   -e &lt;expr&gt; ... expression for trace filtering
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -c .......... dump syscall statitics at the end
+  -C .......... like -c but dump regular ouput as well
   -k .......... dump stack trace for each syscall
   -P &lt;path&gt; ... only trace syscall accesing path
   -y .......... print paths for FDs
   -tt ......... print absolute timestamp (with us precision)
   -r .......... print relative timestamp
+  -z .......... log only successful syscalls
+  -Z .......... log only failed syscalls
+  -n .......... print syscall numbers
+  -y .......... translate fds (eg file path, socket)
+  -yy ......... translate fds with all information (eg IP)
+  -x .......... print non-ASCII chars as hex string
 </code></pre>
 <pre><code class="language-markdown">&lt;expr&gt;:
   trace=syscall[,syscall] .... trace only syscall listed

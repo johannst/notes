@@ -1564,6 +1564,8 @@ gpg&gt; save
       -x &lt;file&gt;       execute script &lt;file&gt; before prompt
       -ex &lt;cmd&gt;       execute command &lt;cmd&gt; before prompt
       --tty &lt;tty&gt;     set I/O tty for debugee
+      --batch         run in batch mode, exit after processing options (eg used
+                      for scripting)
 </code></pre>
 <h1 id="interactive-usage"><a class="header" href="#interactive-usage">Interactive usage</a></h1>
 <h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
@@ -1629,11 +1631,36 @@ gpg&gt; save
           Create a watchpoint for &lt;expr&gt;, will break if &lt;expr&gt; is written to.
           Watchpoints respect scope of variables, -l can be used to watch the
           memory location instead.
+
   rwatch ...
           Sets a read watchpoint, will break if &lt;expr&gt; is read from.
+
   awatch ...
           Sets an access watchpoint, will break if &lt;expr&gt; is written to or read
           from.
+</code></pre>
+<h2 id="catchpoints"><a class="header" href="#catchpoints">Catchpoints</a></h2>
+<pre><code class="language-markdown">  catch load [&lt;regex&gt;]
+          Stop when shared libraries are loaded, optionally specify a &lt;regex&gt;
+          to stop only on matches.
+  catch unload [&lt;regex&gt;]
+          Stop when shared libraries are unloaded, optionally specify a &lt;regex&gt;
+          to stop only on matches.
+
+  catch throw
+          Stop when an exception is thrown.
+  catch rethrow
+          Stop when an exception is rethrown.
+  catch catch
+          Stop when an exception is caught.
+
+  catch fork
+          Stop at calls to fork (also stops at clones, as some systems
+          implement fork via clone).
+
+  catch syscall [&lt;syscall&gt; &lt;syscall&gt; ..]
+          Stop at syscall. If no argument is given, stop at all syscalls.
+          Optionally give a list of syscalls to stop at.
 </code></pre>
 <h2 id="inspection-1"><a class="header" href="#inspection-1">Inspection</a></h2>
 <pre><code class="language-markdown">  info functions [&lt;regex&gt;]
@@ -1643,6 +1670,9 @@ gpg&gt; save
   info variables [&lt;regex&gt;]
           List variables matching &lt;regex&gt;. List all variables if no &lt;regex&gt;
           provided.
+
+  info register [&lt;reg&gt; &lt;reg&gt; ..]
+          Dump content of all registers or only the specified &lt;reg&gt;ister.
 </code></pre>
 <h2 id="signal-handling"><a class="header" href="#signal-handling">Signal handling</a></h2>
 <pre><code class="language-markdown">  info handle [&lt;signal&gt;]
@@ -1658,6 +1688,33 @@ gpg&gt; save
 
   catch signal &lt;signal&gt;
           Create a catchpoint for &lt;signal&gt;.
+</code></pre>
+<h2 id="multi-threading"><a class="header" href="#multi-threading">Multi-threading</a></h2>
+<pre><code class="language-markdown">info thread
+          List all threads.
+
+thread apply &lt;id&gt; [&lt;id&gt;] &lt;command&gt;
+          Run command on all threads listed by &lt;id&gt; (space separated list).
+          When 'all' is specified as &lt;id&gt; the &lt;command&gt; is run on all threads.
+
+thread name &lt;name&gt;
+          The &lt;name&gt; for the current thread.
+</code></pre>
+<h2 id="multi-process"><a class="header" href="#multi-process">Multi-process</a></h2>
+<pre><code class="language-markdown">  set follow-fork-mode &lt;child | parent&gt;
+          Specify which process to follow when debuggee makes a fork(2)
+          syscall.
+
+  set detach-on-frok &lt;on | off&gt;
+          Turn on/off detaching from new child processes (on by default).
+          Turning this off allows to debug multiple processes (inferiors) with
+          one gdb session.
+
+  info inferiors
+          List all processes gdb debugs.
+
+  inferior &lt;id&gt;
+          Switch to inferior with &lt;id&gt;.
 </code></pre>
 <h2 id="source-file-locations"><a class="header" href="#source-file-locations">Source file locations</a></h2>
 <pre><code class="language-markdown">  dir &lt;path&gt;
@@ -1676,10 +1733,6 @@ gpg&gt; save
 <pre><code class="language-markdown">  set disassembly-flavor &lt;intel | att&gt;
           Set the disassembly style &quot;flavor&quot;.
 
-  set follow-fork-mode &lt;child | parent&gt;
-          Specify which process to follow when debuggee makes a fork(2)
-          syscall.
-
   set pagination &lt;on | off&gt;
           Turn on/off gdb's pagination.
 
@@ -1691,6 +1744,9 @@ gpg&gt; save
   set print pretty &lt;on | off&gt;
           Turn on/off pertty printing of structures.
 
+  set style enabled &lt;on | off&gt;
+          Turn on/off styling (eg colored output).
+
   set logging &lt;on | off&gt;
           Enable output logging to file (default gdb.txt).
 
@@ -1700,6 +1756,12 @@ gpg&gt; save
   set logging redirect &lt;on/off&gt;
           on: only log to file.
           off: log to file and tty.
+</code></pre>
+<h1 id="text-user-interface-tui"><a class="header" href="#text-user-interface-tui">Text user interface (TUI)</a></h1>
+<pre><code class="language-markdown">  C-x a     Toggle UI.
+  C-l       Redraw UI (curses UI can be messed up after the debugee prints to
+            stdout/stderr).
+  C-x o     Change focus.
 </code></pre>
 <h1 id="user-commands-macros"><a class="header" href="#user-commands-macros">User commands (macros)</a></h1>
 <p>Gdb allows to create &amp; document user commands as follows:</p>
@@ -2418,16 +2480,24 @@ opts:
 <div style="break-before: page; page-break-before: always;"></div><h1 id="strace1"><a class="header" href="#strace1">strace(1)</a></h1>
 <pre><code class="language-markdown">strace [opts] [prg]
   -f .......... follow child processes on fork(2)
+  -ff ......... follow fork and separate output file per child
   -p &lt;pid&gt; .... attach to running process
   -s &lt;size&gt; ... max string size, truncate of longer (default: 32)
   -e &lt;expr&gt; ... expression for trace filtering
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -c .......... dump syscall statitics at the end
+  -C .......... like -c but dump regular ouput as well
   -k .......... dump stack trace for each syscall
   -P &lt;path&gt; ... only trace syscall accesing path
   -y .......... print paths for FDs
   -tt ......... print absolute timestamp (with us precision)
   -r .......... print relative timestamp
+  -z .......... log only successful syscalls
+  -Z .......... log only failed syscalls
+  -n .......... print syscall numbers
+  -y .......... translate fds (eg file path, socket)
+  -yy ......... translate fds with all information (eg IP)
+  -x .......... print non-ASCII chars as hex string
 </code></pre>
 <pre><code class="language-markdown">&lt;expr&gt;:
   trace=syscall[,syscall] .... trace only syscall listed
