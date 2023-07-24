@@ -97,7 +97,7 @@
   git show --stat <commit> ................ show files changed by <commit>
   git show <commit> [<file>] .............. show diffs for <commit>
 
-  git git show <commit>:<file> ............ show <file> at <commit>
+  git show <commit>:<file> ................ show <file> at <commit>
 ```
 
 ## Patching
