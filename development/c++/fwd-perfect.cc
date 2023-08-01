@@ -54,7 +54,11 @@ struct option {
 
     constexpr T& value() {
         assert(m_has_val);
-        return *reinterpret_cast<T*>(m_val);
+        // Placement new starts a new lifetime, launder pointer returned to the
+        // aligned storage.
+        //
+        // [1] https://en.cppreference.com/w/cpp/utility/launder
+        return *__builtin_launder(reinterpret_cast<T*>(m_val));
     }
 
   private:
