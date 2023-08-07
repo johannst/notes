@@ -73,6 +73,8 @@ Hi ASM-World!
 ## References
 - [GNU Assembler][gas_doc]
 - [GNU Assembler Directives][gas_directives]
+- [rv64i-linux-user-no-std][rvi64_nostd]
 
 [gas_doc]: https://sourceware.org/binutils/docs/as
 [gas_directives]: https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops
+[rvi64_nostd]: https://github.com/johannst/rv64i-linux-user-no-std
