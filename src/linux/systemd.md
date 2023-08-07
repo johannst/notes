@@ -7,6 +7,9 @@ Inspect units:
 systemctl [opts] [cmd]
 [opts]
     --user
+    --type=TYPE             List only given types eg, service, timer, socket (use --type=help for a list)
+    --state=STATE           List only given states eg running, enabled (use --state=help for a list)
+    --failed                List only failed services
 
 [cmd]
     list-units <pattern>    List units in memory
@@ -23,6 +26,15 @@ systemctl [opts] [cmd]
 
     cat <unit>      Print unit file
     show <unit>     Show properties of unit
+```
+
+### Example: List failed units
+```bash
+# List all system failed units.
+systemctl --failed
+
+# List all user failed units.
+systemctl --user --failed
 ```
 
 ### Example: Trivial user unit
