@@ -50,6 +50,7 @@
     - [symbol versioning](./development/symbolver.md)
     - [python](./development/python.md)
     - [gcov](./development/gcov.md)
+    - [pgo](./development/pgo.md)
 
 - [Linux](./linux/README.md)
     - [systemd](./linux/systemd.md)

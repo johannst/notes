@@ -9,3 +9,4 @@
 - [symbol versioning](./symbolver.md)
 - [python](./python.md)
 - [gcov](./gcov.md)
+- [pgo](./pgo.md)
