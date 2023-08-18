@@ -23,7 +23,7 @@ sudo cat /dev/input/mice | od -tx1 -w3 -v
 
 These device files are created by the [evdev] driver.
 
-- `/dev/input/eventX` represents the generic input event interface a *SINGLE* input deivece.
+- `/dev/input/eventX` represents the generic input event interface a *SINGLE* input device.
 
 Input events are encoded as given by the `input_event` struct below. Reading
 from the `eventX` device file will always yield whole number of input events.
@@ -41,7 +41,7 @@ On most 64bit machines the raw data stream can be inspected as follows.
 sudo cat /dev/input/event4 | od -tx1 -w24 -v
 ```
 
-## Identifyin device files.
+## Identifying device files.
 
 To find out which device file is assigned to which input device the following
 file `/proc/bus/input/devices` in the proc filesystem can be consulted.
@@ -64,5 +64,5 @@ Once compiled, the example should be run as `sudo ./event /dev/input/eventX`.
 ```
 
 [linux-input]: https://www.kernel.org/doc/Documentation/input/input.txt
-[mousedev]: TODO /home/johannst/dev/linux/drivers/input/mousedev.c
-[evdev]: TODO /home/johannst/dev/linux/drivers/input/evdev.c
+[mousedev]: https://elixir.bootlin.com/linux/latest/source/drivers/input/mousedev.c#L842
+[evdev]: https://elixir.bootlin.com/linux/latest/source/drivers/input/evdev.c#L1337
