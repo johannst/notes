@@ -215,9 +215,11 @@ func_v2
 - [Binutils ld: Symbol Versioning][ld-version]
 - [LSB: Symbol Versioning][lsb-symver]
 - [How To Write Shared Libraries][dsohowto]
+- [LSB: ELF File Format][lsb-elf]
 
 [dsohowto]: https://akkadia.org/drepper/dsohowto.pdf
 [elfsymver]: https://akkadia.org/drepper/symbol-versioning
 
 [ld-version]: https://sourceware.org/binutils/docs/ld/VERSION.html
 [lsb-symver]: https://refspecs.linuxbase.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic/symversion.html
+[lsb-elf]: https://refspecs.linuxbase.org/elf/elf.pdf
