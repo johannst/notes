@@ -401,10 +401,16 @@ which its expression is valid.
 main () at test.c:10
 10      set(&s, 2);
 
+# Define the watchpoint on the location of the object to watch.
+
+(gdb) watch -l s->v
+
+# This is equivalent to the following.
+
 (gdb) p &s->v
 $1 = (int *) 0x7fffffffe594
 
-# Define a watchpoint o the address of the member variable of the s instance.
+# Define a watchpoint to the address of the member variable of the s instance.
 # This of course only makes sense as long as the s instance is not moved in memory.
 
 (gdb) watch *0x7fffffffe594
