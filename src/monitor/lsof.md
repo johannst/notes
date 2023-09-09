@@ -65,3 +65,10 @@ lsof -a -u $USER -i :1234
 ```markdown
 lsof -i 4TCP -s TCP:ESTABLISHED
 ```
+## List open files in a mounted directory.
+This may help to find which processes keep devices busy when trying to unmount
+and the device is currently busy.
+```markdown
+# Assuming /proc is a mount point.
+lsof /proc
+```
