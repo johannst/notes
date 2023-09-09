@@ -108,6 +108,8 @@ active host and `imported` on the new host.
 ```bash
 # Export a pool called MOOSE.
 zpool export moose
+# If datasets are busy, use lsof to check which processes keep it busy.
+#   lsof <mntpoint>
 
 # List pools that can be imported using BY-ID deivce names (for example).
 zpool import -d /dev/disk/by-id
@@ -152,11 +154,12 @@ zfs unmount moose/foo
 Encryption is a readonly property, can only be set when creating a dataset.
 
 ```bash
-# Create encrypted dataset ENC on pool MOOSE.
+# Create encrypted dataset FOO on pool MOOSE.
 zfs create -o encryption=on -o keyformat=passphrase moose/foo
 
-# Mount encrypte dataset (if key is not loaded).
+# Mount encrypte dataset and load encryption key (if not loaded).
 zfs mount -l moose/foo
+# -l is equivalent to first loading the key via zfs load-key moose/foo.
 
 # Unmount dataset and unload encryption key (unload is optional).
 zfs umount -u moose/foo
