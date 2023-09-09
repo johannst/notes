@@ -175,17 +175,23 @@
     opts:
       --disable-randomization
       --no-disable-randomization
+      --wrapper W --
 
     comm:
       host:port
       tty
 </code></pre>
-<h1 id="example"><a class="header" href="#example">Example</a></h1>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
 # Attach gdb.
 gdb -ex 'target remote localhost:1234'
+</code></pre>
+<h2 id="wrapper-example-set-environment-variables-just-for-the-debugee"><a class="header" href="#wrapper-example-set-environment-variables-just-for-the-debugee">Wrapper example: Set environment variables just for the debugee</a></h2>
+<p>Set <code>env</code> as execution wrapper with some variables.
+The wrapper will be executed before the debugee.</p>
+<pre><code class="language-markdown">gdbserver --wrapper env FOO=123 BAR=321 -- :12345 /bin/ls
 </code></pre>
 
                     </main>

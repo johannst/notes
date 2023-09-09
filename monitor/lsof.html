@@ -219,6 +219,12 @@
 <h2 id="ipv4-tcp-connections-in-established-state"><a class="header" href="#ipv4-tcp-connections-in-established-state">IPv4 TCP connections in <code>ESTABLISHED</code> state</a></h2>
 <pre><code class="language-markdown">lsof -i 4TCP -s TCP:ESTABLISHED
 </code></pre>
+<h2 id="list-open-files-in-a-mounted-directory"><a class="header" href="#list-open-files-in-a-mounted-directory">List open files in a mounted directory.</a></h2>
+<p>This may help to find which processes keep devices busy when trying to unmount
+and the device is currently busy.</p>
+<pre><code class="language-markdown"># Assuming /proc is a mount point.
+lsof /proc
+</code></pre>
 
                     </main>
 

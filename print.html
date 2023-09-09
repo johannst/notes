@@ -1904,10 +1904,16 @@ which its expression is valid.
 main () at test.c:10
 10      set(&amp;s, 2);
 
+# Define the watchpoint on the location of the object to watch.
+
+(gdb) watch -l s-&gt;v
+
+# This is equivalent to the following.
+
 (gdb) p &amp;s-&gt;v
 $1 = (int *) 0x7fffffffe594
 
-# Define a watchpoint o the address of the member variable of the s instance.
+# Define a watchpoint to the address of the member variable of the s instance.
 # This of course only makes sense as long as the s instance is not moved in memory.
 
 (gdb) watch *0x7fffffffe594
@@ -1948,17 +1954,23 @@ executed. To workaround that bug one can create a wrapper function which calls
     opts:
       --disable-randomization
       --no-disable-randomization
+      --wrapper W --
 
     comm:
       host:port
       tty
 </code></pre>
-<h1 id="example-4"><a class="header" href="#example-4">Example</a></h1>
+<h2 id="example-4"><a class="header" href="#example-4">Example</a></h2>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
 # Attach gdb.
 gdb -ex 'target remote localhost:1234'
+</code></pre>
+<h2 id="wrapper-example-set-environment-variables-just-for-the-debugee"><a class="header" href="#wrapper-example-set-environment-variables-just-for-the-debugee">Wrapper example: Set environment variables just for the debugee</a></h2>
+<p>Set <code>env</code> as execution wrapper with some variables.
+The wrapper will be executed before the debugee.</p>
+<pre><code class="language-markdown">gdbserver --wrapper env FOO=123 BAR=321 -- :12345 /bin/ls
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="radare21"><a class="header" href="#radare21">radare2(1)</a></h1>
 <h2 id="print"><a class="header" href="#print">print</a></h2>
@@ -2395,6 +2407,12 @@ digraph {
 </code></pre>
 <h2 id="ipv4-tcp-connections-in-established-state"><a class="header" href="#ipv4-tcp-connections-in-established-state">IPv4 TCP connections in <code>ESTABLISHED</code> state</a></h2>
 <pre><code class="language-markdown">lsof -i 4TCP -s TCP:ESTABLISHED
+</code></pre>
+<h2 id="list-open-files-in-a-mounted-directory"><a class="header" href="#list-open-files-in-a-mounted-directory">List open files in a mounted directory.</a></h2>
+<p>This may help to find which processes keep devices busy when trying to unmount
+and the device is currently busy.</p>
+<pre><code class="language-markdown"># Assuming /proc is a mount point.
+lsof /proc
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ss8"><a class="header" href="#ss8">ss(8)</a></h1>
 <pre><code class="language-markdown">ss [option] [filter]
@@ -4978,6 +4996,8 @@ zpool status
 active host and <code>imported</code> on the new host.</p>
 <pre><code class="language-bash"># Export a pool called MOOSE.
 zpool export moose
+# If datasets are busy, use lsof to check which processes keep it busy.
+#   lsof &lt;mntpoint&gt;
 
 # List pools that can be imported using BY-ID deivce names (for example).
 zpool import -d /dev/disk/by-id
@@ -5014,11 +5034,12 @@ zfs unmount moose/foo
 </code></pre>
 <h3 id="encrypted-datasets"><a class="header" href="#encrypted-datasets">Encrypted datasets</a></h3>
 <p>Encryption is a readonly property, can only be set when creating a dataset.</p>
-<pre><code class="language-bash"># Create encrypted dataset ENC on pool MOOSE.
+<pre><code class="language-bash"># Create encrypted dataset FOO on pool MOOSE.
 zfs create -o encryption=on -o keyformat=passphrase moose/foo
 
-# Mount encrypte dataset (if key is not loaded).
+# Mount encrypte dataset and load encryption key (if not loaded).
 zfs mount -l moose/foo
+# -l is equivalent to first loading the key via zfs load-key moose/foo.
 
 # Unmount dataset and unload encryption key (unload is optional).
 zfs umount -u moose/foo
