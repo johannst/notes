@@ -59,6 +59,9 @@
   cond <bp> <cond>
           Make existing breakpoint <bp> conditional with <cond>.
 
+  cond <bp>
+          Remove condition from breakpoint <bp>.
+
   tbreak
           Set temporary breakpoint, will be deleted when hit.
           Same syntax as `break`.
@@ -290,7 +293,7 @@ Create conditional breakpoints for a function `void foo(int i)` in the debugee.
 
   b foo     # would create bp 2
   # Make existing breakpoint conditional
-  cond 2 if i == 7
+  cond 2 i == 7
 ```
 
 ## Set breakpoint on all threads except one
