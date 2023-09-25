@@ -221,6 +221,7 @@ Hi ASM-World!
 - [GNU Assembler][gas_doc]
 - [GNU Assembler Directives][gas_directives]
 - [GNU Assembler `AArch64` dependent features][gas_arm64]
+- [ARM64-A Instruction Browser][arm64a_instructions]
 
 
 [aapcs64]: https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst
@@ -230,3 +231,4 @@ Hi ASM-World!
 [gas_doc]: https://sourceware.org/binutils/docs/as
 [gas_directives]: https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops
 [gas_arm64]: https://sourceware.org/binutils/docs/as/AArch64_002dDependent.html
+[arm64a_instructions]: https://developer.arm.com/documentation/ddi0602/latest/Base-Instructions
