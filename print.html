@@ -1607,6 +1607,9 @@ gpg&gt; save
   cond &lt;bp&gt; &lt;cond&gt;
           Make existing breakpoint &lt;bp&gt; conditional with &lt;cond&gt;.
 
+  cond &lt;bp&gt;
+          Remove condition from breakpoint &lt;bp&gt;.
+
   tbreak
           Set temporary breakpoint, will be deleted when hit.
           Same syntax as `break`.
@@ -1808,7 +1811,7 @@ instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</
 
   b foo     # would create bp 2
   # Make existing breakpoint conditional
-  cond 2 if i == 7
+  cond 2 i == 7
 </code></pre>
 <h2 id="set-breakpoint-on-all-threads-except-one"><a class="header" href="#set-breakpoint-on-all-threads-except-one">Set breakpoint on all threads except one</a></h2>
 <p>Create conditional breakpoint using the <code>$_thread</code> <a href="https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars">convenience
@@ -6013,6 +6016,7 @@ required when compiling natively on arm64.</p>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/AArch64_002dDependent.html">GNU Assembler <code>AArch64</code> dependent features</a></li>
+<li><a href="https://developer.arm.com/documentation/ddi0602/latest/Base-Instructions">ARM64-A Instruction Browser</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="armv7a"><a class="header" href="#armv7a">armv7a</a></h1>
 <p>keywords: arm, armv7, abi</p>

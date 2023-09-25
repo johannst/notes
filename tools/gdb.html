@@ -222,6 +222,9 @@
   cond &lt;bp&gt; &lt;cond&gt;
           Make existing breakpoint &lt;bp&gt; conditional with &lt;cond&gt;.
 
+  cond &lt;bp&gt;
+          Remove condition from breakpoint &lt;bp&gt;.
+
   tbreak
           Set temporary breakpoint, will be deleted when hit.
           Same syntax as `break`.
@@ -423,7 +426,7 @@ instruction pointer (<code>$rip</code> x86) and format as instruction <code>/i</
 
   b foo     # would create bp 2
   # Make existing breakpoint conditional
-  cond 2 if i == 7
+  cond 2 i == 7
 </code></pre>
 <h2 id="set-breakpoint-on-all-threads-except-one"><a class="header" href="#set-breakpoint-on-all-threads-except-one">Set breakpoint on all threads except one</a></h2>
 <p>Create conditional breakpoint using the <code>$_thread</code> <a href="https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars">convenience
