@@ -5,8 +5,9 @@
 These modifier control where properties for a given target are visible.
 
 - `PRIVATE`: Only for the target itself.
-- `PUBLIC`: For the target itself and anyone linking against it.
 - `INTERFACE`: Only for anyone linking against the target.
+- `PUBLIC`: For the target itself and anyone linking against it (effectively
+  `PRIVATE` + `INTERFACE`).
 
 The following gives an example for preprocessor definitions specified on a
 library target. This behaves in the same way for other properties like for
