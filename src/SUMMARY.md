@@ -45,6 +45,7 @@
     - [c++](./development/c++.md)
     - [glibc](./development/glibc.md)
     - [gcc](./development/gcc.md)
+    - [cmake](./development/cmake.md)
     - [make](./development/make.md)
     - [ld.so](./development/ld.so.md)
     - [symbol versioning](./development/symbolver.md)
