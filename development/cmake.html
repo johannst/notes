@@ -179,8 +179,9 @@
 <p>These modifier control where properties for a given target are visible.</p>
 <ul>
 <li><code>PRIVATE</code>: Only for the target itself.</li>
-<li><code>PUBLIC</code>: For the target itself and anyone linking against it.</li>
 <li><code>INTERFACE</code>: Only for anyone linking against the target.</li>
+<li><code>PUBLIC</code>: For the target itself and anyone linking against it (effectively
+<code>PRIVATE</code> + <code>INTERFACE</code>).</li>
 </ul>
 <p>The following gives an example for preprocessor definitions specified on a
 library target. This behaves in the same way for other properties like for
