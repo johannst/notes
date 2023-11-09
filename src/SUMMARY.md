@@ -70,6 +70,7 @@
 
 - [Web](./web/README.md)
     - [html](./web/html.md)
+    - [css](./web/css.md)
     - [chartjs](./web/chartjs.md)
 
 - [Arch](./arch/README.md)
