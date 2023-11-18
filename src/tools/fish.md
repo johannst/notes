@@ -26,10 +26,18 @@ set <name> [<values>]
     -u  unexport from ENV
 ```
 
+### Special Variables [ref](https://fishshell.com/docs/current/language.html#special-variables)
+```sh
+$status      # exit code of last command
+$pipestatus  # list of exit codes of pipe chain
+
+$CMD_DURATION   # runtime of last command in ms
+```
+
 ### Lists
 In `fish` all variables are lists (start with index `1`, but lists can't
 contain lists.
-```text
+```sh
 set foo a b c d
 
 echo $foo[1]      # a
@@ -39,13 +47,13 @@ echo $foo[1 3]    # a c
 ```
 
 `$` can be seen as dereference operator.
-```text
+```sh
 set foo a; set a 1337
 echo $$foo  # outputs 1337
 ```
 
 Cartesian product.
-```text
+```sh
 echo file.{h,cc}
 # file.h file.cc
 
@@ -53,38 +61,35 @@ echo {a,b}{1,2}
 # a1 b1 a2 b2
 ```
 
-### Special Variables (Lists)
-```text
-$status      # exit code of last command
-$pipestatus  # list of exit codes of pipe chain
-
-$CMD_DURATION   # runtime of last command in ms
-```
-
-#### `*PATH`
+#### `*PATH` [ref](https://fishshell.com/docs/current/language.html#path-variables)
 Lists ending with `PATH` are automatically split at `:` when used and joined
-with `:` when exported to the environment.
-```text
+with `:` when quoted or exported to the environment.
+```sh
 set -x BLA_PATH a:b:c:d
-echo $BLA_PATH              # a b c d
-env | grep BLA_PATH         # BLA_PATH=a:b:c:d
+echo $BLA_PATH           # a b c d
+echo "$BLA_PATH"         # a:b:c:d          (quoted)
+env | grep BLA_PATH      # BLA_PATH=a:b:c:d (env)
+
+set FOO_PATH x y z
+echo $FOO_PATH           # x y z
+echo "$FOO_PATH"         # x:y:z
 ```
 
 ## Command Handling
-```text
+```sh
 # sub-commands are not run in quotes
 echo "ls output: "(ls)
 ```
 
 ### I/O redirection
-```text
+```sh
 # 'noclobber', fail if 'log' already exists
 echo foo >? log
 ```
 
 ## Control Flow
 ### `if` / `else`
-```text
+```sh
 if grep foo bar
     # do sth
 else if grep foobar bar
@@ -95,7 +100,7 @@ end
 ```
 
 ### `switch`
-```text
+```sh
 switch (echo foo)
 case 'foo*'
     # do start with foo
@@ -107,14 +112,14 @@ end
 ```
 
 ### `while` Loop
-```text
+```sh
 while true
     echo foo
 end
 ```
 
 ### `for` Loop
-```text
+```sh
 for f in (ls)
     echo $f
 end
@@ -122,11 +127,12 @@ end
 
 ## Functions
 Function arguments are passed via `$argv` list.
-```text
+```sh
 function fn_foo
     echo $argv
 end
 ```
+
 ### Autoloading
 When running a command fish attempts to autoload a function. The shell looks
 for `<cmd>.fish` in the locations defined by `$fish_function_path` and loads
@@ -136,7 +142,7 @@ This is the preferred way over monolithically defining all functions in a
 startup script.
 
 ### Helper
-```text
+```sh
 functions         # list al functions
 functions foo     # describe function 'foo'
 functions -e foo  # erase function 'foo'
@@ -145,36 +151,116 @@ funced foo        # edit function 'foo'
                   # '-e vim' to edit in vim
 ```
 
+### Argument parsing and completion
+`argparse` puts options into variables of name `_flag_NAME`.
+
+References:
+- [Argument Handling](https://fishshell.com/docs/current/language.html#argument-handling)
+- [`argparse`](https://fishshell.com/docs/current/cmds/argparse.html)
+- [Writing your own completions](https://fishshell.com/docs/current/completions.html)
+- [`complete`](https://fishshell.com/docs/current/cmds/complete.html)
+
+```sh
+function moose --d "my moose fn"
+    # h/help   : short / long option (boolean)
+    # color    : only long option (boolean)
+    # u/user=  : option with required argument, only last specified is taken
+    # f/file+= : option with required argument, can be specified multiple times
+    #
+    argparse h/help color= u/user= f/file=+ -- $argv
+    or return
+
+    if set -ql _flag_help
+        echo "usage ..."
+        return 0
+    end
+
+    set -ql _flag_file
+    and echo "file=$_flag_file | cnt:" (count $_flag_file)
+
+    set -ql _flag_color
+    and echo "color=$_flag_color"
+
+    set -ql _flag_user
+    and echo "user=$_flag_user"
+end
+
+# Delete all previous defined completions for 'moose'.
+complete -c moose -e
+
+# Don't complete files for command.
+complete -c moose --no-files
+
+# Help completion.
+#   -n specifies a conditions. The completion is only active if the command
+#      returns 0.
+complete -c moose -s h -l help -n "not __fish_contains_opt -s h help" \
+    --description "Print usage help and exit"
+
+# File completion.
+#   -F force complete files (overwrite --no-files).
+#   -r requires argument.
+complete -c moose -s f -l file -F -r \
+    --description "Specify file (can be passed multiple times)"
+
+# Color completion.
+#    -a options for completion.
+#    -x short for -r and --no-files (-f)
+complete -c moose -x -l color -a "red blue" \
+    --description "Specify a color."
+
+# User completion.
+#    -a options for completion. Call a function to generate arguments.
+complete -c moose -x -s u -l user -a "(__fish_complete_users)" \
+    --description "Specify a user"
+```
+
 ## Prompt
 The prompt is defined by the output of the `fish_prompt` function.
-```text
+```sh
 function fish_prompt
     set -l cmd_ret
     echo "> "(pwd) $cmd_ret" "
 end
 ```
-> Use `set_color` to manipulate terminal colors.
+> Use `set_color` to manipulate terminal colors and `set_color -c` to print the
+> current colors.
 
 
 ## Useful Builtins
-```text
+List all builtins with `builtins -n`.
+
+```sh
 # history
 history search <str>   # search history for <str>
 history merge          # merge histories from fish sessions
 
 # list
-count $var            # count elements in list
+count $var             # count elements in list
+
+contains /bin $PATH    # return 0 (true) 1 (false)
+contains -i /bin $PATH # additionally print index on stdout
 
 # string
 string split SEP STRING
+
+# math
+math -b hex 4096       # output dec as hex
+math 0x1000            # output hex as dec
+math "log2(1024)"      # call functions
+math -s0 7/3           # integer division (by default float)
+
+# status
+status -f              # abs path of current file
 ```
 
 ## Keymaps
 ```text
-  Shift-Tab ........... tab-completion with search
-  Alt-Up / Alt-Down ... search history with token under the cursor
-  Alt-l ............... list content of dir under cursor
-  Alt-p ............... append '2>&1 | less;' to current cmdline
+  Shift-Tab .............. tab-completion with search
+  Alt-Up / Alt-Down ...... search history with token under the cursor
+  Alt-l .................. list content of dir under cursor
+  Alt-p .................. append '2>&1 | less;' to current cmdline
+  Alt-Left / Alt - Right . prevd / nextd, walk dir history
 ```
 
 ## Debug
