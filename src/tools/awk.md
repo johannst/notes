@@ -45,6 +45,11 @@ fields ----> run associated action
 
 Any valid awk `expr` can be a `pattern`.
 
+An example is the regex pattern `/abc/ { print $1 }` which prints the first
+field if the record matches the regex `/abc/`. This form is actually a short
+version for `$0 ~ /abc/ { print $1 }`, see the regex comparison operator
+below.
+
 ### Special pattern
 
 awk provides two special patterns, `BEGIN` and `END`, which can be used
@@ -92,6 +97,15 @@ multiple times. Actions with those patterns are **executed exactly once**.
   - `%S` second (00-59)
   - `%T` alias for `%H:%M:%S`
 
+- `S ~ R`, `S !~ R`
+
+  The regex comparison operator, where the former returns true if the string
+  `S` matches the regex `R`, and the latter is the negated form.
+  The regex can be either a
+  [constant](https://www.gnu.org/software/gawk/manual/html_node/Regexp-Usage.html)
+  or [dynamic](
+  https://www.gnu.org/software/gawk/manual/html_node/Computed-Regexps.html)
+  regex.
 
 ## Examples
 
@@ -110,7 +124,8 @@ Matches records not starting with `#`.
 
 ### Range patterns
 ```bash
-echo -e "a\nFOO\nb\nc\nBAR\nd" | awk '/FOO/,/BAR/ { print }'
+echo -e "a\nFOO\nb\nc\nBAR\nd" | \
+    awk '/FOO/,/BAR/ { print }'
 ```
 `/FOO/,/BAR/` define a range pattern of `begin_pattern, end_pattern`. When
 `begin_pattern` is matched the range is **turned on** and when the
@@ -120,7 +135,7 @@ in the range _inclusive_.
 An _exclusive_ range must be handled explicitly, for example as follows.
 ```bash
 echo -e "a\nFOO\nb\nc\nBAR\nd" | \
-      awk '/FOO/,/BAR/ { if (!($1 ~ "FOO") && !($1 ~ "BAR")) { print } }'
+    awk '/FOO/,/BAR/ { if (!($1 ~ "FOO") && !($1 ~ "BAR")) { print } }'
 ```
 
 ### Access last fields in records
