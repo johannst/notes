@@ -108,6 +108,21 @@ awk '!/^#/ { print $1 }' <file>
 ```
 Matches records not starting with `#`.
 
+### Range patterns
+```bash
+echo -e "a\nFOO\nb\nc\nBAR\nd" | awk '/FOO/,/BAR/ { print }'
+```
+`/FOO/,/BAR/` define a range pattern of `begin_pattern, end_pattern`. When
+`begin_pattern` is matched the range is **turned on** and when the
+`end_pattern` is matched the range is **turned off**. This matches every record
+in the range _inclusive_.
+
+An _exclusive_ range must be handled explicitly, for example as follows.
+```bash
+echo -e "a\nFOO\nb\nc\nBAR\nd" | \
+      awk '/FOO/,/BAR/ { if (!($1 ~ "FOO") && !($1 ~ "BAR")) { print } }'
+```
+
 ### Access last fields in records
 ```bash
 echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
