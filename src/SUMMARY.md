@@ -17,6 +17,7 @@
     - [qemu](./tools/qemu.md)
     - [pacman](./tools/pacman.md)
     - [dot](./tools/dot.md)
+    - [ffmpeg](./tools/ffmpeg.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
