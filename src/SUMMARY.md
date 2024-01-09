@@ -66,6 +66,7 @@
 
 - [Network](./network/README.md)
     - [tcpdump](./network/tcpdump.md)
+    - [tshark](./network/tshark.md)
     - [firewall-cmd](./network/firewall-cmd.md)
     - [nftables](./network/nftables.md)
 
