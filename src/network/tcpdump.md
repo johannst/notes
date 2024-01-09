@@ -9,7 +9,7 @@ tcpdump [opts] -i <if> [<filter>]
     -r <file>       Read & parse pcap file.
 ```
 
-Some useful filters.
+Some useful filters, for the full syntax see [pcap-filter(7)](https://www.tcpdump.org/manpages/pcap-filter.7.html).
 ```markdown
 src <ip>                Filter for source IP.
 dst <ip>                Filter for destination IP.
