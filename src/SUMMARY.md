@@ -19,6 +19,7 @@
     - [dot](./tools/dot.md)
     - [ffmpeg](./tools/ffmpeg.md)
     - [column](./tools/column.md)
+    - [sort](./tools/sort.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
