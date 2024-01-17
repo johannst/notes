@@ -51,6 +51,7 @@
   git branch -d <bname> .......... delete local branch with name <bname>
   git checkout <bname> ........... switch to branch with name <bname>
   git checkout --track <branch> .. start to locally track a remote branch
+  git branch --unset-upstream .... unset remote tracking branch
 
   # Remote
 
@@ -72,6 +73,18 @@
   # Remote
 
   git push origin --tags .... push local tags to origin (or other remote)
+```
+
+## Worktree
+Worktrees allow to maintain multiple working trees in the filesystem linked to
+the same repository (shared .git folder).
+```markdown
+  git worktree add <path> .............. create a tree at <path> with a new branch
+                                         checked out (bname is basename of <path>)
+  git worktree add <path> <bname> ...... create a tree at <path> from existing <bname>
+  git worktree list .................... list existing work trees
+  git worktree remove <tree> ........... remove work tree
+  git worktree prune ................... remove stale bookkeeping files
 ```
 
 ## Log & Commit History
