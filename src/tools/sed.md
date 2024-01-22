@@ -30,6 +30,16 @@ echo -e 'aa\nbb\ncc\ndd' | sed '$d'
 # Delete range of lines.
 echo -e 'aa\nbb\ncc\ndd' | sed '1,3d'
 # dd
+
+# Delete lines matching pattern.
+echo -e 'aa\nbb\ncc\ndd' | sed '/bb/d'
+# aa
+# cc
+# dd
+
+# Delete lines NOT matching pattern.
+echo -e 'aa\nbb\ncc\ndd' | sed '/bb/!d'
+# bb
 ```
 
 ### Insert lines
