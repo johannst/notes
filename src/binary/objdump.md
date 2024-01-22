@@ -2,13 +2,15 @@
 
 ```markdown
   objdump [opts] <elf>
-    -M intel                use intil syntax
-    -d                      disassemble text section
-    -D                      disassemble all sections
-    -S                      mix disassembly with source code
-    -C                      demangle
-    -j <section>            display info for section
-    --[no-]show-raw-insn    [dont] show object code next to disassembly
+    -M intel                   use intil syntax
+    -d                         disassemble text section
+    -D                         disassemble all sections
+    --disassemble=<sym>        disassemble symbol <sym>
+    -S                         mix disassembly with source code
+    -C                         demangle
+    -j <section>               display info for section
+    --[no-]show-raw-insn       [dont] show object code next to disassembly
+    --visualize-jumps[=color]  visualize jumps with ascii art, optionally color arrows
 ```
 
 ## Disassemble section
@@ -53,4 +55,15 @@ objcopy -O binary --only-section .text test test-bin
 
 # Disassemble raw binary.
 objdump -D -b binary -m i386:x86-64 test-bin
+```
+
+## Example: disassemble specific symbol
+```bash
+# Disassemble main().
+objdump --disassemble=main <bin>
+# Disassemble 'foo::bar()' (mangled).
+objdump --disassemble=_ZN3foo3barEvr <bin>
+
+# Disassemble 'foo::bar()' (demangled), requires -C
+objdump -C --disassemble=foo::bar <bin>
 ```
