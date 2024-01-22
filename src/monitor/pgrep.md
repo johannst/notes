@@ -6,6 +6,7 @@ pgrep [opts] <pattern>
   -u <usr>   only show matching for user <usr>
   -l         additionally list command
   -a         additionally list command + arguments
+  -x         match exactly
 ```
 
 ## Debug newest process
