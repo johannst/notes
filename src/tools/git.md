@@ -75,6 +75,22 @@
   git push origin --tags .... push local tags to origin (or other remote)
 ```
 
+## Merging
+```markdown
+  git merge [opt] <commit> .... integrate changes from <commit> since
+    opt:                        current branch and <commit> diverged
+      --squash ................ merge all commits into a single one
+      --no-commit ............. dont generate commit if the merge succeeds
+
+  git merge-base <commit> <commit>
+                                get the common ancestor, since both commits diverged
+
+  git rebase -i <upstream> .... interactively rebase on <upstream>, also supports actions
+                                like squashing, editing, rewording, etc of commits
+
+  git cherry-pick <commit> .... apply commit on current branch
+```
+
 ## Worktree
 Worktrees allow to maintain multiple working trees in the filesystem linked to
 the same repository (shared .git folder).
@@ -130,7 +146,9 @@ the same repository (shared .git folder).
 
   git apply --stat <PATCH> ... see which files the patch would change
   git apply --check <PATCH> .. see if the patch can be applied cleanly
-  git apply <PATCH> .......... apply the patch locally without creating a commit
+  git apply [-3] <PATCH> ..... apply the patch locally without creating a commit,
+                               if the patch does not cleanly apply -3 allows for
+                               a 3-way merge
 
   # eg: generate patches for each commit from initial commit on
   git format-patch -N $(git rev-list --max-parents=0 HEAD)
