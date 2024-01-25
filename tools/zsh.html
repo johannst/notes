@@ -310,6 +310,13 @@ echo ${(kv)vec}       # a aa b bb
 # Iterate over key value pairs.
 for k v in ${(kv)vec)}; do ...; done
 </code></pre>
+<h2 id="io-redirections"><a class="header" href="#io-redirections">I/O redirections</a></h2>
+<p>See <a href="bash.html#io-redirection">bash - I/O redirection</a></p>
+<h2 id="process-substitution"><a class="header" href="#process-substitution">Process substitution</a></h2>
+<p>Process substitution allows to redirect the stdout of multiple processes at
+once.</p>
+<pre><code class="language-bash">vim -d &lt;(grep foo bar) &lt;(grep foo moose)
+</code></pre>
 <h2 id="argument-parsing-with-zparseopts"><a class="header" href="#argument-parsing-with-zparseopts">Argument parsing with <code>zparseopts</code></a></h2>
 <pre><code class="language-zsh">zparseopts [-D] [-E] [-A assoc] specs
 </code></pre>

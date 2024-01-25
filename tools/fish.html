@@ -249,6 +249,10 @@ echo &quot;ls output: &quot;(ls)
 <pre><code class="language-sh"># 'noclobber', fail if 'log' already exists
 echo foo &gt;? log
 </code></pre>
+<h3 id="process-substitution"><a class="header" href="#process-substitution">Process substitution</a></h3>
+<p>Redirect output of multiple processes. Same as <code>&lt;(..)</code> in bash.</p>
+<pre><code class="language-sh">diff (sort a | psub) (sort b | psub)
+</code></pre>
 <h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
 <h3 id="if--else"><a class="header" href="#if--else"><code>if</code> / <code>else</code></a></h3>
 <pre><code class="language-sh">if grep foo bar

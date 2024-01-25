@@ -269,6 +269,11 @@ contains some nice visualization to explain bash redirections.</p>
 <li>duplicate <code>fd 1</code> to <code>fd 2</code>, effectively redirecting <code>stderr</code> to <code>stdout</code></li>
 <li>redirect <code>stdout</code> to <code>file</code></li>
 </ol>
+<h2 id="process-substitution-ref"><a class="header" href="#process-substitution-ref">Process substitution (<a href="https://tldp.org/LDP/abs/html/process-sub.html">ref</a>)</a></h2>
+<p>Process substitution allows to redirect the stdout of multiple processes at
+once.</p>
+<pre><code class="language-bash">vim -d &lt;(grep foo bar) &lt;(grep foo moose)
+</code></pre>
 <h2 id="argument-parsing-with-getopts"><a class="header" href="#argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
 <p>The <code>getopts</code> builtin uses following global variables:</p>
 <ul>

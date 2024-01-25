@@ -335,6 +335,13 @@ echo ${(kv)vec}       # a aa b bb
 # Iterate over key value pairs.
 for k v in ${(kv)vec)}; do ...; done
 </code></pre>
+<h2 id="io-redirections"><a class="header" href="#io-redirections">I/O redirections</a></h2>
+<p>See <a href="tools/bash.html#io-redirection">bash - I/O redirection</a></p>
+<h2 id="process-substitution"><a class="header" href="#process-substitution">Process substitution</a></h2>
+<p>Process substitution allows to redirect the stdout of multiple processes at
+once.</p>
+<pre><code class="language-bash">vim -d &lt;(grep foo bar) &lt;(grep foo moose)
+</code></pre>
 <h2 id="argument-parsing-with-zparseopts"><a class="header" href="#argument-parsing-with-zparseopts">Argument parsing with <code>zparseopts</code></a></h2>
 <pre><code class="language-zsh">zparseopts [-D] [-E] [-A assoc] specs
 </code></pre>
@@ -589,6 +596,11 @@ contains some nice visualization to explain bash redirections.</p>
 <li>duplicate <code>fd 1</code> to <code>fd 2</code>, effectively redirecting <code>stderr</code> to <code>stdout</code></li>
 <li>redirect <code>stdout</code> to <code>file</code></li>
 </ol>
+<h2 id="process-substitution-ref"><a class="header" href="#process-substitution-ref">Process substitution (<a href="https://tldp.org/LDP/abs/html/process-sub.html">ref</a>)</a></h2>
+<p>Process substitution allows to redirect the stdout of multiple processes at
+once.</p>
+<pre><code class="language-bash">vim -d &lt;(grep foo bar) &lt;(grep foo moose)
+</code></pre>
 <h2 id="argument-parsing-with-getopts"><a class="header" href="#argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
 <p>The <code>getopts</code> builtin uses following global variables:</p>
 <ul>
@@ -772,6 +784,10 @@ echo &quot;ls output: &quot;(ls)
 <h3 id="io-redirection-1"><a class="header" href="#io-redirection-1">I/O redirection</a></h3>
 <pre><code class="language-sh"># 'noclobber', fail if 'log' already exists
 echo foo &gt;? log
+</code></pre>
+<h3 id="process-substitution-1"><a class="header" href="#process-substitution-1">Process substitution</a></h3>
+<p>Redirect output of multiple processes. Same as <code>&lt;(..)</code> in bash.</p>
+<pre><code class="language-sh">diff (sort a | psub) (sort b | psub)
 </code></pre>
 <h2 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h2>
 <h3 id="if--else"><a class="header" href="#if--else"><code>if</code> / <code>else</code></a></h3>
