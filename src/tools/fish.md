@@ -87,6 +87,12 @@ echo "ls output: "(ls)
 echo foo >? log
 ```
 
+### Process substitution
+Redirect output of multiple processes. Same as `<(..)` in bash.
+```sh
+diff (sort a | psub) (sort b | psub)
+```
+
 ## Control Flow
 ### `if` / `else`
 ```sh

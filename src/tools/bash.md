@@ -104,6 +104,14 @@ command 2>&1 >file
 1. duplicate `fd 1` to `fd 2`, effectively redirecting `stderr` to `stdout`
 2. redirect `stdout` to `file`
 
+## Process substitution ([ref][psub])
+
+Process substitution allows to redirect the stdout of multiple processes at
+once.
+```bash
+vim -d <(grep foo bar) <(grep foo moose)
+```
+
 ## Argument parsing with `getopts`
 
 The `getopts` builtin uses following global variables:
@@ -227,3 +235,4 @@ complete -F _foo foo
 ```
 
 [dup2]: http://man7.org/linux/man-pages/man2/dup.2.html
+[psub]: https://tldp.org/LDP/abs/html/process-sub.html

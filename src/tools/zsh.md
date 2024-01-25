@@ -174,6 +174,18 @@ echo ${(kv)vec}       # a aa b bb
 for k v in ${(kv)vec)}; do ...; done
 ```
 
+## I/O redirections
+
+See [bash - I/O redirection](bash.md#io-redirection)
+
+## Process substitution
+
+Process substitution allows to redirect the stdout of multiple processes at
+once.
+```bash
+vim -d <(grep foo bar) <(grep foo moose)
+```
+
 ## Argument parsing with `zparseopts`
 
 ```zsh
