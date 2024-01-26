@@ -29,6 +29,13 @@
 +-------------------+
 ```
 
+## Clean
+```markdown
+  git clean -X ......... remove only ignored files (-n for dry run)
+  git clean -f -d -x ... remove untracked & ignored files / folders
+  git clean -e <pat> ... exclude pattern from deletion
+```
+
 ## Staging
 ```markdown
   git add -p [<file>] ............ partial staging (interactive)
@@ -60,6 +67,18 @@
                                        branch
   git push origin --delete <rbname> .. delete branch <rbname> from origin (or
                                        other remote)
+```
+
+## Update local from remote
+```markdown
+  git fetch --prune .................. update all remote references and
+                                       remove delete non-existing ones
+                                       (does not merge into local tracking branch)
+  git pull [--rebase] ................ fetch remote references and merge into
+                                       local tracking branch (fast-forward by default).
+                                       Optionally rebase local tracking branch
+                                       on-top of remote branch (in case local
+                                       branch has additional commits compared to remote branch).
 ```
 
 ## Tags
