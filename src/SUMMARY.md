@@ -27,6 +27,7 @@
     - [ss](./monitor/ss.md)
     - [pidstat](./monitor/pidstat.md)
     - [pgrep](./monitor/pgrep.md)
+    - [ps](./monitor/ps.md)
     - [pmap](./monitor/pmap.md)
     - [pstack](./monitor/pstack.md)
 
