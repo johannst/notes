@@ -31,6 +31,9 @@ set <name> [<values>]
 $status      # exit code of last command
 $pipestatus  # list of exit codes of pipe chain
 
+$fish_pid    # pid of parent fish shell    ($$ in bash)
+$last_pid    # pid of last started process ($! in bash)
+
 $CMD_DURATION   # runtime of last command in ms
 ```
 
