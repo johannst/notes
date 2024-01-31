@@ -21,6 +21,7 @@
     - [column](./tools/column.md)
     - [sort](./tools/sort.md)
     - [sed](./tools/sed.md)
+    - [gnuplot](./tools/gnuplot.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)

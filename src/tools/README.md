@@ -18,3 +18,4 @@
 - [column](./column.md)
 - [sort](./sort.md)
 - [sed](./sed.md)
+- [gnuplot](./gnuplot.md)
