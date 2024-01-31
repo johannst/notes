@@ -8,6 +8,7 @@ perf list     show supported hw/sw events & metrics
 
 perf stat
   -p <pid> ..... show stats for running process
+  -o <file> .... write output to file (default stderr)
   -I <ms> ...... show stats periodically over interval <ms>
   -e <ev> ...... select event(s)
   -M <met> ..... print metric(s), this adds the metric events
@@ -21,6 +22,7 @@ perf top
 
 perf record
   -p <pid> ............... record stats for running process
+  -o <file> .............. write output to file (default perf.data)
   -F <hz> ................ sampling frequency
   --call-graph <method> .. [fp, dwarf, lbr] method how to caputre backtrace
                            fp   : use frame-pointer, need to compile with
@@ -29,8 +31,9 @@ perf record
                            lbr  : use hardware last branch record facility
   -g ..................... short-hand for --call-graph fp
   -e <ev> ................ select event(s)
-  --all-user ... configure all selected events for user space
-  --all-kernel . configure all selected events for kernel space
+  --all-user ............. configure all selected events for user space
+  --all-kernel ........... configure all selected events for kernel space
+  -M intel ............... use intel disassembly in annotate
 
 perf report
   -n .................... annotate symbols with nr of samples
@@ -141,7 +144,7 @@ perf script --per-event-dump
 ```
 
 ## Examples
-### Determine theoretical max instructions per cycle
+### Estimate max instructions per cycle
 
 ```c
 {{#include src/noploop.c }}
@@ -204,19 +207,23 @@ perf report --stdio -g graph,callee
 
 ## References
 - [intel/perfmon][perfmon] - intel PMU event database per uarch
-- [intel/perfmon-html][perfmon-html] - a html rendered version of the PMU events with search
+- [intel/perfmon-html][perfmon-html] - a html rendered version of the PMU
+  events with search
 - [intel/perfmon/mapfile.csv][perfmon-map] - processor family to uarch mapping
 - [linux/perf/events][perf-pmu-ev] - x86 PMU events known to perf tools
 - [linux/arch/events][x86-core-ev] - x86 PMU events linux kernel
 - [wikichip] - computer architecture wiki
 - [perf-list(1)][man-perf-list] - manpage
 - [perf_event_open(2)][man-perf-ev-open] - manpage
+- [intel/sdm][intel-sdm] - intel software developer manuals (eg Optimization
+  Reference Manual)
 
 
 [perfmon-html]: https://perfmon-events.intel.com/
 [perfmon]: https://github.com/intel/perfmon
 [perfmon-map]: https://github.com/intel/perfmon/blob/main/mapfile.csv
 [perfmon-kinds]: https://github.com/intel/perfmon/tree/main#performance-monitoring-events
+[intel-sdm]: https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html
 
 [perf-pmu-ev]: https://github.com/torvalds/linux/tree/master/tools/perf/pmu-events/arch/x86
 [x86-core-ev]: https://github.com/torvalds/linux/blob/master/arch/x86/events/intel/core.c
