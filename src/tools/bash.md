@@ -112,6 +112,22 @@ once.
 vim -d <(grep foo bar) <(grep foo moose)
 ```
 
+## Command grouping
+
+Execute commands in a group with or without subshell. Can be used to easily
+redirect stdout/stderr of all commands in the group into one file.
+```bash
+# Group commands without subshell.
+v=abc ; { v=foo; echo $v; } ; echo $v
+# foo
+# foo
+
+# Group commands with subshell.
+v=abc ; ( v=foo; echo $v; ) ; echo $v
+# foo
+# abc
+```
+
 ## Argument parsing with `getopts`
 
 The `getopts` builtin uses following global variables:
