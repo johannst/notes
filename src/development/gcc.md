@@ -85,9 +85,9 @@ run1:
 
 ## ABI (Linux)
 
-- C ABI - [SystemV ABI][sysvabi]
+- C ABI (x86_64) - [SystemV ABI][sysvabi]
 - C++ ABI - [C++ Itanium ABI][cppabi]
 
 [builtins]: https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
-[sysvabi]: https://www.uclibc.org/docs/psABI-x86_64.pdf
+[sysvabi]: https://gitlab.com/x86-psABIs/x86-64-ABI
 [cppabi]: https://itanium-cxx-abi.github.io/cxx-abi
