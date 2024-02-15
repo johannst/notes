@@ -237,16 +237,16 @@ echo {a,b}{1,2}
 with <code>:</code> when quoted or exported to the environment.</p>
 <pre><code class="language-sh">set -x BLA_PATH a:b:c:d
 echo $BLA_PATH           # a b c d
-echo &quot;$BLA_PATH&quot;         # a:b:c:d          (quoted)
+echo "$BLA_PATH"         # a:b:c:d          (quoted)
 env | grep BLA_PATH      # BLA_PATH=a:b:c:d (env)
 
 set FOO_PATH x y z
 echo $FOO_PATH           # x y z
-echo &quot;$FOO_PATH&quot;         # x:y:z
+echo "$FOO_PATH"         # x:y:z
 </code></pre>
 <h2 id="command-handling"><a class="header" href="#command-handling">Command Handling</a></h2>
 <pre><code class="language-sh"># sub-commands are not run in quotes
-echo &quot;ls output: &quot;(ls)
+echo "ls output: "(ls)
 </code></pre>
 <h3 id="io-redirection"><a class="header" href="#io-redirection">I/O redirection</a></h3>
 <pre><code class="language-sh"># 'noclobber', fail if 'log' already exists
@@ -315,7 +315,7 @@ funced foo        # edit function 'foo'
 <li><a href="https://fishshell.com/docs/current/completions.html">Writing your own completions</a></li>
 <li><a href="https://fishshell.com/docs/current/cmds/complete.html"><code>complete</code></a></li>
 </ul>
-<pre><code class="language-sh">function moose --d &quot;my moose fn&quot;
+<pre><code class="language-sh">function moose --d "my moose fn"
     # h/help   : short / long option (boolean)
     # color    : only long option (boolean)
     # u/user=  : option with required argument, only last specified is taken
@@ -325,18 +325,18 @@ funced foo        # edit function 'foo'
     or return
 
     if set -ql _flag_help
-        echo &quot;usage ...&quot;
+        echo "usage ..."
         return 0
     end
 
     set -ql _flag_file
-    and echo &quot;file=$_flag_file | cnt:&quot; (count $_flag_file)
+    and echo "file=$_flag_file | cnt:" (count $_flag_file)
 
     set -ql _flag_color
-    and echo &quot;color=$_flag_color&quot;
+    and echo "color=$_flag_color"
 
     set -ql _flag_user
-    and echo &quot;user=$_flag_user&quot;
+    and echo "user=$_flag_user"
 end
 
 # Delete all previous defined completions for 'moose'.
@@ -348,31 +348,31 @@ complete -c moose --no-files
 # Help completion.
 #   -n specifies a conditions. The completion is only active if the command
 #      returns 0.
-complete -c moose -s h -l help -n &quot;not __fish_contains_opt -s h help&quot; \
-    --description &quot;Print usage help and exit&quot;
+complete -c moose -s h -l help -n "not __fish_contains_opt -s h help" \
+    --description "Print usage help and exit"
 
 # File completion.
 #   -F force complete files (overwrite --no-files).
 #   -r requires argument.
 complete -c moose -s f -l file -F -r \
-    --description &quot;Specify file (can be passed multiple times)&quot;
+    --description "Specify file (can be passed multiple times)"
 
 # Color completion.
 #    -a options for completion.
 #    -x short for -r and --no-files (-f)
-complete -c moose -x -l color -a &quot;red blue&quot; \
-    --description &quot;Specify a color.&quot;
+complete -c moose -x -l color -a "red blue" \
+    --description "Specify a color."
 
 # User completion.
 #    -a options for completion. Call a function to generate arguments.
-complete -c moose -x -s u -l user -a &quot;(__fish_complete_users)&quot; \
-    --description &quot;Specify a user&quot;
+complete -c moose -x -s u -l user -a "(__fish_complete_users)" \
+    --description "Specify a user"
 </code></pre>
 <h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>The prompt is defined by the output of the <code>fish_prompt</code> function.</p>
 <pre><code class="language-sh">function fish_prompt
     set -l cmd_ret
-    echo &quot;&gt; &quot;(pwd) $cmd_ret&quot; &quot;
+    echo "&gt; "(pwd) $cmd_ret" "
 end
 </code></pre>
 <blockquote>
@@ -397,7 +397,7 @@ string split SEP STRING
 # math
 math -b hex 4096       # output dec as hex
 math 0x1000            # output hex as dec
-math &quot;log2(1024)&quot;      # call functions
+math "log2(1024)"      # call functions
 math -s0 7/3           # integer division (by default float)
 
 # status

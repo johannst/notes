@@ -355,7 +355,7 @@ ret
 
     .arch armv8-a
 
-    .section .text, &quot;ax&quot;, @progbits
+    .section .text, "ax", @progbits
     .balign 4                // align code on 4byte boundary
     .global _start
 _start:
@@ -371,9 +371,9 @@ _start:
     svc 0
 
     .balign 8                // align data on 8byte boundary
-    .section .rodata, &quot;a&quot;, @progbits
+    .section .rodata, "a", @progbits
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>

@@ -365,10 +365,10 @@ qemu-system-x86_64 -monitor stdio -incoming tcp:0.0.0.0:12345
 qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
 
 # Save VM state to file.
-(qemu) migrate &quot;exec:gzip -c &gt; vm.gz&quot;
+(qemu) migrate "exec:gzip -c &gt; vm.gz"
 
 # Load VM from file.
-qemu-system-x86_64 -monitor stdio -incoming &quot;exec: gzip -d -c vm.gz&quot;
+qemu-system-x86_64 -monitor stdio -incoming "exec: gzip -d -c vm.gz"
 </code></pre>
 <blockquote>
 <p>The migration source machine and the migration target machine should be
@@ -380,7 +380,7 @@ launched with the <strong>same</strong> parameters.</p>
     -cpu host                                                          \
     -enable-kvm                                                        \
     -kernel &lt;dir&gt;/arch/x86/boot/bzImage                                \
-    -append &quot;earlyprintk=ttyS0 console=ttyS0 nokaslr init=/init debug&quot; \
+    -append "earlyprintk=ttyS0 console=ttyS0 nokaslr init=/init debug" \
     -initrd &lt;dir&gt;/initramfs.cpio.gz                                    \
     ...
 </code></pre>
@@ -396,7 +396,7 @@ trace: test
 clean:
 	$(RM) test test-bin test.o
 </code></pre>
-<pre><code class="language-x86asm">.section .text, &quot;ax&quot;
+<pre><code class="language-x86asm">.section .text, "ax"
 
 .global _start
 _start:

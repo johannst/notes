@@ -212,7 +212,7 @@ dependencies.</p>
 package and sort by size.</p>
 <pre><code class="language-text">pacman -Qetq | xargs pacman -Qi |
     awk '/Name/ { name=$3 }
-         /Installed Size/ { printf &quot;%8.2f%s %s\n&quot;, $4, $5, name }' |
+         /Installed Size/ { printf "%8.2f%s %s\n", $4, $5, name }' |
     sort -h
 </code></pre>
 <p>Install package into different <code>root</code> directory but keep using the default

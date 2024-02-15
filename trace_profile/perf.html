@@ -262,7 +262,7 @@ databases for the different intel uarchs.</p>
 corresponding uarch, just grab the family model from the procfs.</p>
 <pre><code class="language-sh"> cat /proc/cpuinfo | awk '/^vendor_id/  { V=$3 }
                           /^cpu family/ { F=$4 }
-                          /^model\s*:/  { printf &quot;%s-%d-%x\n&quot;,V,F,$3 }'
+                          /^model\s*:/  { printf "%s-%d-%x\n",V,F,$3 }'
 </code></pre>
 <blockquote>
 <p>The table in <a href="https://github.com/intel/perfmon/tree/main#performance-monitoring-events">performance monitoring events</a> describes how
@@ -296,7 +296,7 @@ perf script --per-event-dump
 </code></pre>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <h3 id="estimate-max-instructions-per-cycle"><a class="header" href="#estimate-max-instructions-per-cycle">Estimate max instructions per cycle</a></h3>
-<pre><code class="language-c">#define NOP4        &quot;nop\nnop\nnop\nnop\n&quot;
+<pre><code class="language-c">#define NOP4        "nop\nnop\nnop\nnop\n"
 #define NOP32       NOP4   NOP4   NOP4   NOP4   NOP4   NOP4   NOP4   NOP4
 #define NOP256      NOP32  NOP32  NOP32  NOP32  NOP32  NOP32  NOP32  NOP32
 #define NOP2048     NOP256 NOP256 NOP256 NOP256 NOP256 NOP256 NOP256 NOP256

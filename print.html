@@ -224,11 +224,11 @@ $RBUFFER      # Edit buffer content right to cursor
 
 # create zle widget which adds text right of the cursor
 function add-text() {
-    RBUFFER=&quot;some text $RBUFFER&quot;
+    RBUFFER="some text $RBUFFER"
 }
 zle -N add-text
 
-bindkey &quot;^p&quot; add-text
+bindkey "^p" add-text
 </code></pre>
 <h2 id="parameter"><a class="header" href="#parameter">Parameter</a></h2>
 <p>Default value:</p>
@@ -362,10 +362,10 @@ option should be stored.</li>
 <pre><code class="language-zsh">#!/bin/zsh
 function test() {
     zparseopts -D -E -A opts f=flag o: -long:
-    echo &quot;flag $flag&quot;
-    echo &quot;o    $opts[-o]&quot;
-    echo &quot;long $opts[--long]&quot;
-    echo &quot;pos  $1&quot;
+    echo "flag $flag"
+    echo "o    $opts[-o]"
+    echo "long $opts[--long]"
+    echo "pos  $1"
 }
 
 test -f -o OPTION --long LONG_OPT POSITIONAL
@@ -387,9 +387,9 @@ The match results can be accessed via the <code>$MATCH</code> variable and
 <pre><code class="language-zsh">INPUT='title foo : 1234'
 REGEX='^title (.+) : ([0-9]+)$'
 if [[ $INPUT =~ $REGEX ]]; then
-    echo &quot;$MATCH&quot;       # title foo : 1234
-    echo &quot;$match[1]&quot;    # foo
-    echo &quot;$match[2]&quot;    # 1234
+    echo "$MATCH"       # title foo : 1234
+    echo "$match[1]"    # foo
+    echo "$match[2]"    # 1234
 fi
 </code></pre>
 <h2 id="completion"><a class="header" href="#completion">Completion</a></h2>
@@ -421,7 +421,7 @@ $words[CURRENT-1]   # previous word (relative to cursor position)
 </code></pre>
 <ul>
 <li><code>MSG</code> simple string with header message</li>
-<li><code>COMP</code> array of completions where each entry is <code>&quot;opt:description&quot;</code></li>
+<li><code>COMP</code> array of completions where each entry is <code>"opt:description"</code></li>
 </ul>
 <pre><code class="language-zsh">function _foo() {
     local -a opts
@@ -462,16 +462,16 @@ function _foo_color() {
     colors+=('green:green color')
     colors+=('red:red color')
     colors+=('blue:blue color')
-    _describe &quot;color&quot; colors
+    _describe "color" colors
 }
 
 function _foo() {
     _arguments                              \
-        &quot;-c[define color]:color:-&gt;s_color&quot;  \
-        &quot;-s[select sound]:sound:(low high)&quot; \
-        &quot;-f[select file]:file:_files&quot;       \
-        &quot;-d[select dir]:dir:_files -/&quot;      \
-        &quot;-h[help]&quot;
+        "-c[define color]:color:-&gt;s_color"  \
+        "-s[select sound]:sound:(low high)" \
+        "-f[select file]:file:_files"       \
+        "-d[select dir]:dir:_files -/"      \
+        "-h[help]"
 
     case $state in
         s_color) _foo_color;;
@@ -485,9 +485,9 @@ arguments such as</p>
 </code></pre>
 <pre><code class="language-zsh">function _foo() {
     _arguments              \
-        &quot;1:opt 1:(a b c)&quot;   \
-        &quot;:opt next:(d e f)&quot; \
-        &quot;*:opt all:(u v w)&quot;
+        "1:opt 1:(a b c)"   \
+        ":opt next:(d e f)" \
+        "*:opt all:(u v w)"
 }
 </code></pre>
 <p>Explanation:</p>
@@ -520,7 +520,7 @@ previous rules apply, so in our example for <code>arg3, argN..</code>.</li>
 bar=${foo:-some_val}  # if $foo set, then bar=$foo else bar=some_val
 
 # alternate value
-bar=${foo:+bla $foo}  # if $foo set, then bar=&quot;bla $foo&quot; else bar=&quot;&quot;
+bar=${foo:+bla $foo}  # if $foo set, then bar="bla $foo" else bar=""
 
 # check param set
 bar=${foo:?msg}  # if $foo set, then bar=$foo else exit and print msg
@@ -602,6 +602,19 @@ contains some nice visualization to explain bash redirections.</p>
 once.</p>
 <pre><code class="language-bash">vim -d &lt;(grep foo bar) &lt;(grep foo moose)
 </code></pre>
+<h2 id="command-grouping"><a class="header" href="#command-grouping">Command grouping</a></h2>
+<p>Execute commands in a group with or without subshell. Can be used to easily
+redirect stdout/stderr of all commands in the group into one file.</p>
+<pre><code class="language-bash"># Group commands without subshell.
+v=abc ; { v=foo; echo $v; } ; echo $v
+# foo
+# foo
+
+# Group commands with subshell.
+v=abc ; ( v=foo; echo $v; ) ; echo $v
+# foo
+# abc
+</code></pre>
 <h2 id="argument-parsing-with-getopts"><a class="header" href="#argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
 <p>The <code>getopts</code> builtin uses following global variables:</p>
 <ul>
@@ -624,11 +637,11 @@ once.</p>
 <h3 id="example-2"><a class="header" href="#example-2">Example</a></h3>
 <pre><code class="language-bash">#!/bin/bash
 function parse_args() {
-    while getopts &quot;f:c&quot; PARAM; do
+    while getopts "f:c" PARAM; do
         case $PARAM in
-            f) echo &quot;GOT -f $OPTARG&quot;;;
-            c) echo &quot;GOT -c&quot;;;
-            *) echo &quot;ERR: print usage&quot;; exit 1;;
+            f) echo "GOT -f $OPTARG";;
+            c) echo "GOT -c";;
+            *) echo "ERR: print usage"; exit 1;;
         esac
     done
     # users responsibility to reset OPTIND
@@ -648,14 +661,14 @@ The match results can be accessed via the <code>$BASH_REMATCH</code> variable:</
 <pre><code class="language-bash">INPUT='title foo : 1234'
 REGEX='^title (.+) : ([0-9]+)$'
 if [[ $INPUT =~ $REGEX ]]; then
-    echo &quot;${BASH_REMATCH[0]}&quot;    # title foo : 1234
-    echo &quot;${BASH_REMATCH[1]}&quot;    # foo
-    echo &quot;${BASH_REMATCH[2]}&quot;    # 1234
+    echo "${BASH_REMATCH[0]}"    # title foo : 1234
+    echo "${BASH_REMATCH[1]}"    # foo
+    echo "${BASH_REMATCH[2]}"    # 1234
 fi
 </code></pre>
 <blockquote>
 <p><strong>Caution</strong>: When specifying a <code>regex</code> in the <code>[[ ]]</code> block directly, quotes will be treated as part of the pattern.
-<code>[[ $INPUT =~ &quot;foo&quot; ]]</code> will match against <code>&quot;foo&quot;</code> not <code>foo</code>!</p>
+<code>[[ $INPUT =~ "foo" ]]</code> will match against <code>"foo"</code> not <code>foo</code>!</p>
 </blockquote>
 <h2 id="completion-1"><a class="header" href="#completion-1">Completion</a></h2>
 <p>The <code>complete</code> builtin is used to interact with the completion system.</p>
@@ -686,11 +699,11 @@ against words generated by <code>option</code>.</p>
 # -u           generate list with users
 # -e           generate list with exported variables
 
-# compare &quot;f&quot; against words &quot;foo&quot; &quot;foobar&quot; &quot;bar&quot; and generate matches
-compgen -W &quot;foo foobar bar&quot; &quot;f&quot;
+# compare "f" against words "foo" "foobar" "bar" and generate matches
+compgen -W "foo foobar bar" "f"
 
-# compare &quot;hom&quot; against file/dir names and generate matches
-compgen -d -f &quot;hom&quot;
+# compare "hom" against file/dir names and generate matches
+compgen -d -f "hom"
 </code></pre>
 <h3 id="example-3"><a class="header" href="#example-3">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
@@ -702,12 +715,12 @@ compgen -d -f &quot;hom&quot;
     local curr=$2
     local prev=$3
 
-    local opts=&quot;-c -s -f -h&quot;
+    local opts="-c -s -f -h"
     case $prev in
-        -c) COMPREPLY=( $(compgen -W &quot;green red blue&quot; -- $curr) );;
-        -s) COMPREPLY=( $(compgen -W &quot;low high&quot; -- $curr) );;
+        -c) COMPREPLY=( $(compgen -W "green red blue" -- $curr) );;
+        -s) COMPREPLY=( $(compgen -W "low high" -- $curr) );;
         -f) COMPREPLY=( $(compgen -f -- $curr) );;
-        *)  COMPREPLY=( $(compgen -W &quot;$opts&quot; -- $curr) );;
+        *)  COMPREPLY=( $(compgen -W "$opts" -- $curr) );;
     esac
 }
 
@@ -774,16 +787,16 @@ echo {a,b}{1,2}
 with <code>:</code> when quoted or exported to the environment.</p>
 <pre><code class="language-sh">set -x BLA_PATH a:b:c:d
 echo $BLA_PATH           # a b c d
-echo &quot;$BLA_PATH&quot;         # a:b:c:d          (quoted)
+echo "$BLA_PATH"         # a:b:c:d          (quoted)
 env | grep BLA_PATH      # BLA_PATH=a:b:c:d (env)
 
 set FOO_PATH x y z
 echo $FOO_PATH           # x y z
-echo &quot;$FOO_PATH&quot;         # x:y:z
+echo "$FOO_PATH"         # x:y:z
 </code></pre>
 <h2 id="command-handling"><a class="header" href="#command-handling">Command Handling</a></h2>
 <pre><code class="language-sh"># sub-commands are not run in quotes
-echo &quot;ls output: &quot;(ls)
+echo "ls output: "(ls)
 </code></pre>
 <h3 id="io-redirection-1"><a class="header" href="#io-redirection-1">I/O redirection</a></h3>
 <pre><code class="language-sh"># 'noclobber', fail if 'log' already exists
@@ -852,7 +865,7 @@ funced foo        # edit function 'foo'
 <li><a href="https://fishshell.com/docs/current/completions.html">Writing your own completions</a></li>
 <li><a href="https://fishshell.com/docs/current/cmds/complete.html"><code>complete</code></a></li>
 </ul>
-<pre><code class="language-sh">function moose --d &quot;my moose fn&quot;
+<pre><code class="language-sh">function moose --d "my moose fn"
     # h/help   : short / long option (boolean)
     # color    : only long option (boolean)
     # u/user=  : option with required argument, only last specified is taken
@@ -862,18 +875,18 @@ funced foo        # edit function 'foo'
     or return
 
     if set -ql _flag_help
-        echo &quot;usage ...&quot;
+        echo "usage ..."
         return 0
     end
 
     set -ql _flag_file
-    and echo &quot;file=$_flag_file | cnt:&quot; (count $_flag_file)
+    and echo "file=$_flag_file | cnt:" (count $_flag_file)
 
     set -ql _flag_color
-    and echo &quot;color=$_flag_color&quot;
+    and echo "color=$_flag_color"
 
     set -ql _flag_user
-    and echo &quot;user=$_flag_user&quot;
+    and echo "user=$_flag_user"
 end
 
 # Delete all previous defined completions for 'moose'.
@@ -885,31 +898,31 @@ complete -c moose --no-files
 # Help completion.
 #   -n specifies a conditions. The completion is only active if the command
 #      returns 0.
-complete -c moose -s h -l help -n &quot;not __fish_contains_opt -s h help&quot; \
-    --description &quot;Print usage help and exit&quot;
+complete -c moose -s h -l help -n "not __fish_contains_opt -s h help" \
+    --description "Print usage help and exit"
 
 # File completion.
 #   -F force complete files (overwrite --no-files).
 #   -r requires argument.
 complete -c moose -s f -l file -F -r \
-    --description &quot;Specify file (can be passed multiple times)&quot;
+    --description "Specify file (can be passed multiple times)"
 
 # Color completion.
 #    -a options for completion.
 #    -x short for -r and --no-files (-f)
-complete -c moose -x -l color -a &quot;red blue&quot; \
-    --description &quot;Specify a color.&quot;
+complete -c moose -x -l color -a "red blue" \
+    --description "Specify a color."
 
 # User completion.
 #    -a options for completion. Call a function to generate arguments.
-complete -c moose -x -s u -l user -a &quot;(__fish_complete_users)&quot; \
-    --description &quot;Specify a user&quot;
+complete -c moose -x -s u -l user -a "(__fish_complete_users)" \
+    --description "Specify a user"
 </code></pre>
 <h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>The prompt is defined by the output of the <code>fish_prompt</code> function.</p>
 <pre><code class="language-sh">function fish_prompt
     set -l cmd_ret
-    echo &quot;&gt; &quot;(pwd) $cmd_ret&quot; &quot;
+    echo "&gt; "(pwd) $cmd_ret" "
 end
 </code></pre>
 <blockquote>
@@ -934,7 +947,7 @@ string split SEP STRING
 # math
 math -b hex 4096       # output dec as hex
 math 0x1000            # output hex as dec
-math &quot;log2(1024)&quot;      # call functions
+math "log2(1024)"      # call functions
 math -s0 7/3           # integer division (by default float)
 
 # status
@@ -991,7 +1004,7 @@ tmux list-panes -F '#P' -t &lt;s&gt;:&lt;w&gt;   list pane IDs for window &lt;w&
 tmux selectp -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt;          select pane &lt;p&gt; in window &lt;w&gt; in session &lt;s&gt;
 
 # Run commands
-tmux send -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt; &quot;ls&quot; C-m    send cmds/keys to pane
+tmux send -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt; "ls" C-m    send cmds/keys to pane
 tmux run -t &lt;p&gt; &lt;sh-cmd&gt;             run shell command &lt;sh-cmd&gt; in background and report output on pane -t &lt;p&gt;
 </code></pre>
 <p>For example cycle through all panes in all windows in all sessions:</p>
@@ -1120,7 +1133,7 @@ list-keys -t vi-copy                list keymaps for vi-copy mode
                                        branch has additional commits compared to remote branch).
 </code></pre>
 <h2 id="tags"><a class="header" href="#tags">Tags</a></h2>
-<pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m &quot;descr&quot; ........ creates an annotated tag (full object
+<pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m "descr" ........ creates an annotated tag (full object
                                          containing tagger, date, ...)
   git tag -l ........................... list available tags
   git checkout tag/&lt;tname&gt; ............. checkout specific tag
@@ -1304,7 +1317,7 @@ multiple times. Actions with those patterns are <strong>executed exactly once</s
 <h3 id="special-statements--functions"><a class="header" href="#special-statements--functions">Special statements &amp; functions</a></h3>
 <ul>
 <li>
-<p><code>printf &quot;fmt&quot;, args...</code></p>
+<p><code>printf "fmt", args...</code></p>
 <p>Print format string, args are comma separated.</p>
 <ul>
 <li><code>%s</code> string</li>
@@ -1317,12 +1330,12 @@ For floats one can use <code>%N.Mf</code>, <code>N</code> is the total number in
 <code>M</code>.</p>
 </li>
 <li>
-<p><code>sprintf(&quot;fmt&quot;, expr, ...)</code></p>
+<p><code>sprintf("fmt", expr, ...)</code></p>
 <p>Format the expressions according to the format string. Similar as <code>printf</code>,
 but this is a function and return value can be assigned to a variable.</p>
 </li>
 <li>
-<p><code>strftime(&quot;fmt&quot;)</code></p>
+<p><code>strftime("fmt")</code></p>
 <p>Print time stamp formatted by <code>fmt</code>.</p>
 <ul>
 <li><code>%Y</code> full year (eg 2020)</li>
@@ -1356,7 +1369,7 @@ prints the whole record.</p>
 </code></pre>
 <p>Matches records not starting with <code>#</code>.</p>
 <h3 id="range-patterns"><a class="header" href="#range-patterns">Range patterns</a></h3>
-<pre><code class="language-bash">echo -e &quot;a\nFOO\nb\nc\nBAR\nd&quot; | \
+<pre><code class="language-bash">echo -e "a\nFOO\nb\nc\nBAR\nd" | \
     awk '/FOO/,/BAR/ { print }'
 </code></pre>
 <p><code>/FOO/,/BAR/</code> define a range pattern of <code>begin_pattern, end_pattern</code>. When
@@ -1364,13 +1377,17 @@ prints the whole record.</p>
 <code>end_pattern</code> is matched the range is <strong>turned off</strong>. This matches every record
 in the range <em>inclusive</em>.</p>
 <p>An <em>exclusive</em> range must be handled explicitly, for example as follows.</p>
-<pre><code class="language-bash">echo -e &quot;a\nFOO\nb\nc\nBAR\nd&quot; | \
-    awk '/FOO/,/BAR/ { if (!($1 ~ &quot;FOO&quot;) &amp;&amp; !($1 ~ &quot;BAR&quot;)) { print } }'
+<pre><code class="language-bash">echo -e "a\nFOO\nb\nc\nBAR\nd" | \
+    awk '/FOO/,/BAR/ { if (!($1 ~ "FOO") &amp;&amp; !($1 ~ "BAR")) { print } }'
 </code></pre>
 <h3 id="access-last-fields-in-records"><a class="header" href="#access-last-fields-in-records">Access last fields in records</a></h3>
 <pre><code class="language-bash">echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 </code></pre>
 <p>Access last fields with arithmetic on the <code>NF</code> number of fields variable.</p>
+<h3 id="split-on-multiple-tokens"><a class="header" href="#split-on-multiple-tokens">Split on multiple tokens</a></h3>
+<pre><code class="language-bash">echo 'a,b;c:d' | awk -F'[,;:]' '{ printf "1=%s | 4=%s\n", $1, $4 }'
+</code></pre>
+<p>Use regex as field separator.</p>
 <h3 id="capture-in-variables"><a class="header" href="#capture-in-variables">Capture in variables</a></h3>
 <pre><code class="language-bash"># /proc/&lt;pid&gt;/status
 #   Name:    cat
@@ -1382,7 +1399,7 @@ for f in /proc/*/status; do
     cat $f | awk '
              /^VmRSS/ { rss = $2/1024 }
              /^Name/ { name = $2 }
-             END { printf &quot;%16s %6d MB\n&quot;, name, rss }';
+             END { printf "%16s %6d MB\n", name, rss }';
 done | sort -k2 -n
 </code></pre>
 <p>We capture values from <code>VmRSS</code> and <code>Name</code> into variables and print them at the
@@ -1397,7 +1414,7 @@ a 1' | awk '{
 }
 END {
     for (v in vals)
-        printf &quot;%s %d\n&quot;, v, vals[v] / cnts [v]
+        printf "%s %d\n", v, vals[v] / cnts [v]
 }'
 </code></pre>
 <p>Capture keys and values from different columns and some up the values.
@@ -1405,7 +1422,7 @@ At the <code>END</code> we compute the average of each key.</p>
 <h3 id="run-shell-command-and-capture-output"><a class="header" href="#run-shell-command-and-capture-output">Run shell command and capture output</a></h3>
 <pre><code class="language-bash">cat /proc/1/status | awk '
                      /^Pid/ {
-                        &quot;ps --no-header -o user &quot; $2 | getline user;
+                        "ps --no-header -o user " $2 | getline user;
                          print user
                      }'
 </code></pre>
@@ -1914,7 +1931,7 @@ thread name &lt;name&gt;
 </code></pre>
 <h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
 <pre><code class="language-markdown">  set disassembly-flavor &lt;intel | att&gt;
-          Set the disassembly style &quot;flavor&quot;.
+          Set the disassembly style "flavor".
 
   set pagination &lt;on | off&gt;
           Turn on/off gdb's pagination.
@@ -2187,7 +2204,7 @@ The wrapper will be executed before the debugee.</p>
   &gt; rasm2 -a x86 'mov eax, 0xdeadbeef'
   b8efbeadde
 
-  &gt; rasm2 -a x86 -d &quot;b8efbeadde&quot;
+  &gt; rasm2 -a x86 -d "b8efbeadde"
   mov eax, 0xdeadbeef
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="qemu1"><a class="header" href="#qemu1">qemu(1)</a></h1>
@@ -2379,10 +2396,10 @@ qemu-system-x86_64 -monitor stdio -incoming tcp:0.0.0.0:12345
 qemu-system-x86_64 -monitor stdio -cdrom &lt;iso&gt;
 
 # Save VM state to file.
-(qemu) migrate &quot;exec:gzip -c &gt; vm.gz&quot;
+(qemu) migrate "exec:gzip -c &gt; vm.gz"
 
 # Load VM from file.
-qemu-system-x86_64 -monitor stdio -incoming &quot;exec: gzip -d -c vm.gz&quot;
+qemu-system-x86_64 -monitor stdio -incoming "exec: gzip -d -c vm.gz"
 </code></pre>
 <blockquote>
 <p>The migration source machine and the migration target machine should be
@@ -2394,7 +2411,7 @@ launched with the <strong>same</strong> parameters.</p>
     -cpu host                                                          \
     -enable-kvm                                                        \
     -kernel &lt;dir&gt;/arch/x86/boot/bzImage                                \
-    -append &quot;earlyprintk=ttyS0 console=ttyS0 nokaslr init=/init debug&quot; \
+    -append "earlyprintk=ttyS0 console=ttyS0 nokaslr init=/init debug" \
     -initrd &lt;dir&gt;/initramfs.cpio.gz                                    \
     ...
 </code></pre>
@@ -2410,7 +2427,7 @@ trace: test
 clean:
 	$(RM) test test-bin test.o
 </code></pre>
-<pre><code class="language-x86asm">.section .text, &quot;ax&quot;
+<pre><code class="language-x86asm">.section .text, "ax"
 
 .global _start
 _start:
@@ -2474,7 +2491,7 @@ dependencies.</p>
 package and sort by size.</p>
 <pre><code class="language-text">pacman -Qetq | xargs pacman -Qi |
     awk '/Name/ { name=$3 }
-         /Installed Size/ { printf &quot;%8.2f%s %s\n&quot;, $4, $5, name }' |
+         /Installed Size/ { printf "%8.2f%s %s\n", $4, $5, name }' |
     sort -h
 </code></pre>
 <p>Install package into different <code>root</code> directory but keep using the default
@@ -2505,10 +2522,10 @@ digraph {
     // Add multiple edges at once.
     stage2 -&gt; { stage3_1, stage3_2 }
     // Add edge with custom attributes.
-    stage3_2 -&gt; stage4 [label=&quot;some text&quot;]
+    stage3_2 -&gt; stage4 [label="some text"]
 
     // Set custom attributes for specific node.
-    stage4 [color=green,fillcolor=lightgray,style=&quot;filled,dashed&quot;,label=&quot;s4&quot;]
+    stage4 [color=green,fillcolor=lightgray,style="filled,dashed",label="s4"]
 
     // Create a subgraph. This can be used to group nodes/edges or as scope for
     // global node/edge attributes.
@@ -2537,14 +2554,14 @@ digraph {
 <p>Following snippet allows to select a window which is then captured.</p>
 <pre><code class="language-bash">#!/bin/bash
 
-echo &quot;Click on window to record ..&quot;
+echo "Click on window to record .."
 # Extract window size and x,y offset.
 video_args=$(xwininfo \
     | awk '/Absolute upper-left X:/ { xoff = $4 }
            /Absolute upper-left Y:/ { yoff=$4 }
            /Width:/ { if ($2 % 2 == 1) { width=$2-1; } else { width=$2; } }
            /Height:/ { if ($2 % 2 == 1) { height=$2-1; } else { height=$2; } }
-           END { printf &quot;-video_size %dx%d -i :0.0+%d,%d&quot;, width, height, xoff, yoff  }')
+           END { printf "-video_size %dx%d -i :0.0+%d,%d", width, height, xoff, yoff  }')
 
 ffmpeg -framerate 25 -f x11grab $video_args -pix_fmt yuv420p $@ output.mp4
 </code></pre>
@@ -2600,6 +2617,8 @@ c,21' | sort -k2 -n -t,
     -i          edit file in place
     -i.bk       edit file in place and create backup file
                 (with .bk suffix, can be specified differently)
+    --follow-symlinks
+                follow symlinks when editing in place
     -e SCRIPT   add SCRIPT to commands to be executed
                 (can be specified multiple times)
     -f FILE     add content of FILE to command to be executed
@@ -2650,6 +2669,12 @@ echo -e 'aa\nbb' | sed '2aABC'
 echo -e 'aa\nbb' | sed '2cABC'
 # aa
 # ABC
+
+# Insert before pattern match.
+echo -e 'aa\nbb' | sed '/bb/i 123'
+# aa
+# 123
+# bb
 </code></pre>
 <h3 id="substitute-lines"><a class="header" href="#substitute-lines">Substitute lines</a></h3>
 <pre><code class="language-sh"># Substitute by regex.
@@ -2662,6 +2687,20 @@ echo -e 'aafooaa\ncc' | sed 's/foo/MOOSE/'
 # BAR
 # bar
 </code></pre>
+<h3 id="edit-inplace-through-symlink"><a class="header" href="#edit-inplace-through-symlink">Edit inplace through symlink</a></h3>
+<pre><code class="language-sh">touch file
+ln -s file link
+ls -l link
+# lrwxrwxrwx 1 johannst johannst 4 Feb  7 23:02 link -&gt; file
+
+sed -i --follow-symlinks '1iabc' link
+ls -l link
+# lrwxrwxrwx 1 johannst johannst 4 Feb  7 23:02 link -&gt; file
+
+sed -i '1iabc' link
+ls -l link
+# -rw-r--r-- 1 johannst johannst 0 Feb  7 23:02 link
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gnuplot-1"><a class="header" href="#gnuplot-1">gnuplot (1)</a></h1>
 <pre><code># Launch interactive shell.
 gnuplot
@@ -2671,30 +2710,30 @@ gnuplot [opt]
   opt:
     -p ................ persist plot window
     -c &lt;file&gt; ......... run script file
-    -e &quot;&lt;cmd1&gt;; ..&quot; ... run cmd(s)
+    -e "&lt;cmd1&gt;; .." ... run cmd(s)
 </code></pre>
 <h2 id="frequently-used-configuration"><a class="header" href="#frequently-used-configuration">Frequently used configuration</a></h2>
 <pre><code class="language-sh"># Plot title.
-set title &quot;the plot&quot;
+set title "the plot"
 
 # Labels.
-set xlabel &quot;abc&quot;
-set ylabel &quot;def&quot;
+set xlabel "abc"
+set ylabel "def"
 
 # Output format, 'help set term' for all output formats.
 set term svg
 # Output file.
-set output &quot;out.svg&quot;
+set output "out.svg"
 
 # Make axis logarithmic to given base.
 set logscale x 2
 
 # Change separator, default is whitespace.
-set datafile separator &quot;,&quot;
+set datafile separator ","
 </code></pre>
 <h2 id="plot"><a class="header" href="#plot">Plot</a></h2>
 <pre><code class="language-sh"># With specific style (eg lines, linespoint, boxes, steps, impulses, ..).
-plot &quot;&lt;data_file&gt;&quot; with &lt;plot_style&gt;
+plot "&lt;data_file&gt;" with &lt;plot_style&gt;
 
 &gt; cat data.txt
 1 1 3
@@ -2703,30 +2742,30 @@ plot &quot;&lt;data_file&gt;&quot; with &lt;plot_style&gt;
 4 2 2
 
 # Plot specific column.
-plot &quot;data.txt&quot; using 1:2, &quot;data.txt&quot; using 1:3
-# Equivalent using the special file &quot;&quot;, which re-uses the previous input file.
-plot &quot;data.txt&quot; using 1:2, &quot;&quot; using 1:3
+plot "data.txt" using 1:2, "data.txt" using 1:3
+# Equivalent using the special file "", which re-uses the previous input file.
+plot "data.txt" using 1:2, "" using 1:3
 
 # Plot piped data.
-plot &quot;&lt; head -n2 data.txt&quot;
+plot "&lt; head -n2 data.txt"
 
 # Plot with alternate title.
-plot &quot;data.txt&quot; title &quot;moose&quot;
+plot "data.txt" title "moose"
 </code></pre>
 <h2 id="example-multiple-data-sets-in-on-plot"><a class="header" href="#example-multiple-data-sets-in-on-plot">Example: multiple data sets in on plot</a></h2>
 <pre><code class="language-sh"># file: mem_lat.plot
 
-set title  &quot;memory latency (different strides)&quot;
-set xlabel &quot;array in KB&quot;
-set ylabel &quot;cycles / access&quot;
+set title  "memory latency (different strides)"
+set xlabel "array in KB"
+set ylabel "cycles / access"
 
 set logscale x 2
 
-plot &quot;stride_32.txt&quot;  title &quot;32&quot;  with linespoints, \
-     &quot;stride_64.txt&quot;  title &quot;64&quot;  with linespoints, \
-     &quot;stride_128.txt&quot; title &quot;128&quot; with linespoints, \
-     &quot;stride_256.txt&quot; title &quot;256&quot; with linespoints, \
-     &quot;stride_512.txt&quot; title &quot;512&quot; with linespoints
+plot "stride_32.txt"  title "32"  with linespoints, \
+     "stride_64.txt"  title "64"  with linespoints, \
+     "stride_128.txt" title "128" with linespoints, \
+     "stride_256.txt" title "256" with linespoints, \
+     "stride_512.txt" title "512" with linespoints
 </code></pre>
 <p>On Linux x86_64, <a href="tools/gnuplot/mem_lat.c"><code>mem_lat.c</code></a> provides an example which can
 be run as follows.</p>
@@ -3077,7 +3116,7 @@ databases for the different intel uarchs.</p>
 corresponding uarch, just grab the family model from the procfs.</p>
 <pre><code class="language-sh"> cat /proc/cpuinfo | awk '/^vendor_id/  { V=$3 }
                           /^cpu family/ { F=$4 }
-                          /^model\s*:/  { printf &quot;%s-%d-%x\n&quot;,V,F,$3 }'
+                          /^model\s*:/  { printf "%s-%d-%x\n",V,F,$3 }'
 </code></pre>
 <blockquote>
 <p>The table in <a href="https://github.com/intel/perfmon/tree/main#performance-monitoring-events">performance monitoring events</a> describes how
@@ -3111,7 +3150,7 @@ perf script --per-event-dump
 </code></pre>
 <h2 id="examples-10"><a class="header" href="#examples-10">Examples</a></h2>
 <h3 id="estimate-max-instructions-per-cycle"><a class="header" href="#estimate-max-instructions-per-cycle">Estimate max instructions per cycle</a></h3>
-<pre><code class="language-c">#define NOP4        &quot;nop\nnop\nnop\nnop\n&quot;
+<pre><code class="language-c">#define NOP4        "nop\nnop\nnop\nnop\n"
 #define NOP32       NOP4   NOP4   NOP4   NOP4   NOP4   NOP4   NOP4   NOP4
 #define NOP256      NOP32  NOP32  NOP32  NOP32  NOP32  NOP32  NOP32  NOP32
 #define NOP2048     NOP256 NOP256 NOP256 NOP256 NOP256 NOP256 NOP256 NOP256
@@ -3370,7 +3409,7 @@ disassemble with <code>objdump</code>.</p>
 <p>To re-create that case, we just assemble and link some ELF file and then create
 a raw binary of the text section with <code>objcopy</code>.</p>
 <pre><code class="language-x86asm"># file: test.s
-.section .text, &quot;ax&quot;
+.section .text, "ax"
 
 .global _start
 _start:
@@ -3582,7 +3621,7 @@ int* P = reinterpret_cast&lt;int*&gt;(C);     // Cast is ok, not yet UB.
 </li>
 <li>
 <p>On <code>gcc</code> strict aliasing is enabled starting with <code>-O2</code>.</p>
-<pre><code class="language-bash">for i in {0..3} g s; do echo &quot;-O$i $(g++ -Q --help=optimizers -O$i | grep fstrict-aliasing)&quot;; done
+<pre><code class="language-bash">for i in {0..3} g s; do echo "-O$i $(g++ -Q --help=optimizers -O$i | grep fstrict-aliasing)"; done
 -O0   -fstrict-aliasing           [disabled]
 -O1   -fstrict-aliasing           [disabled]
 -O2   -fstrict-aliasing           [enabled]
@@ -3635,13 +3674,13 @@ to violate self defined contract, see <a href="https://godbolt.org/z/e8x1af3Mh">
 // Base case with one parameter.
 template&lt;int P&gt;
 void show_int() {
-    printf(&quot;%d\n&quot;, P);
+    printf("%d\n", P);
 }
 
 // General case with at least two parameters, to disambiguate from base case.
 template&lt;int P0, int P1, int... Params&gt;
 void show_int() {
-    printf(&quot;%d, &quot;, P0);
+    printf("%d, ", P0);
     show_int&lt;P1, Params...&gt;();
 }
 
@@ -3656,13 +3695,13 @@ void show(const T&amp; t) {
 // General case with at least two parameters, to disambiguate from base case.
 template&lt;typename T0, typename T1, typename... Types&gt;
 void show(const T0&amp; t0, const T1&amp; t1, const Types&amp;... types) {
-    std::cout &lt;&lt; t0 &lt;&lt; &quot;, &quot;;
+    std::cout &lt;&lt; t0 &lt;&lt; ", ";
     show(t1, types...);
 }
 
 int main() {
     show_int&lt;1, 2, 3, 4, 5&gt;();
-    show(1, 1.0, &quot;foo&quot;, 'a');
+    show(1, 1.0, "foo", 'a');
 }
 </code></pre>
 <h2 id="forwarding-reference-fwd-ref"><a class="header" href="#forwarding-reference-fwd-ref">Forwarding reference (<a href="https://en.cppreference.com/w/cpp/language/reference#Forwarding_references">fwd ref</a>)</a></h2>
@@ -3712,21 +3751,21 @@ void fwd_wrapper(T&amp;&amp; param) {  // forwarding reference
 
 int main() {
     {
-        std::puts(&quot;==&gt; wrapper rvalue reference&quot;);
+        std::puts("==&gt; wrapper rvalue reference");
         wrapper(M{});
         // calls use(M&amp;).
 
-        std::puts(&quot;==&gt; wrapper lvalue reference&quot;);
+        std::puts("==&gt; wrapper lvalue reference");
         struct M m;
         wrapper(m);
         // calls use(M&amp;).
     }
     {
-        std::puts(&quot;==&gt; fwd_wrapper rvalue reference&quot;);
+        std::puts("==&gt; fwd_wrapper rvalue reference");
         fwd_wrapper(M{});
         // calls use(M&amp;&amp;).
 
-        std::puts(&quot;==&gt; fwd_wrapper lvalue reference&quot;);
+        std::puts("==&gt; fwd_wrapper lvalue reference");
         struct M m;
         fwd_wrapper(m);
         // calls use(M&amp;).
@@ -3752,8 +3791,8 @@ struct any_of&lt;T, U0, U...&gt; : any_of&lt;T, U...&gt; {};
 template&lt;typename T, typename... U&gt;
 constexpr bool any_of_v = any_of&lt;T, U...&gt;::value;
 
-static_assert(any_of_v&lt;int, char, bool, int&gt;, &quot;&quot;);
-static_assert(!any_of_v&lt;int, char, bool, float&gt;, &quot;&quot;);
+static_assert(any_of_v&lt;int, char, bool, int&gt;, "");
+static_assert(!any_of_v&lt;int, char, bool, float&gt;, "");
 </code></pre>
 <h2 id="example-sfinae-enable_if"><a class="header" href="#example-sfinae-enable_if">Example: <a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a> (<a href="https://en.cppreference.com/w/cpp/types/enable_if">enable_if</a>)</a></h2>
 <p>Provide a single entry point <code>Invoke</code> to call some <code>Operations</code>.
@@ -3799,16 +3838,16 @@ namespace impl {
 template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
          enable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
 void Invoke(const Ctx&amp; C, P... params) {
-    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; '\n';
+    std::cout &lt;&lt; "Invoke " &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; '\n';
     typename Op&lt;Ctx&gt;::Return R = impl::Invoke&lt;Ctx, Op&gt;(C, params...);
-    std::cout &lt;&lt; &quot;returned -&gt; &quot; &lt;&lt; R &lt;&lt; '\n';
+    std::cout &lt;&lt; "returned -&gt; " &lt;&lt; R &lt;&lt; '\n';
 }
 
 // Invoke an OPERATION which has *NOT* a DESTINATION with arbitrary number of arguments.
 template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
          disable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
 void Invoke(const Ctx&amp; C, P... params) {
-    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; &quot; without destination.&quot; &lt;&lt; '\n';
+    std::cout &lt;&lt; "Invoke " &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; " without destination." &lt;&lt; '\n';
     impl::Invoke&lt;Ctx, Op&gt;(C, params...);
 }
 
@@ -3816,7 +3855,7 @@ void Invoke(const Ctx&amp; C, P... params) {
 
 struct Ctx {
     void out(const char* s, unsigned v) const {
-        printf(&quot;%s%x\n&quot;, s, v);
+        printf("%s%x\n", s, v);
     }
 };
 
@@ -3826,7 +3865,7 @@ template&lt;typename Ctx&gt;
 struct OpA {
     using HasCtx = std::false_type;
     using Return = int;
-    static constexpr const char* const Name = &quot;OpA&quot;;
+    static constexpr const char* const Name = "OpA";
 
     constexpr Return operator()(int a, int b) const {
         return a + b;
@@ -3837,10 +3876,10 @@ template&lt;typename Ctx&gt;
 struct OpB {
     using HasCtx = std::true_type;
     using Return = void;
-    static constexpr const char* const Name = &quot;OpB&quot;;
+    static constexpr const char* const Name = "OpB";
 
     Return operator()(const Ctx&amp; C, unsigned a) const {
-        C.out(&quot;a = &quot;, a);
+        C.out("a = ", a);
     }
 };
 
@@ -3906,7 +3945,7 @@ struct registry {
         const auto it = m_fns.find(nm);
         if (it == m_fns.end()) {
             static_assert(std::is_default_constructible_v&lt;RET&gt;,
-                          &quot;RET must be default constructible&quot;);
+                          "RET must be default constructible");
             return {};
         }
         return std::invoke(it-&gt;second, p...);
@@ -3917,7 +3956,7 @@ struct registry {
     static bool regfn_##REGISTRY##NAME() {                                                 \
         const bool r = REGISTRY::get().add(#NAME, NAME);                                   \
         if (!r) {                                                                          \
-            std::puts(&quot;Failed to register test &quot; #NAME &quot;, same name already registered!&quot;); \
+            std::puts("Failed to register test " #NAME ", same name already registered!"); \
             std::abort();                                                                  \
         }                                                                                  \
         return r;                                                                          \
@@ -3933,10 +3972,10 @@ struct registry {
 
 using REG1 = registry&lt;void&gt;;
 TEST(REG1, test1) {
-    std::puts(&quot;REG1::test1&quot;);
+    std::puts("REG1::test1");
 }
 TEST(REG1, test2) {
-    std::puts(&quot;REG1::test2&quot;);
+    std::puts("REG1::test2");
 }
 
 // -- Usage 2 with convenience macro wrapper.
@@ -3945,18 +3984,18 @@ using REG2 = registry&lt;void, bool&gt;;
 #define TEST2(NAME, ...) TEST(REG2, NAME, ##__VA_ARGS__)
 
 TEST2(test1, bool val) {
-    printf(&quot;REG2::test1 val %d\n&quot;, val);
+    printf("REG2::test1 val %d\n", val);
 }
 
 int main() {
     const auto&amp; R1 = REG1::get();
     R1.dump();
-    R1.invoke(&quot;test1&quot;);
-    R1.invoke(&quot;test2&quot;);
+    R1.invoke("test1");
+    R1.invoke("test2");
 
     const auto&amp; R2 = REG2::get();
     R2.dump();
-    R2.invoke(&quot;test1&quot;, true);
+    R2.invoke("test1", true);
 
     return 0;
 }
@@ -4013,7 +4052,7 @@ struct Entry {
 };
 
 int main() {
-    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, &quot;&quot;);
+    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, "");
 }
 </code></pre>
 <p>The main mechanic can be explained with the following reduced example. If one
@@ -4037,7 +4076,7 @@ struct A {
 
 struct B {};
 
-static_assert(is_valid&lt;A&gt;::value, &quot;is true&quot;);
+static_assert(is_valid&lt;A&gt;::value, "is true");
 // * Compare template arg list with primary template, we only supplied one
 //   arg, the second one will be defaulted as
 //   is_valid&lt;A, void&gt;
@@ -4051,7 +4090,7 @@ static_assert(is_valid&lt;A&gt;::value, &quot;is true&quot;);
 //   * Specialization (2) matches &lt;A, void&gt;
 // * Pick the most specialized version -&gt; (2)
 
-static_assert(!is_valid&lt;B&gt;::value, &quot;is false&quot;);
+static_assert(!is_valid&lt;B&gt;::value, "is false");
 // * Compare template arg list with primary template, we only supplied one
 //   arg, the second one will be defaulted as
 //   is_valid&lt;A, void&gt;
@@ -4102,7 +4141,7 @@ struct pair&lt;int, int&gt; {
 };
 
 int main() {
-    static_assert(pair&lt;int&gt;::kind == kIntBool, &quot;&quot;);
+    static_assert(pair&lt;int&gt;::kind == kIntBool, "");
     // * Compare template arg list with primary template, we only supplied one
     //   arg, the second one will be defaulted as
     //   pair&lt;int, bool&gt;
@@ -4114,7 +4153,7 @@ int main() {
     // * (4) &lt;int, bool&gt; pattern does not match
     // * Pick the most specialized version -&gt; (3)
 
-    static_assert(pair&lt;char, char&gt;::kind == kTT, &quot;&quot;);
+    static_assert(pair&lt;char, char&gt;::kind == kTT, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;char, char&gt; against the patterns defined in the
     //   partial specializations.
@@ -4123,7 +4162,7 @@ int main() {
     // * (4) &lt;char, char&gt; pattern does not match
     // * Pick the most specialized version -&gt; (2)
 
-    static_assert(pair&lt;int, int&gt;::kind == kIntInt, &quot;&quot;);
+    static_assert(pair&lt;int, int&gt;::kind == kIntInt, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;int, int&gt; against the patterns defined in the
     //   partial specializations.
@@ -4132,7 +4171,7 @@ int main() {
     // * (4) &lt;int, int&gt; pattern does not match
     // * Pick the most specialized version -&gt; (3)
 
-    static_assert(pair&lt;char, short&gt;::kind == kPrimary, &quot;&quot;);
+    static_assert(pair&lt;char, short&gt;::kind == kPrimary, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;char, short&gt; against the patterns defined in the
     //   partial specializations.
@@ -4153,25 +4192,25 @@ struct S {};
 
 struct M {
     M() {
-        std::puts(&quot;M()&quot;);
+        std::puts("M()");
     }
     M(const M&amp;) {
-        std::puts(&quot;M(M&amp;)&quot;);
+        std::puts("M(M&amp;)");
     }
     M(M&amp;&amp;) {
-        std::puts(&quot;M(M&amp;&amp;)&quot;);
+        std::puts("M(M&amp;&amp;)");
     }
     M&amp; operator=(const M&amp;) = delete;
     M&amp; operator=(M&amp;&amp;) = delete;
 
     M(S&amp;, int) {
-        std::puts(&quot;M(S&amp;)&quot;);
+        std::puts("M(S&amp;)");
     }
     M(S&amp;&amp;, int) {
-        std::puts(&quot;M(S&amp;&amp;)&quot;);
+        std::puts("M(S&amp;&amp;)");
     }
     ~M() {
-        std::puts(&quot;~M()&quot;);
+        std::puts("~M()");
     }
 };
 
@@ -4219,11 +4258,11 @@ struct option {
 };
 
 int main() {
-    std::puts(&quot;==&gt; case 1&quot;);
+    std::puts("==&gt; case 1");
     // invokes M(S&amp;&amp;, int)
     option&lt;M&gt; opt1(S{}, 123);
 
-    std::puts(&quot;==&gt; case 2&quot;);
+    std::puts("==&gt; case 2");
     // invokes M() + M(M&amp;&amp;)
     option&lt;M&gt; x /* option(M&amp;&amp;) + M(M&amp;&amp;) */ = M{} /* M() */;
 }
@@ -4295,7 +4334,7 @@ accordingly to reduce number of jump instructions.
 See on <a href="https://godbolt.org/z/MbTHAP">compiler explorer</a>.</p>
 <p>The semantics of this hint are as follows, the compiler prioritises <code>expr == cond</code>. So <code>__builtin_expect(expr, 0)</code> means that we expect the <code>expr</code> to be <code>0</code>
 most of the time.</p>
-<pre><code class="language-bash">echo &quot;
+<pre><code class="language-bash">echo "
 extern void foo();
 extern void bar();
 void run0(int x) {
@@ -4306,7 +4345,7 @@ void run1(int x) {
   if (__builtin_expect(x,1)) { foo(); }
   else { bar(); }
 }
-&quot; | gcc -O2 -S -masm=intel -o /dev/stdout -xc -
+" | gcc -O2 -S -masm=intel -o /dev/stdout -xc -
 </code></pre>
 <p>Will generate something similar to the following.</p>
 <ul>
@@ -4332,7 +4371,7 @@ run1:
 </code></pre>
 <h2 id="abi-linux"><a class="header" href="#abi-linux">ABI (Linux)</a></h2>
 <ul>
-<li>C ABI - <a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV ABI</a></li>
+<li>C ABI (x86_64) - <a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV ABI</a></li>
 <li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cmake1"><a class="header" href="#cmake1">cmake(1)</a></h1>
@@ -4362,7 +4401,7 @@ target_compile_definitions(liba INTERFACE DEF_INTERFACE)
 add_executable(main main.cc)
 target_link_libraries(main liba)
 </code></pre>
-<pre><code class="language-sh">&gt; touch liba.cc; echo &quot;int main() {}&quot; &gt; main.cc
+<pre><code class="language-sh">&gt; touch liba.cc; echo "int main() {}" &gt; main.cc
 &gt; cmake -B build -S . -G Ninja
 &gt; ninja -C build -j1 --verbose
 [1/4] /usr/bin/c++ -DDEF_PRIVATE -DDEF_PUBLIC  [..] .../liba.cc
@@ -4409,12 +4448,12 @@ the recipe, make provides a set of automatic variables to work with:</p>
 all: foobar blabla
 
 foo% bla%: aaa bbb bbb
-	@echo &quot;@ = $@&quot;
-	@echo &quot;&lt; = $&lt;&quot;
-	@echo &quot;^ = $^&quot;
-	@echo &quot;+ = $+&quot;
-	@echo &quot;* = $*&quot;
-	@echo &quot;----&quot;
+	@echo "@ = $@"
+	@echo "&lt; = $&lt;"
+	@echo "^ = $^"
+	@echo "+ = $+"
+	@echo "* = $*"
+	@echo "----"
 
 aaa:
 bbb:
@@ -4503,10 +4542,10 @@ Therefore the following is a code smell:</p>
 <pre><code class="language-c">// at startup LD_LIBRARY_PATH=/moose
 
 // Assume /foo/libbar.so
-setenv(&quot;LD_LIBRARY_PATH&quot;, &quot;/foo&quot;, true /* overwrite */);
+setenv("LD_LIBRARY_PATH", "/foo", true /* overwrite */);
 
 // Will look in /moose and NOT in /foo.
-dlopen(&quot;libbar.so&quot;, RTLD_LAZY);
+dlopen("libbar.so", RTLD_LAZY);
 </code></pre>
 <h2 id="ld_preload-initialization-order-and-link-map"><a class="header" href="#ld_preload-initialization-order-and-link-map">LD_PRELOAD: Initialization Order and Link Map</a></h2>
 <p>Libraries specified in <code>LD_PRELOAD</code> are loaded from <code>left-to-right</code> but
@@ -4630,10 +4669,10 @@ Symbol table '.dynsym' contains 342 entries:
 static linking against the library.
 The following dump shows that the <code>tmp</code> program linked against <code>lpthread</code> will
 depend on the symbol version <code>GLIBC_2.3.2</code>, which is the default version.</p>
-<pre><code class="language-bash">&gt; echo &quot;#include &lt;pthread.h&gt;
+<pre><code class="language-bash">&gt; echo "#include &lt;pthread.h&gt;
         int main() {
           return pthread_cond_wait(0,0);
-        }&quot; | gcc -o tmp -xc - -lpthread;
+        }" | gcc -o tmp -xc - -lpthread;
   readelf -W --dyn-syms tmp | grep pthread_cond_wait;
 
 Symbol table '.dynsym' contains 7 entries:
@@ -4705,23 +4744,23 @@ symbol multiple times but in different versions.</p>
 // ..@       -&gt; Is the unversioned symbol.
 // ..@@..    -&gt; Is the default symbol.
 
-__asm__(&quot;.symver func_v0,func@&quot;);
-__asm__(&quot;.symver func_v1,func@LIB_V1&quot;);
-__asm__(&quot;.symver func_v2,func@@LIB_V2&quot;);
+__asm__(".symver func_v0,func@");
+__asm__(".symver func_v1,func@LIB_V1");
+__asm__(".symver func_v2,func@@LIB_V2");
 
-extern &quot;C&quot; {
-    void func_v0() { puts(&quot;func_v0&quot;); }
-    void func_v1() { puts(&quot;func_v1&quot;); }
-    void func_v2() { puts(&quot;func_v2&quot;); }
+extern "C" {
+    void func_v0() { puts("func_v0"); }
+    void func_v1() { puts("func_v1"); }
+    void func_v2() { puts("func_v2"); }
 }
 
-__asm__(&quot;.symver _Z11func_cpp_v1i,_Z8func_cppi@LIB_V1&quot;);
-__asm__(&quot;.symver _Z11func_cpp_v2i,_Z8func_cppi@@LIB_V2&quot;);
+__asm__(".symver _Z11func_cpp_v1i,_Z8func_cppi@LIB_V1");
+__asm__(".symver _Z11func_cpp_v2i,_Z8func_cppi@@LIB_V2");
 
-void func_cpp_v1(int) { puts(&quot;func_cpp_v1&quot;); }
-void func_cpp_v2(int) { puts(&quot;func_cpp_v2&quot;); }
+void func_cpp_v1(int) { puts("func_cpp_v1"); }
+void func_cpp_v2(int) { puts("func_cpp_v2"); }
 
-void func_cpp(int) { puts(&quot;func_cpp_v2&quot;); }
+void func_cpp(int) { puts("func_cpp_v2"); }
 </code></pre>
 <p>Version script for <code>libfoo</code> which defines which symbols for which versions are
 exported from the ELF file.</p>
@@ -4729,8 +4768,8 @@ exported from the ELF file.</p>
 LIB_V1 {
     global:
         func;
-        extern &quot;C++&quot; {
-            &quot;func_cpp(int)&quot;;
+        extern "C++" {
+            "func_cpp(int)";
         };
     local:
         *;
@@ -4739,8 +4778,8 @@ LIB_V1 {
 LIB_V2 {
     global:
         func;
-        extern &quot;C++&quot; {
-            &quot;func_cpp(int)&quot;;
+        extern "C++" {
+            "func_cpp(int)";
         };
 } LIB_V1;
 </code></pre>
@@ -4772,7 +4811,7 @@ Symbol table '.dynsym' contains 14 entries:
 #include &lt;assert.h&gt;
 
 // Links against default symbol in the lib.so.
-extern &quot;C&quot; void func();
+extern "C" void func();
 
 int main() {
     // Call the default version.
@@ -4782,10 +4821,10 @@ int main() {
     typedef void (*fnptr)();
 
     // Unversioned lookup.
-    fnptr fn_v0 = (fnptr)dlsym(RTLD_DEFAULT, &quot;func&quot;);
+    fnptr fn_v0 = (fnptr)dlsym(RTLD_DEFAULT, "func");
     // Version lookup.
-    fnptr fn_v1 = (fnptr)dlvsym(RTLD_DEFAULT, &quot;func&quot;, &quot;LIB_V1&quot;);
-    fnptr fn_v2 = (fnptr)dlvsym(RTLD_DEFAULT, &quot;func&quot;, &quot;LIB_V2&quot;);
+    fnptr fn_v1 = (fnptr)dlvsym(RTLD_DEFAULT, "func", "LIB_V1");
+    fnptr fn_v2 = (fnptr)dlvsym(RTLD_DEFAULT, "func", "LIB_V2");
 
     assert(fn_v0 != 0);
     assert(fn_v1 != 0);
@@ -4821,26 +4860,26 @@ func_v2
 
 def log(f: Callable[[int], None]) -&gt; Callable[[int], None]:
     def inner(x: int):
-        print(f&quot;log::inner f={f.__name__} x={x}&quot;)
+        print(f"log::inner f={f.__name__} x={x}")
         f(x)
     return inner
 
 @log
 def some_fn(x: int):
-    print(f&quot;some_fn x={x}&quot;)
+    print(f"some_fn x={x}")
 
 
 def log_tag(tag: str) -&gt; Callable[[Callable[[int], None]], Callable[[int], None]]:
     def decorator(f: Callable[[int], None]) -&gt; Callable[[int], None]:
         def inner(x: int):
-            print(f&quot;log_tag::inner f={f.__name__} tag={tag} x={x}&quot;)
+            print(f"log_tag::inner f={f.__name__} tag={tag} x={x}")
             f(x)
         return inner
     return decorator
 
-@log_tag(&quot;some_tag&quot;)
+@log_tag("some_tag")
 def some_fn2(x: int):
-    print(f&quot;some_fn2 x={x}&quot;)
+    print(f"some_fn2 x={x}")
 </code></pre>
 <h2 id="walrus-operator-run"><a class="header" href="#walrus-operator-run">Walrus operator [<a href="https://www.online-python.com/9T12PvmKVy">run</a>]</a></h2>
 <p>Walrus operator <code>:=</code> added since <strong>python 3.8</strong>.</p>
@@ -4852,20 +4891,20 @@ def foo(ret: Optional[int]) -&gt; Optional[int]:
     return ret
 
 if r := foo(None):
-    print(f&quot;foo(None) -&gt; {r}&quot;)
+    print(f"foo(None) -&gt; {r}")
 
 if r := foo(1337):
-    print(f&quot;foo(1337) -&gt; {r}&quot;)
+    print(f"foo(1337) -&gt; {r}")
 
 # Example 2: while let statements
 
 toks = iter(['a', 'b', 'c'])
 while tok := next(toks, None):
-    print(f&quot;{tok}&quot;)
+    print(f"{tok}")
 
 # Example 3: list comprehension
 
-print([tok for t in [&quot;  a&quot;, &quot;  &quot;, &quot; b &quot;] if (tok := t.strip())])
+print([tok for t in ["  a", "  ", " b "] if (tok := t.strip())])
 </code></pre>
 <h2 id="unittest-run"><a class="header" href="#unittest-run"><a href="https://docs.python.org/3/library/unittest.html">Unittest</a> [<a href="https://www.online-python.com/2fit4UcbzI">run</a>]</a></h2>
 <p>Run unittests directly from the command line as <br />
@@ -4893,19 +4932,19 @@ class MyTest(unittest.TestCase):
 <pre><code class="language-python"># file: test.py
 
 def sum(a: int, b: int) -&gt; int:
-    &quot;&quot;&quot;Sum a and b.
+    """Sum a and b.
 
     &gt;&gt;&gt; sum(1, 2)
     3
 
     &gt;&gt;&gt; sum(10, 20)
     30
-    &quot;&quot;&quot;
+    """
     return a + b
 </code></pre>
 <h2 id="timeit"><a class="header" href="#timeit"><a href="https://docs.python.org/3/library/timeit.html">timeit</a></a></h2>
 <p>Micro benchmarking.</p>
-<pre><code class="language-bash">python -m timeit '[x.strip() for x in [&quot;a &quot;, &quot; b&quot;]]'
+<pre><code class="language-bash">python -m timeit '[x.strip() for x in ["a ", " b"]]'
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gcov1"><a class="header" href="#gcov1">gcov(1)</a></h1>
 <p>Generate code coverage reports in text format.</p>
@@ -4934,9 +4973,9 @@ generated for a single file for example such as</p>
 
 void tell_me(int desc) {
   if (desc &amp; 1) {
-    std::puts(&quot;this&quot;);
+    std::puts("this");
   } else {
-    std::puts(&quot;that&quot;);
+    std::puts("that");
   }
 }
 
@@ -4982,9 +5021,9 @@ clean:
         -:    4:
         2:    5:void tell_me(int desc) {
         2:    6:  if (desc &amp; 1) {
-        2:    7:    std::puts(&quot;this&quot;);
+        2:    7:    std::puts("this");
         -:    8:  } else {
-    #####:    9:    std::puts(&quot;that&quot;);
+    #####:    9:    std::puts("that");
         -:   10:  }
         2:   11:}
         -:   12:
@@ -5007,8 +5046,8 @@ workload.</p>
 
 #define NOINLINE __attribute__((noinline))
 
-NOINLINE void foo() { puts(&quot;foo()&quot;); }
-NOINLINE void bar() { puts(&quot;bar()&quot;); }
+NOINLINE void foo() { puts("foo()"); }
+NOINLINE void bar() { puts("bar()"); }
 
 int main(int argc, char *argv[]) {
   if (argc == 2) {
@@ -5049,7 +5088,7 @@ clang -o test test.cc -O3 -fprofile-instr-generate
 
 # Collect profiling data from multiple runs.
 for i in {0..10}; do
-    LLVM_PROFILE_FILE=&quot;prof.clang/%p.profraw&quot; ./test $(seq 0 $i)
+    LLVM_PROFILE_FILE="prof.clang/%p.profraw" ./test $(seq 0 $i)
 done
 
 # Merge raw profiling data into single profile data.
@@ -5186,7 +5225,7 @@ Description=Test logger
 
 [Service]
 Type=oneshot
-ExecStart=logger &quot;Hello from test unit&quot;' &gt; ~/.config/systemd/user/test.service
+ExecStart=logger "Hello from test unit"' &gt; ~/.config/systemd/user/test.service
 
 # Run unit
 systemctl --user start test
@@ -5238,7 +5277,7 @@ In a typical bash/zsh this can be done as</p>
 
 
 /proc/sys/kernel/core_uses_pid
-    1  =&gt; Append &quot;.&lt;pid&gt;&quot; suffic to the coredump file name
+    1  =&gt; Append ".&lt;pid&gt;" suffic to the coredump file name
           (pid of the dumping process).
     0  =&gt; Do not append the suffix.
 </code></pre>
@@ -5393,7 +5432,7 @@ mkswap /swapfile
 swapon /swapfile
 
 # Persistent setup of swap file.
-echo &quot;/swapfile none swap sw 0 0&quot; | sudo tee -a /etc/fstab
+echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
 
 # Disable swap file (until next reboot).
 swapoff /swapfile
@@ -5456,7 +5495,7 @@ file <code>/proc/bus/input/devices</code> in the proc filesystem can be consulte
 <p>This yields entries as follows and shows which <code>Handlers</code> are assigned to which
 <code>Name</code>.</p>
 <pre><code>I: Bus=0018 Vendor=04f3 Product=0033 Version=0000
-N: Name=&quot;Elan Touchpad&quot;
+N: Name="Elan Touchpad"
 ...
 H: Handlers=event15 mouse0
 ...
@@ -5481,9 +5520,9 @@ struct input_event {
 
 const char* type(unsigned short t) {
     static char buf[32];
-    const char* fmt = &quot;0x%x&quot;;
+    const char* fmt = "0x%x";
     switch (t) {
-#define FMT(TYPE) case TYPE: fmt = #TYPE&quot;(0x%x)&quot;; break
+#define FMT(TYPE) case TYPE: fmt = #TYPE"(0x%x)"; break
         FMT(EV_SYN);
         FMT(EV_KEY);
         FMT(EV_REL);
@@ -5496,9 +5535,9 @@ const char* type(unsigned short t) {
 
 const char* code(unsigned short c) {
     static char buf[32];
-    const char* fmt = &quot;0x%x&quot;;
+    const char* fmt = "0x%x";
     switch (c) {
-#define FMT(CODE) case CODE: fmt = #CODE&quot;(0x%x)&quot;; break
+#define FMT(CODE) case CODE: fmt = #CODE"(0x%x)"; break
         FMT(BTN_LEFT);
         FMT(BTN_RIGHT);
         FMT(BTN_MIDDLE);
@@ -5514,7 +5553,7 @@ const char* timefmt(const struct timeval* t) {
     assert(t);
     struct tm* lt = localtime(&amp;t-&gt;tv_sec); // Returns pointer to static tm object.
     static char buf[64];
-    strftime(buf, sizeof(buf), &quot;%H:%M:%S&quot;, lt);
+    strftime(buf, sizeof(buf), "%H:%M:%S", lt);
     return buf;
 }
 
@@ -5528,7 +5567,7 @@ int main(int argc, char* argv[]) {
     while (1) {
         int ret = read(fd, &amp;inp, sizeof(inp));
         assert(ret == sizeof(inp));
-        printf(&quot;time: %s type: %s code: %s value: 0x%x\n&quot;,
+        printf("time: %s type: %s code: %s value: 0x%x\n",
                timefmt(&amp;inp.time), type(inp.type), code(inp.code), inp.value);
     }
 }
@@ -5559,17 +5598,17 @@ drwxrwxr-x+ 2 root root 4 11. Jun 14:26 foo/
 getfacl /tank/foo
 </code></pre>
 <h2 id="modify-acl-entries"><a class="header" href="#modify-acl-entries">Modify acl entries</a></h2>
-<pre><code class="language-bash"># Add acl entry for user &quot;user123&quot;.
-setfacl -m &quot;u:user123:rwx&quot; /tank/foo
+<pre><code class="language-bash"># Add acl entry for user "user123".
+setfacl -m "u:user123:rwx" /tank/foo
 
-# Remove entry for user &quot;user123&quot;.
-setfacl -x &quot;u:user123&quot; /tank/foo
+# Remove entry for user "user123".
+setfacl -x "u:user123" /tank/foo
 
-# Add acl entry for group &quot;group456&quot;.
-setfacl -m &quot;g:group456:rx&quot; /tank/foo
+# Add acl entry for group "group456".
+setfacl -m "g:group456:rx" /tank/foo
 
 # Add acl entry for others.
-setfacl -m &quot;o:rx&quot; /tank/foo
+setfacl -m "o:rx" /tank/foo
 
 # Remove extended acl entries.
 setfacl -b /tank/foo
@@ -5578,7 +5617,7 @@ setfacl -b /tank/foo
 <p>The <code>mask</code> defines the maximum access rights that can be given to <strong>users</strong> and
 <strong>groups</strong>.</p>
 <pre><code class="language-bash"># Update the mask.
-setfacl -m &quot;m:rx&quot; /tank/foo
+setfacl -m "m:rx" /tank/foo
 
 # List acl entries.
 getfacl /tank/foo
@@ -5867,7 +5906,7 @@ tcp.dstport == 80              Filter for tcp destinatio port.
 
 tcp/udp/ssh/wg/...             Filter for protocol.
 
-&quot;and/or/not/!&quot; and &quot;()&quot; can be used to build filter expressions.
+"and/or/not/!" and "()" can be used to build filter expressions.
 </code></pre>
 <blockquote>
 <p>Use <code>tshak -G</code> to list all fields that can be used in display filters.</p>
@@ -5904,7 +5943,7 @@ firewall-cmd --add-service &lt;SERVICE&gt;
 # Add a specific port.
 firewall-cmd --add-port 8000/tcp
 # Add a rich rule (eg port forwarding, dnat).
-firewall-cmd --add-rich-rule 'rule family=&quot;ipv4&quot; forward-port port=&quot;80&quot; protocol=&quot;tcp&quot; to-port=&quot;8080&quot;'
+firewall-cmd --add-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 </code></pre>
 <h2 id="remove-entries"><a class="header" href="#remove-entries">Remove entries</a></h2>
 <pre><code class="language-sh"># Remove service.
@@ -5912,7 +5951,7 @@ firewall-cmd --remove-service &lt;SERVICE&gt;
 # Remove port.
 firewall-cmd --remove-port 8000/tcp
 # Remove rich rule.
-firewall-cmd --remove-rich-rule 'rule family=&quot;ipv4&quot; forward-port port=&quot;80&quot; protocol=&quot;tcp&quot; to-port=&quot;8080&quot;'
+firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 </code></pre>
 <h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
 <ul>
@@ -6047,11 +6086,11 @@ nc localhost 8200
   padding-left: 1em;
 }
 &lt;/style&gt;
-&lt;div class=&quot;grid-2col&quot;&gt;
-  &lt;div class=&quot;col1&quot;&gt;
+&lt;div class="grid-2col"&gt;
+  &lt;div class="col1"&gt;
     &lt;p&gt;Some text in the first column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;col2&quot;&gt;
+  &lt;div class="col2"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -6063,9 +6102,9 @@ nc localhost 8200
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
-      &quot;h h&quot;
-      &quot;s m&quot;
-      &quot;f f&quot;;
+      "h h"
+      "s m"
+      "f f";
   gap: 1em;
 }
 .gh {
@@ -6094,21 +6133,21 @@ p {
   margin: 1em;
 }
 &lt;/style&gt;
-&lt;div class=&quot;page-grid&quot;&gt;
-  &lt;div class=&quot;gh&quot;&gt;
-      &lt;ul class=&quot;nav-items&quot;&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;aa&lt;/a&gt;&lt;/li&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;bb&lt;/a&gt;&lt;/li&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;cc&lt;/a&gt;&lt;/li&gt;
+&lt;div class="page-grid"&gt;
+  &lt;div class="gh"&gt;
+      &lt;ul class="nav-items"&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;aa&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;bb&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;cc&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gs&quot;&gt;
+  &lt;div class="gs"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gm&quot;&gt;
+  &lt;div class="gm"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gf&quot;&gt;
+  &lt;div class="gf"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -6118,58 +6157,58 @@ p {
 <p><a href="web/src/tabs.html">Rendered html</a></p>
 <pre><code class="language-html">&lt;script&gt;
 const showTab = (E, T) =&gt; {
-    const TABS = Array.from(document.getElementsByClassName(&quot;content&quot;));
+    const TABS = Array.from(document.getElementsByClassName("content"));
     TABS.forEach(T =&gt; {
-        T.style.display = &quot;none&quot;;
+        T.style.display = "none";
     });
 
-    document.getElementById(T).style.display = &quot;block&quot;;
+    document.getElementById(T).style.display = "block";
 };
 
 window.onload = () =&gt; {
-    document.getElementById(&quot;bTab1&quot;).onclick = (E) =&gt; {
-        showTab(E, &quot;tTab1&quot;);
+    document.getElementById("bTab1").onclick = (E) =&gt; {
+        showTab(E, "tTab1");
     };
-    document.getElementById(&quot;bTab2&quot;).onclick = (E) =&gt; {
-        showTab(E, &quot;tTab2&quot;);
+    document.getElementById("bTab2").onclick = (E) =&gt; {
+        showTab(E, "tTab2");
     };
 }
 &lt;/script&gt;
 
-&lt;button type=&quot;button&quot; id=&quot;bTab1&quot;&gt;Tab1&lt;/button&gt;
-&lt;button type=&quot;button&quot; id=&quot;bTab2&quot;&gt;Tab2&lt;/button&gt;
+&lt;button type="button" id="bTab1"&gt;Tab1&lt;/button&gt;
+&lt;button type="button" id="bTab2"&gt;Tab2&lt;/button&gt;
 
-&lt;div id=&quot;tTab1&quot; class=&quot;content&quot; style=&quot;display: block;&quot;&gt;
+&lt;div id="tTab1" class="content" style="display: block;"&gt;
     &lt;p&gt;Some content goes here ...&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;tTab2&quot; class=&quot;content&quot; style=&quot;display: none;&quot;&gt;
+&lt;div id="tTab2" class="content" style="display: none;"&gt;
     &lt;p&gt;... and there.&lt;/p&gt;
 &lt;/div&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="css"><a class="header" href="#css">css</a></h1>
 <h2 id="selector"><a class="header" href="#selector">selector</a></h2>
 <p><code>.moose</code> element with class</p>
-<pre><code class="language-html">&lt;div class = &quot;moose&quot;&gt;&lt;/div&gt;  // selected
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;    // NOT selected
+<pre><code class="language-html">&lt;div class = "moose"&gt;&lt;/div&gt;  // selected
+&lt;div class = "bar"&gt;&lt;/div&gt;    // NOT selected
 </code></pre>
 <p><code>.moose.bar</code> element with multiple classes</p>
-<pre><code class="language-html">&lt;div class = &quot;moose bar&quot;&gt;&lt;/div&gt;  // selected
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;        // NOT selected
+<pre><code class="language-html">&lt;div class = "moose bar"&gt;&lt;/div&gt;  // selected
+&lt;div class = "bar"&gt;&lt;/div&gt;        // NOT selected
 </code></pre>
 <p><code>.moose .bar</code> descendant element with classes</p>
-<pre><code class="language-html">&lt;div class = &quot;moose&quot;&gt;
-    &lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;  // selected
+<pre><code class="language-html">&lt;div class = "moose"&gt;
+    &lt;div class = "bar"&gt;&lt;/div&gt;  // selected
 &lt;/div&gt;
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;      // NOT selected
+&lt;div class = "bar"&gt;&lt;/div&gt;      // NOT selected
 </code></pre>
 <p><code>p</code> specific element</p>
 <pre><code class="language-html">&lt;p&gt;&lt;/p&gt;      // selected
 &lt;div&gt;&lt;/div&gt;  // NOT selected
 </code></pre>
 <p><code>p.bar</code> specific element with class</p>
-<pre><code class="language-html">&lt;p class = &quot;bar&quot;&gt;&lt;/p&gt;  // selected
-&lt;p class = &quot;foo&quot;&gt;&lt;/p&gt;  // NOT selected
+<pre><code class="language-html">&lt;p class = "bar"&gt;&lt;/p&gt;  // selected
+&lt;p class = "foo"&gt;&lt;/p&gt;  // NOT selected
 </code></pre>
 <p><code>p,div</code> any element</p>
 <pre><code class="language-html">&lt;p&gt;&lt;/p&gt;      // selected
@@ -6187,7 +6226,7 @@ window.onload = () =&gt; {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chartjs"><a class="header" href="#chartjs">Chart.js</a></h1>
 <h2 id="minimal-example-with-external-tooltips"><a class="header" href="#minimal-example-with-external-tooltips">Minimal example with <em>external</em> tooltips</a></h2>
 <p><a href="web/src/chartjs-ext-tooltip.html">Rendered html</a></p>
-<pre><code class="language-html">&lt;canvas id=&quot;myChart&quot; style=&quot;margin:5em;&quot;&gt;&lt;/canvas&gt;
+<pre><code class="language-html">&lt;canvas id="myChart" style="margin:5em;"&gt;&lt;/canvas&gt;
 
 &lt;script&gt;
 const get_or_create_tooltip = (id) =&gt; {
@@ -6223,12 +6262,12 @@ const render_tooltip = (context) =&gt; {
 
   // -- Format new tooltip.
   const link = document.createElement('a');
-  link.href =  &quot;https://github.com/johannst&quot;;
-  link.innerHTML = &quot;X:&quot; + x + &quot; Y:&quot; + y;
+  link.href =  "https://github.com/johannst";
+  link.innerHTML = "X:" + x + " Y:" + y;
 
   // -- Remove previous child element and add new one.
   const table = tooltip_elem.querySelector('table');
-  table.innerHTML = &quot;&quot;; 
+  table.innerHTML = ""; 
   table.appendChild(link);
 
   // -- Get absolute X/Y position of the top left corner of the canvas.
@@ -6240,9 +6279,9 @@ const render_tooltip = (context) =&gt; {
   tooltip_elem.style.font = tooltip.options.bodyFont.string;
 
   // -- Place the tooltip (I) left or (II) right of the data point.
-  if (tooltip.xAlign === &quot;right&quot;) {
+  if (tooltip.xAlign === "right") {
     tooltip_elem.style.transform = 'translate(-100%, 0)'; // (I)
-  } else if (tooltip.xAlign === &quot;left&quot;) {
+  } else if (tooltip.xAlign === "left") {
     tooltip_elem.style.transform = 'translate(0%, 0)';    // (II)
   }
 }
@@ -6368,7 +6407,7 @@ mov rax, qword ptr [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
 <pre><code class="language-x86asm">lea rax, [rip+.my_str]       // load addr of .my_str into rax
 ...
 .my_str:
-.asciz &quot;Foo&quot;
+.asciz "Foo"
 </code></pre>
 <p>Load effective address:</p>
 <pre><code class="language-x86asm">mov rax, 2
@@ -6418,7 +6457,7 @@ mov al, 0xaa
 mov cx, 0x10
 rep stosb
 </code></pre>
-<h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
+<h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SysV x86_64 ABI</a></a></h2>
 <h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
 <ul>
 <li>Integer/Pointer arguments
@@ -6589,7 +6628,7 @@ must must save these registers in case they are used.</p>
 
     .intel_syntax noprefix
 
-    .section .text, &quot;ax&quot;, @progbits
+    .section .text, "ax", @progbits
     .global _start
 _start:
     mov rdi, 1                      # fd
@@ -6602,9 +6641,9 @@ _start:
     mov rax, 60                     # exit(2) syscall nr
     syscall
 
-    .section .rdonly, &quot;a&quot;, @progbits
+    .section .rdonly, "a", @progbits
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
@@ -6617,7 +6656,7 @@ Hi ASM-World!
 </code></pre>
 <h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
 <ul>
-<li><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV AMD64 ABI</a></li>
+<li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24593.pdf">AMD64 Vol2: System Programming</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24594.pdf">AMD64 Vol3: General-Purpose &amp; System Instructions</a></li>
@@ -6809,7 +6848,7 @@ ret
 
     .arch armv8-a
 
-    .section .text, &quot;ax&quot;, @progbits
+    .section .text, "ax", @progbits
     .balign 4                // align code on 4byte boundary
     .global _start
 _start:
@@ -6825,9 +6864,9 @@ _start:
     svc 0
 
     .balign 8                // align data on 8byte boundary
-    .section .rodata, &quot;a&quot;, @progbits
+    .section .rodata, "a", @progbits
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
@@ -7041,7 +7080,7 @@ mov fp, sp              // FP points to frame record
 
     .arch armv7-a
 
-    .section .text, &quot;ax&quot;
+    .section .text, "ax"
     .balign 4
 
     // Emit `arm` instructions, same as `.arm` directive.
@@ -7070,9 +7109,9 @@ _do_greet:
     bx lr
 
     .balign 8                // align data on 8byte boundary
-    .section .rodata, &quot;a&quot;
+    .section .rodata, "a"
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
@@ -7135,7 +7174,7 @@ x28-x31        t3-t6        temp regs
 
 #include &lt;asm/unistd.h&gt;     // syscall NRs
 
-    .section .text, &quot;ax&quot;, @progbits
+    .section .text, "ax", @progbits
     .balign 4               // align code on 4byte boundary
     .global _start
 _start:
@@ -7150,9 +7189,9 @@ _start:
     ecall
 
     .balign 8               // align data on 8byte boundary
-    .section .rodata, &quot;a&quot;, @progbits
+    .section .rodata, "a", @progbits
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>

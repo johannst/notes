@@ -197,10 +197,10 @@ Symbol table '.dynsym' contains 342 entries:
 static linking against the library.
 The following dump shows that the <code>tmp</code> program linked against <code>lpthread</code> will
 depend on the symbol version <code>GLIBC_2.3.2</code>, which is the default version.</p>
-<pre><code class="language-bash">&gt; echo &quot;#include &lt;pthread.h&gt;
+<pre><code class="language-bash">&gt; echo "#include &lt;pthread.h&gt;
         int main() {
           return pthread_cond_wait(0,0);
-        }&quot; | gcc -o tmp -xc - -lpthread;
+        }" | gcc -o tmp -xc - -lpthread;
   readelf -W --dyn-syms tmp | grep pthread_cond_wait;
 
 Symbol table '.dynsym' contains 7 entries:
@@ -272,23 +272,23 @@ symbol multiple times but in different versions.</p>
 // ..@       -&gt; Is the unversioned symbol.
 // ..@@..    -&gt; Is the default symbol.
 
-__asm__(&quot;.symver func_v0,func@&quot;);
-__asm__(&quot;.symver func_v1,func@LIB_V1&quot;);
-__asm__(&quot;.symver func_v2,func@@LIB_V2&quot;);
+__asm__(".symver func_v0,func@");
+__asm__(".symver func_v1,func@LIB_V1");
+__asm__(".symver func_v2,func@@LIB_V2");
 
-extern &quot;C&quot; {
-    void func_v0() { puts(&quot;func_v0&quot;); }
-    void func_v1() { puts(&quot;func_v1&quot;); }
-    void func_v2() { puts(&quot;func_v2&quot;); }
+extern "C" {
+    void func_v0() { puts("func_v0"); }
+    void func_v1() { puts("func_v1"); }
+    void func_v2() { puts("func_v2"); }
 }
 
-__asm__(&quot;.symver _Z11func_cpp_v1i,_Z8func_cppi@LIB_V1&quot;);
-__asm__(&quot;.symver _Z11func_cpp_v2i,_Z8func_cppi@@LIB_V2&quot;);
+__asm__(".symver _Z11func_cpp_v1i,_Z8func_cppi@LIB_V1");
+__asm__(".symver _Z11func_cpp_v2i,_Z8func_cppi@@LIB_V2");
 
-void func_cpp_v1(int) { puts(&quot;func_cpp_v1&quot;); }
-void func_cpp_v2(int) { puts(&quot;func_cpp_v2&quot;); }
+void func_cpp_v1(int) { puts("func_cpp_v1"); }
+void func_cpp_v2(int) { puts("func_cpp_v2"); }
 
-void func_cpp(int) { puts(&quot;func_cpp_v2&quot;); }
+void func_cpp(int) { puts("func_cpp_v2"); }
 </code></pre>
 <p>Version script for <code>libfoo</code> which defines which symbols for which versions are
 exported from the ELF file.</p>
@@ -296,8 +296,8 @@ exported from the ELF file.</p>
 LIB_V1 {
     global:
         func;
-        extern &quot;C++&quot; {
-            &quot;func_cpp(int)&quot;;
+        extern "C++" {
+            "func_cpp(int)";
         };
     local:
         *;
@@ -306,8 +306,8 @@ LIB_V1 {
 LIB_V2 {
     global:
         func;
-        extern &quot;C++&quot; {
-            &quot;func_cpp(int)&quot;;
+        extern "C++" {
+            "func_cpp(int)";
         };
 } LIB_V1;
 </code></pre>
@@ -339,7 +339,7 @@ Symbol table '.dynsym' contains 14 entries:
 #include &lt;assert.h&gt;
 
 // Links against default symbol in the lib.so.
-extern &quot;C&quot; void func();
+extern "C" void func();
 
 int main() {
     // Call the default version.
@@ -349,10 +349,10 @@ int main() {
     typedef void (*fnptr)();
 
     // Unversioned lookup.
-    fnptr fn_v0 = (fnptr)dlsym(RTLD_DEFAULT, &quot;func&quot;);
+    fnptr fn_v0 = (fnptr)dlsym(RTLD_DEFAULT, "func");
     // Version lookup.
-    fnptr fn_v1 = (fnptr)dlvsym(RTLD_DEFAULT, &quot;func&quot;, &quot;LIB_V1&quot;);
-    fnptr fn_v2 = (fnptr)dlvsym(RTLD_DEFAULT, &quot;func&quot;, &quot;LIB_V2&quot;);
+    fnptr fn_v1 = (fnptr)dlvsym(RTLD_DEFAULT, "func", "LIB_V1");
+    fnptr fn_v2 = (fnptr)dlvsym(RTLD_DEFAULT, "func", "LIB_V2");
 
     assert(fn_v0 != 0);
     assert(fn_v1 != 0);

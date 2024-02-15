@@ -250,7 +250,7 @@ mov rax, qword ptr [rbx+4*rcx]   // load val at [rbx+4*rcx] into rax
 <pre><code class="language-x86asm">lea rax, [rip+.my_str]       // load addr of .my_str into rax
 ...
 .my_str:
-.asciz &quot;Foo&quot;
+.asciz "Foo"
 </code></pre>
 <p>Load effective address:</p>
 <pre><code class="language-x86asm">mov rax, 2
@@ -300,7 +300,7 @@ mov al, 0xaa
 mov cx, 0x10
 rep stosb
 </code></pre>
-<h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SysV x86_64 ABI</a></a></h2>
+<h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SysV x86_64 ABI</a></a></h2>
 <h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
 <ul>
 <li>Integer/Pointer arguments
@@ -471,7 +471,7 @@ must must save these registers in case they are used.</p>
 
     .intel_syntax noprefix
 
-    .section .text, &quot;ax&quot;, @progbits
+    .section .text, "ax", @progbits
     .global _start
 _start:
     mov rdi, 1                      # fd
@@ -484,9 +484,9 @@ _start:
     mov rax, 60                     # exit(2) syscall nr
     syscall
 
-    .section .rdonly, &quot;a&quot;, @progbits
+    .section .rdonly, "a", @progbits
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
@@ -499,7 +499,7 @@ Hi ASM-World!
 </code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
-<li><a href="https://www.uclibc.org/docs/psABI-x86_64.pdf">SystemV AMD64 ABI</a></li>
+<li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24593.pdf">AMD64 Vol2: System Programming</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24594.pdf">AMD64 Vol3: General-Purpose &amp; System Instructions</a></li>

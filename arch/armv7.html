@@ -361,7 +361,7 @@ mov fp, sp              // FP points to frame record
 
     .arch armv7-a
 
-    .section .text, &quot;ax&quot;
+    .section .text, "ax"
     .balign 4
 
     // Emit `arm` instructions, same as `.arm` directive.
@@ -390,9 +390,9 @@ _do_greet:
     bx lr
 
     .balign 8                // align data on 8byte boundary
-    .section .rodata, &quot;a&quot;
+    .section .rodata, "a"
 greeting:
-    .asciz &quot;Hi ASM-World!\n&quot;
+    .asciz "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>

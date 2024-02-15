@@ -185,30 +185,30 @@ gnuplot [opt]
   opt:
     -p ................ persist plot window
     -c &lt;file&gt; ......... run script file
-    -e &quot;&lt;cmd1&gt;; ..&quot; ... run cmd(s)
+    -e "&lt;cmd1&gt;; .." ... run cmd(s)
 </code></pre>
 <h2 id="frequently-used-configuration"><a class="header" href="#frequently-used-configuration">Frequently used configuration</a></h2>
 <pre><code class="language-sh"># Plot title.
-set title &quot;the plot&quot;
+set title "the plot"
 
 # Labels.
-set xlabel &quot;abc&quot;
-set ylabel &quot;def&quot;
+set xlabel "abc"
+set ylabel "def"
 
 # Output format, 'help set term' for all output formats.
 set term svg
 # Output file.
-set output &quot;out.svg&quot;
+set output "out.svg"
 
 # Make axis logarithmic to given base.
 set logscale x 2
 
 # Change separator, default is whitespace.
-set datafile separator &quot;,&quot;
+set datafile separator ","
 </code></pre>
 <h2 id="plot"><a class="header" href="#plot">Plot</a></h2>
 <pre><code class="language-sh"># With specific style (eg lines, linespoint, boxes, steps, impulses, ..).
-plot &quot;&lt;data_file&gt;&quot; with &lt;plot_style&gt;
+plot "&lt;data_file&gt;" with &lt;plot_style&gt;
 
 &gt; cat data.txt
 1 1 3
@@ -217,30 +217,30 @@ plot &quot;&lt;data_file&gt;&quot; with &lt;plot_style&gt;
 4 2 2
 
 # Plot specific column.
-plot &quot;data.txt&quot; using 1:2, &quot;data.txt&quot; using 1:3
-# Equivalent using the special file &quot;&quot;, which re-uses the previous input file.
-plot &quot;data.txt&quot; using 1:2, &quot;&quot; using 1:3
+plot "data.txt" using 1:2, "data.txt" using 1:3
+# Equivalent using the special file "", which re-uses the previous input file.
+plot "data.txt" using 1:2, "" using 1:3
 
 # Plot piped data.
-plot &quot;&lt; head -n2 data.txt&quot;
+plot "&lt; head -n2 data.txt"
 
 # Plot with alternate title.
-plot &quot;data.txt&quot; title &quot;moose&quot;
+plot "data.txt" title "moose"
 </code></pre>
 <h2 id="example-multiple-data-sets-in-on-plot"><a class="header" href="#example-multiple-data-sets-in-on-plot">Example: multiple data sets in on plot</a></h2>
 <pre><code class="language-sh"># file: mem_lat.plot
 
-set title  &quot;memory latency (different strides)&quot;
-set xlabel &quot;array in KB&quot;
-set ylabel &quot;cycles / access&quot;
+set title  "memory latency (different strides)"
+set xlabel "array in KB"
+set ylabel "cycles / access"
 
 set logscale x 2
 
-plot &quot;stride_32.txt&quot;  title &quot;32&quot;  with linespoints, \
-     &quot;stride_64.txt&quot;  title &quot;64&quot;  with linespoints, \
-     &quot;stride_128.txt&quot; title &quot;128&quot; with linespoints, \
-     &quot;stride_256.txt&quot; title &quot;256&quot; with linespoints, \
-     &quot;stride_512.txt&quot; title &quot;512&quot; with linespoints
+plot "stride_32.txt"  title "32"  with linespoints, \
+     "stride_64.txt"  title "64"  with linespoints, \
+     "stride_128.txt" title "128" with linespoints, \
+     "stride_256.txt" title "256" with linespoints, \
+     "stride_512.txt" title "512" with linespoints
 </code></pre>
 <p>On Linux x86_64, <a href="gnuplot/mem_lat.c"><code>mem_lat.c</code></a> provides an example which can
 be run as follows.</p>

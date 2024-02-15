@@ -215,7 +215,7 @@ tmux list-panes -F '#P' -t &lt;s&gt;:&lt;w&gt;   list pane IDs for window &lt;w&
 tmux selectp -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt;          select pane &lt;p&gt; in window &lt;w&gt; in session &lt;s&gt;
 
 # Run commands
-tmux send -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt; &quot;ls&quot; C-m    send cmds/keys to pane
+tmux send -t &lt;s&gt;:&lt;w&gt;.&lt;p&gt; "ls" C-m    send cmds/keys to pane
 tmux run -t &lt;p&gt; &lt;sh-cmd&gt;             run shell command &lt;sh-cmd&gt; in background and report output on pane -t &lt;p&gt;
 </code></pre>
 <p>For example cycle through all panes in all windows in all sessions:</p>

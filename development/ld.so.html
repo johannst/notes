@@ -194,10 +194,10 @@ Therefore the following is a code smell:</p>
 <pre><code class="language-c">// at startup LD_LIBRARY_PATH=/moose
 
 // Assume /foo/libbar.so
-setenv(&quot;LD_LIBRARY_PATH&quot;, &quot;/foo&quot;, true /* overwrite */);
+setenv("LD_LIBRARY_PATH", "/foo", true /* overwrite */);
 
 // Will look in /moose and NOT in /foo.
-dlopen(&quot;libbar.so&quot;, RTLD_LAZY);
+dlopen("libbar.so", RTLD_LAZY);
 </code></pre>
 <h2 id="ld_preload-initialization-order-and-link-map"><a class="header" href="#ld_preload-initialization-order-and-link-map">LD_PRELOAD: Initialization Order and Link Map</a></h2>
 <p>Libraries specified in <code>LD_PRELOAD</code> are loaded from <code>left-to-right</code> but

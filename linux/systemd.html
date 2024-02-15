@@ -217,7 +217,7 @@ Description=Test logger
 
 [Service]
 Type=oneshot
-ExecStart=logger &quot;Hello from test unit&quot;' &gt; ~/.config/systemd/user/test.service
+ExecStart=logger "Hello from test unit"' &gt; ~/.config/systemd/user/test.service
 
 # Run unit
 systemctl --user start test

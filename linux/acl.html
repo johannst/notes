@@ -202,17 +202,17 @@ drwxrwxr-x+ 2 root root 4 11. Jun 14:26 foo/
 getfacl /tank/foo
 </code></pre>
 <h2 id="modify-acl-entries"><a class="header" href="#modify-acl-entries">Modify acl entries</a></h2>
-<pre><code class="language-bash"># Add acl entry for user &quot;user123&quot;.
-setfacl -m &quot;u:user123:rwx&quot; /tank/foo
+<pre><code class="language-bash"># Add acl entry for user "user123".
+setfacl -m "u:user123:rwx" /tank/foo
 
-# Remove entry for user &quot;user123&quot;.
-setfacl -x &quot;u:user123&quot; /tank/foo
+# Remove entry for user "user123".
+setfacl -x "u:user123" /tank/foo
 
-# Add acl entry for group &quot;group456&quot;.
-setfacl -m &quot;g:group456:rx&quot; /tank/foo
+# Add acl entry for group "group456".
+setfacl -m "g:group456:rx" /tank/foo
 
 # Add acl entry for others.
-setfacl -m &quot;o:rx&quot; /tank/foo
+setfacl -m "o:rx" /tank/foo
 
 # Remove extended acl entries.
 setfacl -b /tank/foo
@@ -221,7 +221,7 @@ setfacl -b /tank/foo
 <p>The <code>mask</code> defines the maximum access rights that can be given to <strong>users</strong> and
 <strong>groups</strong>.</p>
 <pre><code class="language-bash"># Update the mask.
-setfacl -m &quot;m:rx&quot; /tank/foo
+setfacl -m "m:rx" /tank/foo
 
 # List acl entries.
 getfacl /tank/foo

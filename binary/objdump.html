@@ -199,7 +199,7 @@ disassemble with <code>objdump</code>.</p>
 <p>To re-create that case, we just assemble and link some ELF file and then create
 a raw binary of the text section with <code>objcopy</code>.</p>
 <pre><code class="language-x86asm"># file: test.s
-.section .text, &quot;ax&quot;
+.section .text, "ax"
 
 .global _start
 _start:

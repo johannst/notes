@@ -195,7 +195,7 @@ mkswap /swapfile
 swapon /swapfile
 
 # Persistent setup of swap file.
-echo &quot;/swapfile none swap sw 0 0&quot; | sudo tee -a /etc/fstab
+echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
 
 # Disable swap file (until next reboot).
 swapoff /swapfile

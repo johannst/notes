@@ -179,7 +179,7 @@
                         <h1 id="chartjs"><a class="header" href="#chartjs">Chart.js</a></h1>
 <h2 id="minimal-example-with-external-tooltips"><a class="header" href="#minimal-example-with-external-tooltips">Minimal example with <em>external</em> tooltips</a></h2>
 <p><a href="src/chartjs-ext-tooltip.html">Rendered html</a></p>
-<pre><code class="language-html">&lt;canvas id=&quot;myChart&quot; style=&quot;margin:5em;&quot;&gt;&lt;/canvas&gt;
+<pre><code class="language-html">&lt;canvas id="myChart" style="margin:5em;"&gt;&lt;/canvas&gt;
 
 &lt;script&gt;
 const get_or_create_tooltip = (id) =&gt; {
@@ -215,12 +215,12 @@ const render_tooltip = (context) =&gt; {
 
   // -- Format new tooltip.
   const link = document.createElement('a');
-  link.href =  &quot;https://github.com/johannst&quot;;
-  link.innerHTML = &quot;X:&quot; + x + &quot; Y:&quot; + y;
+  link.href =  "https://github.com/johannst";
+  link.innerHTML = "X:" + x + " Y:" + y;
 
   // -- Remove previous child element and add new one.
   const table = tooltip_elem.querySelector('table');
-  table.innerHTML = &quot;&quot;; 
+  table.innerHTML = ""; 
   table.appendChild(link);
 
   // -- Get absolute X/Y position of the top left corner of the canvas.
@@ -232,9 +232,9 @@ const render_tooltip = (context) =&gt; {
   tooltip_elem.style.font = tooltip.options.bodyFont.string;
 
   // -- Place the tooltip (I) left or (II) right of the data point.
-  if (tooltip.xAlign === &quot;right&quot;) {
+  if (tooltip.xAlign === "right") {
     tooltip_elem.style.transform = 'translate(-100%, 0)'; // (I)
-  } else if (tooltip.xAlign === &quot;left&quot;) {
+  } else if (tooltip.xAlign === "left") {
     tooltip_elem.style.transform = 'translate(0%, 0)';    // (II)
   }
 }

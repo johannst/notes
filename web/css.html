@@ -179,26 +179,26 @@
                         <h1 id="css"><a class="header" href="#css">css</a></h1>
 <h2 id="selector"><a class="header" href="#selector">selector</a></h2>
 <p><code>.moose</code> element with class</p>
-<pre><code class="language-html">&lt;div class = &quot;moose&quot;&gt;&lt;/div&gt;  // selected
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;    // NOT selected
+<pre><code class="language-html">&lt;div class = "moose"&gt;&lt;/div&gt;  // selected
+&lt;div class = "bar"&gt;&lt;/div&gt;    // NOT selected
 </code></pre>
 <p><code>.moose.bar</code> element with multiple classes</p>
-<pre><code class="language-html">&lt;div class = &quot;moose bar&quot;&gt;&lt;/div&gt;  // selected
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;        // NOT selected
+<pre><code class="language-html">&lt;div class = "moose bar"&gt;&lt;/div&gt;  // selected
+&lt;div class = "bar"&gt;&lt;/div&gt;        // NOT selected
 </code></pre>
 <p><code>.moose .bar</code> descendant element with classes</p>
-<pre><code class="language-html">&lt;div class = &quot;moose&quot;&gt;
-    &lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;  // selected
+<pre><code class="language-html">&lt;div class = "moose"&gt;
+    &lt;div class = "bar"&gt;&lt;/div&gt;  // selected
 &lt;/div&gt;
-&lt;div class = &quot;bar&quot;&gt;&lt;/div&gt;      // NOT selected
+&lt;div class = "bar"&gt;&lt;/div&gt;      // NOT selected
 </code></pre>
 <p><code>p</code> specific element</p>
 <pre><code class="language-html">&lt;p&gt;&lt;/p&gt;      // selected
 &lt;div&gt;&lt;/div&gt;  // NOT selected
 </code></pre>
 <p><code>p.bar</code> specific element with class</p>
-<pre><code class="language-html">&lt;p class = &quot;bar&quot;&gt;&lt;/p&gt;  // selected
-&lt;p class = &quot;foo&quot;&gt;&lt;/p&gt;  // NOT selected
+<pre><code class="language-html">&lt;p class = "bar"&gt;&lt;/p&gt;  // selected
+&lt;p class = "foo"&gt;&lt;/p&gt;  // NOT selected
 </code></pre>
 <p><code>p,div</code> any element</p>
 <pre><code class="language-html">&lt;p&gt;&lt;/p&gt;      // selected

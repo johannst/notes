@@ -238,7 +238,7 @@ multiple times. Actions with those patterns are <strong>executed exactly once</s
 <h3 id="special-statements--functions"><a class="header" href="#special-statements--functions">Special statements &amp; functions</a></h3>
 <ul>
 <li>
-<p><code>printf &quot;fmt&quot;, args...</code></p>
+<p><code>printf "fmt", args...</code></p>
 <p>Print format string, args are comma separated.</p>
 <ul>
 <li><code>%s</code> string</li>
@@ -251,12 +251,12 @@ For floats one can use <code>%N.Mf</code>, <code>N</code> is the total number in
 <code>M</code>.</p>
 </li>
 <li>
-<p><code>sprintf(&quot;fmt&quot;, expr, ...)</code></p>
+<p><code>sprintf("fmt", expr, ...)</code></p>
 <p>Format the expressions according to the format string. Similar as <code>printf</code>,
 but this is a function and return value can be assigned to a variable.</p>
 </li>
 <li>
-<p><code>strftime(&quot;fmt&quot;)</code></p>
+<p><code>strftime("fmt")</code></p>
 <p>Print time stamp formatted by <code>fmt</code>.</p>
 <ul>
 <li><code>%Y</code> full year (eg 2020)</li>
@@ -290,7 +290,7 @@ prints the whole record.</p>
 </code></pre>
 <p>Matches records not starting with <code>#</code>.</p>
 <h3 id="range-patterns"><a class="header" href="#range-patterns">Range patterns</a></h3>
-<pre><code class="language-bash">echo -e &quot;a\nFOO\nb\nc\nBAR\nd&quot; | \
+<pre><code class="language-bash">echo -e "a\nFOO\nb\nc\nBAR\nd" | \
     awk '/FOO/,/BAR/ { print }'
 </code></pre>
 <p><code>/FOO/,/BAR/</code> define a range pattern of <code>begin_pattern, end_pattern</code>. When
@@ -298,13 +298,17 @@ prints the whole record.</p>
 <code>end_pattern</code> is matched the range is <strong>turned off</strong>. This matches every record
 in the range <em>inclusive</em>.</p>
 <p>An <em>exclusive</em> range must be handled explicitly, for example as follows.</p>
-<pre><code class="language-bash">echo -e &quot;a\nFOO\nb\nc\nBAR\nd&quot; | \
-    awk '/FOO/,/BAR/ { if (!($1 ~ &quot;FOO&quot;) &amp;&amp; !($1 ~ &quot;BAR&quot;)) { print } }'
+<pre><code class="language-bash">echo -e "a\nFOO\nb\nc\nBAR\nd" | \
+    awk '/FOO/,/BAR/ { if (!($1 ~ "FOO") &amp;&amp; !($1 ~ "BAR")) { print } }'
 </code></pre>
 <h3 id="access-last-fields-in-records"><a class="header" href="#access-last-fields-in-records">Access last fields in records</a></h3>
 <pre><code class="language-bash">echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 </code></pre>
 <p>Access last fields with arithmetic on the <code>NF</code> number of fields variable.</p>
+<h3 id="split-on-multiple-tokens"><a class="header" href="#split-on-multiple-tokens">Split on multiple tokens</a></h3>
+<pre><code class="language-bash">echo 'a,b;c:d' | awk -F'[,;:]' '{ printf "1=%s | 4=%s\n", $1, $4 }'
+</code></pre>
+<p>Use regex as field separator.</p>
 <h3 id="capture-in-variables"><a class="header" href="#capture-in-variables">Capture in variables</a></h3>
 <pre><code class="language-bash"># /proc/&lt;pid&gt;/status
 #   Name:    cat
@@ -316,7 +320,7 @@ for f in /proc/*/status; do
     cat $f | awk '
              /^VmRSS/ { rss = $2/1024 }
              /^Name/ { name = $2 }
-             END { printf &quot;%16s %6d MB\n&quot;, name, rss }';
+             END { printf "%16s %6d MB\n", name, rss }';
 done | sort -k2 -n
 </code></pre>
 <p>We capture values from <code>VmRSS</code> and <code>Name</code> into variables and print them at the
@@ -331,7 +335,7 @@ a 1' | awk '{
 }
 END {
     for (v in vals)
-        printf &quot;%s %d\n&quot;, v, vals[v] / cnts [v]
+        printf "%s %d\n", v, vals[v] / cnts [v]
 }'
 </code></pre>
 <p>Capture keys and values from different columns and some up the values.
@@ -339,7 +343,7 @@ At the <code>END</code> we compute the average of each key.</p>
 <h3 id="run-shell-command-and-capture-output"><a class="header" href="#run-shell-command-and-capture-output">Run shell command and capture output</a></h3>
 <pre><code class="language-bash">cat /proc/1/status | awk '
                      /^Pid/ {
-                        &quot;ps --no-header -o user &quot; $2 | getline user;
+                        "ps --no-header -o user " $2 | getline user;
                          print user
                      }'
 </code></pre>

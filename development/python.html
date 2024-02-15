@@ -183,26 +183,26 @@
 
 def log(f: Callable[[int], None]) -&gt; Callable[[int], None]:
     def inner(x: int):
-        print(f&quot;log::inner f={f.__name__} x={x}&quot;)
+        print(f"log::inner f={f.__name__} x={x}")
         f(x)
     return inner
 
 @log
 def some_fn(x: int):
-    print(f&quot;some_fn x={x}&quot;)
+    print(f"some_fn x={x}")
 
 
 def log_tag(tag: str) -&gt; Callable[[Callable[[int], None]], Callable[[int], None]]:
     def decorator(f: Callable[[int], None]) -&gt; Callable[[int], None]:
         def inner(x: int):
-            print(f&quot;log_tag::inner f={f.__name__} tag={tag} x={x}&quot;)
+            print(f"log_tag::inner f={f.__name__} tag={tag} x={x}")
             f(x)
         return inner
     return decorator
 
-@log_tag(&quot;some_tag&quot;)
+@log_tag("some_tag")
 def some_fn2(x: int):
-    print(f&quot;some_fn2 x={x}&quot;)
+    print(f"some_fn2 x={x}")
 </code></pre>
 <h2 id="walrus-operator-run"><a class="header" href="#walrus-operator-run">Walrus operator [<a href="https://www.online-python.com/9T12PvmKVy">run</a>]</a></h2>
 <p>Walrus operator <code>:=</code> added since <strong>python 3.8</strong>.</p>
@@ -214,20 +214,20 @@ def foo(ret: Optional[int]) -&gt; Optional[int]:
     return ret
 
 if r := foo(None):
-    print(f&quot;foo(None) -&gt; {r}&quot;)
+    print(f"foo(None) -&gt; {r}")
 
 if r := foo(1337):
-    print(f&quot;foo(1337) -&gt; {r}&quot;)
+    print(f"foo(1337) -&gt; {r}")
 
 # Example 2: while let statements
 
 toks = iter(['a', 'b', 'c'])
 while tok := next(toks, None):
-    print(f&quot;{tok}&quot;)
+    print(f"{tok}")
 
 # Example 3: list comprehension
 
-print([tok for t in [&quot;  a&quot;, &quot;  &quot;, &quot; b &quot;] if (tok := t.strip())])
+print([tok for t in ["  a", "  ", " b "] if (tok := t.strip())])
 </code></pre>
 <h2 id="unittest-run"><a class="header" href="#unittest-run"><a href="https://docs.python.org/3/library/unittest.html">Unittest</a> [<a href="https://www.online-python.com/2fit4UcbzI">run</a>]</a></h2>
 <p>Run unittests directly from the command line as <br />
@@ -255,19 +255,19 @@ class MyTest(unittest.TestCase):
 <pre><code class="language-python"># file: test.py
 
 def sum(a: int, b: int) -&gt; int:
-    &quot;&quot;&quot;Sum a and b.
+    """Sum a and b.
 
     &gt;&gt;&gt; sum(1, 2)
     3
 
     &gt;&gt;&gt; sum(10, 20)
     30
-    &quot;&quot;&quot;
+    """
     return a + b
 </code></pre>
 <h2 id="timeit"><a class="header" href="#timeit"><a href="https://docs.python.org/3/library/timeit.html">timeit</a></a></h2>
 <p>Micro benchmarking.</p>
-<pre><code class="language-bash">python -m timeit '[x.strip() for x in [&quot;a &quot;, &quot; b&quot;]]'
+<pre><code class="language-bash">python -m timeit '[x.strip() for x in ["a ", " b"]]'
 </code></pre>
 
                     </main>

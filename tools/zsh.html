@@ -198,11 +198,11 @@ $RBUFFER      # Edit buffer content right to cursor
 
 # create zle widget which adds text right of the cursor
 function add-text() {
-    RBUFFER=&quot;some text $RBUFFER&quot;
+    RBUFFER="some text $RBUFFER"
 }
 zle -N add-text
 
-bindkey &quot;^p&quot; add-text
+bindkey "^p" add-text
 </code></pre>
 <h2 id="parameter"><a class="header" href="#parameter">Parameter</a></h2>
 <p>Default value:</p>
@@ -336,10 +336,10 @@ option should be stored.</li>
 <pre><code class="language-zsh">#!/bin/zsh
 function test() {
     zparseopts -D -E -A opts f=flag o: -long:
-    echo &quot;flag $flag&quot;
-    echo &quot;o    $opts[-o]&quot;
-    echo &quot;long $opts[--long]&quot;
-    echo &quot;pos  $1&quot;
+    echo "flag $flag"
+    echo "o    $opts[-o]"
+    echo "long $opts[--long]"
+    echo "pos  $1"
 }
 
 test -f -o OPTION --long LONG_OPT POSITIONAL
@@ -361,9 +361,9 @@ The match results can be accessed via the <code>$MATCH</code> variable and
 <pre><code class="language-zsh">INPUT='title foo : 1234'
 REGEX='^title (.+) : ([0-9]+)$'
 if [[ $INPUT =~ $REGEX ]]; then
-    echo &quot;$MATCH&quot;       # title foo : 1234
-    echo &quot;$match[1]&quot;    # foo
-    echo &quot;$match[2]&quot;    # 1234
+    echo "$MATCH"       # title foo : 1234
+    echo "$match[1]"    # foo
+    echo "$match[2]"    # 1234
 fi
 </code></pre>
 <h2 id="completion"><a class="header" href="#completion">Completion</a></h2>
@@ -395,7 +395,7 @@ $words[CURRENT-1]   # previous word (relative to cursor position)
 </code></pre>
 <ul>
 <li><code>MSG</code> simple string with header message</li>
-<li><code>COMP</code> array of completions where each entry is <code>&quot;opt:description&quot;</code></li>
+<li><code>COMP</code> array of completions where each entry is <code>"opt:description"</code></li>
 </ul>
 <pre><code class="language-zsh">function _foo() {
     local -a opts
@@ -436,16 +436,16 @@ function _foo_color() {
     colors+=('green:green color')
     colors+=('red:red color')
     colors+=('blue:blue color')
-    _describe &quot;color&quot; colors
+    _describe "color" colors
 }
 
 function _foo() {
     _arguments                              \
-        &quot;-c[define color]:color:-&gt;s_color&quot;  \
-        &quot;-s[select sound]:sound:(low high)&quot; \
-        &quot;-f[select file]:file:_files&quot;       \
-        &quot;-d[select dir]:dir:_files -/&quot;      \
-        &quot;-h[help]&quot;
+        "-c[define color]:color:-&gt;s_color"  \
+        "-s[select sound]:sound:(low high)" \
+        "-f[select file]:file:_files"       \
+        "-d[select dir]:dir:_files -/"      \
+        "-h[help]"
 
     case $state in
         s_color) _foo_color;;
@@ -459,9 +459,9 @@ arguments such as</p>
 </code></pre>
 <pre><code class="language-zsh">function _foo() {
     _arguments              \
-        &quot;1:opt 1:(a b c)&quot;   \
-        &quot;:opt next:(d e f)&quot; \
-        &quot;*:opt all:(u v w)&quot;
+        "1:opt 1:(a b c)"   \
+        ":opt next:(d e f)" \
+        "*:opt all:(u v w)"
 }
 </code></pre>
 <p>Explanation:</p>

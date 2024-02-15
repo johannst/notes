@@ -203,7 +203,7 @@ target_compile_definitions(liba INTERFACE DEF_INTERFACE)
 add_executable(main main.cc)
 target_link_libraries(main liba)
 </code></pre>
-<pre><code class="language-sh">&gt; touch liba.cc; echo &quot;int main() {}&quot; &gt; main.cc
+<pre><code class="language-sh">&gt; touch liba.cc; echo "int main() {}" &gt; main.cc
 &gt; cmake -B build -S . -G Ninja
 &gt; ninja -C build -j1 --verbose
 [1/4] /usr/bin/c++ -DDEF_PRIVATE -DDEF_PUBLIC  [..] .../liba.cc

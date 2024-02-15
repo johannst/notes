@@ -189,8 +189,8 @@ workload.</p>
 
 #define NOINLINE __attribute__((noinline))
 
-NOINLINE void foo() { puts(&quot;foo()&quot;); }
-NOINLINE void bar() { puts(&quot;bar()&quot;); }
+NOINLINE void foo() { puts("foo()"); }
+NOINLINE void bar() { puts("bar()"); }
 
 int main(int argc, char *argv[]) {
   if (argc == 2) {
@@ -231,7 +231,7 @@ clang -o test test.cc -O3 -fprofile-instr-generate
 
 # Collect profiling data from multiple runs.
 for i in {0..10}; do
-    LLVM_PROFILE_FILE=&quot;prof.clang/%p.profraw&quot; ./test $(seq 0 $i)
+    LLVM_PROFILE_FILE="prof.clang/%p.profraw" ./test $(seq 0 $i)
 done
 
 # Merge raw profiling data into single profile data.

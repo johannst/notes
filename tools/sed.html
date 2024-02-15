@@ -182,6 +182,8 @@
     -i          edit file in place
     -i.bk       edit file in place and create backup file
                 (with .bk suffix, can be specified differently)
+    --follow-symlinks
+                follow symlinks when editing in place
     -e SCRIPT   add SCRIPT to commands to be executed
                 (can be specified multiple times)
     -f FILE     add content of FILE to command to be executed
@@ -232,6 +234,12 @@ echo -e 'aa\nbb' | sed '2aABC'
 echo -e 'aa\nbb' | sed '2cABC'
 # aa
 # ABC
+
+# Insert before pattern match.
+echo -e 'aa\nbb' | sed '/bb/i 123'
+# aa
+# 123
+# bb
 </code></pre>
 <h3 id="substitute-lines"><a class="header" href="#substitute-lines">Substitute lines</a></h3>
 <pre><code class="language-sh"># Substitute by regex.
@@ -243,6 +251,20 @@ echo -e 'aafooaa\ncc' | sed 's/foo/MOOSE/'
 <pre><code class="language-sh">echo -e 'foo\nbar' | sed -e 's/foo/FOO/' -e 's/FOO/BAR/'
 # BAR
 # bar
+</code></pre>
+<h3 id="edit-inplace-through-symlink"><a class="header" href="#edit-inplace-through-symlink">Edit inplace through symlink</a></h3>
+<pre><code class="language-sh">touch file
+ln -s file link
+ls -l link
+# lrwxrwxrwx 1 johannst johannst 4 Feb  7 23:02 link -&gt; file
+
+sed -i --follow-symlinks '1iabc' link
+ls -l link
+# lrwxrwxrwx 1 johannst johannst 4 Feb  7 23:02 link -&gt; file
+
+sed -i '1iabc' link
+ls -l link
+# -rw-r--r-- 1 johannst johannst 0 Feb  7 23:02 link
 </code></pre>
 
                     </main>

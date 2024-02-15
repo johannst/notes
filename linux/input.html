@@ -216,7 +216,7 @@ file <code>/proc/bus/input/devices</code> in the proc filesystem can be consulte
 <p>This yields entries as follows and shows which <code>Handlers</code> are assigned to which
 <code>Name</code>.</p>
 <pre><code>I: Bus=0018 Vendor=04f3 Product=0033 Version=0000
-N: Name=&quot;Elan Touchpad&quot;
+N: Name="Elan Touchpad"
 ...
 H: Handlers=event15 mouse0
 ...
@@ -241,9 +241,9 @@ struct input_event {
 
 const char* type(unsigned short t) {
     static char buf[32];
-    const char* fmt = &quot;0x%x&quot;;
+    const char* fmt = "0x%x";
     switch (t) {
-#define FMT(TYPE) case TYPE: fmt = #TYPE&quot;(0x%x)&quot;; break
+#define FMT(TYPE) case TYPE: fmt = #TYPE"(0x%x)"; break
         FMT(EV_SYN);
         FMT(EV_KEY);
         FMT(EV_REL);
@@ -256,9 +256,9 @@ const char* type(unsigned short t) {
 
 const char* code(unsigned short c) {
     static char buf[32];
-    const char* fmt = &quot;0x%x&quot;;
+    const char* fmt = "0x%x";
     switch (c) {
-#define FMT(CODE) case CODE: fmt = #CODE&quot;(0x%x)&quot;; break
+#define FMT(CODE) case CODE: fmt = #CODE"(0x%x)"; break
         FMT(BTN_LEFT);
         FMT(BTN_RIGHT);
         FMT(BTN_MIDDLE);
@@ -274,7 +274,7 @@ const char* timefmt(const struct timeval* t) {
     assert(t);
     struct tm* lt = localtime(&amp;t-&gt;tv_sec); // Returns pointer to static tm object.
     static char buf[64];
-    strftime(buf, sizeof(buf), &quot;%H:%M:%S&quot;, lt);
+    strftime(buf, sizeof(buf), "%H:%M:%S", lt);
     return buf;
 }
 
@@ -288,7 +288,7 @@ int main(int argc, char* argv[]) {
     while (1) {
         int ret = read(fd, &amp;inp, sizeof(inp));
         assert(ret == sizeof(inp));
-        printf(&quot;time: %s type: %s code: %s value: 0x%x\n&quot;,
+        printf("time: %s type: %s code: %s value: 0x%x\n",
                timefmt(&amp;inp.time), type(inp.type), code(inp.code), inp.value);
     }
 }

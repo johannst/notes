@@ -206,11 +206,11 @@
   padding-left: 1em;
 }
 &lt;/style&gt;
-&lt;div class=&quot;grid-2col&quot;&gt;
-  &lt;div class=&quot;col1&quot;&gt;
+&lt;div class="grid-2col"&gt;
+  &lt;div class="col1"&gt;
     &lt;p&gt;Some text in the first column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;col2&quot;&gt;
+  &lt;div class="col2"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -222,9 +222,9 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
-      &quot;h h&quot;
-      &quot;s m&quot;
-      &quot;f f&quot;;
+      "h h"
+      "s m"
+      "f f";
   gap: 1em;
 }
 .gh {
@@ -253,21 +253,21 @@ p {
   margin: 1em;
 }
 &lt;/style&gt;
-&lt;div class=&quot;page-grid&quot;&gt;
-  &lt;div class=&quot;gh&quot;&gt;
-      &lt;ul class=&quot;nav-items&quot;&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;aa&lt;/a&gt;&lt;/li&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;bb&lt;/a&gt;&lt;/li&gt;
-          &lt;li class=&quot;nav-item&quot;&gt;&lt;a href=&quot;&quot;&gt;cc&lt;/a&gt;&lt;/li&gt;
+&lt;div class="page-grid"&gt;
+  &lt;div class="gh"&gt;
+      &lt;ul class="nav-items"&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;aa&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;bb&lt;/a&gt;&lt;/li&gt;
+          &lt;li class="nav-item"&gt;&lt;a href=""&gt;cc&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gs&quot;&gt;
+  &lt;div class="gs"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gm&quot;&gt;
+  &lt;div class="gm"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div class=&quot;gf&quot;&gt;
+  &lt;div class="gf"&gt;
     &lt;p&gt;Some text in the second column.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
@@ -277,32 +277,32 @@ p {
 <p><a href="src/tabs.html">Rendered html</a></p>
 <pre><code class="language-html">&lt;script&gt;
 const showTab = (E, T) =&gt; {
-    const TABS = Array.from(document.getElementsByClassName(&quot;content&quot;));
+    const TABS = Array.from(document.getElementsByClassName("content"));
     TABS.forEach(T =&gt; {
-        T.style.display = &quot;none&quot;;
+        T.style.display = "none";
     });
 
-    document.getElementById(T).style.display = &quot;block&quot;;
+    document.getElementById(T).style.display = "block";
 };
 
 window.onload = () =&gt; {
-    document.getElementById(&quot;bTab1&quot;).onclick = (E) =&gt; {
-        showTab(E, &quot;tTab1&quot;);
+    document.getElementById("bTab1").onclick = (E) =&gt; {
+        showTab(E, "tTab1");
     };
-    document.getElementById(&quot;bTab2&quot;).onclick = (E) =&gt; {
-        showTab(E, &quot;tTab2&quot;);
+    document.getElementById("bTab2").onclick = (E) =&gt; {
+        showTab(E, "tTab2");
     };
 }
 &lt;/script&gt;
 
-&lt;button type=&quot;button&quot; id=&quot;bTab1&quot;&gt;Tab1&lt;/button&gt;
-&lt;button type=&quot;button&quot; id=&quot;bTab2&quot;&gt;Tab2&lt;/button&gt;
+&lt;button type="button" id="bTab1"&gt;Tab1&lt;/button&gt;
+&lt;button type="button" id="bTab2"&gt;Tab2&lt;/button&gt;
 
-&lt;div id=&quot;tTab1&quot; class=&quot;content&quot; style=&quot;display: block;&quot;&gt;
+&lt;div id="tTab1" class="content" style="display: block;"&gt;
     &lt;p&gt;Some content goes here ...&lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id=&quot;tTab2&quot; class=&quot;content&quot; style=&quot;display: none;&quot;&gt;
+&lt;div id="tTab2" class="content" style="display: none;"&gt;
     &lt;p&gt;... and there.&lt;/p&gt;
 &lt;/div&gt;
 </code></pre>

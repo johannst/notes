@@ -326,7 +326,7 @@ int* P = reinterpret_cast&lt;int*&gt;(C);     // Cast is ok, not yet UB.
 </li>
 <li>
 <p>On <code>gcc</code> strict aliasing is enabled starting with <code>-O2</code>.</p>
-<pre><code class="language-bash">for i in {0..3} g s; do echo &quot;-O$i $(g++ -Q --help=optimizers -O$i | grep fstrict-aliasing)&quot;; done
+<pre><code class="language-bash">for i in {0..3} g s; do echo "-O$i $(g++ -Q --help=optimizers -O$i | grep fstrict-aliasing)"; done
 -O0   -fstrict-aliasing           [disabled]
 -O1   -fstrict-aliasing           [disabled]
 -O2   -fstrict-aliasing           [enabled]
@@ -379,13 +379,13 @@ to violate self defined contract, see <a href="https://godbolt.org/z/e8x1af3Mh">
 // Base case with one parameter.
 template&lt;int P&gt;
 void show_int() {
-    printf(&quot;%d\n&quot;, P);
+    printf("%d\n", P);
 }
 
 // General case with at least two parameters, to disambiguate from base case.
 template&lt;int P0, int P1, int... Params&gt;
 void show_int() {
-    printf(&quot;%d, &quot;, P0);
+    printf("%d, ", P0);
     show_int&lt;P1, Params...&gt;();
 }
 
@@ -400,13 +400,13 @@ void show(const T&amp; t) {
 // General case with at least two parameters, to disambiguate from base case.
 template&lt;typename T0, typename T1, typename... Types&gt;
 void show(const T0&amp; t0, const T1&amp; t1, const Types&amp;... types) {
-    std::cout &lt;&lt; t0 &lt;&lt; &quot;, &quot;;
+    std::cout &lt;&lt; t0 &lt;&lt; ", ";
     show(t1, types...);
 }
 
 int main() {
     show_int&lt;1, 2, 3, 4, 5&gt;();
-    show(1, 1.0, &quot;foo&quot;, 'a');
+    show(1, 1.0, "foo", 'a');
 }
 </code></pre>
 <h2 id="forwarding-reference-fwd-ref"><a class="header" href="#forwarding-reference-fwd-ref">Forwarding reference (<a href="https://en.cppreference.com/w/cpp/language/reference#Forwarding_references">fwd ref</a>)</a></h2>
@@ -456,21 +456,21 @@ void fwd_wrapper(T&amp;&amp; param) {  // forwarding reference
 
 int main() {
     {
-        std::puts(&quot;==&gt; wrapper rvalue reference&quot;);
+        std::puts("==&gt; wrapper rvalue reference");
         wrapper(M{});
         // calls use(M&amp;).
 
-        std::puts(&quot;==&gt; wrapper lvalue reference&quot;);
+        std::puts("==&gt; wrapper lvalue reference");
         struct M m;
         wrapper(m);
         // calls use(M&amp;).
     }
     {
-        std::puts(&quot;==&gt; fwd_wrapper rvalue reference&quot;);
+        std::puts("==&gt; fwd_wrapper rvalue reference");
         fwd_wrapper(M{});
         // calls use(M&amp;&amp;).
 
-        std::puts(&quot;==&gt; fwd_wrapper lvalue reference&quot;);
+        std::puts("==&gt; fwd_wrapper lvalue reference");
         struct M m;
         fwd_wrapper(m);
         // calls use(M&amp;).
@@ -496,8 +496,8 @@ struct any_of&lt;T, U0, U...&gt; : any_of&lt;T, U...&gt; {};
 template&lt;typename T, typename... U&gt;
 constexpr bool any_of_v = any_of&lt;T, U...&gt;::value;
 
-static_assert(any_of_v&lt;int, char, bool, int&gt;, &quot;&quot;);
-static_assert(!any_of_v&lt;int, char, bool, float&gt;, &quot;&quot;);
+static_assert(any_of_v&lt;int, char, bool, int&gt;, "");
+static_assert(!any_of_v&lt;int, char, bool, float&gt;, "");
 </code></pre>
 <h2 id="example-sfinae-enable_if"><a class="header" href="#example-sfinae-enable_if">Example: <a href="https://en.cppreference.com/w/cpp/language/sfinae">SFINAE</a> (<a href="https://en.cppreference.com/w/cpp/types/enable_if">enable_if</a>)</a></h2>
 <p>Provide a single entry point <code>Invoke</code> to call some <code>Operations</code>.
@@ -543,16 +543,16 @@ namespace impl {
 template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
          enable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
 void Invoke(const Ctx&amp; C, P... params) {
-    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; '\n';
+    std::cout &lt;&lt; "Invoke " &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; '\n';
     typename Op&lt;Ctx&gt;::Return R = impl::Invoke&lt;Ctx, Op&gt;(C, params...);
-    std::cout &lt;&lt; &quot;returned -&gt; &quot; &lt;&lt; R &lt;&lt; '\n';
+    std::cout &lt;&lt; "returned -&gt; " &lt;&lt; R &lt;&lt; '\n';
 }
 
 // Invoke an OPERATION which has *NOT* a DESTINATION with arbitrary number of arguments.
 template&lt;typename Ctx, template&lt;typename&gt; class Op, typename... P,
          disable_if_bool&lt;has_dst&lt;Op&lt;Ctx&gt;&gt;&gt; = true&gt;
 void Invoke(const Ctx&amp; C, P... params) {
-    std::cout &lt;&lt; &quot;Invoke &quot; &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; &quot; without destination.&quot; &lt;&lt; '\n';
+    std::cout &lt;&lt; "Invoke " &lt;&lt; Op&lt;Ctx&gt;::Name &lt;&lt; " without destination." &lt;&lt; '\n';
     impl::Invoke&lt;Ctx, Op&gt;(C, params...);
 }
 
@@ -560,7 +560,7 @@ void Invoke(const Ctx&amp; C, P... params) {
 
 struct Ctx {
     void out(const char* s, unsigned v) const {
-        printf(&quot;%s%x\n&quot;, s, v);
+        printf("%s%x\n", s, v);
     }
 };
 
@@ -570,7 +570,7 @@ template&lt;typename Ctx&gt;
 struct OpA {
     using HasCtx = std::false_type;
     using Return = int;
-    static constexpr const char* const Name = &quot;OpA&quot;;
+    static constexpr const char* const Name = "OpA";
 
     constexpr Return operator()(int a, int b) const {
         return a + b;
@@ -581,10 +581,10 @@ template&lt;typename Ctx&gt;
 struct OpB {
     using HasCtx = std::true_type;
     using Return = void;
-    static constexpr const char* const Name = &quot;OpB&quot;;
+    static constexpr const char* const Name = "OpB";
 
     Return operator()(const Ctx&amp; C, unsigned a) const {
-        C.out(&quot;a = &quot;, a);
+        C.out("a = ", a);
     }
 };
 
@@ -650,7 +650,7 @@ struct registry {
         const auto it = m_fns.find(nm);
         if (it == m_fns.end()) {
             static_assert(std::is_default_constructible_v&lt;RET&gt;,
-                          &quot;RET must be default constructible&quot;);
+                          "RET must be default constructible");
             return {};
         }
         return std::invoke(it-&gt;second, p...);
@@ -661,7 +661,7 @@ struct registry {
     static bool regfn_##REGISTRY##NAME() {                                                 \
         const bool r = REGISTRY::get().add(#NAME, NAME);                                   \
         if (!r) {                                                                          \
-            std::puts(&quot;Failed to register test &quot; #NAME &quot;, same name already registered!&quot;); \
+            std::puts("Failed to register test " #NAME ", same name already registered!"); \
             std::abort();                                                                  \
         }                                                                                  \
         return r;                                                                          \
@@ -677,10 +677,10 @@ struct registry {
 
 using REG1 = registry&lt;void&gt;;
 TEST(REG1, test1) {
-    std::puts(&quot;REG1::test1&quot;);
+    std::puts("REG1::test1");
 }
 TEST(REG1, test2) {
-    std::puts(&quot;REG1::test2&quot;);
+    std::puts("REG1::test2");
 }
 
 // -- Usage 2 with convenience macro wrapper.
@@ -689,18 +689,18 @@ using REG2 = registry&lt;void, bool&gt;;
 #define TEST2(NAME, ...) TEST(REG2, NAME, ##__VA_ARGS__)
 
 TEST2(test1, bool val) {
-    printf(&quot;REG2::test1 val %d\n&quot;, val);
+    printf("REG2::test1 val %d\n", val);
 }
 
 int main() {
     const auto&amp; R1 = REG1::get();
     R1.dump();
-    R1.invoke(&quot;test1&quot;);
-    R1.invoke(&quot;test2&quot;);
+    R1.invoke("test1");
+    R1.invoke("test2");
 
     const auto&amp; R2 = REG2::get();
     R2.dump();
-    R2.invoke(&quot;test1&quot;, true);
+    R2.invoke("test1", true);
 
     return 0;
 }
@@ -757,7 +757,7 @@ struct Entry {
 };
 
 int main() {
-    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, &quot;&quot;);
+    static_assert(is_entry_v&lt;Entry&lt;bool&gt;&gt;, "");
 }
 </code></pre>
 <p>The main mechanic can be explained with the following reduced example. If one
@@ -781,7 +781,7 @@ struct A {
 
 struct B {};
 
-static_assert(is_valid&lt;A&gt;::value, &quot;is true&quot;);
+static_assert(is_valid&lt;A&gt;::value, "is true");
 // * Compare template arg list with primary template, we only supplied one
 //   arg, the second one will be defaulted as
 //   is_valid&lt;A, void&gt;
@@ -795,7 +795,7 @@ static_assert(is_valid&lt;A&gt;::value, &quot;is true&quot;);
 //   * Specialization (2) matches &lt;A, void&gt;
 // * Pick the most specialized version -&gt; (2)
 
-static_assert(!is_valid&lt;B&gt;::value, &quot;is false&quot;);
+static_assert(!is_valid&lt;B&gt;::value, "is false");
 // * Compare template arg list with primary template, we only supplied one
 //   arg, the second one will be defaulted as
 //   is_valid&lt;A, void&gt;
@@ -846,7 +846,7 @@ struct pair&lt;int, int&gt; {
 };
 
 int main() {
-    static_assert(pair&lt;int&gt;::kind == kIntBool, &quot;&quot;);
+    static_assert(pair&lt;int&gt;::kind == kIntBool, "");
     // * Compare template arg list with primary template, we only supplied one
     //   arg, the second one will be defaulted as
     //   pair&lt;int, bool&gt;
@@ -858,7 +858,7 @@ int main() {
     // * (4) &lt;int, bool&gt; pattern does not match
     // * Pick the most specialized version -&gt; (3)
 
-    static_assert(pair&lt;char, char&gt;::kind == kTT, &quot;&quot;);
+    static_assert(pair&lt;char, char&gt;::kind == kTT, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;char, char&gt; against the patterns defined in the
     //   partial specializations.
@@ -867,7 +867,7 @@ int main() {
     // * (4) &lt;char, char&gt; pattern does not match
     // * Pick the most specialized version -&gt; (2)
 
-    static_assert(pair&lt;int, int&gt;::kind == kIntInt, &quot;&quot;);
+    static_assert(pair&lt;int, int&gt;::kind == kIntInt, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;int, int&gt; against the patterns defined in the
     //   partial specializations.
@@ -876,7 +876,7 @@ int main() {
     // * (4) &lt;int, int&gt; pattern does not match
     // * Pick the most specialized version -&gt; (3)
 
-    static_assert(pair&lt;char, short&gt;::kind == kPrimary, &quot;&quot;);
+    static_assert(pair&lt;char, short&gt;::kind == kPrimary, "");
     // * Compare template arg list against available specializations, this will
     //   try to match the pattern &lt;char, short&gt; against the patterns defined in the
     //   partial specializations.
@@ -897,25 +897,25 @@ struct S {};
 
 struct M {
     M() {
-        std::puts(&quot;M()&quot;);
+        std::puts("M()");
     }
     M(const M&amp;) {
-        std::puts(&quot;M(M&amp;)&quot;);
+        std::puts("M(M&amp;)");
     }
     M(M&amp;&amp;) {
-        std::puts(&quot;M(M&amp;&amp;)&quot;);
+        std::puts("M(M&amp;&amp;)");
     }
     M&amp; operator=(const M&amp;) = delete;
     M&amp; operator=(M&amp;&amp;) = delete;
 
     M(S&amp;, int) {
-        std::puts(&quot;M(S&amp;)&quot;);
+        std::puts("M(S&amp;)");
     }
     M(S&amp;&amp;, int) {
-        std::puts(&quot;M(S&amp;&amp;)&quot;);
+        std::puts("M(S&amp;&amp;)");
     }
     ~M() {
-        std::puts(&quot;~M()&quot;);
+        std::puts("~M()");
     }
 };
 
@@ -963,11 +963,11 @@ struct option {
 };
 
 int main() {
-    std::puts(&quot;==&gt; case 1&quot;);
+    std::puts("==&gt; case 1");
     // invokes M(S&amp;&amp;, int)
     option&lt;M&gt; opt1(S{}, 123);
 
-    std::puts(&quot;==&gt; case 2&quot;);
+    std::puts("==&gt; case 2");
     // invokes M() + M(M&amp;&amp;)
     option&lt;M&gt; x /* option(M&amp;&amp;) + M(M&amp;&amp;) */ = M{} /* M() */;
 }
