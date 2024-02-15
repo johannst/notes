@@ -144,6 +144,12 @@ echo 'a b c d e f' | awk '{ print $NF $(NF-1) }'
 ```
 Access last fields with arithmetic on the `NF` number of fields variable.
 
+### Split on multiple tokens
+```bash
+echo 'a,b;c:d' | awk -F'[,;:]' '{ printf "1=%s | 4=%s\n", $1, $4 }'
+```
+Use regex as field separator.
+
 ### Capture in variables
 ```bash
 # /proc/<pid>/status
