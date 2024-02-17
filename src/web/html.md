@@ -24,3 +24,9 @@
 ```html
 {{#include src/tabs.html }}
 ```
+
+# Minimal tags filter
+[Rendered html](src/tags.html)
+```html
+{{#include src/tags.html }}
+```
