@@ -306,6 +306,69 @@ window.onload = () =&gt; {
     &lt;p&gt;... and there.&lt;/p&gt;
 &lt;/div&gt;
 </code></pre>
+<h1 id="minimal-tags-filter"><a class="header" href="#minimal-tags-filter">Minimal tags filter</a></h1>
+<p><a href="src/tags.html">Rendered html</a></p>
+<pre><code class="language-html">&lt;script&gt;
+/// Map HTML elements to display kinds.
+const elementToDisplay = (E) =&gt; {
+    switch (E.nodeName) {
+        case "LI":
+            return "list-item";
+        default:
+            return "block";
+    }
+}
+
+/// Display only elements with tag T.
+const showTag = (T) =&gt; {
+    Array.from(document.getElementsByClassName("content")).forEach(E =&gt; {
+        E.style.display = "none";
+    });
+
+    Array.from(document.getElementsByClassName(T)).forEach(E =&gt; {
+        E.style.display = elementToDisplay(E);
+    });
+};
+
+/// Initialize buttons and callbacks.
+window.onload = () =&gt; {
+    // Handle to the filter placeholder.
+    const filter = document.getElementById("filter");
+
+    // Create buttons for each tag T.
+    ['arm', 'x86', 'clear'].forEach(T =&gt; {
+        const btn = document.createElement("button");
+        btn.innerHTML = T;
+        btn.onclick = T === "clear"
+            ? (E) =&gt; {
+                showTag("content");
+                filter.innerHTML = "";
+            }
+            : (E) =&gt; {
+                showTag(T);
+                filter.innerHTML = `&lt;p&gt;filter: &lt;mark&gt;${T}&lt;/mark&gt;&lt;/p&gt;`;
+            };
+
+        document.body.prepend(btn);
+    });
+}
+&lt;/script&gt;
+
+&lt;div id = "filter"&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+    &lt;li class = "content arm"&gt;arm 1&lt;/li&gt;
+    &lt;li class = "content arm"&gt;arm 2&lt;/li&gt;
+    &lt;li class = "content arm"&gt;arm 3&lt;/li&gt;
+    &lt;li class = "content x86"&gt;x86 1&lt;/li&gt;
+    &lt;li class = "content x86"&gt;x86 2&lt;/li&gt;
+    &lt;li class = "content x86 arm"&gt;x86 + arm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class = "content arm"&gt;arm&lt;/div&gt;
+&lt;div class = "content arm x86"&gt;arm x86&lt;/div&gt;
+&lt;div class = "content x86"&gt;x86&lt;/div&gt;
+</code></pre>
 
                     </main>
 

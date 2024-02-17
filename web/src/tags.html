@@ -1,0 +1,60 @@
+<script>
+/// Map HTML elements to display kinds.
+const elementToDisplay = (E) => {
+    switch (E.nodeName) {
+        case "LI":
+            return "list-item";
+        default:
+            return "block";
+    }
+}
+
+/// Display only elements with tag T.
+const showTag = (T) => {
+    Array.from(document.getElementsByClassName("content")).forEach(E => {
+        E.style.display = "none";
+    });
+
+    Array.from(document.getElementsByClassName(T)).forEach(E => {
+        E.style.display = elementToDisplay(E);
+    });
+};
+
+/// Initialize buttons and callbacks.
+window.onload = () => {
+    // Handle to the filter placeholder.
+    const filter = document.getElementById("filter");
+
+    // Create buttons for each tag T.
+    ['arm', 'x86', 'clear'].forEach(T => {
+        const btn = document.createElement("button");
+        btn.innerHTML = T;
+        btn.onclick = T === "clear"
+            ? (E) => {
+                showTag("content");
+                filter.innerHTML = "";
+            }
+            : (E) => {
+                showTag(T);
+                filter.innerHTML = `<p>filter: <mark>${T}</mark></p>`;
+            };
+
+        document.body.prepend(btn);
+    });
+}
+</script>
+
+<div id = "filter"></div>
+
+<ul>
+    <li class = "content arm">arm 1</li>
+    <li class = "content arm">arm 2</li>
+    <li class = "content arm">arm 3</li>
+    <li class = "content x86">x86 1</li>
+    <li class = "content x86">x86 2</li>
+    <li class = "content x86 arm">x86 + arm</li>
+</ul>
+
+<div class = "content arm">arm</div>
+<div class = "content arm x86">arm x86</div>
+<div class = "content x86">x86</div>
