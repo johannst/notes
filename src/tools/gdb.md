@@ -172,7 +172,7 @@ thread name <name>
           Specify which process to follow when debuggee makes a fork(2)
           syscall.
 
-  set detach-on-frok <on | off>
+  set detach-on-fork <on | off>
           Turn on/off detaching from new child processes (on by default).
           Turning this off allows to debug multiple processes (inferiors) with
           one gdb session.
