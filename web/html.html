@@ -369,6 +369,108 @@ window.onload = () =&gt; {
 &lt;div class = "content arm x86"&gt;arm x86&lt;/div&gt;
 &lt;div class = "content x86"&gt;x86&lt;/div&gt;
 </code></pre>
+<h1 id="floating-figures-with-caption"><a class="header" href="#floating-figures-with-caption">Floating figures with caption</a></h1>
+<p><a href="src/figure.html">Rendered html</a></p>
+<pre><code class="language-html">&lt;style&gt;
+img {
+    width: 100%;
+    height: auto;
+}
+figure {
+    width: 20%;
+}
+&lt;/style&gt;
+
+&lt;!-- EXAMPLE 1 ----------------------------------------------------------------&gt;
+
+&lt;figure style="float: left;"&gt;
+    &lt;img src="grad.png"&gt;
+    &lt;figcaption&gt;Fig 1: wow such colors&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;i&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Nunc lobortis mattis aliquam
+faucibus. A iaculis at erat pellentesque adipiscing. Dolor morbi non arcu risus
+quis varius quam quisque. Fermentum odio eu feugiat pretium. Nibh nisl
+condimentum id venenatis. Gravida dictum fusce ut placerat orci nulla. Pulvinar
+etiam non quam lacus suspendisse faucibus interdum posuere. Pulvinar
+pellentesque habitant morbi tristique senectus et netus et malesuada. Sem
+fringilla ut morbi tincidunt augue interdum. Consectetur purus ut faucibus
+pulvinar elementum. Dui faucibus in ornare quam. Sodales ut etiam sit amet
+nisl. Nunc scelerisque viverra mauris in aliquam. Nec sagittis aliquam
+malesuada bibendum arcu vitae elementum curabitur.
+&lt;/i&gt;&lt;/p&gt;
+
+&lt;figure style="float: right;"&gt;
+    &lt;img src="grad.png"&gt;
+    &lt;figcaption&gt;Fig 2: wow such colors again&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;i&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Nunc lobortis mattis aliquam
+faucibus. A iaculis at erat pellentesque adipiscing. Dolor morbi non arcu risus
+quis varius quam quisque. Fermentum odio eu feugiat pretium. Nibh nisl
+condimentum id venenatis.
+&lt;/i&gt;&lt;/p&gt;
+
+&lt;!-- EXAMPLE 2 ----------------------------------------------------------------&gt;
+
+&lt;hr style="clear: both"&gt;
+
+&lt;figure style="float: left;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+
+Floats can be next to each other on the same height.
+
+&lt;figure style="float: right;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+
+&lt;!-- EXAMPLE 3 ----------------------------------------------------------------&gt;
+
+&lt;hr style="clear: both"&gt;
+
+&lt;figure style="float: left;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+
+The css property &lt;code&gt;clear: {left, right, both};&lt;/code&gt; controls how elements
+should be handled relative to the previous floating element.
+
+&lt;figure style="float: right; clear: left;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;i&gt;
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Nunc lobortis mattis aliquam
+faucibus. A iaculis at erat pellentesque adipiscing. Dolor morbi non arcu risus
+quis varius quam quisque. Fermentum odio eu feugiat pretium. Nibh nisl
+condimentum id venenatis. Gravida dictum fusce ut placerat orci nulla. Pulvinar
+etiam non quam lacus suspendisse faucibus interdum posuere.
+&lt;/i&gt;&lt;/p&gt;
+
+&lt;!-- EXAMPLE 4 ----------------------------------------------------------------&gt;
+
+&lt;hr style="clear: both"&gt;
+
+&lt;div style="overflow: auto; border: 2px solid red;"&gt;
+&lt;figure style="float: left;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+&lt;code&gt;overflow: auto&lt;/code&gt; gives an alternative to &lt;code&gt;clear&lt;/code&gt; to
+control placement of the floats. The red boarder visualizes the size of the
+&lt;code&gt;&amp;ltdiv&amp;gt&lt;/code&gt; block, you can remove the &lt;code&gt;overflow&lt;/code&gt; property
+and observe how the border changes.
+&lt;/div&gt;
+
+&lt;figure style="float: right;"&gt;
+    &lt;img src="grad.png"&gt;
+&lt;/figure&gt;
+</code></pre>
 
                     </main>
 
