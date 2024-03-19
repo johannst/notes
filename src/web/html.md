@@ -30,3 +30,9 @@
 ```html
 {{#include src/tags.html }}
 ```
+
+# Floating figures with caption
+[Rendered html](src/figure.html)
+```html
+{{#include src/figure.html }}
+```
