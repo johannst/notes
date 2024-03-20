@@ -307,6 +307,7 @@ window.onload = () =&gt; {
 &lt;/div&gt;
 </code></pre>
 <h1 id="minimal-tags-filter"><a class="header" href="#minimal-tags-filter">Minimal tags filter</a></h1>
+<h2 id="single-active-filter-tag"><a class="header" href="#single-active-filter-tag">Single active filter tag</a></h2>
 <p><a href="src/tags.html">Rendered html</a></p>
 <pre><code class="language-html">&lt;script&gt;
 /// Map HTML elements to display kinds.
@@ -355,6 +356,83 @@ window.onload = () =&gt; {
 &lt;/script&gt;
 
 &lt;div id = "filter"&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+    &lt;li class = "content arm"&gt;arm 1&lt;/li&gt;
+    &lt;li class = "content arm"&gt;arm 2&lt;/li&gt;
+    &lt;li class = "content arm"&gt;arm 3&lt;/li&gt;
+    &lt;li class = "content x86"&gt;x86 1&lt;/li&gt;
+    &lt;li class = "content x86"&gt;x86 2&lt;/li&gt;
+    &lt;li class = "content x86 arm"&gt;x86 + arm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class = "content arm"&gt;arm&lt;/div&gt;
+&lt;div class = "content arm x86"&gt;arm x86&lt;/div&gt;
+&lt;div class = "content x86"&gt;x86&lt;/div&gt;
+</code></pre>
+<h2 id="multiple-active-filter-tags"><a class="header" href="#multiple-active-filter-tags">Multiple active filter tags</a></h2>
+<p><a href="src/tags2.html">Rendered html</a></p>
+<pre><code class="language-html">&lt;script&gt;
+/// Map HTML elements to display kinds.
+const elementToDisplay = (E) =&gt; {
+    switch (E.nodeName) {
+        case "LI":
+            return "list-item";
+        default:
+            return "block";
+    }
+}
+
+/// Display only elements which have all TAGS.
+const showTag = (TAGS) =&gt; {
+    Array.from(document.getElementsByClassName("content")).forEach(E =&gt; {
+        // Display the element, iff the element contains every tag T in TAGS.
+        if (TAGS.every(T =&gt; Array.from(E.classList).includes(T))) {
+            E.style.display = elementToDisplay(E);
+        } else {
+            E.style.display = "none";
+        }
+    });
+};
+
+/// Initialize buttons and callbacks.
+window.onload = () =&gt; {
+    // Handle to the filter placeholder.
+    const filter_node = document.getElementById("filter");
+    // Active filter tags.
+    const filter = Array();
+
+    // Create buttons for each tag T.
+    ["arm", "x86", "clear"].forEach(T =&gt; {
+        const btn = document.createElement("button");
+        btn.innerHTML = T;
+        btn.onclick = T === "clear"
+            ? (E) =&gt; {
+                // Clear active filter.
+                while (filter.length) { filter.pop(); }
+
+                showTag(["content"]);
+                filter_node.innerHTML = "&lt;p&gt;filter:&lt;/p&gt;";
+            }
+            : (E) =&gt; {
+                // Toggle tag T in Active filter.
+                if ((idx = filter.indexOf(T)) &gt; -1) {
+                    filter.splice(idx, 1);
+                } else {
+                    filter.push(T);
+                }
+
+                showTag(filter);
+                out = filter.map(T =&gt; `&lt;mark&gt;${T}&lt;/mark&gt;`).join(" + ");
+                filter_node.innerHTML = `&lt;p&gt;filter: ${out}&lt;/p&gt;`;
+            };
+
+        document.body.prepend(btn);
+    });
+}
+&lt;/script&gt;
+
+&lt;div id = "filter"&gt;&lt;p&gt;filter:&lt;/p&gt;&lt;/div&gt;
 
 &lt;ul&gt;
     &lt;li class = "content arm"&gt;arm 1&lt;/li&gt;
@@ -463,7 +541,7 @@ etiam non quam lacus suspendisse faucibus interdum posuere.
 &lt;/figure&gt;
 &lt;code&gt;overflow: auto&lt;/code&gt; gives an alternative to &lt;code&gt;clear&lt;/code&gt; to
 control placement of the floats. The red boarder visualizes the size of the
-&lt;code&gt;&amp;ltdiv&amp;gt&lt;/code&gt; block, you can remove the &lt;code&gt;overflow&lt;/code&gt; property
+&lt;code&gt;&amp;ltdiv&amp;gt&lt;/code&gt; block. One can remove the &lt;code&gt;overflow&lt;/code&gt; property
 and observe how the border changes.
 &lt;/div&gt;
 

@@ -1,0 +1,74 @@
+<script>
+/// Map HTML elements to display kinds.
+const elementToDisplay = (E) => {
+    switch (E.nodeName) {
+        case "LI":
+            return "list-item";
+        default:
+            return "block";
+    }
+}
+
+/// Display only elements which have all TAGS.
+const showTag = (TAGS) => {
+    Array.from(document.getElementsByClassName("content")).forEach(E => {
+        // Display the element, iff the element contains every tag T in TAGS.
+        if (TAGS.every(T => Array.from(E.classList).includes(T))) {
+            E.style.display = elementToDisplay(E);
+        } else {
+            E.style.display = "none";
+        }
+    });
+};
+
+/// Initialize buttons and callbacks.
+window.onload = () => {
+    // Handle to the filter placeholder.
+    const filter_node = document.getElementById("filter");
+    // Active filter tags.
+    const filter = Array();
+
+    // Create buttons for each tag T.
+    ["arm", "x86", "clear"].forEach(T => {
+        const btn = document.createElement("button");
+        btn.innerHTML = T;
+        btn.onclick = T === "clear"
+            ? (E) => {
+                // Clear active filter.
+                while (filter.length) { filter.pop(); }
+
+                showTag(["content"]);
+                filter_node.innerHTML = "<p>filter:</p>";
+            }
+            : (E) => {
+                // Toggle tag T in Active filter.
+                if ((idx = filter.indexOf(T)) > -1) {
+                    filter.splice(idx, 1);
+                } else {
+                    filter.push(T);
+                }
+
+                showTag(filter);
+                out = filter.map(T => `<mark>${T}</mark>`).join(" + ");
+                filter_node.innerHTML = `<p>filter: ${out}</p>`;
+            };
+
+        document.body.prepend(btn);
+    });
+}
+</script>
+
+<div id = "filter"><p>filter:</p></div>
+
+<ul>
+    <li class = "content arm">arm 1</li>
+    <li class = "content arm">arm 2</li>
+    <li class = "content arm">arm 3</li>
+    <li class = "content x86">x86 1</li>
+    <li class = "content x86">x86 2</li>
+    <li class = "content x86 arm">x86 + arm</li>
+</ul>
+
+<div class = "content arm">arm</div>
+<div class = "content arm x86">arm x86</div>
+<div class = "content x86">x86</div>
