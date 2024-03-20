@@ -29,13 +29,13 @@
 ## Single active filter tag
 [Rendered html](src/tags.html)
 ```html
-{{#include src/tags.html }}
+{{#include src/tags.html:3: }}
 ```
 
 ## Multiple active filter tags
 [Rendered html](src/tags2.html)
 ```html
-{{#include src/tags2.html }}
+{{#include src/tags2.html:3: }}
 ```
 
 # Floating figures with caption
