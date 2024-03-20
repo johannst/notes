@@ -26,9 +26,16 @@
 ```
 
 # Minimal tags filter
+## Single active filter tag
 [Rendered html](src/tags.html)
 ```html
 {{#include src/tags.html }}
+```
+
+## Multiple active filter tags
+[Rendered html](src/tags2.html)
+```html
+{{#include src/tags2.html }}
 ```
 
 # Floating figures with caption
