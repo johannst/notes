@@ -137,5 +137,40 @@ Resolve each file name as canonical path.
 $(realpath fname1 fname2 ..)
 ```
 
+## Examples
+
+### Config based settings
+```make
+conf-y      := default
+conf-$(FOO) := $(conf-y) foo
+conf-$(BAR) := $(conf-y) bar
+
+libs-y      := libdef
+libs-$(FOO) += libfoo
+libs-$(BAR) += libbar
+
+all:
+	@echo "conf-y: $(conf-y)"
+	@echo "libs-y: $(libs-y)"
+```
+Yields the following results.
+```sh
+$ make
+conf-y: default
+libs-y: libdef
+
+$ make FOO=y
+conf-y: default foo
+libs-y: libdef libfoo
+
+$ make BAR=y
+conf-y: default bar
+libs-y: libdef libbar
+
+$ make FOO=y BAR=y
+conf-y: default foo bar
+libs-y: libdef libfoo libbar
+```
+
 [make-var-override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
 [make-patsubst]: https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#index-patsubst-1
