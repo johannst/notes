@@ -190,7 +190,7 @@
 <blockquote>
 <p>Use <code>make -p</code> to print all rules and variables (implicitly + explicitly defined).</p>
 </blockquote>
-<h2 id="pattern-rules--automatic-variables"><a class="header" href="#pattern-rules--automatic-variables">Pattern rules &amp; Automatic variables</a></h2>
+<h2 id="pattern-rules--variables"><a class="header" href="#pattern-rules--variables">Pattern rules &amp; variables</a></h2>
 <h3 id="pattern-rules"><a class="header" href="#pattern-rules">Pattern rules</a></h3>
 <p>A pattern rule contains the <code>%</code> char (exactly one of them) and look like this example:</p>
 <pre><code class="language-make">%.o : %.c
@@ -243,6 +243,19 @@ bbb:
 <ul>
 <li><code>$(CURDIR)</code>: Path of current working dir after using <code>make -C path</code></li>
 </ul>
+<h3 id="multi-line-variables"><a class="header" href="#multi-line-variables">Multi-line variables</a></h3>
+<pre><code class="language-make">define my_var
+@echo foo
+@echo bar
+endef
+
+all:
+	$(my_var)
+</code></pre>
+<p>Running above <code>Makefile</code> gives:</p>
+<pre><code class="language-text">foo
+bar
+</code></pre>
 <h2 id="arguments"><a class="header" href="#arguments">Arguments</a></h2>
 <p>Arguments specified on the command line <em>override</em> ordinary variable
 assignments in the makefile (<a href="https://www.gnu.org/software/make/manual/html_node/Overriding.html">overriding variables</a>).</p>
@@ -285,12 +298,105 @@ out := $(filter-out %.b %.c, $(in))
 <h3 id="abspath"><a class="header" href="#abspath"><code>abspath</code></a></h3>
 <p>Resolve each file name as absolute path (don't resolve symlinks).</p>
 <pre><code class="language-make">$(abspath fname1 fname2 ..)
-
-### `realpath`
-Resolve each file name as canonical path.
-```make
-$(realpath fname1 fname2 ..)
 </code></pre>
+<h3 id="realpath"><a class="header" href="#realpath"><code>realpath</code></a></h3>
+<p>Resolve each file name as canonical path.</p>
+<pre><code class="language-make">$(realpath fname1 fname2 ..)
+</code></pre>
+<h3 id="call--ref"><a class="header" href="#call--ref"><code>call</code>  (<a href="https://www.gnu.org/software/make/manual/html_node/Call-Function.html">ref</a>)</a></h3>
+<p>Invoke parametrized function, which is an expression saved in a variable.</p>
+<pre><code class="language-make">swap = $(2) $(1)
+
+all:
+	@echo "call swap first second -&gt; $(call swap,first,second)"
+</code></pre>
+<p>Outputs:</p>
+<pre><code class="language-text">call swap first second -&gt; second first
+</code></pre>
+<h3 id="eval-ref"><a class="header" href="#eval-ref"><code>eval</code> (<a href="https://www.gnu.org/software/make/manual/html_node/Eval-Function.html">ref</a>)</a></h3>
+<p>Allows to define new makefile constructs by evaluating the result of a variable
+or function.</p>
+<pre><code class="language-make">define new_rule
+$(1):
+	@echo "$(1) -&gt; $(2)"
+endef
+
+default: rule1 rule2
+
+$(eval $(call new_rule,rule1,foo))
+$(eval $(call new_rule,rule2,bar))
+</code></pre>
+<p>Outputs:</p>
+<pre><code class="language-text">rule1 -&gt; foo
+rule2 -&gt; bar
+</code></pre>
+<h3 id="foreach-ref"><a class="header" href="#foreach-ref">foreach (<a href="https://www.gnu.org/software/make/manual/html_node/Foreach-Function.html">ref</a>)</a></h3>
+<p>Repeat a piece of text for a list of values, given the syntax <code>$(foreach var,list,text)</code>.</p>
+<pre><code class="language-make">myfn = x$(1)x
+
+default:
+	@echo $(foreach V,foo bar baz,$(call myfn,$(V)))
+</code></pre>
+<p>Outputs:</p>
+<pre><code class="language-text">xfoox xbarx xbazx
+</code></pre>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="config-based-settings"><a class="header" href="#config-based-settings">Config based settings</a></h3>
+<pre><code class="language-make">conf-y      := default
+conf-$(FOO) := $(conf-y) foo
+conf-$(BAR) := $(conf-y) bar
+
+libs-y      := libdef
+libs-$(FOO) += libfoo
+libs-$(BAR) += libbar
+
+all:
+	@echo "conf-y: $(conf-y)"
+	@echo "libs-y: $(libs-y)"
+</code></pre>
+<p>Yields the following results.</p>
+<pre><code class="language-sh">$ make
+conf-y: default
+libs-y: libdef
+
+$ make FOO=y
+conf-y: default foo
+libs-y: libdef libfoo
+
+$ make BAR=y
+conf-y: default bar
+libs-y: libdef libbar
+
+$ make FOO=y BAR=y
+conf-y: default foo bar
+libs-y: libdef libfoo libbar
+</code></pre>
+<h3 id="using-foreach--eval--call-to-generate-new-rules"><a class="header" href="#using-foreach--eval--call-to-generate-new-rules">Using <code>foreach / eval / call</code> to generate new rules</a></h3>
+<pre><code class="language-make">define new_rule
+$(1):
+	@echo "$(1) -&gt; $(2)"
+endef
+
+arg-rule1 = foo
+arg-rule2 = bar
+
+RULES = rule1 rule2
+
+all: $(RULES)
+
+$(foreach R,$(RULES),$(eval $(call new_rule,$(R),$(arg-$(R)))))
+
+# equivalent to
+#   $(eval $(call new_rule,rule1,foo))
+#   $(eval $(call new_rule,rule2,bar))
+</code></pre>
+<p>Outputs:</p>
+<pre><code class="language-text">rule1 -&gt; foo
+rule2 -&gt; bar
+</code></pre>
+<blockquote>
+<p>Use <code>make -R -p</code> to print the make database including the rules.</p>
+</blockquote>
 
                     </main>
 
