@@ -13,7 +13,7 @@ target .. : prerequisite ..
 
 > Use `make -p` to print all rules and variables (implicitly + explicitly defined).
 
-## Pattern rules & Automatic variables
+## Pattern rules & variables
 ### Pattern rules
 A pattern rule contains the `%` char (exactly one of them) and look like this example:
 ```make
@@ -71,6 +71,22 @@ Running above `Makefile` gives:
 
 Variables related to filesystem paths:
 - `$(CURDIR)`: Path of current working dir after using `make -C path`
+
+### Multi-line variables
+```make
+define my_var
+@echo foo
+@echo bar
+endef
+
+all:
+	$(my_var)
+```
+Running above `Makefile` gives:
+```text
+foo
+bar
+```
 
 ## Arguments
 
@@ -130,11 +146,59 @@ out := $(filter-out %.b %.c, $(in))
 Resolve each file name as absolute path (don't resolve symlinks).
 ```make
 $(abspath fname1 fname2 ..)
+```
 
 ### `realpath`
 Resolve each file name as canonical path.
 ```make
 $(realpath fname1 fname2 ..)
+```
+
+### `call`  ([ref][make-call])
+Invoke parametrized function, which is an expression saved in a variable.
+```make
+swap = $(2) $(1)
+
+all:
+	@echo "call swap first second -> $(call swap,first,second)"
+```
+Outputs:
+```text
+call swap first second -> second first
+```
+
+### `eval` ([ref][make-eval])
+Allows to define new makefile constructs by evaluating the result of a variable
+or function.
+```make
+define new_rule
+$(1):
+	@echo "$(1) -> $(2)"
+endef
+
+default: rule1 rule2
+
+$(eval $(call new_rule,rule1,foo))
+$(eval $(call new_rule,rule2,bar))
+```
+Outputs:
+```text
+rule1 -> foo
+rule2 -> bar
+```
+
+### foreach ([ref][make-foreach])
+Repeat a piece of text for a list of values, given the syntax `$(foreach
+var,list,text)`.
+```make
+myfn = x$(1)x
+
+default:
+	@echo $(foreach V,foo bar baz,$(call myfn,$(V)))
+```
+Outputs:
+```text
+xfoox xbarx xbazx
 ```
 
 ## Examples
@@ -172,5 +236,35 @@ conf-y: default foo bar
 libs-y: libdef libfoo libbar
 ```
 
+### Using `foreach / eval / call` to generate new rules
+```make
+define new_rule
+$(1):
+	@echo "$(1) -> $(2)"
+endef
+
+arg-rule1 = foo
+arg-rule2 = bar
+
+RULES = rule1 rule2
+
+all: $(RULES)
+
+$(foreach R,$(RULES),$(eval $(call new_rule,$(R),$(arg-$(R)))))
+
+# equivalent to
+#   $(eval $(call new_rule,rule1,foo))
+#   $(eval $(call new_rule,rule2,bar))
+```
+Outputs:
+```text
+rule1 -> foo
+rule2 -> bar
+```
+> Use `make -R -p` to print the make database including the rules.
+
 [make-var-override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
 [make-patsubst]: https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#index-patsubst-1
+[make-call]: https://www.gnu.org/software/make/manual/html_node/Call-Function.html
+[make-eval]: https://www.gnu.org/software/make/manual/html_node/Eval-Function.html
+[make-foreach]: https://www.gnu.org/software/make/manual/html_node/Foreach-Function.html
