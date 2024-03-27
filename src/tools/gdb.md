@@ -184,6 +184,16 @@ thread name <name>
           Switch to inferior with <id>.
 ```
 
+## Shell commands
+```markdown
+  shell <shell_cmd>
+          Run the shell_cmd and print the output, can also contain a pipeline.
+
+  pipe <gdb_cmd> | <shell_cmd>
+          Evaluate the gdb_cmd and run the shell_cmd which receives the output
+          of the gdb_cmd via stdin.
+```
+
 ## Source file locations
 ```markdown
   dir <path>
@@ -228,7 +238,12 @@ thread name <name>
   set logging redirect <on/off>
           on: only log to file.
           off: log to file and tty.
+
+  set logging overwrite <on/off>
+          on: Truncate log file on each run.
+          off: Append to logfile (default).
 ```
+> Logging options should be configured before logging is turned on.
 
 # Text user interface (TUI)
 ```markdown
@@ -432,6 +447,23 @@ Old value = 2
 New value = 3
 set (s=0x7fffffffe594, v=3) at test.c:5
 5   }
+```
+
+## Shell commands
+```markdown
+# Run shell commands.
+
+(gdb) shell zcat /proc/config.gz | grep CONFIG_KVM=
+CONFIG_KVM=m
+
+# Pipe gdb command to shell command.
+
+(gdb) pipe info proc mapping | grep libc
+    0x7ffff7a1a000     0x7ffff7a42000    0x28000        0x0  r--p   /usr/lib/libc.so.6
+    0x7ffff7a42000     0x7ffff7b9d000   0x15b000    0x28000  r-xp   /usr/lib/libc.so.6
+    0x7ffff7b9d000     0x7ffff7bf2000    0x55000   0x183000  r--p   /usr/lib/libc.so.6
+    0x7ffff7bf2000     0x7ffff7bf6000     0x4000   0x1d7000  r--p   /usr/lib/libc.so.6
+    0x7ffff7bf6000     0x7ffff7bf8000     0x2000   0x1db000  rw-p   /usr/lib/libc.so.6
 ```
 
 # Know Bugs
