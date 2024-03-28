@@ -1916,6 +1916,14 @@ thread name &lt;name&gt;
   inferior &lt;id&gt;
           Switch to inferior with &lt;id&gt;.
 </code></pre>
+<h2 id="shell-commands"><a class="header" href="#shell-commands">Shell commands</a></h2>
+<pre><code class="language-markdown">  shell &lt;shell_cmd&gt;
+          Run the shell_cmd and print the output, can also contain a pipeline.
+
+  pipe &lt;gdb_cmd&gt; | &lt;shell_cmd&gt;
+          Evaluate the gdb_cmd and run the shell_cmd which receives the output
+          of the gdb_cmd via stdin.
+</code></pre>
 <h2 id="source-file-locations"><a class="header" href="#source-file-locations">Source file locations</a></h2>
 <pre><code class="language-markdown">  dir &lt;path&gt;
           Add &lt;path&gt; to the beginning of the searh path for source files.
@@ -1956,7 +1964,14 @@ thread name &lt;name&gt;
   set logging redirect &lt;on/off&gt;
           on: only log to file.
           off: log to file and tty.
+
+  set logging overwrite &lt;on/off&gt;
+          on: Truncate log file on each run.
+          off: Append to logfile (default).
 </code></pre>
+<blockquote>
+<p>Logging options should be configured before logging is turned on.</p>
+</blockquote>
 <h1 id="text-user-interface-tui"><a class="header" href="#text-user-interface-tui">Text user interface (TUI)</a></h1>
 <pre><code class="language-markdown">  C-x a     Toggle UI.
   C-l       Redraw UI (curses UI can be messed up after the debugee prints to
@@ -2132,6 +2147,21 @@ Old value = 2
 New value = 3
 set (s=0x7fffffffe594, v=3) at test.c:5
 5   }
+</code></pre>
+<h2 id="shell-commands-1"><a class="header" href="#shell-commands-1">Shell commands</a></h2>
+<pre><code class="language-markdown"># Run shell commands.
+
+(gdb) shell zcat /proc/config.gz | grep CONFIG_KVM=
+CONFIG_KVM=m
+
+# Pipe gdb command to shell command.
+
+(gdb) pipe info proc mapping | grep libc
+    0x7ffff7a1a000     0x7ffff7a42000    0x28000        0x0  r--p   /usr/lib/libc.so.6
+    0x7ffff7a42000     0x7ffff7b9d000   0x15b000    0x28000  r-xp   /usr/lib/libc.so.6
+    0x7ffff7b9d000     0x7ffff7bf2000    0x55000   0x183000  r--p   /usr/lib/libc.so.6
+    0x7ffff7bf2000     0x7ffff7bf6000     0x4000   0x1d7000  r--p   /usr/lib/libc.so.6
+    0x7ffff7bf6000     0x7ffff7bf8000     0x2000   0x1db000  rw-p   /usr/lib/libc.so.6
 </code></pre>
 <h1 id="know-bugs"><a class="header" href="#know-bugs">Know Bugs</a></h1>
 <h2 id="workaround-command--finish-bug"><a class="header" href="#workaround-command--finish-bug">Workaround <code>command + finish</code> bug</a></h2>
@@ -3465,11 +3495,42 @@ objdump -C --disassemble=foo::bar &lt;bin&gt;
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cfilt1"><a class="header" href="#cfilt1">c++filt(1)</a></h1>
 <h2 id="demangle-symbol"><a class="header" href="#demangle-symbol">Demangle symbol</a></h2>
-<pre><code class="language-markdown">  c++-filt &lt;symbol_str&gt;
+<pre><code class="language-markdown">  c++-filt [opts] &lt;symbol_str&gt;
+    -t    Try to also demangle types.
 </code></pre>
 <h2 id="demangle-stream"><a class="header" href="#demangle-stream">Demangle stream</a></h2>
 <p>For example dynamic symbol table:</p>
 <pre><code class="language-markdown">  readelf -W --dyn-syms &lt;elf&gt; | c++filt
+</code></pre>
+<h2 id="demangle-types"><a class="header" href="#demangle-types">Demangle types</a></h2>
+<pre><code class="language-c++">// file: type.cc
+#include &lt;cstdio&gt;
+#include &lt;typeinfo&gt;
+
+#define P(ty) printf(#ty " -&gt; %s\n", typeid(ty).name())
+
+template &lt;typename T = void&gt;
+struct Foo {};
+
+int main() {
+  P(int);
+  P(unsigned char);
+  P(Foo&lt;&gt;);
+  P(Foo&lt;int&gt;);
+}
+</code></pre>
+<p>Build and run:</p>
+<pre><code class="language-sh">$ clang++ type.cc &amp;&amp; ./a.out | c++filt
+int -&gt; i
+unsigned char -&gt; h
+Foo&lt;&gt; -&gt; 3FooIvE
+Foo&lt;int&gt; -&gt; 3FooIiE
+
+$ clang++ type.cc &amp;&amp; ./a.out | c++filt -t
+int -&gt; int
+unsigned char -&gt; unsigned char
+Foo&lt;&gt; -&gt; Foo&lt;void&gt;
+Foo&lt;int&gt; -&gt; Foo&lt;int&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="c"><a class="header" href="#c">c++</a></h1>
 <p>openstd <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/standards">cpp standards</a>.</p>

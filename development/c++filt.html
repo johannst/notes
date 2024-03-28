@@ -178,11 +178,42 @@
                     <main>
                         <h1 id="cfilt1"><a class="header" href="#cfilt1">c++filt(1)</a></h1>
 <h2 id="demangle-symbol"><a class="header" href="#demangle-symbol">Demangle symbol</a></h2>
-<pre><code class="language-markdown">  c++-filt &lt;symbol_str&gt;
+<pre><code class="language-markdown">  c++-filt [opts] &lt;symbol_str&gt;
+    -t    Try to also demangle types.
 </code></pre>
 <h2 id="demangle-stream"><a class="header" href="#demangle-stream">Demangle stream</a></h2>
 <p>For example dynamic symbol table:</p>
 <pre><code class="language-markdown">  readelf -W --dyn-syms &lt;elf&gt; | c++filt
+</code></pre>
+<h2 id="demangle-types"><a class="header" href="#demangle-types">Demangle types</a></h2>
+<pre><code class="language-c++">// file: type.cc
+#include &lt;cstdio&gt;
+#include &lt;typeinfo&gt;
+
+#define P(ty) printf(#ty " -&gt; %s\n", typeid(ty).name())
+
+template &lt;typename T = void&gt;
+struct Foo {};
+
+int main() {
+  P(int);
+  P(unsigned char);
+  P(Foo&lt;&gt;);
+  P(Foo&lt;int&gt;);
+}
+</code></pre>
+<p>Build and run:</p>
+<pre><code class="language-sh">$ clang++ type.cc &amp;&amp; ./a.out | c++filt
+int -&gt; i
+unsigned char -&gt; h
+Foo&lt;&gt; -&gt; 3FooIvE
+Foo&lt;int&gt; -&gt; 3FooIiE
+
+$ clang++ type.cc &amp;&amp; ./a.out | c++filt -t
+int -&gt; int
+unsigned char -&gt; unsigned char
+Foo&lt;&gt; -&gt; Foo&lt;void&gt;
+Foo&lt;int&gt; -&gt; Foo&lt;int&gt;
 </code></pre>
 
                     </main>
