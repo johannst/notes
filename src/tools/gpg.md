@@ -110,6 +110,12 @@ gpg --verify <file>.asc <file>
 - `pub` public key
 - `sub` public subkey
 
+Key usage flags:
+- `[S]` signing
+- `[C]` create certificates
+- `[E]` encrypting
+- `[A]` authentication
+
 ## Keyservers
 - http://pgp.mit.edu
 - http://keyserver.ubuntu.com
