@@ -44,7 +44,7 @@ delkey       delete selected subkey
 ## Export & Import Keys
 ```bash
 gpg --export --armor --output <KEY.PUB> <KEY ID>
-gpg --export-secret-key --armor --output <KEY.PUB> <KEY ID>
+gpg --export-secret-key --armor --output <KEY.PRIVATE> <KEY ID>
 gpg --import <FILE>
 ```
 
