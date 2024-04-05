@@ -188,10 +188,14 @@
       --tty &lt;tty&gt;     set I/O tty for debugee
       --batch         run in batch mode, exit after processing options (eg used
                       for scripting)
+      --batch-silent  link --batch, but surpress gdb stdout
 </code></pre>
 <h1 id="interactive-usage"><a class="header" href="#interactive-usage">Interactive usage</a></h1>
 <h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
-<pre><code class="language-markdown">  tty &lt;tty&gt;
+<pre><code class="language-markdown">  apropos &lt;regex&gt;
+          Search commands matching regex.
+
+  tty &lt;tty&gt;
           Set &lt;tty&gt; as tty for debugee.
           Make sure nobody reads from target tty, easiest is to spawn a shell
           and run following in target tty:
@@ -210,6 +214,9 @@
 
   info display
           List display expressions.
+
+  info sharedlibrary [&lt;regex&gt;]
+          List shared libraries loaded. Optionally use &lt;regex&gt; to filter.
 </code></pre>
 <h2 id="breakpoints"><a class="header" href="#breakpoints">Breakpoints</a></h2>
 <pre><code class="language-markdown">  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
@@ -341,6 +348,12 @@ thread name &lt;name&gt;
   inferior &lt;id&gt;
           Switch to inferior with &lt;id&gt;.
 </code></pre>
+<h2 id="scheduling"><a class="header" href="#scheduling">Scheduling</a></h2>
+<pre><code class="language-markdown">  set schedule-multiple &lt;on | off&gt;
+          on: Resume all threads of all processes (inferiors) when continuing
+              or stepping.
+          off: (default) Resume only threads of current process (inferior).
+</code></pre>
 <h2 id="shell-commands"><a class="header" href="#shell-commands">Shell commands</a></h2>
 <pre><code class="language-markdown">  shell &lt;shell_cmd&gt;
           Run the shell_cmd and print the output, can also contain a pipeline.
@@ -386,13 +399,19 @@ thread name &lt;name&gt;
   set logging file &lt;fname&gt;
           Change output log file to &lt;fname&gt;
 
-  set logging redirect &lt;on/off&gt;
+  set logging redirect &lt;on | off&gt;
           on: only log to file.
           off: log to file and tty.
 
-  set logging overwrite &lt;on/off&gt;
+  set logging overwrite &lt;on | off&gt;
           on: Truncate log file on each run.
           off: Append to logfile (default).
+
+  set history filename &lt;fname&gt;
+          Change file where to save and restore command history to and from.
+
+  set history &lt;on | off&gt;
+          Enable or disable saving of command history.
 </code></pre>
 <blockquote>
 <p>Logging options should be configured before logging is turned on.</p>

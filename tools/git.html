@@ -294,6 +294,7 @@ the same repository (shared .git folder).</p>
 <pre><code class="language-markdown">  git diff &lt;commit&gt;..&lt;commit&gt; [&lt;file&gt;] .... show changes between two arbitrary
                                             commits. If one &lt;commit&gt; is omitted
                                             it is if HEAD is specified.
+  git diff --name-only &lt;commit&gt;..&lt;commit&gt; . show names of files changed
   git diff -U$(wc -l &lt;file&gt;) &lt;file&gt; ....... shows complete file with diffs
                                             instead of usual diff snippets
   git diff --staged ....................... show diffs of staged files

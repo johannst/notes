@@ -541,6 +541,11 @@ ${foo/pattern/string}  # replace pattern with string when expanding foo
 # '/'   replace all occurences of pattern
 # '#'   pattern match at beginning
 # '%'   pattern match at end
+
+# set programmatically with priintf builtin
+printf -v "VAR1" "abc"
+NAME=VAR2
+printf -v "$NAME" "%s" "def"
 </code></pre>
 <blockquote>
 <p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="tools/bash.html#pathname">pathnames</a>.</p>
@@ -1180,6 +1185,7 @@ the same repository (shared .git folder).</p>
 <pre><code class="language-markdown">  git diff &lt;commit&gt;..&lt;commit&gt; [&lt;file&gt;] .... show changes between two arbitrary
                                             commits. If one &lt;commit&gt; is omitted
                                             it is if HEAD is specified.
+  git diff --name-only &lt;commit&gt;..&lt;commit&gt; . show names of files changed
   git diff -U$(wc -l &lt;file&gt;) &lt;file&gt; ....... shows complete file with diffs
                                             instead of usual diff snippets
   git diff --staged ....................... show diffs of staged files
@@ -1770,10 +1776,14 @@ gpg&gt; save
       --tty &lt;tty&gt;     set I/O tty for debugee
       --batch         run in batch mode, exit after processing options (eg used
                       for scripting)
+      --batch-silent  link --batch, but surpress gdb stdout
 </code></pre>
 <h1 id="interactive-usage"><a class="header" href="#interactive-usage">Interactive usage</a></h1>
 <h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
-<pre><code class="language-markdown">  tty &lt;tty&gt;
+<pre><code class="language-markdown">  apropos &lt;regex&gt;
+          Search commands matching regex.
+
+  tty &lt;tty&gt;
           Set &lt;tty&gt; as tty for debugee.
           Make sure nobody reads from target tty, easiest is to spawn a shell
           and run following in target tty:
@@ -1792,6 +1802,9 @@ gpg&gt; save
 
   info display
           List display expressions.
+
+  info sharedlibrary [&lt;regex&gt;]
+          List shared libraries loaded. Optionally use &lt;regex&gt; to filter.
 </code></pre>
 <h2 id="breakpoints"><a class="header" href="#breakpoints">Breakpoints</a></h2>
 <pre><code class="language-markdown">  break [-qualified] &lt;sym&gt; thread &lt;tnum&gt;
@@ -1923,6 +1936,12 @@ thread name &lt;name&gt;
   inferior &lt;id&gt;
           Switch to inferior with &lt;id&gt;.
 </code></pre>
+<h2 id="scheduling"><a class="header" href="#scheduling">Scheduling</a></h2>
+<pre><code class="language-markdown">  set schedule-multiple &lt;on | off&gt;
+          on: Resume all threads of all processes (inferiors) when continuing
+              or stepping.
+          off: (default) Resume only threads of current process (inferior).
+</code></pre>
 <h2 id="shell-commands"><a class="header" href="#shell-commands">Shell commands</a></h2>
 <pre><code class="language-markdown">  shell &lt;shell_cmd&gt;
           Run the shell_cmd and print the output, can also contain a pipeline.
@@ -1968,13 +1987,19 @@ thread name &lt;name&gt;
   set logging file &lt;fname&gt;
           Change output log file to &lt;fname&gt;
 
-  set logging redirect &lt;on/off&gt;
+  set logging redirect &lt;on | off&gt;
           on: only log to file.
           off: log to file and tty.
 
-  set logging overwrite &lt;on/off&gt;
+  set logging overwrite &lt;on | off&gt;
           on: Truncate log file on each run.
           off: Append to logfile (default).
+
+  set history filename &lt;fname&gt;
+          Change file where to save and restore command history to and from.
+
+  set history &lt;on | off&gt;
+          Enable or disable saving of command history.
 </code></pre>
 <blockquote>
 <p>Logging options should be configured before logging is turned on.</p>
@@ -4443,6 +4468,19 @@ run1:
 <li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cmake1"><a class="header" href="#cmake1">cmake(1)</a></h1>
+<h2 id="frequently-used-variables"><a class="header" href="#frequently-used-variables">Frequently used variables</a></h2>
+<pre><code># Install location.
+CMAKE_INSTALL_PREFIX=&lt;path&gt;
+
+# Generate compile_commands.json?
+CMAKE_EXPORT_COMPILE_COMMANDS={0,1}
+
+# Project build type.
+CMAKE_BUILD_TYPE={Debug, Release, RelWithDebInfo, MinSizeRel}
+
+# C++ standard.
+CMAKE_CXX_STANDARD={14,17,..}
+</code></pre>
 <h2 id="private--public--interface"><a class="header" href="#private--public--interface"><code>PRIVATE</code> / <code>PUBLIC</code> / <code>INTERFACE</code></a></h2>
 <p>These modifier control where properties for a given target are visible.</p>
 <ul>
@@ -4477,6 +4515,15 @@ target_link_libraries(main liba)
 [3/4] /usr/bin/c++ -DDEF_INTERFACE -DDEF_PUBLIC [..] .../main.cc
 [4/4] [..]
 </code></pre>
+<h2 id="find_package-ref"><a class="header" href="#find_package-ref"><code>find_package</code> [<a href="https://cmake.org/cmake/help/latest/command/find_package.html">ref</a>]</a></h2>
+<p>A small example to play with can be found in <a href="https://github.com/johannst/notes/tree/master/src/development/cmake/module">cmake/module</a>.</p>
+<pre><code class="language-cmake">find_package(Name MODULE)
+</code></pre>
+<p>Looks for <code>FindName.cmake</code> in paths given by <code>CMAKE_MODULE_PATH</code> and then builtin paths.</p>
+<pre><code class="language-cmake">find_package(Name CONFIG)
+</code></pre>
+<p>Looks for <code>name-config.cmake</code> or <code>NameConfig.cmake</code> in paths given by
+<code>CMAKE_PREFIX_PATH</code>, or path given by <code>Name_DIR</code> and then builtin paths.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="make1"><a class="header" href="#make1">make(1)</a></h1>
 <h2 id="anatomy-of-make-rules"><a class="header" href="#anatomy-of-make-rules">Anatomy of <code>make</code> rules</a></h2>
 <pre><code class="language-make">target .. : prerequisite ..
