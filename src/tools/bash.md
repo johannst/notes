@@ -41,6 +41,11 @@ ${foo/pattern/string}  # replace pattern with string when expanding foo
 # '/'   replace all occurences of pattern
 # '#'   pattern match at beginning
 # '%'   pattern match at end
+
+# set programmatically with priintf builtin
+printf -v "VAR1" "abc"
+NAME=VAR2
+printf -v "$NAME" "%s" "def"
 ```
 
 > Note: `prefix`/`suffix`/`pattern` are expanded as [pathnames](#pathname).
