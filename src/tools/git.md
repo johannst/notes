@@ -138,6 +138,7 @@ the same repository (shared .git folder).
   git diff <commit>..<commit> [<file>] .... show changes between two arbitrary
                                             commits. If one <commit> is omitted
                                             it is if HEAD is specified.
+  git diff --name-only <commit>..<commit> . show names of files changed
   git diff -U$(wc -l <file>) <file> ....... shows complete file with diffs
                                             instead of usual diff snippets
   git diff --staged ....................... show diffs of staged files
