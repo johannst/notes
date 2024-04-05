@@ -13,12 +13,16 @@
       --tty <tty>     set I/O tty for debugee
       --batch         run in batch mode, exit after processing options (eg used
                       for scripting)
+      --batch-silent  link --batch, but surpress gdb stdout
 ```
 
 # Interactive usage
 
 ## Misc
 ```markdown
+  apropos <regex>
+          Search commands matching regex.
+
   tty <tty>
           Set <tty> as tty for debugee.
           Make sure nobody reads from target tty, easiest is to spawn a shell
@@ -38,6 +42,9 @@
 
   info display
           List display expressions.
+
+  info sharedlibrary [<regex>]
+          List shared libraries loaded. Optionally use <regex> to filter.
 ```
 
 ## Breakpoints
@@ -184,6 +191,14 @@ thread name <name>
           Switch to inferior with <id>.
 ```
 
+## Scheduling
+```markdown
+  set schedule-multiple <on | off>
+          on: Resume all threads of all processes (inferiors) when continuing
+              or stepping.
+          off: (default) Resume only threads of current process (inferior).
+```
+
 ## Shell commands
 ```markdown
   shell <shell_cmd>
@@ -235,13 +250,19 @@ thread name <name>
   set logging file <fname>
           Change output log file to <fname>
 
-  set logging redirect <on/off>
+  set logging redirect <on | off>
           on: only log to file.
           off: log to file and tty.
 
-  set logging overwrite <on/off>
+  set logging overwrite <on | off>
           on: Truncate log file on each run.
           off: Append to logfile (default).
+
+  set history filename <fname>
+          Change file where to save and restore command history to and from.
+
+  set history <on | off>
+          Enable or disable saving of command history.
 ```
 > Logging options should be configured before logging is turned on.
 
