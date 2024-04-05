@@ -1,5 +1,20 @@
 # cmake(1)
 
+## Frequently used variables
+```
+# Install location.
+CMAKE_INSTALL_PREFIX=<path>
+
+# Generate compile_commands.json?
+CMAKE_EXPORT_COMPILE_COMMANDS={0,1}
+
+# Project build type.
+CMAKE_BUILD_TYPE={Debug, Release, RelWithDebInfo, MinSizeRel}
+
+# C++ standard.
+CMAKE_CXX_STANDARD={14,17,..}
+```
+
 ## `PRIVATE` / `PUBLIC` / `INTERFACE`
 
 These modifier control where properties for a given target are visible.
@@ -38,3 +53,21 @@ target_link_libraries(main liba)
 [3/4] /usr/bin/c++ -DDEF_INTERFACE -DDEF_PUBLIC [..] .../main.cc
 [4/4] [..]
 ```
+
+## `find_package` [[ref][cmake-find_package]]
+A small example to play with can be found in [cmake/module][src-module].
+
+```cmake
+find_package(Name MODULE)
+```
+Looks for `FindName.cmake` in paths given by `CMAKE_MODULE_PATH` and then builtin paths.
+
+```cmake
+find_package(Name CONFIG)
+```
+Looks for `name-config.cmake` or `NameConfig.cmake` in paths given by
+`CMAKE_PREFIX_PATH`, or path given by `Name_DIR` and then builtin paths.
+
+[cmake-include]: https://cmake.org/cmake/help/latest/command/include.html
+[cmake-find_package]: https://cmake.org/cmake/help/latest/command/find_package.html
+[src-module]: https://github.com/johannst/notes/tree/master/src/development/cmake/module
