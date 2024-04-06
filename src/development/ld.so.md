@@ -30,7 +30,7 @@ dlopen("libbar.so", RTLD_LAZY);
 Libraries specified in `LD_PRELOAD` are loaded from `left-to-right` but
 initialized from `right-to-left`.
 
-```markdown
+```
 > ldd ./main
   >> libc.so.6 => /usr/lib/libc.so.6
 
@@ -48,7 +48,7 @@ The preload order determines:
 For the example listed above the resulting `link map` will look like the
 following:
 
-```makrdown
+```
   +------+    +------+    +------+    +------+
   | main | -> | liba | -> | libb | -> | libc |
   +------+    +------+    +------+    +------+
@@ -56,7 +56,7 @@ following:
 
 This can be seen when running with `LD_DEBUG=files`:
 
-```makrdown
+```
 > LD_DEBUG=files LD_PRELOAD=liba.so:libb.so ./main
   # load order (-> determines link map)
   >> file=liba.so [0];  generating link map
@@ -74,13 +74,129 @@ To verify the `link map` order we let `ld.so` resolve the `memcpy(3)` libc
 symbol (used in _main_) dynamically, while enabling `LD_DEBUG=symbols,bindings`
 to see the resolving in action.
 
-```makrdown
+```
 > LD_DEBUG=symbols,bindings LD_PRELOAD=liba.so:libb.so ./main
   >> symbol=memcpy;  lookup in file=./main [0]
   >> symbol=memcpy;  lookup in file=<path>/liba.so [0]
   >> symbol=memcpy;  lookup in file=<path>/libb.so [0]
   >> symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
   >> binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol `memcpy' [GLIBC_2.14]
+```
+
+## `RTLD_LOCAL` and `RTLD_DEEPBIND`
+As shown in the `LD_PRELOAD` section above, when the dynamic linker resolves
+symbol relocations, it walks the link map and until the first object provides
+the requested symbol.
+
+When libraries are loaded dynamically during runtime with `dlopen(3)`, one can
+control the visibility of the symbols for the loaded library. The following two
+flags control this visibility.
+- `RTLD_LOCAL` the symbols of the library (and its dependencies) are not
+  visible in the global symbol scope and therefore do not participate in global
+  symbol resolution from other libraries (default).
+- `RTLD_GLOBAL` the symbols of the library are visible in the global symbol
+  scope.
+
+Additionally to the visibility one can use the `RTLD_DEEPBIND` flag to define
+the lookup order when resolving symbols of the loaded library. With deep
+binding, the symbols of the loaded library (and its dependencies) are searched
+first before the global scope is searched. Without deep binding, the order is
+reversed and the global space is searched first, which is the default.
+
+The sources in [ldso/deepbind][src-deepbind] give a minimal example, which can
+be used to experiment with the different flags and investigate their behavior.
+```
+main
+|-> explicitly link against liblink.so
+|-> dlopen(libdeep.so, RTLD_LOCAL | RTLD_DEEPBIND)
+`-> dlopen(libnodp.so, RTLD_LOCAL)
+```
+
+The following snippets are taken from `LD_DEBUG` to demonstrate the
+`RLTD_LOCAL` and `RTLD_DEEPBIND` flags.
+```ini
+# dlopen("libdeep.so", RTLD_LOCAL | RTLD_DEEPBIND)
+# scopes visible to libdeep.so, where scope [0] is the local one.
+object=./libdeep.so [0]
+ scope 0: ./libdeep.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+ scope 1: ./main ./libprel.so ./liblink.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+
+# main: dlsym(handle:libdeep.so, "test")
+symbol=test;  lookup in file=./libdeep.so [0]
+binding file ./libdeep.so [0] to ./libdeep.so [0]: normal symbol `test'
+
+# libdeep.so: dlsym(RTLD_NEXT, "next_libdeep")
+symbol=next_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=next_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: next_libdeep (fatal)
+
+# libdeep.so: dlsym(RTLD_DEFAULT, "default_libdeep")
+# first search local scope (DEEPBIND)
+symbol=default_libdeep;  lookup in file=./libdeep.so [0]
+symbol=default_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+symbol=default_libdeep;  lookup in file=./main [0]
+symbol=default_libdeep;  lookup in file=./libprel.so [0]
+symbol=default_libdeep;  lookup in file=./liblink.so [0]
+symbol=default_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: default_libdeep (fatal)
+
+# main: dlsym(handle:libdeep.so, "libdeep_main")
+symbol=libdeep_main;  lookup in file=./libdeep.so [0]
+symbol=libdeep_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=libdeep_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: libdeep_main (fatal)
+```
+
+The following snippets are taken from `LD_DEBUG` to demonstrate the
+`RLTD_LOCAL` flag _without_ the `RTLD_DEEPBIND` flag.
+```ini
+# dlopen("libdeep.so", RTLD_LOCAL)
+# scopes visible to libnodp.so, where scope [0] is the global one.
+object=./libnodp.so [0]
+ scope 0: ./main ./libprel.so ./liblink.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+ scope 1: ./libnodp.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+
+# main: dlsym(handle:libnodp.so, "test")
+symbol=test;  lookup in file=./libnodp.so [0]
+binding file ./libnodp.so [0] to ./libnodp.so [0]: normal symbol `test'
+
+# libnodp.so: dlsym(RTLD_NEXT, "next_libnodp")
+symbol=next_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=next_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: next_libnodp (fatal)
+
+# libnodp.so: dlsym(RTLD_DEFAULT, "default_libnodp")
+# first search global scope (no DEEPBIND)
+symbol=default_libnodp;  lookup in file=./main [0]
+symbol=default_libnodp;  lookup in file=./libprel.so [0]
+symbol=default_libnodp;  lookup in file=./liblink.so [0]
+symbol=default_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+symbol=default_libnodp;  lookup in file=./libnodp.so [0]
+symbol=default_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: default_libnodp (fatal)
+
+# main: dlsym(handle:libnodp.so, "libnodp_main")
+symbol=libnodp_main;  lookup in file=./libnodp.so [0]
+symbol=libnodp_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=libnodp_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: libnodp_main (fatal)
+```
+
+The following is a global lookup from the main application, since
+`lib{deep,nodp}.so` were loaded with `RTLD_LOCAL`, they are not visible in the
+global symbol scope.
+```ini
+# main: dlsym(RTLD_DEFAULT, "default_main")
+symbol=default_main;  lookup in file=./main [0]
+symbol=default_main;  lookup in file=./libprel.so [0]
+symbol=default_main;  lookup in file=./liblink.so [0]
+symbol=default_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./main: error: symbol lookup error: undefined symbol: default_main (fatal)
 ```
 
 ## Dynamic Linking (x86_64)
@@ -90,7 +206,7 @@ section).
 On the first call the trampoline sets up some metadata and then jumps to the
 `ld.so` runtime resolve function, which in turn patches the table with the
 correct function pointer.
-```makrdown
+```
 .plt ....... procedure linkage table, contains function trampolines, usually
              located in code segment (rx permission)
 .got.plt ... global offset table for .plt, holds the function pointer table
@@ -98,7 +214,7 @@ correct function pointer.
 
 Using `radare2` we can analyze this in more detail:
 
-```makrdown
+```
 [0x00401040]> pd 4 @ section..got.plt
             ;-- section..got.plt:
             ;-- .got.plt:    ; [22] -rw- section size 32 named .got.plt
@@ -135,7 +251,7 @@ Using `radare2` we can analyze this in more detail:
   relocation index pushed by the `puts` trampoline.
 - The relocation entry at index `0` tells the resolve function which symbol to
   search for and where to put the function pointer:
-  ```makrdown
+  ```
   > readelf -r <main>
     >> Relocation section '.rela.plt' at offset 0x4b8 contains 1 entry:
     >>   Offset          Info           Type           Sym. Value    Sym. Name + Addend
@@ -143,3 +259,4 @@ Using `radare2` we can analyze this in more detail:
   ```
   As we can see the offset from relocation at index `0` points to `GOT[3]`.
 
+[src-deepbind]: https://github.com/johannst/notes/tree/master/src/development/ldso/deepbind
