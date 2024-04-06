@@ -178,13 +178,13 @@
                     <main>
                         <h1 id="ldso8"><a class="header" href="#ldso8">ld.so(8)</a></h1>
 <h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
-<pre><code class="language-console">  LD_PRELOAD=&lt;l_so&gt;       colon separated list of libso's to be pre loaded
-  LD_DEBUG=&lt;opts&gt;         comma separated list of debug options
-          =help           list available options
-          =libs           show library search path
-          =files          processing of input files
-          =symbols        show search path for symbol lookup
-          =bindings       show against which definition a symbol is bound
+<pre><code class="language-console">LD_PRELOAD=&lt;l_so&gt;       colon separated list of libso's to be pre loaded
+LD_DEBUG=&lt;opts&gt;         comma separated list of debug options
+        =help           list available options
+        =libs           show library search path
+        =files          processing of input files
+        =symbols        show search path for symbol lookup
+        =bindings       show against which definition a symbol is bound
 </code></pre>
 <h3 id="ld_library_path-and-dlopen3"><a class="header" href="#ld_library_path-and-dlopen3">LD_LIBRARY_PATH and dlopen(3)</a></h3>
 <p>When dynamically loading a shared library during program runtime with
@@ -202,14 +202,14 @@ dlopen("libbar.so", RTLD_LAZY);
 <h2 id="ld_preload-initialization-order-and-link-map"><a class="header" href="#ld_preload-initialization-order-and-link-map">LD_PRELOAD: Initialization Order and Link Map</a></h2>
 <p>Libraries specified in <code>LD_PRELOAD</code> are loaded from <code>left-to-right</code> but
 initialized from <code>right-to-left</code>.</p>
-<pre><code class="language-markdown">  &gt; ldd ./main
-    &gt;&gt; libc.so.6 =&gt; /usr/lib/libc.so.6
+<pre><code>&gt; ldd ./main
+  &gt;&gt; libc.so.6 =&gt; /usr/lib/libc.so.6
 
-  &gt; LD_PRELOAD=liba.so:libb.so ./main
-             --&gt;
-      preloaded in this order
-             &lt;--
-      initialized in this order
+&gt; LD_PRELOAD=liba.so:libb.so ./main
+           --&gt;
+    preloaded in this order
+           &lt;--
+    initialized in this order
 </code></pre>
 <p>The preload order determines:</p>
 <ul>
@@ -218,32 +218,139 @@ initialized from <code>right-to-left</code>.</p>
 </ul>
 <p>For the example listed above the resulting <code>link map</code> will look like the
 following:</p>
-<pre><code class="language-makrdown">  +------+    +------+    +------+    +------+
+<pre><code>  +------+    +------+    +------+    +------+
   | main | -&gt; | liba | -&gt; | libb | -&gt; | libc |
   +------+    +------+    +------+    +------+
 </code></pre>
 <p>This can be seen when running with <code>LD_DEBUG=files</code>:</p>
-<pre><code class="language-makrdown">  &gt; LD_DEBUG=files LD_PRELOAD=liba.so:libb.so ./main
-    # load order (-&gt; determines link map)
-    &gt;&gt; file=liba.so [0];  generating link map
-    &gt;&gt; file=libb.so [0];  generating link map
-    &gt;&gt; file=libc.so.6 [0];  generating link map
+<pre><code>&gt; LD_DEBUG=files LD_PRELOAD=liba.so:libb.so ./main
+  # load order (-&gt; determines link map)
+  &gt;&gt; file=liba.so [0];  generating link map
+  &gt;&gt; file=libb.so [0];  generating link map
+  &gt;&gt; file=libc.so.6 [0];  generating link map
 
-    # init order
-    &gt;&gt; calling init: /usr/lib/libc.so.6
-    &gt;&gt; calling init: &lt;path&gt;/libb.so
-    &gt;&gt; calling init: &lt;path&gt;/liba.so
-    &gt;&gt; initialize program: ./main
+  # init order
+  &gt;&gt; calling init: /usr/lib/libc.so.6
+  &gt;&gt; calling init: &lt;path&gt;/libb.so
+  &gt;&gt; calling init: &lt;path&gt;/liba.so
+  &gt;&gt; initialize program: ./main
 </code></pre>
 <p>To verify the <code>link map</code> order we let <code>ld.so</code> resolve the <code>memcpy(3)</code> libc
 symbol (used in <em>main</em>) dynamically, while enabling <code>LD_DEBUG=symbols,bindings</code>
 to see the resolving in action.</p>
-<pre><code class="language-makrdown">  &gt; LD_DEBUG=symbols,bindings LD_PRELOAD=liba.so:libb.so ./main
-    &gt;&gt; symbol=memcpy;  lookup in file=./main [0]
-    &gt;&gt; symbol=memcpy;  lookup in file=&lt;path&gt;/liba.so [0]
-    &gt;&gt; symbol=memcpy;  lookup in file=&lt;path&gt;/libb.so [0]
-    &gt;&gt; symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
-    &gt;&gt; binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol `memcpy' [GLIBC_2.14]
+<pre><code>&gt; LD_DEBUG=symbols,bindings LD_PRELOAD=liba.so:libb.so ./main
+  &gt;&gt; symbol=memcpy;  lookup in file=./main [0]
+  &gt;&gt; symbol=memcpy;  lookup in file=&lt;path&gt;/liba.so [0]
+  &gt;&gt; symbol=memcpy;  lookup in file=&lt;path&gt;/libb.so [0]
+  &gt;&gt; symbol=memcpy;  lookup in file=/usr/lib/libc.so.6 [0]
+  &gt;&gt; binding file ./main [0] to /usr/lib/libc.so.6 [0]: normal symbol `memcpy' [GLIBC_2.14]
+</code></pre>
+<h2 id="rtld_local-and-rtld_deepbind"><a class="header" href="#rtld_local-and-rtld_deepbind"><code>RTLD_LOCAL</code> and <code>RTLD_DEEPBIND</code></a></h2>
+<p>As shown in the <code>LD_PRELOAD</code> section above, when the dynamic linker resolves
+symbol relocations, it walks the link map and until the first object provides
+the requested symbol.</p>
+<p>When libraries are loaded dynamically during runtime with <code>dlopen(3)</code>, one can
+control the visibility of the symbols for the loaded library. The following two
+flags control this visibility.</p>
+<ul>
+<li><code>RTLD_LOCAL</code> the symbols of the library (and its dependencies) are not
+visible in the global symbol scope and therefore do not participate in global
+symbol resolution from other libraries (default).</li>
+<li><code>RTLD_GLOBAL</code> the symbols of the library are visible in the global symbol
+scope.</li>
+</ul>
+<p>Additionally to the visibility one can use the <code>RTLD_DEEPBIND</code> flag to define
+the lookup order when resolving symbols of the loaded library. With deep
+binding, the symbols of the loaded library (and its dependencies) are searched
+first before the global scope is searched. Without deep binding, the order is
+reversed and the global space is searched first, which is the default.</p>
+<p>The sources in <a href="https://github.com/johannst/notes/tree/master/src/development/ldso/deepbind">ldso/deepbind</a> give a minimal example, which can
+be used to experiment with the different flags and investigate their behavior.</p>
+<pre><code>main
+|-&gt; explicitly link against liblink.so
+|-&gt; dlopen(libdeep.so, RTLD_LOCAL | RTLD_DEEPBIND)
+`-&gt; dlopen(libnodp.so, RTLD_LOCAL)
+</code></pre>
+<p>The following snippets are taken from <code>LD_DEBUG</code> to demonstrate the
+<code>RLTD_LOCAL</code> and <code>RTLD_DEEPBIND</code> flags.</p>
+<pre><code class="language-ini"># dlopen("libdeep.so", RTLD_LOCAL | RTLD_DEEPBIND)
+# scopes visible to libdeep.so, where scope [0] is the local one.
+object=./libdeep.so [0]
+ scope 0: ./libdeep.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+ scope 1: ./main ./libprel.so ./liblink.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+
+# main: dlsym(handle:libdeep.so, "test")
+symbol=test;  lookup in file=./libdeep.so [0]
+binding file ./libdeep.so [0] to ./libdeep.so [0]: normal symbol `test'
+
+# libdeep.so: dlsym(RTLD_NEXT, "next_libdeep")
+symbol=next_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=next_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: next_libdeep (fatal)
+
+# libdeep.so: dlsym(RTLD_DEFAULT, "default_libdeep")
+# first search local scope (DEEPBIND)
+symbol=default_libdeep;  lookup in file=./libdeep.so [0]
+symbol=default_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+symbol=default_libdeep;  lookup in file=./main [0]
+symbol=default_libdeep;  lookup in file=./libprel.so [0]
+symbol=default_libdeep;  lookup in file=./liblink.so [0]
+symbol=default_libdeep;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libdeep;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: default_libdeep (fatal)
+
+# main: dlsym(handle:libdeep.so, "libdeep_main")
+symbol=libdeep_main;  lookup in file=./libdeep.so [0]
+symbol=libdeep_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=libdeep_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libdeep.so: error: symbol lookup error: undefined symbol: libdeep_main (fatal)
+</code></pre>
+<p>The following snippets are taken from <code>LD_DEBUG</code> to demonstrate the
+<code>RLTD_LOCAL</code> flag <em>without</em> the <code>RTLD_DEEPBIND</code> flag.</p>
+<pre><code class="language-ini"># dlopen("libdeep.so", RTLD_LOCAL)
+# scopes visible to libnodp.so, where scope [0] is the global one.
+object=./libnodp.so [0]
+ scope 0: ./main ./libprel.so ./liblink.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+ scope 1: ./libnodp.so /usr/lib/libc.so.6 /lib64/ld-linux-x86-64.so.2
+
+# main: dlsym(handle:libnodp.so, "test")
+symbol=test;  lookup in file=./libnodp.so [0]
+binding file ./libnodp.so [0] to ./libnodp.so [0]: normal symbol `test'
+
+# libnodp.so: dlsym(RTLD_NEXT, "next_libnodp")
+symbol=next_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=next_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: next_libnodp (fatal)
+
+# libnodp.so: dlsym(RTLD_DEFAULT, "default_libnodp")
+# first search global scope (no DEEPBIND)
+symbol=default_libnodp;  lookup in file=./main [0]
+symbol=default_libnodp;  lookup in file=./libprel.so [0]
+symbol=default_libnodp;  lookup in file=./liblink.so [0]
+symbol=default_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+symbol=default_libnodp;  lookup in file=./libnodp.so [0]
+symbol=default_libnodp;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_libnodp;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: default_libnodp (fatal)
+
+# main: dlsym(handle:libnodp.so, "libnodp_main")
+symbol=libnodp_main;  lookup in file=./libnodp.so [0]
+symbol=libnodp_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=libnodp_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./libnodp.so: error: symbol lookup error: undefined symbol: libnodp_main (fatal)
+</code></pre>
+<p>The following is a global lookup from the main application, since
+<code>lib{deep,nodp}.so</code> were loaded with <code>RTLD_LOCAL</code>, they are not visible in the
+global symbol scope.</p>
+<pre><code class="language-ini"># main: dlsym(RTLD_DEFAULT, "default_main")
+symbol=default_main;  lookup in file=./main [0]
+symbol=default_main;  lookup in file=./libprel.so [0]
+symbol=default_main;  lookup in file=./liblink.so [0]
+symbol=default_main;  lookup in file=/usr/lib/libc.so.6 [0]
+symbol=default_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+./main: error: symbol lookup error: undefined symbol: default_main (fatal)
 </code></pre>
 <h2 id="dynamic-linking-x86_64"><a class="header" href="#dynamic-linking-x86_64">Dynamic Linking (x86_64)</a></h2>
 <p>Dynamic linking basically works via one indirect jump. It uses a combination of
@@ -252,33 +359,33 @@ section).
 On the first call the trampoline sets up some metadata and then jumps to the
 <code>ld.so</code> runtime resolve function, which in turn patches the table with the
 correct function pointer.</p>
-<pre><code class="language-makrdown">  .plt ....... procedure linkage table, contains function trampolines, usually
-               located in code segment (rx permission)
-  .got.plt ... global offset table for .plt, holds the function pointer table
+<pre><code>.plt ....... procedure linkage table, contains function trampolines, usually
+             located in code segment (rx permission)
+.got.plt ... global offset table for .plt, holds the function pointer table
 </code></pre>
 <p>Using <code>radare2</code> we can analyze this in more detail:</p>
-<pre><code class="language-makrdown">  [0x00401040]&gt; pd 4 @ section..got.plt
-              ;-- section..got.plt:
-              ;-- .got.plt:    ; [22] -rw- section size 32 named .got.plt
-              ;-- _GLOBAL_OFFSET_TABLE_:
-         [0]  0x00404000      .qword 0x0000000000403e10 ; section..dynamic
-         [1]  0x00404008      .qword 0x0000000000000000
-              ; CODE XREF from section..plt @ +0x6
-         [2]  0x00404010      .qword 0x0000000000000000
-              ;-- reloc.puts:
-              ; CODE XREF from sym.imp.puts @ 0x401030
-         [3]  0x00404018      .qword 0x0000000000401036 ; RELOC 64 puts
+<pre><code>[0x00401040]&gt; pd 4 @ section..got.plt
+            ;-- section..got.plt:
+            ;-- .got.plt:    ; [22] -rw- section size 32 named .got.plt
+            ;-- _GLOBAL_OFFSET_TABLE_:
+       [0]  0x00404000      .qword 0x0000000000403e10 ; section..dynamic
+       [1]  0x00404008      .qword 0x0000000000000000
+            ; CODE XREF from section..plt @ +0x6
+       [2]  0x00404010      .qword 0x0000000000000000
+            ;-- reloc.puts:
+            ; CODE XREF from sym.imp.puts @ 0x401030
+       [3]  0x00404018      .qword 0x0000000000401036 ; RELOC 64 puts
 
-  [0x00401040]&gt; pd 6 @ section..plt
-              ;-- section..plt:
-              ;-- .plt:       ; [12] -r-x section size 32 named .plt
-          ┌─&gt; 0x00401020      ff35e22f0000   push qword [0x00404008]
-          ╎   0x00401026      ff25e42f0000   jmp qword [0x00404010]
-          ╎   0x0040102c      0f1f4000       nop dword [rax]
-  ┌ 6: int sym.imp.puts (const char *s);
-  └       ╎   0x00401030      ff25e22f0000   jmp qword [reloc.puts]
-          ╎   0x00401036      6800000000     push 0
-          └─&lt; 0x0040103b      e9e0ffffff     jmp sym..plt
+[0x00401040]&gt; pd 6 @ section..plt
+            ;-- section..plt:
+            ;-- .plt:       ; [12] -r-x section size 32 named .plt
+        ┌─&gt; 0x00401020      ff35e22f0000   push qword [0x00404008]
+        ╎   0x00401026      ff25e42f0000   jmp qword [0x00404010]
+        ╎   0x0040102c      0f1f4000       nop dword [rax]
+┌ 6: int sym.imp.puts (const char *s);
+└       ╎   0x00401030      ff25e22f0000   jmp qword [reloc.puts]
+        ╎   0x00401036      6800000000     push 0
+        └─&lt; 0x0040103b      e9e0ffffff     jmp sym..plt
 </code></pre>
 <ul>
 <li>At address <code>0x00401030</code> in the <code>.plt</code> section we see the indirect jump for
@@ -293,10 +400,10 @@ startup by the <code>ld.so</code> with its resolve function.</li>
 relocation index pushed by the <code>puts</code> trampoline.</li>
 <li>The relocation entry at index <code>0</code> tells the resolve function which symbol to
 search for and where to put the function pointer:
-<pre><code class="language-makrdown">  &gt; readelf -r &lt;main&gt;
-    &gt;&gt; Relocation section '.rela.plt' at offset 0x4b8 contains 1 entry:
-    &gt;&gt;   Offset          Info           Type           Sym. Value    Sym. Name + Addend
-    &gt;&gt; 000000404018  000200000007 R_X86_64_JUMP_SLO 0000000000000000 puts@GLIBC_2.2.5 + 0
+<pre><code>&gt; readelf -r &lt;main&gt;
+  &gt;&gt; Relocation section '.rela.plt' at offset 0x4b8 contains 1 entry:
+  &gt;&gt;   Offset          Info           Type           Sym. Value    Sym. Name + Addend
+  &gt;&gt; 000000404018  000200000007 R_X86_64_JUMP_SLO 0000000000000000 puts@GLIBC_2.2.5 + 0
 </code></pre>
 As we can see the offset from relocation at index <code>0</code> points to <code>GOT[3]</code>.</li>
 </ul>
