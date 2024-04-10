@@ -29,6 +29,13 @@
 +-------------------+
 ```
 
+## Config
+```markdown
+  git config --list --show-origin ..... list currently set configs and where
+                                        they are coming from
+  git --edit [--global] ............... open config in editor (local or global)
+```
+
 ## Clean
 ```markdown
   git clean -X ......... remove only ignored files (-n for dry run)
