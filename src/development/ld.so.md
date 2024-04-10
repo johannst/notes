@@ -199,6 +199,10 @@ symbol=default_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
 ./main: error: symbol lookup error: undefined symbol: default_main (fatal)
 ```
 
+## Load lib with same name from different locations
+The sources in [ldso/samename][src-samename] show some experiments, loading the
+libs with the same name but potentially from different locations (paths).
+
 ## Dynamic Linking (x86_64)
 Dynamic linking basically works via one indirect jump. It uses a combination of
 function trampolines (`.plt` section) and a function pointer table (`.got.plt`
@@ -260,3 +264,4 @@ Using `radare2` we can analyze this in more detail:
   As we can see the offset from relocation at index `0` points to `GOT[3]`.
 
 [src-deepbind]: https://github.com/johannst/notes/tree/master/src/development/ldso/deepbind
+[src-samename]: https://github.com/johannst/notes/tree/master/src/development/ldso/samename
