@@ -204,6 +204,11 @@
 | remote repository |
 +-------------------+
 </code></pre>
+<h2 id="config"><a class="header" href="#config">Config</a></h2>
+<pre><code class="language-markdown">  git config --list --show-origin ..... list currently set configs and where
+                                        they are coming from
+  git --edit [--global] ............... open config in editor (local or global)
+</code></pre>
 <h2 id="clean"><a class="header" href="#clean">Clean</a></h2>
 <pre><code class="language-markdown">  git clean -X ......... remove only ignored files (-n for dry run)
   git clean -f -d -x ... remove untracked &amp; ignored files / folders

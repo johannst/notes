@@ -352,6 +352,9 @@ symbol=default_main;  lookup in file=/usr/lib/libc.so.6 [0]
 symbol=default_main;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
 ./main: error: symbol lookup error: undefined symbol: default_main (fatal)
 </code></pre>
+<h2 id="load-lib-with-same-name-from-different-locations"><a class="header" href="#load-lib-with-same-name-from-different-locations">Load lib with same name from different locations</a></h2>
+<p>The sources in <a href="https://github.com/johannst/notes/tree/master/src/development/ldso/samename">ldso/samename</a> show some experiments, loading the
+libs with the same name but potentially from different locations (paths).</p>
 <h2 id="dynamic-linking-x86_64"><a class="header" href="#dynamic-linking-x86_64">Dynamic Linking (x86_64)</a></h2>
 <p>Dynamic linking basically works via one indirect jump. It uses a combination of
 function trampolines (<code>.plt</code> section) and a function pointer table (<code>.got.plt</code>

@@ -813,6 +813,110 @@ static_assert(!is_valid&lt;B&gt;::value, "is false");
 </blockquote>
 <p>A more detailed description is available in the SO discussion <a href="https://stackoverflow.com/a/27688405">How does
 <code>void_t</code> work</a>.</p>
+<h2 id="example-concepts-since-c20"><a class="header" href="#example-concepts-since-c20">Example: Concepts since c++20</a></h2>
+<pre><code class="language-cpp">// REQUIRES EXPRESSION
+//   requires { requirement-seq }
+//   requires ( parameter-list ) { requirement-seq }
+//
+// [1] https://en.cppreference.com/w/cpp/language/requires
+// [2] https://en.cppreference.com/w/cpp/language/constraints#Constraints
+//
+// REQUIREMENT CLAUSE
+//   Not the same as a REQUIREMENT EXPRESSIONS, and is used to require
+//   constraints (express concept bounds).
+//
+// [1] https://en.cppreference.com/w/cpp/language/constraints#Requires_clauses
+
+// -- HELPER -------------------------------------------------------------------
+
+template&lt;typename T&gt;
+using Alias = T;
+
+void print(int);
+
+// -- CONCEPTS &amp; REQUIRE EXPRESSIONS -------------------------------------------
+
+// Simple concept from a type trait.
+template&lt;typename T, typename U&gt;
+concept Same = std::is_same&lt;T, U&gt;::value;
+
+// Simple requirement concepts.
+template&lt;typename T&gt;
+concept TraitAddAndPrint = requires(T t, int i) {
+    // Adding T + int must be supported.
+    t + i;
+    // Calling print(T) must be available.
+    print(t);
+};
+
+// Type requirement concepts.
+template&lt;typename T&gt;
+concept TraitTypes = requires(T t) {
+    // T must have a type definition inner.
+    typename T::inner;
+    // Type alias must exist.
+    typename Alias&lt;T&gt;;
+};
+
+// Compound requirement concepts.
+template&lt;typename T&gt;
+concept TraitFns = requires(T t, const T c) {
+    // void T::foo() must exist.
+    { t.foo() };
+    // bool T::bar() const; must exist.
+    { c.bar() } -&gt; Same&lt;bool&gt;;
+    // static void T::stat(); must exist.
+    { T::stat() } -&gt; Same&lt;int&gt;;
+};
+
+// Nested requirement concepts.
+template&lt;typename T&gt;
+concept TraitNested = requires(T t) {
+    // Must satisfy other concepts.
+    requires TraitTypes&lt;T&gt;;
+    requires TraitFns&lt;T&gt;;
+};
+
+// -- REQUIRE EXPRESSIONS ------------------------------------------------------
+
+// Require expressions can be evaluated to booleans.
+template&lt;typename T&gt;
+static constexpr bool IsTraitFns = requires { requires TraitFns&lt;T&gt;; };
+
+// Require expressions can also be used in static assertions.
+static_assert(requires { requires Same&lt;int, int&gt;; });
+static_assert(!requires {
+    typename Alias&lt;int&gt;;
+    requires Same&lt;int, void&gt;;
+});
+
+// -- TESTS --------------------------------------------------------------------
+
+static_assert(requires { requires TraitAddAndPrint&lt;int&gt;; });
+
+struct FnTypeGood {
+    using inner = int;
+};
+struct FnTypeBad {};
+static_assert(requires { requires TraitTypes&lt;FnTypeGood&gt;; });
+static_assert(!requires { requires TraitTypes&lt;FnTypeBad&gt;; });
+
+struct FnGood {
+    void foo();
+    bool bar() const;
+    static int stat();
+};
+struct FnBad {};
+static_assert(requires { requires TraitFns&lt;FnGood&gt;; });
+static_assert(!requires { requires TraitFns&lt;FnBad&gt;; });
+
+struct NestedGood : FnTypeGood, FnGood {};
+struct NestedBad1 : FnGood {};
+struct NestedBad2 : FnTypeGood {};
+static_assert(requires { requires TraitNested&lt;NestedGood&gt;; });
+static_assert(!requires { requires TraitNested&lt;NestedBad1&gt;; });
+static_assert(!requires { requires TraitNested&lt;NestedBad2&gt;; });
+</code></pre>
 <h2 id="template-selection-with-partially--fully-specializations"><a class="header" href="#template-selection-with-partially--fully-specializations">Template selection with partially / fully specializations.</a></h2>
 <pre><code class="language-cpp">enum Kind {
     kPrimary,
@@ -886,7 +990,7 @@ int main() {
     // * No specialization matches, take the primary template.
 }
 </code></pre>
-<h1 id="example-perfect-forwarding"><a class="header" href="#example-perfect-forwarding">Example: Perfect forwarding</a></h1>
+<h2 id="example-perfect-forwarding"><a class="header" href="#example-perfect-forwarding">Example: Perfect forwarding</a></h2>
 <pre><code class="language-cpp">#include &lt;cassert&gt;
 #include &lt;cstdio&gt;
 #include &lt;new&gt;
