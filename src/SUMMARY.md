@@ -25,7 +25,6 @@
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
-    - [ss](./monitor/ss.md)
     - [pidstat](./monitor/pidstat.md)
     - [pgrep](./monitor/pgrep.md)
     - [ps](./monitor/ps.md)
@@ -71,6 +70,7 @@
     - [zfs](./linux/zfs.md)
 
 - [Network](./network/README.md)
+    - [ss](./network/ss.md)
     - [tcpdump](./network/tcpdump.md)
     - [tshark](./network/tshark.md)
     - [firewall-cmd](./network/firewall-cmd.md)
