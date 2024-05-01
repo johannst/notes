@@ -7,10 +7,15 @@
     - [bash](./shells/bash.md)
     - [fish](./shells/fish.md)
 
+- [CLI foo](./cli/README.md)
+    - [awk](./cli/awk.md)
+    - [sed](./cli/sed.md)
+    - [column](./cli/column.md)
+    - [sort](./cli/sort.md)
+
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
     - [git](./tools/git.md)
-    - [awk](./tools/awk.md)
     - [emacs](./tools/emacs.md)
     - [gpg](./tools/gpg.md)
     - [gdb](./tools/gdb.md)
@@ -20,9 +25,6 @@
     - [pacman](./tools/pacman.md)
     - [dot](./tools/dot.md)
     - [ffmpeg](./tools/ffmpeg.md)
-    - [column](./tools/column.md)
-    - [sort](./tools/sort.md)
-    - [sed](./tools/sed.md)
     - [gnuplot](./tools/gnuplot.md)
 
 - [Resource analysis & monitor](./monitor/README.md)

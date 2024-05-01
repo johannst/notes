@@ -2,7 +2,6 @@
 
 - [tmux](./tmux.md)
 - [git](./git.md)
-- [awk](./awk.md)
 - [emacs](./emacs.md)
 - [gpg](./gpg.md)
 - [gdb](./gdb.md)
@@ -12,7 +11,4 @@
 - [pacman](./pacman.md)
 - [dot](./dot.md)
 - [ffmpeg](./ffmpeg.md)
-- [column](./column.md)
-- [sort](./sort.md)
-- [sed](./sed.md)
 - [gnuplot](./gnuplot.md)
