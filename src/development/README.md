@@ -4,6 +4,7 @@
 - [c++](./c++.md)
 - [glibc](./glibc.md)
 - [gcc](./gcc.md)
+- [git](./git.md)
 - [cmake](./cmake.md)
 - [make](./make.md)
 - [ld.so](./ld.so.md)

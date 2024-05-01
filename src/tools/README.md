@@ -1,7 +1,6 @@
 # Tools
 
 - [tmux](./tmux.md)
-- [git](./git.md)
 - [emacs](./emacs.md)
 - [gpg](./gpg.md)
 - [radare2](./radare2.md)

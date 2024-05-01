@@ -15,7 +15,6 @@
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
-    - [git](./tools/git.md)
     - [emacs](./tools/emacs.md)
     - [gpg](./tools/gpg.md)
     - [radare2](./tools/radare2.md)
@@ -57,6 +56,7 @@
     - [c++](./development/c++.md)
     - [glibc](./development/glibc.md)
     - [gcc](./development/gcc.md)
+    - [git](./development/git.md)
     - [cmake](./development/cmake.md)
     - [make](./development/make.md)
     - [ld.so](./development/ld.so.md)
