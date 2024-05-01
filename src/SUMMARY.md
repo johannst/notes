@@ -12,6 +12,7 @@
     - [sed](./cli/sed.md)
     - [column](./cli/column.md)
     - [sort](./cli/sort.md)
+    - [tr](./cli/tr.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)

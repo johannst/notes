@@ -4,3 +4,4 @@
 - [sed](./sed.md)
 - [column](./column.md)
 - [sort](./sort.md)
+- [tr](./tr.md)
