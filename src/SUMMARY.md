@@ -2,10 +2,12 @@
 
 [Introduction](./intro.md)
 
+- [Shells](./shells/README.md)
+    - [zsh](./shells/zsh.md)
+    - [bash](./shells/bash.md)
+    - [fish](./shells/fish.md)
+
 - [Tools](./tools/README.md)
-    - [zsh](./tools/zsh.md)
-    - [bash](./tools/bash.md)
-    - [fish](./tools/fish.md)
     - [tmux](./tools/tmux.md)
     - [git](./tools/git.md)
     - [awk](./tools/awk.md)
