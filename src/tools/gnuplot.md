@@ -56,7 +56,7 @@ plot "< head -n2 data.txt"
 plot "data.txt" title "moose"
 ```
 
-## Example: multiple data sets in on plot
+## Example: multiple data sets in plot
 ```sh
 {{#include gnuplot/mem_lat.plot}}
 ```
