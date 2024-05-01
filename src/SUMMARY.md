@@ -18,8 +18,6 @@
     - [git](./tools/git.md)
     - [emacs](./tools/emacs.md)
     - [gpg](./tools/gpg.md)
-    - [gdb](./tools/gdb.md)
-    - [gdbserver](./tools/gdbserver.md)
     - [radare2](./tools/radare2.md)
     - [qemu](./tools/qemu.md)
     - [pacman](./tools/pacman.md)
@@ -42,6 +40,10 @@
     - [perf](./trace_profile/perf.md)
     - [OProfile](./trace_profile/oprofile.md)
     - [callgrind](./trace_profile/callgrind.md)
+
+- [Debug](./debug/README.md)
+    - [gdb](./debug/gdb.md)
+    - [gdbserver](./debug/gdbserver.md)
 
 - [Binary](./binary/README.md)
     - [od](./binary/od.md)
