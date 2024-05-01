@@ -24,6 +24,7 @@
     - [dot](./tools/dot.md)
     - [ffmpeg](./tools/ffmpeg.md)
     - [gnuplot](./tools/gnuplot.md)
+    - [restic](./tools/restic.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)

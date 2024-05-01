@@ -9,3 +9,4 @@
 - [dot](./dot.md)
 - [ffmpeg](./ffmpeg.md)
 - [gnuplot](./gnuplot.md)
+- [restic](./restic.md)
