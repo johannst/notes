@@ -90,6 +90,7 @@
 
 - [Arch](./arch/README.md)
     - [x86_64](./arch/x86_64.md)
+    - [armv8](./arch/armv8.md)
     - [arm64](./arch/arm64.md)
     - [armv7](./arch/armv7.md)
     - [riscv](./arch/riscv.md)

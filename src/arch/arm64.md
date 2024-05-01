@@ -1,4 +1,8 @@
 # arm64
+
+> This page only talks about the 64 bit part of the `armv8` architecture. For
+> an overview see [`armv8`](./armv8.md).
+
 keywords: arm64, aarch64, abi
 
 - 64bit synonyms: `arm64`, `aarch64`
