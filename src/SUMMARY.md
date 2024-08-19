@@ -25,6 +25,7 @@
     - [ffmpeg](./tools/ffmpeg.md)
     - [gnuplot](./tools/gnuplot.md)
     - [restic](./tools/restic.md)
+    - [qrencode](./tools/qrencode.md)
 
 - [Resource analysis & monitor](./monitor/README.md)
     - [lsof](./monitor/lsof.md)
