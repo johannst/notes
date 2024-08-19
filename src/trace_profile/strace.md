@@ -21,6 +21,7 @@ strace [opts] [prg]
   -y .......... translate fds (eg file path, socket)
   -yy ......... translate fds with all information (eg IP)
   -x .......... print non-ASCII chars as hex string
+  -v .......... print all arguments (non-abbreviated)
 ```
 
 ```markdown
@@ -42,4 +43,9 @@ strace -f -e trace=open,socket -p <pid>
 Trace signals delivered to a running process:
 ```markdown
 strace -e signal -e 'trace=!all' -p <pid>
+```
+
+Show successful calls to `perf_event_open((2)` without abbreviating  arguments.
+```markdown
+strace -v -z -e trace=perf_event_open perf stat -e cycles ls
 ```
