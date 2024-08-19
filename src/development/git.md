@@ -138,6 +138,7 @@ the same repository (shared .git folder).
 
   git log -p <file> ......... show commit history + diffs for <file>
   git log --oneline <file> .. show commit history for <file> in compact format
+  git log -nN ............... show last N history entries
 ```
 
 ## Diff & Commit Info
@@ -214,6 +215,19 @@ the same repository (shared .git folder).
                                               for the submodule
   git diff --submodule ...................... show commits that are part of the
                                               submodule diff
+```
+
+## Bisect
+```markdown
+  git bisect start BAD GOOD ........ start bisect process in range BAD..GOOD commits
+  git bisect good .................. mark current commit as good
+  git bisect bad ................... mark current commit as bad
+
+  # Automate bisecting.
+  git bisect run <script> <args> ... run script to automate bisect process
+                                     exit 0   - mark commit as good
+                                     exit 1   - mark commit as bad
+                                     exit 125 - skip commit (eg doesn't build)
 ```
 
 ## Inspection
