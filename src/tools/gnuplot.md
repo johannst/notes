@@ -56,6 +56,12 @@ plot "< head -n2 data.txt"
 plot "data.txt" title "moose"
 ```
 
+## Example: Specify range directly during plot
+```sh
+# Plot two functions in the range 0-10.
+plot [0:10] 10*x, 20*x
+```
+
 ## Example: multiple data sets in plot
 ```sh
 {{#include gnuplot/mem_lat.plot}}
