@@ -238,6 +238,40 @@ if [[ $INPUT =~ $REGEX ]]; then
 fi
 ```
 
+## Trap Handling
+
+```zsh
+trap "<CMDs>" <SIG>/EXIT
+
+# Show current trap handler.
+trap -p
+# List signal names.
+trap -l
+```
+
+#### Example: Run handler only on error exit
+```zsh
+trap 'test $? -ne 0 && echo "run exit trap"' EXIT
+
+# -> no print
+exit 0
+# -> print
+exit 1
+```
+
+#### Example: Mutex in shell script
+For example if a script is triggered in unsynchronized, we may want to ensure
+that a single script instance runs.
+```zsh
+# open file=LOCK with fd=100
+exec 100>LOCK
+# take exclusive lock, wait maximal for 3600s
+flock -w 3600 -x 100 || { echo "flock timeout"; exit 1; }
+
+# eg automatically release lock when script exits
+trap "flock -u 100" EXIT
+```
+
 ## Completion
 
 ### Installation
@@ -365,7 +399,6 @@ Explanation:
 > `_files` is a zsh builtin utility function to complete files/dirs see
 > - [zsh completion functions][zsh-comp-fn]
 > - [zsh completion utility functions][zsh-comp-utility-fn]
-
 
 [zsh-comp-fn]: http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-Functions
 [zsh-comp-utility-fn]: https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#utility-functions
