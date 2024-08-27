@@ -40,6 +40,7 @@ sigmask    mask of blocked signals
 
 ## Example: Use output for scripting
 ```sh
+# Print the cpu affinity for each thread of process 31084.
 for tid in $(ps -o tid --no-header -T -p 31084); do
     taskset -c -p $tid;
 done

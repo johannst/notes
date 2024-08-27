@@ -165,7 +165,7 @@ The following gives an example for a scenario where we have the following calls
 - `main -> do_bar() -> do_work()`
 
 ```sh
-perf report --stdio -g graph,callee
+perf report --stdio -g graph,caller
 
 # Children      Self  Command  Shared Object         Symbols
 # ........  ........  .......  ....................  .................

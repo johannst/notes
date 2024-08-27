@@ -4,7 +4,7 @@
 
 ```markdown
 tcpdump [opts] -i <if> [<filter>]
-    -n              Don't covert host/port names.
+    -n              Don't convert host/port names.
     -w <file|->     Write pcap trace to file or stdout (-).
     -r <file>       Read & parse pcap file.
 ```
