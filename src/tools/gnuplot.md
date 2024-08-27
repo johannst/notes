@@ -21,6 +21,9 @@ set title "the plot"
 set xlabel "abc"
 set ylabel "def"
 
+# Grid.
+set grind
+
 # Output format, 'help set term' for all output formats.
 set term svg
 # Output file.
