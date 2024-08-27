@@ -5,3 +5,5 @@
 - [column](./column.md)
 - [sort](./sort.md)
 - [tr](./tr.md)
+- [tac](./tac.md)
+- [paste](./paste.md)

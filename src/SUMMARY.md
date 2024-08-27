@@ -13,6 +13,8 @@
     - [column](./cli/column.md)
     - [sort](./cli/sort.md)
     - [tr](./cli/tr.md)
+    - [tac](./cli/tac.md)
+    - [paste](./cli/paste.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
