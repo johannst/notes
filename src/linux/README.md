@@ -8,3 +8,4 @@
 - [input](./input.md)
 - [acl](./acl.md)
 - [zfs](./zfs.md)
+- [cpufreq](./cpufreq.md)

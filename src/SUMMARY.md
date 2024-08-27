@@ -77,6 +77,7 @@
     - [input](./linux/input.md)
     - [acl](./linux/acl.md)
     - [zfs](./linux/zfs.md)
+    - [cpufreq](./linux/cpufreq.md)
 
 - [Network](./network/README.md)
     - [ss](./network/ss.md)
