@@ -80,6 +80,7 @@
     - [cpufreq](./linux/cpufreq.md)
 
 - [Network](./network/README.md)
+    - [ssh](./network/ssh.md)
     - [ss](./network/ss.md)
     - [tcpdump](./network/tcpdump.md)
     - [tshark](./network/tshark.md)
