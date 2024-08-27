@@ -1,4 +1,4 @@
-# Resource analysis & monitor
+# Process management & inspection
 
 - [lsof](./lsof.md)
 - [pidstat](./pidstat.md)
