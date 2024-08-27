@@ -82,6 +82,7 @@
     - [acl](./linux/acl.md)
     - [zfs](./linux/zfs.md)
     - [cpufreq](./linux/cpufreq.md)
+    - [cups](./linux/cups.md)
 
 - [Network](./network/README.md)
     - [ssh](./network/ssh.md)

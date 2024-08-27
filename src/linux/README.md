@@ -9,3 +9,4 @@
 - [acl](./acl.md)
 - [zfs](./zfs.md)
 - [cpufreq](./cpufreq.md)
+- [cups](./cups.md)
