@@ -36,6 +36,8 @@
     - [ps](./process/ps.md)
     - [pmap](./process/pmap.md)
     - [pstack](./process/pstack.md)
+    - [taskset](./process/taskset.md)
+    - [nice](./process/nice.md)
 
 - [Trace and Profile](./trace_profile/README.md)
     - [time](./trace_profile/time.md)
