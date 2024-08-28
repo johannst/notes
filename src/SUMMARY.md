@@ -18,6 +18,7 @@
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
+    - [screen](./tools/screen.md)
     - [emacs](./tools/emacs.md)
     - [gpg](./tools/gpg.md)
     - [radare2](./tools/radare2.md)
