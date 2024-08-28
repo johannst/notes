@@ -47,6 +47,7 @@
     - [perf](./trace_profile/perf.md)
     - [OProfile](./trace_profile/oprofile.md)
     - [callgrind](./trace_profile/callgrind.md)
+    - [valgrind](./trace_profile/valgrind.md)
 
 - [Debug](./debug/README.md)
     - [gdb](./debug/gdb.md)
