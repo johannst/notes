@@ -98,6 +98,7 @@
     - [html](./web/html.md)
     - [css](./web/css.md)
     - [chartjs](./web/chartjs.md)
+    - [plotly](./web/plotly.md)
 
 - [Arch](./arch/README.md)
     - [x86_64](./arch/x86_64.md)
