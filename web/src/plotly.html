@@ -1,0 +1,69 @@
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
+
+<div id="plot-1"></div>
+
+<script>
+  const commits = [ "b5a7c219", "72bb8889", "fa9e9079",  "f5178ed1", "e830fa71" ]
+
+  const common_layout  = {
+    xaxis: {
+      // Set range explicitly because of markers+lines mode used.
+      // https://stackoverflow.com/questions/46383368
+      range: [0, commits.length - 1],
+      gridcolor: "ligthgray",
+      rangeslider: {},
+    },
+    yaxis: {
+      title: "runtime in sec",
+      // Disable interactive y-axis zoom.
+      fixedrange: true,
+      gridcolor: "ligthgray",
+    },
+    legend: {
+      orientation: "h",
+      x: 0,
+      y: 1,
+    },
+    modebar: {
+      add: [ "hoverclosest", "hovercompare" ],
+      remove: [ "pan", "lasso", "select", "zoomin", "zoomout" ],
+    },
+    // Transparent plot + paper background.
+    plot_bgcolor: "rgba(0, 0, 0, 0)",
+    paper_bgcolor: "rgba(0, 0, 0, 0)",
+  }
+  const common_config = {
+    // Automatically resize plot when page resizes.
+    responsive: true,
+    // Dont display the plotly logo.
+    displaylogo: false,
+  }
+
+  const plot_1 = document.getElementById("plot-1")
+  const data_10 = {
+    x: commits,
+    y: [ 10.2, 11.4, 10.5, 11.0, 10.0 ],
+    name: "plot 10",
+    mode: "lines+markers",
+  }
+  const data_11 = {
+    x: commits,
+    y: [ 20.2, 21.4, 20.5, 21.0, 20.0 ],
+    name: "plot 11",
+    mode: "lines+markers",
+  }
+
+  Plotly.newPlot(plot_1, [data_10, data_11], {
+    ...common_layout,
+    title: "plot-1",
+  }, common_config)
+
+  plot_1.on("plotly_click", data => {
+    if (data.points.length == 1) {
+      // Change page to following url.
+      window.location = "https://github.com/johannst/notes/commit/" + data.points[0].x
+    } else {
+      console.log("ignore click event, multiple elements selected")
+    }
+  })
+</script>
