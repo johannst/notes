@@ -34,6 +34,17 @@
   C-x o    other-window            other window (cycle)
 ```
 
+## minibuffer
+```markdown
+  key            description
+----------------------------
+  M-e            enter edit minibuffer edit mode
+
+  M-up           focus previous completion
+  M-down         focus next completion
+  M-ret          select focused completion
+```
+
 ## buffer
 ```markdown
   key        fn                   description
@@ -75,6 +86,17 @@ Builtin advanced buffer selection mode
   /\                       remove all filter groups
 ```
 
+## goto navigation
+```markdown
+  key      fn                description
+----------------------------------------
+  M-g g    goto-line         go to line
+  M-g M-n  next-error        go to next error (grep, xref, compilation, ...)
+  M-g M-p  previous-error    go to previous error
+
+  M-g i    imenu             go to place in buffer (symbol, ...)
+```
+
 ## isearch
 ```markdown
   key    fn                           description
@@ -84,6 +106,8 @@ Builtin advanced buffer selection mode
   C-w    isearch-yank-word-or-char    feed next word to current search (extend)
   M-p    isearch-ring-advance         previous search input
   M-n    isearch-ring-retreat         next search input
+  M-e    isearch-edit-string          edit search string again
+  M-s o  occur                        open search string in occur
 ```
 
 ## occur
@@ -92,7 +116,10 @@ Builtin advanced buffer selection mode
 -----------------------------------
   M-s o    occur        get matches for regexp in buffer
                         use during `isearch` to use current search term
+  e                     enter occur edit mode (C-c C-c to quit)
 
+  n                     move to next entry and keep focus in occur buffer
+  p                     move to previous entry and keep focus in occur buffer
   C-n                   goto next line
   C-p                   goto previous line
   o                     open match in other window
@@ -134,6 +161,15 @@ Builtin advanced buffer selection mode
   C-x r i <reg>   insert-register    insert content of register <reg>
 ```
 
+## bookmarks
+```
+  key             fn            description
+-------------------------------------------
+  C-x r m  bookmark-set         set a bookmark
+  C-x r b  bookmark-jump        jump to a bookmark
+  C-x r l  bookmark-bmenu-list  list all bookmarks
+```
+
 ## block/rect
 ```markdown
   key          fn                    description
@@ -148,6 +184,7 @@ Builtin advanced buffer selection mode
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
             delete-matching-line     delete lines matching regex
+            replace-string           replace unconditional
   M-%       query-replace            search & replace
   C-M-%     query-replace-regexp     search & replace regex
 ```
@@ -180,7 +217,19 @@ Builtin advanced buffer selection mode
   C-c C-c          eval source block
 ```
 
-## comapny
+## project
+```markdown
+  key       fn                                 description
+----------------------------------------------------------
+  C-x p p   project-switch-project             switch project
+  C-x p f   project-find-file                  find file in project
+  C-x p r   project-query-replace-regexp       query replace on project
+  C-x p x   project-execute-extended-command   exec command on project
+  C-x p !   project-shell-command              shell command on project
+  C-x p &   project-async-shell-command        async shell command on project
+```
+
+## company
 ```markdown
   key         fn   description
 -------------------------------
@@ -199,9 +248,10 @@ Navigate using tags
 ```markdown
   key      fn                       description
 -----------------------------------------------
-           xref-find-definitions    find definition of tag
+  M-.      xref-find-definitions    find definition of tag
+                                    (C-u prefix to enter symbol manually)
            xref-find-apropos        find symbols matching regexp
-           xref-find-references     find references of tag
+  M-?      xref-find-references     find references of tag
 ```
 
 ## lisp
@@ -213,12 +263,13 @@ Navigate using tags
 
 In `lisp-interaction-mode` (`*scratch*` buffer by defult)
 ```markdown
-  key              fn                        description
---------------------------------------------------------
-  C-j              eval-print-last-sexp      evaluate & print preceeding lisp expr
+  key              fn                           description
+-----------------------------------------------------------
+  C-j              eval-print-last-sexp         evaluate & print preceeding lisp expr
 
-  C-x C-e          eval-last-sexp            evaluate lisp expr
-  C-u C-x C-e      eval-last-sexp            evaluate & print
+  C-x C-e          eval-last-sexp               evaluate lisp expr
+  C-u C-x C-e      eval-last-sexp               evaluate & print
+  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
 ```
 
 ## ido
@@ -230,6 +281,9 @@ Builtin fuzzy completion mode (eg buffer select, dired, ...).
   <Left>/<Right>               cycle through available competions
   <RET>                        select completion
 ```
+
+There is also `fido`, which is the successor of `ido`, which also
+supports `fido-vertical-mode` in case vertical mode is preferred.
 
 ## evil
 ```markdown
@@ -248,6 +302,35 @@ Builtin fuzzy completion mode (eg buffer select, dired, ...).
   i            open sub-dir in same buffer
   +            create new directory
   C            copy file/dir
+  R            move file/dir (rename)
+  S            absolute symbolic link
+  Y            relative symbolic link
+
+  d            mark for deletion
+  m            mark file/dir
+  u            un-mark file/dir
+  U            un-mark all
+
+  x            execute marked actions
 
   q            quit
+```
+
+## info
+```markdown
+  key fn                    description
+---------------------------------------
+  n   Info-next             next page
+  p   Info-prev             previous page
+
+  l   Info-history-back     history go back
+  r   Info-history-forward  history go forward
+
+  ^   Info-Up               up in info node tree
+
+  m   Info-menu             goto menu (by minibuf completion)
+  s   Info-search           search info
+  g   Info-goto-node        goto info node (by minibuf completion)
+
+      Info-history          open info history in buffer
 ```
