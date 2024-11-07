@@ -9,11 +9,13 @@
 
 - [CLI foo](./cli/README.md)
     - [awk](./cli/awk.md)
+    - [cut](./cli/cut.md)
     - [sed](./cli/sed.md)
     - [column](./cli/column.md)
     - [sort](./cli/sort.md)
     - [tr](./cli/tr.md)
     - [tac](./cli/tac.md)
+    - [rev](./cli/rev.md)
     - [paste](./cli/paste.md)
 
 - [Tools](./tools/README.md)
