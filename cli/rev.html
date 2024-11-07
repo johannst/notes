@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>chartjs - Notes</title>
+        <title>rev - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -155,119 +155,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chartjs"><a class="header" href="#chartjs">Chart.js</a></h1>
-<h2 id="minimal-example-with-external-tooltips"><a class="header" href="#minimal-example-with-external-tooltips">Minimal example with <em>external</em> tooltips</a></h2>
-<p><a href="src/chartjs-ext-tooltip.html">Rendered html</a></p>
-<pre><code class="language-html">&lt;canvas id="myChart" style="margin:5em;"&gt;&lt;/canvas&gt;
+                        <h1 id="rev1"><a class="header" href="#rev1">rev(1)</a></h1>
+<pre><code class="language-sh"># Reverse each line of file(s), character by character.
+rev FILE [FILE]
 
-&lt;script&gt;
-const get_or_create_tooltip = (id) =&gt; {
-  if (tooltip = document.getElementById(id)) {
-    return tooltip;
-  } else {
-    // -- Create a new Tooltip element.
-    const tooltip = document.createElement('div');
-    tooltip.id = id;
-    document.body.appendChild(tooltip);
-
-    // -- Some minimal styling.
-    tooltip.style.background = 'rgba(0, 0, 0, 0.1)';
-    tooltip.style.position   = 'absolute';
-    tooltip.style.transition = 'all .2s ease';
-
-    // -- Add a table element for the tooltip content.
-    const table = document.createElement('table');
-    tooltip.appendChild(table);
-
-    return tooltip
-  }
-}
-
-const render_tooltip = (context) =&gt; {
-  const {chart, tooltip} = context;
-
-  // -- Get Tooltip element.
-  const tooltip_elem = get_or_create_tooltip('myTooltip');
-
-  // -- Get data point values (only one data point).
-  const {label: x, formattedValue: y} = tooltip.dataPoints[0];
-
-  // -- Format new tooltip.
-  const link = document.createElement('a');
-  link.href =  "https://github.com/johannst";
-  link.innerHTML = "X:" + x + " Y:" + y;
-
-  // -- Remove previous child element and add new one.
-  const table = tooltip_elem.querySelector('table');
-  table.innerHTML = ""; 
-  table.appendChild(link);
-
-  // -- Get absolute X/Y position of the top left corner of the canvas.
-  const {offsetLeft: canvas_x, offsetTop: canvas_y} = chart.canvas;
-
-  // -- Set position and minimal style for the tooltip.
-  tooltip_elem.style.left = canvas_x + tooltip.caretX + 'px';
-  tooltip_elem.style.top  = canvas_y + tooltip.caretY + 'px';
-  tooltip_elem.style.font = tooltip.options.bodyFont.string;
-
-  // -- Place the tooltip (I) left or (II) right of the data point.
-  if (tooltip.xAlign === "right") {
-    tooltip_elem.style.transform = 'translate(-100%, 0)'; // (I)
-  } else if (tooltip.xAlign === "left") {
-    tooltip_elem.style.transform = 'translate(0%, 0)';    // (II)
-  }
-}
-
-// -- Render a chart with some dummy data on the canvas.
-const chart = new Chart(
-  document.getElementById('myChart'),
-  {
-    data: {
-      datasets: [{
-        // -- A single dataset.
-        label: 'Just some values',
-        type: 'scatter',
-        data: [
-          {x: 4, y: 4},
-          {x: 5, y: 1},
-          {x: 7, y: 6},
-          {x: 10, y: 8},
-          {x: 10, y: 7},
-          {x: 10, y: 3},
-        ],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgb(255, 99, 132)',
-      }],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true, // -- Start the Y-Axis at zero instead min(y) of dataset.
-        }
-      },
-      plugins: {
-        tooltip: {
-          enabled: false, // -- Disable builtin tooltips.
-          mode: 'nearest', // -- Get the item that is nearest to the mouse.
-          intersect: false, // -- 'mode' is active also when the mouse doesnt intersect with an item on the chart.
-          external: render_tooltip, // -- External tooltip handler, allows to create own HTML.
-        }
-      }
-    }
-  }
-);
-&lt;/script&gt;
+echo -e '123\nabc' | rev
+# 321
+# cba
+</code></pre>
+<h2 id="example-remove-the-last-2-tokens-with-unknown-length"><a class="header" href="#example-remove-the-last-2-tokens-with-unknown-length">Example: remove the last 2 tokens with unknown length</a></h2>
+<pre><code class="language-sh"># If the number of tokens in a line is unkown but we want to remove the last 2
+# tokens we can use rev(1).
+echo 'aa bb cc dd' | rev | cut -d ' ' -f3- | rev
+# aa bb
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../web/css.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli/tac.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../web/plotly.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../cli/paste.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -277,11 +188,11 @@ const chart = new Chart(
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../web/css.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli/tac.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../web/plotly.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../cli/paste.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

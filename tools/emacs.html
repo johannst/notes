@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -30,15 +30,17 @@
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -60,19 +62,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -82,45 +81,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../intro.html">Introduction</a></li><li class="chapter-item expanded "><a href="../shells/index.html"><strong aria-hidden="true">1.</strong> Shells</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shells/zsh.html"><strong aria-hidden="true">1.1.</strong> zsh</a></li><li class="chapter-item expanded "><a href="../shells/bash.html"><strong aria-hidden="true">1.2.</strong> bash</a></li><li class="chapter-item expanded "><a href="../shells/fish.html"><strong aria-hidden="true">1.3.</strong> fish</a></li></ol></li><li class="chapter-item expanded "><a href="../cli/index.html"><strong aria-hidden="true">2.</strong> CLI foo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../cli/awk.html"><strong aria-hidden="true">2.1.</strong> awk</a></li><li class="chapter-item expanded "><a href="../cli/sed.html"><strong aria-hidden="true">2.2.</strong> sed</a></li><li class="chapter-item expanded "><a href="../cli/column.html"><strong aria-hidden="true">2.3.</strong> column</a></li><li class="chapter-item expanded "><a href="../cli/sort.html"><strong aria-hidden="true">2.4.</strong> sort</a></li><li class="chapter-item expanded "><a href="../cli/tr.html"><strong aria-hidden="true">2.5.</strong> tr</a></li><li class="chapter-item expanded "><a href="../cli/tac.html"><strong aria-hidden="true">2.6.</strong> tac</a></li><li class="chapter-item expanded "><a href="../cli/paste.html"><strong aria-hidden="true">2.7.</strong> paste</a></li></ol></li><li class="chapter-item expanded "><a href="../tools/index.html"><strong aria-hidden="true">3.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tools/tmux.html"><strong aria-hidden="true">3.1.</strong> tmux</a></li><li class="chapter-item expanded "><a href="../tools/screen.html"><strong aria-hidden="true">3.2.</strong> screen</a></li><li class="chapter-item expanded "><a href="../tools/emacs.html" class="active"><strong aria-hidden="true">3.3.</strong> emacs</a></li><li class="chapter-item expanded "><a href="../tools/gpg.html"><strong aria-hidden="true">3.4.</strong> gpg</a></li><li class="chapter-item expanded "><a href="../tools/radare2.html"><strong aria-hidden="true">3.5.</strong> radare2</a></li><li class="chapter-item expanded "><a href="../tools/qemu.html"><strong aria-hidden="true">3.6.</strong> qemu</a></li><li class="chapter-item expanded "><a href="../tools/pacman.html"><strong aria-hidden="true">3.7.</strong> pacman</a></li><li class="chapter-item expanded "><a href="../tools/dot.html"><strong aria-hidden="true">3.8.</strong> dot</a></li><li class="chapter-item expanded "><a href="../tools/ffmpeg.html"><strong aria-hidden="true">3.9.</strong> ffmpeg</a></li><li class="chapter-item expanded "><a href="../tools/gnuplot.html"><strong aria-hidden="true">3.10.</strong> gnuplot</a></li><li class="chapter-item expanded "><a href="../tools/restic.html"><strong aria-hidden="true">3.11.</strong> restic</a></li><li class="chapter-item expanded "><a href="../tools/qrencode.html"><strong aria-hidden="true">3.12.</strong> qrencode</a></li></ol></li><li class="chapter-item expanded "><a href="../process/index.html"><strong aria-hidden="true">4.</strong> Process management & inspection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../process/lsof.html"><strong aria-hidden="true">4.1.</strong> lsof</a></li><li class="chapter-item expanded "><a href="../process/pidstat.html"><strong aria-hidden="true">4.2.</strong> pidstat</a></li><li class="chapter-item expanded "><a href="../process/pgrep.html"><strong aria-hidden="true">4.3.</strong> pgrep</a></li><li class="chapter-item expanded "><a href="../process/ps.html"><strong aria-hidden="true">4.4.</strong> ps</a></li><li class="chapter-item expanded "><a href="../process/pmap.html"><strong aria-hidden="true">4.5.</strong> pmap</a></li><li class="chapter-item expanded "><a href="../process/pstack.html"><strong aria-hidden="true">4.6.</strong> pstack</a></li><li class="chapter-item expanded "><a href="../process/taskset.html"><strong aria-hidden="true">4.7.</strong> taskset</a></li><li class="chapter-item expanded "><a href="../process/nice.html"><strong aria-hidden="true">4.8.</strong> nice</a></li></ol></li><li class="chapter-item expanded "><a href="../trace_profile/index.html"><strong aria-hidden="true">5.</strong> Trace and Profile</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../trace_profile/time.html"><strong aria-hidden="true">5.1.</strong> time</a></li><li class="chapter-item expanded "><a href="../trace_profile/strace.html"><strong aria-hidden="true">5.2.</strong> strace</a></li><li class="chapter-item expanded "><a href="../trace_profile/ltrace.html"><strong aria-hidden="true">5.3.</strong> ltrace</a></li><li class="chapter-item expanded "><a href="../trace_profile/perf.html"><strong aria-hidden="true">5.4.</strong> perf</a></li><li class="chapter-item expanded "><a href="../trace_profile/oprofile.html"><strong aria-hidden="true">5.5.</strong> OProfile</a></li><li class="chapter-item expanded "><a href="../trace_profile/callgrind.html"><strong aria-hidden="true">5.6.</strong> callgrind</a></li><li class="chapter-item expanded "><a href="../trace_profile/valgrind.html"><strong aria-hidden="true">5.7.</strong> valgrind</a></li></ol></li><li class="chapter-item expanded "><a href="../debug/index.html"><strong aria-hidden="true">6.</strong> Debug</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../debug/gdb.html"><strong aria-hidden="true">6.1.</strong> gdb</a></li><li class="chapter-item expanded "><a href="../debug/gdbserver.html"><strong aria-hidden="true">6.2.</strong> gdbserver</a></li></ol></li><li class="chapter-item expanded "><a href="../binary/index.html"><strong aria-hidden="true">7.</strong> Binary</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../binary/od.html"><strong aria-hidden="true">7.1.</strong> od</a></li><li class="chapter-item expanded "><a href="../binary/xxd.html"><strong aria-hidden="true">7.2.</strong> xxd</a></li><li class="chapter-item expanded "><a href="../binary/readelf.html"><strong aria-hidden="true">7.3.</strong> readelf</a></li><li class="chapter-item expanded "><a href="../binary/objdump.html"><strong aria-hidden="true">7.4.</strong> objdump</a></li><li class="chapter-item expanded "><a href="../binary/nm.html"><strong aria-hidden="true">7.5.</strong> nm</a></li></ol></li><li class="chapter-item expanded "><a href="../development/index.html"><strong aria-hidden="true">8.</strong> Development</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../development/c++filt.html"><strong aria-hidden="true">8.1.</strong> c++filt</a></li><li class="chapter-item expanded "><a href="../development/c++.html"><strong aria-hidden="true">8.2.</strong> c++</a></li><li class="chapter-item expanded "><a href="../development/glibc.html"><strong aria-hidden="true">8.3.</strong> glibc</a></li><li class="chapter-item expanded "><a href="../development/gcc.html"><strong aria-hidden="true">8.4.</strong> gcc</a></li><li class="chapter-item expanded "><a href="../development/git.html"><strong aria-hidden="true">8.5.</strong> git</a></li><li class="chapter-item expanded "><a href="../development/cmake.html"><strong aria-hidden="true">8.6.</strong> cmake</a></li><li class="chapter-item expanded "><a href="../development/make.html"><strong aria-hidden="true">8.7.</strong> make</a></li><li class="chapter-item expanded "><a href="../development/ld.so.html"><strong aria-hidden="true">8.8.</strong> ld.so</a></li><li class="chapter-item expanded "><a href="../development/symbolver.html"><strong aria-hidden="true">8.9.</strong> symbol versioning</a></li><li class="chapter-item expanded "><a href="../development/python.html"><strong aria-hidden="true">8.10.</strong> python</a></li><li class="chapter-item expanded "><a href="../development/gcov.html"><strong aria-hidden="true">8.11.</strong> gcov</a></li><li class="chapter-item expanded "><a href="../development/pgo.html"><strong aria-hidden="true">8.12.</strong> pgo</a></li></ol></li><li class="chapter-item expanded "><a href="../linux/index.html"><strong aria-hidden="true">9.</strong> Linux</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux/systemd.html"><strong aria-hidden="true">9.1.</strong> systemd</a></li><li class="chapter-item expanded "><a href="../linux/coredump.html"><strong aria-hidden="true">9.2.</strong> coredump</a></li><li class="chapter-item expanded "><a href="../linux/ptrace_scope.html"><strong aria-hidden="true">9.3.</strong> ptrace_scope</a></li><li class="chapter-item expanded "><a href="../linux/cryptsetup.html"><strong aria-hidden="true">9.4.</strong> cryptsetup</a></li><li class="chapter-item expanded "><a href="../linux/swap.html"><strong aria-hidden="true">9.5.</strong> swap</a></li><li class="chapter-item expanded "><a href="../linux/input.html"><strong aria-hidden="true">9.6.</strong> input</a></li><li class="chapter-item expanded "><a href="../linux/acl.html"><strong aria-hidden="true">9.7.</strong> acl</a></li><li class="chapter-item expanded "><a href="../linux/zfs.html"><strong aria-hidden="true">9.8.</strong> zfs</a></li><li class="chapter-item expanded "><a href="../linux/cpufreq.html"><strong aria-hidden="true">9.9.</strong> cpufreq</a></li><li class="chapter-item expanded "><a href="../linux/cups.html"><strong aria-hidden="true">9.10.</strong> cups</a></li></ol></li><li class="chapter-item expanded "><a href="../network/index.html"><strong aria-hidden="true">10.</strong> Network</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../network/ssh.html"><strong aria-hidden="true">10.1.</strong> ssh</a></li><li class="chapter-item expanded "><a href="../network/ss.html"><strong aria-hidden="true">10.2.</strong> ss</a></li><li class="chapter-item expanded "><a href="../network/tcpdump.html"><strong aria-hidden="true">10.3.</strong> tcpdump</a></li><li class="chapter-item expanded "><a href="../network/tshark.html"><strong aria-hidden="true">10.4.</strong> tshark</a></li><li class="chapter-item expanded "><a href="../network/firewall-cmd.html"><strong aria-hidden="true">10.5.</strong> firewall-cmd</a></li><li class="chapter-item expanded "><a href="../network/nftables.html"><strong aria-hidden="true">10.6.</strong> nftables</a></li></ol></li><li class="chapter-item expanded "><a href="../web/index.html"><strong aria-hidden="true">11.</strong> Web</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../web/html.html"><strong aria-hidden="true">11.1.</strong> html</a></li><li class="chapter-item expanded "><a href="../web/css.html"><strong aria-hidden="true">11.2.</strong> css</a></li><li class="chapter-item expanded "><a href="../web/chartjs.html"><strong aria-hidden="true">11.3.</strong> chartjs</a></li><li class="chapter-item expanded "><a href="../web/plotly.html"><strong aria-hidden="true">11.4.</strong> plotly</a></li></ol></li><li class="chapter-item expanded "><a href="../arch/index.html"><strong aria-hidden="true">12.</strong> Arch</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../arch/x86_64.html"><strong aria-hidden="true">12.1.</strong> x86_64</a></li><li class="chapter-item expanded "><a href="../arch/armv8.html"><strong aria-hidden="true">12.2.</strong> armv8</a></li><li class="chapter-item expanded "><a href="../arch/arm64.html"><strong aria-hidden="true">12.3.</strong> arm64</a></li><li class="chapter-item expanded "><a href="../arch/armv7.html"><strong aria-hidden="true">12.4.</strong> armv7</a></li><li class="chapter-item expanded "><a href="../arch/riscv.html"><strong aria-hidden="true">12.5.</strong> riscv</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -205,6 +184,15 @@
   C-x 3    split-window-right      split vertical
   C-x o    other-window            other window (cycle)
 </code></pre>
+<h2 id="minibuffer"><a class="header" href="#minibuffer">minibuffer</a></h2>
+<pre><code class="language-markdown">  key            description
+----------------------------
+  M-e            enter edit minibuffer edit mode
+
+  M-up           focus previous completion
+  M-down         focus next completion
+  M-ret          select focused completion
+</code></pre>
 <h2 id="buffer"><a class="header" href="#buffer">buffer</a></h2>
 <pre><code class="language-markdown">  key        fn                   description
 ---------------------------------------------
@@ -242,6 +230,15 @@
   /g                       create filter group
   /\                       remove all filter groups
 </code></pre>
+<h2 id="goto-navigation"><a class="header" href="#goto-navigation">goto navigation</a></h2>
+<pre><code class="language-markdown">  key      fn                description
+----------------------------------------
+  M-g g    goto-line         go to line
+  M-g M-n  next-error        go to next error (grep, xref, compilation, ...)
+  M-g M-p  previous-error    go to previous error
+
+  M-g i    imenu             go to place in buffer (symbol, ...)
+</code></pre>
 <h2 id="isearch"><a class="header" href="#isearch">isearch</a></h2>
 <pre><code class="language-markdown">  key    fn                           description
 -------------------------------------------------
@@ -250,13 +247,18 @@
   C-w    isearch-yank-word-or-char    feed next word to current search (extend)
   M-p    isearch-ring-advance         previous search input
   M-n    isearch-ring-retreat         next search input
+  M-e    isearch-edit-string          edit search string again
+  M-s o  occur                        open search string in occur
 </code></pre>
 <h2 id="occur"><a class="header" href="#occur">occur</a></h2>
 <pre><code class="language-markdown">  key      fn           description
 -----------------------------------
   M-s o    occur        get matches for regexp in buffer
                         use during `isearch` to use current search term
+  e                     enter occur edit mode (C-c C-c to quit)
 
+  n                     move to next entry and keep focus in occur buffer
+  p                     move to previous entry and keep focus in occur buffer
   C-n                   goto next line
   C-p                   goto previous line
   o                     open match in other window
@@ -290,6 +292,13 @@
   C-x r s &lt;reg&gt;   copy-to-register   save region in register &lt;reg&gt;
   C-x r i &lt;reg&gt;   insert-register    insert content of register &lt;reg&gt;
 </code></pre>
+<h2 id="bookmarks"><a class="header" href="#bookmarks">bookmarks</a></h2>
+<pre><code>  key             fn            description
+-------------------------------------------
+  C-x r m  bookmark-set         set a bookmark
+  C-x r b  bookmark-jump        jump to a bookmark
+  C-x r l  bookmark-bmenu-list  list all bookmarks
+</code></pre>
 <h2 id="blockrect"><a class="header" href="#blockrect">block/rect</a></h2>
 <pre><code class="language-markdown">  key          fn                    description
 ------------------------------------------------
@@ -301,6 +310,7 @@
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
             delete-matching-line     delete lines matching regex
+            replace-string           replace unconditional
   M-%       query-replace            search &amp; replace
   C-M-%     query-replace-regexp     search &amp; replace regex
 </code></pre>
@@ -326,7 +336,17 @@
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 </code></pre>
-<h2 id="comapny"><a class="header" href="#comapny">comapny</a></h2>
+<h2 id="project"><a class="header" href="#project">project</a></h2>
+<pre><code class="language-markdown">  key       fn                                 description
+----------------------------------------------------------
+  C-x p p   project-switch-project             switch project
+  C-x p f   project-find-file                  find file in project
+  C-x p r   project-query-replace-regexp       query replace on project
+  C-x p x   project-execute-extended-command   exec command on project
+  C-x p !   project-shell-command              shell command on project
+  C-x p &amp;   project-async-shell-command        async shell command on project
+</code></pre>
+<h2 id="company"><a class="header" href="#company">company</a></h2>
 <pre><code class="language-markdown">  key         fn   description
 -------------------------------
   C-s              search through completion candidates
@@ -341,9 +361,10 @@
 <p>Navigate using tags</p>
 <pre><code class="language-markdown">  key      fn                       description
 -----------------------------------------------
-           xref-find-definitions    find definition of tag
+  M-.      xref-find-definitions    find definition of tag
+                                    (C-u prefix to enter symbol manually)
            xref-find-apropos        find symbols matching regexp
-           xref-find-references     find references of tag
+  M-?      xref-find-references     find references of tag
 </code></pre>
 <h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
 <pre><code class="language-markdown">  key   fn        description
@@ -351,12 +372,13 @@
         ielm      open interactive elips shell
 </code></pre>
 <p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by defult)</p>
-<pre><code class="language-markdown">  key              fn                        description
---------------------------------------------------------
-  C-j              eval-print-last-sexp      evaluate &amp; print preceeding lisp expr
+<pre><code class="language-markdown">  key              fn                           description
+-----------------------------------------------------------
+  C-j              eval-print-last-sexp         evaluate &amp; print preceeding lisp expr
 
-  C-x C-e          eval-last-sexp            evaluate lisp expr
-  C-u C-x C-e      eval-last-sexp            evaluate &amp; print
+  C-x C-e          eval-last-sexp               evaluate lisp expr
+  C-u C-x C-e      eval-last-sexp               evaluate &amp; print
+  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
 </code></pre>
 <h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
@@ -366,6 +388,8 @@
   &lt;Left&gt;/&lt;Right&gt;               cycle through available competions
   &lt;RET&gt;                        select completion
 </code></pre>
+<p>There is also <code>fido</code>, which is the successor of <code>ido</code>, which also
+supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
 <h2 id="evil"><a class="header" href="#evil">evil</a></h2>
 <pre><code class="language-markdown">  key    fn    description
 --------------------------
@@ -380,8 +404,35 @@
   i            open sub-dir in same buffer
   +            create new directory
   C            copy file/dir
+  R            move file/dir (rename)
+  S            absolute symbolic link
+  Y            relative symbolic link
+
+  d            mark for deletion
+  m            mark file/dir
+  u            un-mark file/dir
+  U            un-mark all
+
+  x            execute marked actions
 
   q            quit
+</code></pre>
+<h2 id="info"><a class="header" href="#info">info</a></h2>
+<pre><code class="language-markdown">  key fn                    description
+---------------------------------------
+  n   Info-next             next page
+  p   Info-prev             previous page
+
+  l   Info-history-back     history go back
+  r   Info-history-forward  history go forward
+
+  ^   Info-Up               up in info node tree
+
+  m   Info-menu             goto menu (by minibuf completion)
+  s   Info-search           search info
+  g   Info-goto-node        goto info node (by minibuf completion)
+
+      Info-history          open info history in buffer
 </code></pre>
 
                     </main>
