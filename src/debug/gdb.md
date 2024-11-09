@@ -258,11 +258,18 @@ thread name <name>
           on: Truncate log file on each run.
           off: Append to logfile (default).
 
+  set trace-commands <on | off>
+          on: Echo comamands executed (good with logging).
+          off: Do not echo commands executedt (default).
+
   set history filename <fname>
           Change file where to save and restore command history to and from.
 
   set history <on | off>
           Enable or disable saving of command history.
+
+  set exec-wrapper <cli>
+          Set an exec wrapper which sets up the env and execs the debugee.
 ```
 > Logging options should be configured before logging is turned on.
 
@@ -503,6 +510,36 @@ executed. To workaround that bug one can create a wrapper function which calls
   command
     handler
   end
+```
+
+## Launch debuggee through an exec wrapper
+```markdown
+> cat test.c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+  const char* env = getenv("MOOSE");
+  printf("$MOOSE=%s\n", env ? env : "<nullptr>");
+}
+
+> cat test.sh
+#!/bin/bash
+
+echo "running test.sh wapper"
+export MOOSE=moose
+exec ./test
+
+> gcc -g -o test test.c
+
+> gdb test
+(gdb) r
+$MOOSE=<nullptr>
+
+(gdb) set exec-wrapper bash test.sh
+(gdb) r
+running test.sh wapper
+$MOOSE=moose
 ```
 
 [gdb-convenience-vars]: https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html#Convenience-Vars
