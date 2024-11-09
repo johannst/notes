@@ -386,11 +386,18 @@ thread name &lt;name&gt;
           on: Truncate log file on each run.
           off: Append to logfile (default).
 
+  set trace-commands &lt;on | off&gt;
+          on: Echo comamands executed (good with logging).
+          off: Do not echo commands executedt (default).
+
   set history filename &lt;fname&gt;
           Change file where to save and restore command history to and from.
 
   set history &lt;on | off&gt;
           Enable or disable saving of command history.
+
+  set exec-wrapper &lt;cli&gt;
+          Set an exec wrapper which sets up the env and execs the debugee.
 </code></pre>
 <blockquote>
 <p>Logging options should be configured before logging is turned on.</p>
@@ -600,6 +607,34 @@ executed. To workaround that bug one can create a wrapper function which calls
   command
     handler
   end
+</code></pre>
+<h2 id="launch-debuggee-through-an-exec-wrapper"><a class="header" href="#launch-debuggee-through-an-exec-wrapper">Launch debuggee through an exec wrapper</a></h2>
+<pre><code class="language-markdown">&gt; cat test.c
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+  const char* env = getenv("MOOSE");
+  printf("$MOOSE=%s\n", env ? env : "&lt;nullptr&gt;");
+}
+
+&gt; cat test.sh
+#!/bin/bash
+
+echo "running test.sh wapper"
+export MOOSE=moose
+exec ./test
+
+&gt; gcc -g -o test test.c
+
+&gt; gdb test
+(gdb) r
+$MOOSE=&lt;nullptr&gt;
+
+(gdb) set exec-wrapper bash test.sh
+(gdb) r
+running test.sh wapper
+$MOOSE=moose
 </code></pre>
 
                     </main>

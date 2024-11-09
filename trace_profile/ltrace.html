@@ -162,10 +162,24 @@
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -l &lt;filter&gt; . show who calls into lib matched by &lt;filter&gt;
   -C .......... demangle
+  -x &lt;filter&gt; . which symbol table entry points to trace
+                (can be of form sym_pattern@lib_pattern)
 </code></pre>
 <h1 id="example"><a class="header" href="#example">Example</a></h1>
 <p>List which program/libs call into <code>libstdc++</code>:</p>
 <pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
+</code></pre>
+<p>Trace symbols from <code>dlopen(3)</code>ed libraries.</p>
+<pre><code class="language-bash"># Assume libfoo.so would be dynamically loaded via dlopen.
+ltrace -x '@libfoo.so'
+
+# Trace all dlopened symbols.
+ltrace -x '*'
+# Trace all symbols from dlopened libraries which name match the
+# pattern "liby*".
+ltrace -x '@liby*'
+# Trace symbol "foo" from all dlopened libraries matching the pattern.
+ltrace -x 'foo@liby*'
 </code></pre>
 
                     </main>
