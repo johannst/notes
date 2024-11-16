@@ -7,8 +7,10 @@ ltrace [opts] [prg]
   -o <file> ... log output into <file>
   -l <filter> . show who calls into lib matched by <filter>
   -C .......... demangle
+  -e <filter> . show calls symbols matched by <filter>
   -x <filter> . which symbol table entry points to trace
                 (can be of form sym_pattern@lib_pattern)
+  -n <num>      number of spaces to indent nested calls
 ```
 
 # Example
@@ -16,6 +18,11 @@ ltrace [opts] [prg]
 List which program/libs call into `libstdc++`:
 ```bash
 ltrace -l '*libstdc++*' -C -o ltrace.log ./main
+```
+
+List calls to specific symbols:
+```bash
+ltrace -e malloc -e free ./main
 ```
 
 Trace symbols from `dlopen(3)`ed libraries.
