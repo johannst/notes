@@ -334,3 +334,14 @@ supports `fido-vertical-mode` in case vertical mode is preferred.
 
       Info-history          open info history in buffer
 ```
+
+## shell commands
+```markdown
+  key   fn                        description
+---------------------------------------------
+  M-!   shell-command             run shell command synchronously
+  M-&   async-shell-command       run shell command asynchronously
+  M-|   shell-command-on-region   run shell command on region;
+                                  prefix with C-u to replace region with
+                                  output of the command
+```
