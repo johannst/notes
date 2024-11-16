@@ -17,6 +17,7 @@
     - [tac](./cli/tac.md)
     - [rev](./cli/rev.md)
     - [paste](./cli/paste.md)
+    - [xargs](./cli/xargs.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
