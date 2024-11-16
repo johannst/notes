@@ -22,12 +22,14 @@ lpadmin -x PRINTER
 ```sh
 # List printer options.
 # CHECK printer-make-and-model
-lpoptions -p Brother_MFC_L2750DW_series
+lpoptions -p PRINTER
 # List printing options.
-lpoptions -p Brother_MFC_L2750DW_series -l
+lpoptions -p PRINTER -l
+# Set an options, eg duplex mode.
+lpoptions -p PRINTER -o 'Duplex=DuplexNoTumble
 
 # Set the default printer (stored in ~/.cups/lpoptions).
-lpoptions -d Brother_MFC_L2750DW_series
+lpoptions -d PRINTER
 ```
 
 ## Inspect installed printer.
