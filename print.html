@@ -998,6 +998,7 @@ status -f              # abs path of current file
 <li><a href="cli/./tac.html">tac</a></li>
 <li><a href="cli/./rev.html">rev</a></li>
 <li><a href="cli/./paste.html">paste</a></li>
+<li><a href="cli/./xargs.html">xargs</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
 <pre><code class="language-markdown">awk [opt] program [input]
@@ -1403,6 +1404,24 @@ a2	b2
 echo -e 'a1 a2\nb1 b2\nc1 c2\nd1 d2' | paste - -
 # a1 a2	b1 b2
 # c1 c2	d1 d2
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="xargs1"><a class="header" href="#xargs1">xargs(1)</a></h1>
+<pre><code>xargs [opts] [cmd [init-args]]
+    -l [&lt;num&gt;]   maximal number of lines per cmd invocation
+                 if &lt;num&gt; it not provided, num=1 is assumed
+    -I &lt;str&gt;     replace &lt;str&gt; in the [init-args] with the arg;
+                 this implies -l, and hence processes one arg at a time
+</code></pre>
+<h2 id="example-4"><a class="header" href="#example-4">Example</a></h2>
+<p>Collect arguments and prefix them with another option.</p>
+<pre><code class="language-sh"># Using -l to process one arg at a time.
+eval strace -f (find /dev -name 'std*' | xargs -l echo -P | xargs) ls
+
+# Using -I to place the arg at the specified location.
+eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
+
+# Both commands achieve the same thing and result in something like:
+#   eval strace -f -P /dev/stdin -P /dev/stdout -P /dev/stderr ls
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
 <ul>
@@ -1828,6 +1847,15 @@ supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
   g   Info-goto-node        goto info node (by minibuf completion)
 
       Info-history          open info history in buffer
+</code></pre>
+<h2 id="shell-commands"><a class="header" href="#shell-commands">shell commands</a></h2>
+<pre><code class="language-markdown">  key   fn                        description
+---------------------------------------------
+  M-!   shell-command             run shell command synchronously
+  M-&amp;   async-shell-command       run shell command asynchronously
+  M-|   shell-command-on-region   run shell command on region;
+                                  prefix with C-u to replace region with
+                                  output of the command
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
@@ -2653,7 +2681,7 @@ taskset -ac 0-2,4 CMD [ARGS]
 # Pin all tasks of running PID onto cores 0,2,4.
 taskset -ac 0-5:2 -p PID
 </code></pre>
-<h3 id="example-4"><a class="header" href="#example-4">Example</a></h3>
+<h3 id="example-5"><a class="header" href="#example-5">Example</a></h3>
 <p>Utility script to extract cpu lists grouped by the last-level-cache.</p>
 <pre><code class="language-python">import subprocess
 
@@ -2760,12 +2788,17 @@ renice -n 5 -p PID
   -o &lt;file&gt; ... log output into &lt;file&gt;
   -l &lt;filter&gt; . show who calls into lib matched by &lt;filter&gt;
   -C .......... demangle
+  -e &lt;filter&gt; . show calls symbols matched by &lt;filter&gt;
   -x &lt;filter&gt; . which symbol table entry points to trace
                 (can be of form sym_pattern@lib_pattern)
+  -n &lt;num&gt;      number of spaces to indent nested calls
 </code></pre>
-<h1 id="example-5"><a class="header" href="#example-5">Example</a></h1>
+<h1 id="example-6"><a class="header" href="#example-6">Example</a></h1>
 <p>List which program/libs call into <code>libstdc++</code>:</p>
 <pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
+</code></pre>
+<p>List calls to specific symbols:</p>
+<pre><code class="language-bash">ltrace -e malloc -e free ./main
 </code></pre>
 <p>Trace symbols from <code>dlopen(3)</code>ed libraries.</p>
 <pre><code class="language-bash"># Assume libfoo.so would be dynamically loaded via dlopen.
@@ -3280,7 +3313,7 @@ thread name &lt;name&gt;
               or stepping.
           off: (default) Resume only threads of current process (inferior).
 </code></pre>
-<h2 id="shell-commands"><a class="header" href="#shell-commands">Shell commands</a></h2>
+<h2 id="shell-commands-1"><a class="header" href="#shell-commands-1">Shell commands</a></h2>
 <pre><code class="language-markdown">  shell &lt;shell_cmd&gt;
           Run the shell_cmd and print the output, can also contain a pipeline.
 
@@ -3525,7 +3558,7 @@ New value = 3
 set (s=0x7fffffffe594, v=3) at test.c:5
 5   }
 </code></pre>
-<h2 id="shell-commands-1"><a class="header" href="#shell-commands-1">Shell commands</a></h2>
+<h2 id="shell-commands-2"><a class="header" href="#shell-commands-2">Shell commands</a></h2>
 <pre><code class="language-markdown"># Run shell commands.
 
 (gdb) shell zcat /proc/config.gz | grep CONFIG_KVM=
@@ -3595,7 +3628,7 @@ $MOOSE=moose
       host:port
       tty
 </code></pre>
-<h2 id="example-6"><a class="header" href="#example-6">Example</a></h2>
+<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
@@ -5860,7 +5893,7 @@ link time <code>-lgcov</code>.</p>
 generated for a single file for example such as</p>
 <pre><code class="language-shell">gcov &lt;SRC FILE | OBJ FILE&gt;
 </code></pre>
-<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
+<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
 
 void tell_me(int desc) {
@@ -6766,7 +6799,7 @@ cpupower -c all frequency-info -g
 # Change frequency governor to POWERSAVE (eg).
 cpupower -c all frequency-set -g powersave
 </code></pre>
-<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
+<h2 id="example-9"><a class="header" href="#example-9">Example</a></h2>
 <p>Watch cpu frequency.</p>
 <pre><code class="language-sh">watch -n1 "cpupower -c all frequency-info -f -m | xargs -n2 -d'\n'"
 </code></pre>
@@ -6789,12 +6822,14 @@ lpadmin -x PRINTER
 <h2 id="printer--printing-options"><a class="header" href="#printer--printing-options">Printer &amp; Printing options</a></h2>
 <pre><code class="language-sh"># List printer options.
 # CHECK printer-make-and-model
-lpoptions -p Brother_MFC_L2750DW_series
+lpoptions -p PRINTER
 # List printing options.
-lpoptions -p Brother_MFC_L2750DW_series -l
+lpoptions -p PRINTER -l
+# Set an options, eg duplex mode.
+lpoptions -p PRINTER -o 'Duplex=DuplexNoTumble
 
 # Set the default printer (stored in ~/.cups/lpoptions).
-lpoptions -d Brother_MFC_L2750DW_series
+lpoptions -d PRINTER
 </code></pre>
 <h2 id="inspect-installed-printer"><a class="header" href="#inspect-installed-printer">Inspect installed printer.</a></h2>
 <pre><code class="language-sh"># List default printer.
@@ -6879,7 +6914,7 @@ locally and <code>-R</code> means that requests are issued remotely.</p>
 drop into shell)</li>
 <li><code>-f</code> run <code>ssh</code> command in the background</li>
 </ul>
-<h3 id="example-9"><a class="header" href="#example-9">Example</a></h3>
+<h3 id="example-10"><a class="header" href="#example-10">Example</a></h3>
 <pre><code class="language-sh"># Forward requests on localhost:8080 to moose:1234 and keep ssh in forground
 # but dont drop into a shell.
 ssh -N -L 8080:1234 moose

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>ltrace - Notes</title>
+        <title>xargs - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -155,47 +155,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ltrace1"><a class="header" href="#ltrace1">ltrace(1)</a></h1>
-<pre><code class="language-markdown">ltrace [opts] [prg]
-  -f .......... follow child processes on fork(2)
-  -p &lt;pid&gt; .... attach to running process
-  -o &lt;file&gt; ... log output into &lt;file&gt;
-  -l &lt;filter&gt; . show who calls into lib matched by &lt;filter&gt;
-  -C .......... demangle
-  -e &lt;filter&gt; . show calls symbols matched by &lt;filter&gt;
-  -x &lt;filter&gt; . which symbol table entry points to trace
-                (can be of form sym_pattern@lib_pattern)
-  -n &lt;num&gt;      number of spaces to indent nested calls
+                        <h1 id="xargs1"><a class="header" href="#xargs1">xargs(1)</a></h1>
+<pre><code>xargs [opts] [cmd [init-args]]
+    -l [&lt;num&gt;]   maximal number of lines per cmd invocation
+                 if &lt;num&gt; it not provided, num=1 is assumed
+    -I &lt;str&gt;     replace &lt;str&gt; in the [init-args] with the arg;
+                 this implies -l, and hence processes one arg at a time
 </code></pre>
-<h1 id="example"><a class="header" href="#example">Example</a></h1>
-<p>List which program/libs call into <code>libstdc++</code>:</p>
-<pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
-</code></pre>
-<p>List calls to specific symbols:</p>
-<pre><code class="language-bash">ltrace -e malloc -e free ./main
-</code></pre>
-<p>Trace symbols from <code>dlopen(3)</code>ed libraries.</p>
-<pre><code class="language-bash"># Assume libfoo.so would be dynamically loaded via dlopen.
-ltrace -x '@libfoo.so'
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<p>Collect arguments and prefix them with another option.</p>
+<pre><code class="language-sh"># Using -l to process one arg at a time.
+eval strace -f (find /dev -name 'std*' | xargs -l echo -P | xargs) ls
 
-# Trace all dlopened symbols.
-ltrace -x '*'
-# Trace all symbols from dlopened libraries which name match the
-# pattern "liby*".
-ltrace -x '@liby*'
-# Trace symbol "foo" from all dlopened libraries matching the pattern.
-ltrace -x 'foo@liby*'
+# Using -I to place the arg at the specified location.
+eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
+
+# Both commands achieve the same thing and result in something like:
+#   eval strace -f -P /dev/stdin -P /dev/stdout -P /dev/stderr ls
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../trace_profile/strace.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli/paste.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../trace_profile/perf.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../tools/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -205,11 +192,11 @@ ltrace -x 'foo@liby*'
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../trace_profile/strace.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli/paste.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../trace_profile/perf.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../tools/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
