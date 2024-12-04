@@ -104,6 +104,7 @@
     - [plotly](./web/plotly.md)
 
 - [Arch](./arch/README.md)
+    - [cache](./arch/cache.md)
     - [x86_64](./arch/x86_64.md)
     - [armv8](./arch/armv8.md)
     - [arm64](./arch/arm64.md)
