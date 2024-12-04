@@ -1,0 +1,464 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>cache - Notes</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cache"><a class="header" href="#cache">cache</a></h1>
+<p>Caches are organized by the following components</p>
+<ul>
+<li><code>sets</code></li>
+<li><code>ways</code></li>
+<li><code>entries</code></li>
+</ul>
+<p>Each <code>set</code> consists of one or more <code>ways</code> and  a <code>way</code> is a single slot which
+can hold an <code>entry</code>.</p>
+<pre><code>S-set / W-way cache
+
+         +----------------- .. -----------+
+SET 0    | WAY 0 | WAY 1 |      | WAY W-1 |
+         +----------------- .. -----------+
+SET 1    | WAY 0 | WAY 1 |      | WAY W-1 |
+         +----------------- .. -----------+
+..       |                                |
+         +----------------- .. -----------+
+SET S-1  | WAY 0 | WAY 1 |      | WAY W-1 |
+         +----------------- .. -----------+
+</code></pre>
+<p>In general a cache is described by the number of <code>sets S</code> and the number of
+<code>ways W</code>. Depending on the values for <code>S</code> and <code>W</code> caches can be further
+classified.</p>
+<ul>
+<li><code>W=1</code> is a <code>direct-mapped</code> cache, which means that each entry can be placed
+at exactly <strong>ONE</strong> location in the cache. It is also called a <em>one-way set
+associative</em> cache.</li>
+<li><code>S&gt;1 &amp; W&gt;1</code> is a <code>W-way set associative</code> cache, which consists of S sets where
+each set consists of W ways. Each entry maps to a <strong>UNIQUE</strong> set, but to
+<strong>ANY</strong> way in that set.</li>
+<li><code>S=1</code> is a <code>fully-associative</code> cache, which means that each entry can be
+placed at <strong>ANY</strong> location in the cache.</li>
+</ul>
+<p>To determine which set an entry falls into, a <code>hash function</code> is applied on the
+<code>key</code> which is associated with the entry. The set is then given by applying the
+modulo operation to the hash value <code>hash % num_sets</code>.</p>
+<p>The following figure illustrates the different cache classes and gives an
+example which entries the given hash value <code>5</code> can map to.</p>
+<pre><code>direct-mapped      2-way set associative      fully-associative
+
+HASH=5 (IDX=5%4)   HASH=5 (IDX=5%4)           HASH=5 (only one IDX)
+|                  |                          |
+|    S=4, W=1      |   S=4, W=2               |   S=1, W=4
+|    +--------+    |   +--------+--------+    |   +--------+--------+--------+--------+
+|   0|        |    |  0|        |        |    `-&gt;0| xxxxxx | xxxxxx | xxxxxx | xxxxxx |
+|    +--------+    |   +--------+--------+        +--------+--------+--------+--------+
+`- &gt;1| xxxxxx |    `-&gt;1| xxxxxx | xxxxxx |
+     +--------+        +--------+--------+
+    2|        |       2|        |        |
+     +--------+        +--------+--------+
+    3|        |       3|        |        |
+     +--------+        +--------+--------+
+</code></pre>
+<h2 id="cpu-hardware-caches"><a class="header" href="#cpu-hardware-caches">CPU (hardware) caches</a></h2>
+<p>The number of sets in a hardware cache is usually a power of two. The <code>address</code>
+acts as the key and some bits in the address are used to select the set in the
+cache. The hash function in this case is simple, as it just extracts the bits
+from the address which are used to select the set.</p>
+<p>The <code>address</code> is usually split up into the <code>{ TAG, IDX, OFF }</code> bits which are
+used to lookup an entry in the cache.</p>
+<p>The <code>IDX</code> bits are used to index into the corresponding set, where the <code>TAG</code>
+bits are then compared against the stored <code>TAG</code> bits in each way. If any way
+holds an entry with the matching <code>TAG</code> bits, the lookup is a <code>HIT</code>, else a
+<code>MISS</code>.</p>
+<p>In case the entry is in the cache, the <code>OFF</code> bits are used to index into the
+cache line. Hence, the number of offset bits available define the cache line
+size.</p>
+<p>The following gives an example for <em>64-bit addresses</em> and a <em>direct-mapped</em> cache.</p>
+<pre><code>        63                      0
+        +-----------------------+
+ADDR:   |  TAG  |  IDX  |  OFF  |
+        +-----------------------+
+            |       |       `------------------,
+            |       |                          |
+            |       |    CACHE                 |
+            |       |    +----------------+    |
+            |       |    | TAG | CACHE_LN |    |
+            |       |    +----------------+    |
+            |       |    | TAG | CACHE_LN |    |
+            |       |    +----------------+    |
+            |       |    | ..             |    |
+            |       |    +----------------+    |
+            |       `--&gt; | TAG | CACHE_LN |    |
+            |            +----------------+    |
+            |               |     |            |
+            |               v     v            |
+            `-------------&gt; =     + &lt;----------`
+                            |     |
+                            v     v
+                           HIT?  DATA
+
+
+OFF bits: ln2 (cache_line_sz)
+IDX bits: ln2 (num_sets)
+TAG bits: 64 - IDX bits - OFF bits
+</code></pre>
+<p>The total size of a cache can be computed by <code>cache_line_sz * num_sets * num_ways</code>.</p>
+<pre><code>Example
+  SETS: 64        =&gt; 6 IDX bits
+  WAYS: 8
+  LINE: 64 bytes  =&gt; 6 OFF bits
+
+  SIZE: 64 sets * 8 ways * 64 bytes =&gt; 32k bytes
+</code></pre>
+<h2 id="hardware-caches-with-virtual-memory"><a class="header" href="#hardware-caches-with-virtual-memory">Hardware caches with virtual memory</a></h2>
+<p>In the context of <em>virtual memory</em>, caches can be placed at different location
+in the memory path, either <em>before</em> or <em>after</em> the <code>virtual address (VA)</code> to
+<code>physical address (PA)</code> translation. Each placement has different properties
+discussed in the following.</p>
+<p>If the cache is placed <em>before</em> the <code>VA -&gt; PA</code> translation, it is called
+<code>virtually indexed virtually tagged (VIVT)</code> cache, as it is indexed by a virtual
+address and data in the cache is tagged with the virtual address as well.</p>
+<p>The benefit of VIVT caches is that lookups are very fast as there is no need to
+wait for the result of the address translation. However, VIVT caches may suffer
+from the following problems.</p>
+<ul>
+<li><code>synonyms</code>: different VAs map to the same PA. This can happen in a single
+address space (same page table), if for example a process maps the same file
+at different VAs (also commonly referred to as <em>aliasing</em> or <em>cache-line
+sharing</em>). This can also happen in different address spaces (different page
+tables), if for example pages are shared between two processes.
+<pre><code>PT1
++-------+
+|       |        PHYSMEM          PT2
++-------+        +-------+        +-------+
+|  VA1  |---,    |       |        |       |
++-------+   |    +-------+        +-------+
+|       |   +---&gt;|  PA1  |&lt;-------|  VA3  |
++-------+   |    +-------+        +-------+
+|  VA2  |---`    |       |        |       |
++-------+        +-------+        +-------+
+|       |
++-------+
+
+Assume VA1 != VA2 != VA3
+
+CACHE
+ TAG     DATA
++-------+-------------+        Problems:
+|  VA1  | Copy of PA1 |        * multiple copies of the same data.
+|  VA3  | Copy of PA1 |        * write through one VA and read through a
+|       |             |          different VA results in reading stale data.
+|  VA2  | Copy of PA1 |
++-------+-------------+
+</code></pre>
+</li>
+<li><code>homonyms</code>: same VA corresponds to different PAs. This is the standard case
+between two different address spaces (eg in a multi-tasking os), for example
+if the same VA is used in two different processes, but it maps to a different
+PA for each process.
+<pre><code>PT1              PHYSMEM          PT2
++-------+        +-------+        +-------+
+|  VA1  |-------&gt;|  PA1  |    ,---|  VA2  |
++-------+        +-------+    |   +-------+
+|       |        |       |    |   |       |
+|       |        +-------+    |   |       |
+|       |        |  PA2  |&lt;---`   |       |
++-------+        +-------+        +-------+
+
+Assume VA1 == VA2
+
+CACHE
+ TAG     DATA
++-------+-------------+        Problems:
+|  VA1  | Copy of PA1 |        * same VA from different address spaces map to
+|       |             |          different PA
+|       |             |        * read thorugh VA2 returns data from PA1
++-------+-------------+          rather than from PA2
+</code></pre>
+</li>
+</ul>
+<p>While <code>synonyms</code> may lead to accessing <em>stale</em> data, if there is no hardware to
+guarantee coherency between aliased entries, <code>homonyms</code> may lead to accessing
+the <em>wrong</em> data.</p>
+<p>On one hand there are multiple counter measures to avoid <code>homonyms</code>, for example
+physical tagging, tags could contain an address space identifier (ASID), or the
+cache could be flushed on context switches (changing the page table).
+Approaches like physical tagging and ASIDs work, as the same VA always maps to
+the same index in the cache, which would then result in a cache miss in case of
+the homonym.</p>
+<p>Preventing <code>synonyms</code> on the other hand is harder, as neither physical tagging
+nor ASIDs help in this case. Flushing the cache during context switches only
+helps with the case where different address spaces alias shared pages, but it
+won't help if the same PA is aliased by different VAs in a single address space.
+There are to alternative approaches, one is to have hardware support to detect
+synonyms and the other one is to have the operating system only allow shared
+mappings with VAs that have the same index bits for the cache. However, the
+latter only works for direct-mapped caches, as there is only a single location
+where those VAs could map to in the cache.</p>
+<p>If the cache is placed <em>after</em> the <code>VA -&gt; PA</code> translation, it is called
+<code>physically indexed physically tagged (PIPT)</code> cache, as it is indexed by a
+physical address and data in the cache is tagged with the physical address as
+well.</p>
+<p>Compared to VIVT caches, PIPT caches do not suffer from <code>synonyms</code> or
+<code>homonyms</code>. However, their major drawback is that the lookup depends on the
+result of the address translation, and hence the translation and the cache
+lookup happen sequentially which greatly decreases access latency.</p>
+<p>Between VIVT and PIPT caches there is also a hybrid approach called <code>virtually indexed physically tagged (VIPT)</code> cache, where the cache lookup is done with a
+virtual address and the data is tagged with the physical address.</p>
+<p>The benefit of this approach is that the cache lookup and the address
+translation can be done in parallel, and due to the physical tagging, <code>homonyms</code>
+are not possible.</p>
+<p>For VIPT caches, <code>synonyms</code> may still happen depending on how the cache is
+constructed.</p>
+<ul>
+<li>if the <code>index</code> bits for the cache lookup, exceed the <code>page offset</code> in the
+virtual address, then <code>synonyms</code> are still possible.</li>
+<li>if all the <code>index</code> bits for the cache lookup fall into the <code>page offset</code> of
+the virtual address, then the bits used for the cache lookup won't change
+during the <code>VA -&gt; PA</code> translation, and hence the cache effectively operates as
+a PIPT cache. The only downside is that the number of sets in the cache is
+limited by the page size.</li>
+</ul>
+<h3 id="vipt-as-pipt-example"><a class="header" href="#vipt-as-pipt-example">VIPT as PIPT example</a></h3>
+<p>The following example shows that for a system with <code>4k</code> pages and cache lines of
+<code>64 bytes</code> a VIPT cache can have at most <code>64 sets</code> to still act as PIPT cache.</p>
+<pre><code>      63      12              0
+      +-----------------------+
+VA:   |       |     PG_OFF    |
+      +-----------------------+
+CACHE BITS:   | C_IDX | C_OFF |
+              +---------------+
+
+PAGE SIZE  : 4k
+PAGE OFFSET: ln (PAGE SIZE) = 12 bits
+
+CACHE LINE  : 64 bytes
+CACHE OFFSET: ln (CACHE LINE) = 6 bits
+
+CACHE INDEX: PG_OFF - C_OFF = 6 bits
+CACHE SETS : 2^CACHE INDEX = 64 sets
+</code></pre>
+<p>The total cache size can be increased by adding additional ways, however that
+also has a practical upper limit, as adding more ways reduces the latency.</p>
+<h2 id="cache-info-in-linux"><a class="header" href="#cache-info-in-linux">Cache info in Linux</a></h2>
+<pre><code class="language-sh"># Info about different caches (size, ways, sets, type, ..).
+lscpu -C
+# NAME ONE-SIZE ALL-SIZE WAYS TYPE        LEVEL SETS PHY-LINE COHERENCY-SIZE
+# L1d       32K     128K    8 Data            1   64        1             64
+# L1i       32K     128K    8 Instruction     1   64        1             64
+# L2       256K       1M    4 Unified         2 1024        1             64
+# L3         6M       6M   12 Unified         3 8192        1             64
+
+# Info about how caches are shared between cores / hw-threads. Identified by
+# the same cache ids on the same level.
+lscpu -e
+# CPU  CORE  L1d:L1i:L2:L3  ONLINE
+#   0     0  0:0:0:0           yes
+#   1     1  1:1:1:0           yes
+#   4     0  0:0:0:0           yes
+#   5     1  1:1:1:0           yes
+#
+# =&gt; CPU 0,4 share L1d, L1i, L2 caches (here two hw-threads of a core).
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../arch/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../arch/x86_64.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../arch/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../arch/x86_64.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
