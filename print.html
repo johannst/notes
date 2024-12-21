@@ -8350,7 +8350,7 @@ must must save these registers in case they are used.</p>
 <li><code>r12</code> - <code>r15</code></li>
 <li><code>xmm6</code> - <code>xmm15</code></li>
 </ul>
-<h2 id="asm-skeleton"><a class="header" href="#asm-skeleton">ASM skeleton</a></h2>
+<h2 id="asm-skeleton---linux-userspace"><a class="header" href="#asm-skeleton---linux-userspace">ASM skeleton - linux userspace</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -8387,6 +8387,186 @@ greeting_len:
 <p>To compile and run:</p>
 <pre><code class="language-bash">&gt; gcc -o greet greet.s -nostartfiles -nostdlib &amp;&amp; ./greet
 Hi ASM-World!
+</code></pre>
+<h2 id="mbr-boot-sectors-example"><a class="header" href="#mbr-boot-sectors-example">MBR boot sectors example</a></h2>
+<p>The following shows a non-minimal <a href="https://en.wikipedia.org/wiki/Master_boot_record">MBR</a> boot sector, which transitions from
+16-bit <em>real mode</em> to 32-bit <em>protected mode</em> by setting up a small <em>global
+descriptor table (GDT)</em>. A string is printed in each mode.</p>
+<pre><code class="language-x86asm">.code16
+.intel_syntax noprefix
+
+.section .boot, "ax", @progbits
+    // Disable interrupts.
+    cli
+
+    // Clear segment selectors.
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov fs, ax
+    mov gs, ax
+
+    // Set cs to 0x0000, as some BIOSes load the MBR to either 07c0:0000 or 0000:7c000.
+    jmp 0x0000:entry_rm16
+
+entry_rm16:
+    // Set video mode 3, see [1].
+    //   * 80x25 text mode
+    //   * 640x200 pixel resolution (8x8 pixel per char)
+    //   * 16 colors (4bit)
+    //   * 4 pages
+    //   * 0xB800 screen address
+    //
+    // [1] http://www.ctyme.com/intr/rb-0069.htm
+    mov ax, 0x3
+    int 0x10
+
+    // Move cursor to second row.
+    // http://www.ctyme.com/intr/rb-0087.htm
+    mov ah, 0x02
+    mov bh, 0  // page
+    mov dh, 1  // row
+    mov dl, 0  // col
+    int 0x10
+
+    // Clear direction flag for lodsb below.
+    cld
+
+    // Load pointer to msg_rm string (null terminated).
+    lea si, [msg_rm]
+
+    // Teletype output char at current cursor position.
+    // http://www.ctyme.com/intr/rb-0106.htm
+    mov ah, 0x0e
+1:
+    lodsb         // al &lt;- ds:si ; si+=1 ; (al char to write)
+    test al,al    // test for null terminator
+    jz 2f
+    int 0x10
+    jmp 1b
+2:
+
+    // Enable A20 address line.
+    in al, 0x92
+    or al, 2
+    out 0x92, al
+
+    // Load GDT descriptor.
+    lgdt [gdt_desc]
+
+    // Enable protected mode (set CR0.PE bit).
+    mov eax, cr0
+    or  eax, (1 &lt;&lt; 0)
+    mov cr0, eax
+
+    // Far jump which loads segment selector (0x0008) into cs.
+    // 0x0008 -&gt; RPL=0, TI=0(GDT), I=1
+    jmp 0x0008:entry_pm32
+
+.code32
+entry_pm32:
+    // Select data segment selector (0x0010) for ds.
+    mov ax, gdt_data - gdt
+    mov ds, ax
+
+    // Write through VGA interface (video memory).
+    // Each character is represented by 2 bytes.
+    //   4 bit bg | 4 bit fg | 8 bit ascii char
+    //
+    // Start writing at third line.
+    mov edi, 0xb8000 + (80 * 2 * 2) //
+
+    lea esi, [msg_pm]
+1:
+    lodsb           // al &lt;- ds:esi ; esi+=1
+    test al, al     // test for null terminator
+    jz 2f
+    or eax, 0x1f00  // blue bg, white fg
+    stosw           // ds:[edi] &lt;- ax; edi+=2
+    jmp 1b
+2:
+    hlt
+    jmp 2b
+
+// For simplicity keep data used by boot sector in the same section.
+.balign 8
+msg_rm:
+    .asciz "Hello from Real Mode!"
+msg_pm:
+    .asciz "Hello from Protected Mode!"
+
+.balign 8
+gdt:
+    .8byte 0x0000000000000000 // 0x00 | null descriptor
+    .8byte 0x00cf9a000000ffff // 0x08 | 32 bit, code (rx), present, dpl=0, g=4K, base=0, limit=fffff
+gdt_data:
+    .8byte 0x00cf92000000ffff // 0x10 | 32 bit, data (rw), present, dpl=0, g=4K, base=0, limit=fffff
+gdt_desc:
+    .2byte .-gdt-1  // size
+    .4byte gdt      // address
+
+// Write MBR boot magic value.
+.fill 510 - (. - .boot), 1, 0x00
+.2byte 0xaa55
+</code></pre>
+<p>The linker script.</p>
+<pre><code class="language-x86asm">OUTPUT_FORMAT(elf32-i386)
+OUTPUT_ARCH(i386)
+
+SECTIONS {
+    . = 0x7c00;
+    .boot     : { *(.boot) }
+    _boot_end = .;
+    /DISCARD/ : { *(.*) }
+
+    ASSERT(_boot_end - 0x7c00 == 512, "boot sector must be exact 512 bytes")
+}
+</code></pre>
+<p>The build instructions.</p>
+<pre><code class="language-make">mbr: mbr.ld mbr.o
+	ld -o $@.elf -nostdlib -T $^
+	objcopy -O binary $@.elf $@
+
+mbr.o: mbr.S
+	gcc -c -o $@ -m32 -ffreestanding $^
+</code></pre>
+<p>One can boot into the bootsector from legacy BIOS, either with qemu or by
+writing the mbr boot sector as first sector onto a usb stick.</p>
+<pre><code class="language-sh">qemu-system-i386 -hda mbr
+</code></pre>
+<p>The following gives some more detailed description for the <em>segment selector</em>
+registers, the <em>segment descriptors</em> in the GDT, and the <em>GDT descriptor</em>
+itself.</p>
+<pre><code># Segment Selector (cs, ds, es, ss, fs, gs).
+
+[15:3] I   Descriptor Index
+ [2:1] TI  Table Indicator (0=GTD | 1=LDT)
+   [0] RPL Requested Privilege Level
+
+
+# Segment Descriptor (2 x 4 byte words).
+
+0x4 [31:24] Base[31:24]
+0x4    [23] G            Granularity, scaling of limit (0=1B | 1=4K)
+0x4    [22] D/B          (0=16bit | 1=32bit)
+0x4    [21] L            (0=compatibility mode | 1=64bit code) if 1 -&gt; D/B = 0
+0x4    [20] AVL          Free use for system sw
+0x4 [19:16] Limit[19:16]
+0x4    [15] P            Present
+0x4 [14:13] DPL          Descriptor privilege level
+0x4    [12] S            (0=system segment | 1=code/data)
+0x4  [11:0] Type         Code or data and access information.
+0x4   [7:0] Base[23:16]
+
+0x0 [31:16] Base[15:0]
+0x0  [15:0] Limit[15:0]
+
+
+# GDT descriptor (32bit mode)
+
+[47:16] Base address of GDT table.
+ [15:0] Length of GDT table.
 </code></pre>
 <h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
 <ul>
@@ -8612,7 +8792,7 @@ ret
 </code></pre>
 </li>
 </ul>
-<h2 id="asm-skeleton-1"><a class="header" href="#asm-skeleton-1">ASM skeleton</a></h2>
+<h2 id="asm-skeleton"><a class="header" href="#asm-skeleton">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -8844,7 +9024,7 @@ mov fp, sp              // FP points to frame record
 </code></pre>
 </li>
 </ul>
-<h2 id="asm-skeleton-2"><a class="header" href="#asm-skeleton-2">ASM skeleton</a></h2>
+<h2 id="asm-skeleton-1"><a class="header" href="#asm-skeleton-1">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
@@ -8940,7 +9120,7 @@ x10-x17        a0-a7        arg regs
 x18-x27        s2-s11       saved regs
 x28-x31        t3-t6        temp regs
 </code></pre>
-<h2 id="asm-skeleton-3"><a class="header" href="#asm-skeleton-3">ASM skeleton</a></h2>
+<h2 id="asm-skeleton-2"><a class="header" href="#asm-skeleton-2">ASM skeleton</a></h2>
 <p>Small assembler skeleton, ready to use with following properties:</p>
 <ul>
 <li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
