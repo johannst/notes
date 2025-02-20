@@ -4,13 +4,15 @@
 ```text
 +-------------------+ --- stash -----> +-------+
 | working directory |                  | stash |  // Shelving area.
-+-------------------+ <-- stash pop -- +-------+
+|     (worktree)    | <-- stash pop -- +-------+
++-------------------+
       |       ^
      add      |
       |     reset
       v       |
 +-------------------+
 |   staging area    |
+|      (index)      |
 +-------------------+
       |
     commit
@@ -195,8 +197,44 @@ the same repository (shared .git folder).
                                    tracked files in the working tree since
                                    <commit> are lost
   git reset HEAD <file> .......... remove file from staging
-  git reset --soft HEAD~1 ........ delete most recent commit but keep work
-  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+  git reset --soft HEAD~1 ........ delete most recent commit; dont revert index & worktree
+  git reset --mixed HEAD~1 ....... delete most recent commit; revert index; dont revert worktree
+  git reset --hard HEAD~1 ........ delete most recent commit; revert index & worktree
+```
+
+Assuming an initial history `A - B - C - D` where `HEAD` currently points at
+`D`, the different reset operations work as shown below.
+
+**Soft** reset.
+```
+git reset --soft HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-> local history is reverted, HEAD moved to B.
+-> changes from C + D are still in the worktree & index (appear as staged changes).
+```
+**Mixed** reset.
+```
+git reset --mixed HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-> local history is reverted, HEAD moved to B.
+-> changed from C + D are reverted in the index.
+-> changes from C + D are still in the worktree (appear as unstaged changes).
+```
+**Hard** reset.
+```
+git reset --head HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-> local history is reverted, HEAD moved to B.
+-> changes from C + D also reverted in the worktree & index (no pending changes).
 ```
 
 ## Submodules
