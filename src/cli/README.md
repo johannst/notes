@@ -11,3 +11,4 @@
 - [paste](./paste.md)
 - [xargs](./xargs.md)
 - [grep](./grep.md)
+- [find](./find.md)

@@ -19,6 +19,7 @@
     - [paste](./cli/paste.md)
     - [xargs](./cli/xargs.md)
     - [grep](./cli/grep.md)
+    - [find](./cli/find.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
