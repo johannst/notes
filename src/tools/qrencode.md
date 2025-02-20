@@ -1,5 +1,10 @@
 # qrencode(1)
 
+```
+qrencode
+    -s N     pixels per feature length
+```
+
 Generate wifi qr code for WPA2 secured network.
 ```sh
 # Generate on terminal.
