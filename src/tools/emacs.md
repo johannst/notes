@@ -10,6 +10,7 @@
   C-h c <KEY>   print command bound to <KEY>
   C-h k <KEY>   describe command bound to <KEY>
   C-h b         list buffer local key-bindings
+  C-h F         show emacs manual for command/function
   <kseq> C-h    list possible key-bindings with <kseq>
                 eg C-x C-h -> list key-bindings beginning with C-x
 ```
@@ -32,6 +33,10 @@
   C-x 2    split-window-below      split horizontal
   C-x 3    split-window-right      split vertical
   C-x o    other-window            other window (cycle)
+
+  C-x r w  window-configuration-to-register
+                                   save window configuration in a register
+                                   (use C-x r j to jump to the windows config again)
 ```
 
 ## minibuffer
@@ -55,6 +60,7 @@
   C-x w      write-file           write buffer (save as)
   C-x b      switch-to-buffer     switch buffer
   C-x C-b    list-buffers         buffer list
+  C-x x r    rename-buffer        renames a buffer (allows multiple shell, compile, grep, .. buffers)
 ```
 
 ## ibuffer
@@ -65,6 +71,9 @@ Builtin advanced buffer selection mode
              ibuffer       enter buffer selection
 
   h                        ibuffer help
+
+  d                        mark for deletion
+  x                        kill buffers marked for deletion
 
   o                        open buffer in other window
   C-o                      open buffer in other window keep focus in ibuffer
@@ -80,6 +89,8 @@ Builtin advanced buffer selection mode
   /m                       filter by major mode
   /n                       filter by buffer name
   /f                       filter by file name
+  /i                       filter by modified buffers
+  /E                       filter by process buffers
   //                       remove all filter
 
   /g                       create filter group
@@ -95,6 +106,9 @@ Builtin advanced buffer selection mode
   M-g M-p  previous-error    go to previous error
 
   M-g i    imenu             go to place in buffer (symbol, ...)
+
+  M-<                        go to begin of buffer
+  M->                        go to end of buffer
 ```
 
 ## isearch
@@ -136,6 +150,8 @@ Builtin advanced buffer selection mode
   key    fn           description
 -----------------------------------
          rgrep        recursive grep
+         lgrep        local dir grep
+         grep         raw grep command
          find-grep    run find-grep result in *grep* buffer
 
   n/p                 navigate next/previous match in *grep* buffer
@@ -144,14 +160,17 @@ Builtin advanced buffer selection mode
 
 ## yank/paste
 ```markdown
-  key         fn                  description
----------------------------------------------
-  C-<SPACE>   set-mark-command    set start mark to select text
-  M-w         kill-ring-save      copy selected text
-  C-w         kill-region         kill selected text
-  C-y         yank                paste selected text
-  M-y         yank-pop            cycle through kill-ring (only after paste)
+  key         fn                      description
+-------------------------------------------------
+  C-<SPACE>   set-mark-command        set start mark to select text
+  C-x C-x     exchange-point-and-mark swap mark and point position
+  M-w         kill-ring-save          copy selected text
+  C-w         kill-region             kill selected text
+  C-y         yank                    paste selected text
+  M-y         yank-pop                cycle through kill-ring (only after paste)
+  M-y         yank-from-kill-ring     interactively select yank from kill ring
 ```
+
 
 ## register
 ```markdown
@@ -183,7 +202,9 @@ Builtin advanced buffer selection mode
   key       fn                       description
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
-            delete-matching-line     delete lines matching regex
+            delete-matching-line     delete lines matchng regex
+            kill-matching-line       kill lines matching regex (puts them in kill ring)
+            keep-lines               keep matching lines
             replace-string           replace unconditional
   M-%       query-replace            search & replace
   C-M-%     query-replace-regexp     search & replace regex
@@ -229,17 +250,7 @@ Builtin advanced buffer selection mode
   C-x p &   project-async-shell-command        async shell command on project
 ```
 
-## company
-```markdown
-  key         fn   description
--------------------------------
-  C-s              search through completion candidates
-  C-o              filter completion candidates based on search term
-  <f1>             get doc for completion condidate
-  M-<digit>        select completion candidate
-```
-
-## tags
+## tags / lsp
 To generate `etags` using `ctags`
 ```markdown
   ctags -R -e .         generate emacs tag file (important `-e`)
@@ -307,11 +318,17 @@ supports `fido-vertical-mode` in case vertical mode is preferred.
   Y            relative symbolic link
 
   d            mark for deletion
-  m            mark file/dir
+  m            mark file/dir at point
+  * %          mark by regex
+  * *          mark all executables
+  * /          mark all dirs
   u            un-mark file/dir
   U            un-mark all
+  t            toggle marks
 
   x            execute marked actions
+  !            run shell command on marked files
+  &            run shell command on marked files (async)
 
   q            quit
 ```
@@ -344,4 +361,27 @@ supports `fido-vertical-mode` in case vertical mode is preferred.
   M-|   shell-command-on-region   run shell command on region;
                                   prefix with C-u to replace region with
                                   output of the command
+```
+
+## interactive shell
+
+Set `ESHELL` environment variable before starting emacs to change
+default shell, else customize the `explicit-shell-file-name` variable.
+```markdown
+  key      fn                    description
+---------------------------------------------
+  M-x      shell                 start interactive shell
+  C-u M-x  shell                 start interactive shell & rename
+
+
+  M-r      comint-history-isearch-backward-regexp
+                                 search history, invoke at end of shell buffer
+  M-p      comint-previous-input go one up in history
+  C-<UP>
+  M-n      comint-next-input     go one down in history
+  C-<DOWN>
+
+  C-c C-a                        go begin of line (honors prompt)
+  C-c C-e                        go to end of line
+  C-c C-c                        interrupt active command
 ```
