@@ -10,3 +10,4 @@
 - [rev](./rev.md)
 - [paste](./paste.md)
 - [xargs](./xargs.md)
+- [grep](./grep.md)

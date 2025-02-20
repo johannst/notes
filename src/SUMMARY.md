@@ -18,6 +18,7 @@
     - [rev](./cli/rev.md)
     - [paste](./cli/paste.md)
     - [xargs](./cli/xargs.md)
+    - [grep](./cli/grep.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
