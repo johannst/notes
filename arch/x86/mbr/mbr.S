@@ -17,12 +17,12 @@
     jmp 0x0000:entry_rm16
 
 entry_rm16:
-    // Set video mode 3, see [1].
+    // Set video mode 3h, see [1].
     //   * 80x25 text mode
     //   * 640x200 pixel resolution (8x8 pixel per char)
     //   * 16 colors (4bit)
     //   * 4 pages
-    //   * 0xB800 screen address
+    //   * 0xB8000 screen address
     //
     // [1] http://www.ctyme.com/intr/rb-0069.htm
     mov ax, 0x3
@@ -81,7 +81,7 @@ entry_pm32:
     //   4 bit bg | 4 bit fg | 8 bit ascii char
     //
     // Start writing at third line.
-    mov edi, 0xb8000 + (80 * 2 * 2) //
+    mov edi, 0xb8000 + (80 * 2 * 2)
 
     lea esi, [msg_pm]
 1:
