@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Tools - Notes</title>
+        <title>find - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -155,31 +155,45 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
-<ul>
-<li><a href="./tmux.html">tmux</a></li>
-<li><a href="./screen.html">screen</a></li>
-<li><a href="./emacs.html">emacs</a></li>
-<li><a href="./gpg.html">gpg</a></li>
-<li><a href="./radare2.html">radare2</a></li>
-<li><a href="./qemu.html">qemu</a></li>
-<li><a href="./pacman.html">pacman</a></li>
-<li><a href="./dot.html">dot</a></li>
-<li><a href="./ffmpeg.html">ffmpeg</a></li>
-<li><a href="./gnuplot.html">gnuplot</a></li>
-<li><a href="./restic.html">restic</a></li>
-<li><a href="./qrencode.html">qrencode</a></li>
-</ul>
+                        <h1 id="find1"><a class="header" href="#find1">find(1)</a></h1>
+<pre><code>find &lt;start&gt; [opts]
+    -maxdepth &lt;n&gt;        maximally search n dirs deep
+    -type &lt;t&gt;            match on file type
+                           f    regular file
+                           d    directory
+    -user &lt;name&gt;         list files owned by username
+    -name &lt;glob&gt;         list files matching glob (only filename)
+    -iname &lt;glob&gt;        list files matching glob case-insensitive
+
+    -exec &lt;cmd&gt; {} ;     run cmd on each file
+    -exec &lt;cmd&gt; {} +     run cmd with all files as argument
+</code></pre>
+<blockquote>
+<p>Depending on the shell the <code>&lt;glob&gt;</code> must be quoted or escaped. The
+exec modifier characters <code>;</code> and <code>+</code> also may need to be escaped.</p>
+</blockquote>
+<h3 id="example--exec-option"><a class="header" href="#example--exec-option">Example <code>-exec</code> option</a></h3>
+<pre><code class="language-sh">&gt; find . -maxdepth 1 -type d -exec echo x {} \;
+# x .
+# x ./.github
+# x ./book
+# x ./src
+# x ./.git
+# x ./docs
+
+&gt; find . -maxdepth 1 -type d -exec echo x {} +
+# x . ./.github ./book ./src ./.git ./docs
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../cli/find.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli/grep.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../tools/tmux.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../tools/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -189,11 +203,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../cli/find.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli/grep.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../tools/tmux.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../tools/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

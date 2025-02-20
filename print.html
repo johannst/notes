@@ -999,6 +999,8 @@ status -f              # abs path of current file
 <li><a href="cli/./rev.html">rev</a></li>
 <li><a href="cli/./paste.html">paste</a></li>
 <li><a href="cli/./xargs.html">xargs</a></li>
+<li><a href="cli/./grep.html">grep</a></li>
+<li><a href="cli/./find.html">find</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
 <pre><code class="language-markdown">awk [opt] program [input]
@@ -1423,6 +1425,55 @@ eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
 # Both commands achieve the same thing and result in something like:
 #   eval strace -f -P /dev/stdin -P /dev/stdout -P /dev/stderr ls
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="grep1"><a class="header" href="#grep1">grep(1)</a></h1>
+<pre><code>sort [opts] [pattern] [files]
+    -e &lt;pattern&gt;        pattern to search for (can be supplied multiple times)
+    -i                  ignore case in patterns
+    -v                  invert match
+
+    -n                  add line numbers to matched lines
+    -H                  add file name to matched lines
+
+    -r                  recursively read all files
+    -I                  skip binary files
+    --include &lt;glob&gt;    search only files matching glob
+    --exclude &lt;glob&gt;    skip searching files matching glob
+
+    -c                  count occurrence of matched patterns
+    -l                  list only file name which contain the pattern
+</code></pre>
+<blockquote>
+<p><code>&lt;glob&gt;</code> patterns may need to be quoted or escaped if the shell also does glob expansion.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="find1"><a class="header" href="#find1">find(1)</a></h1>
+<pre><code>find &lt;start&gt; [opts]
+    -maxdepth &lt;n&gt;        maximally search n dirs deep
+    -type &lt;t&gt;            match on file type
+                           f    regular file
+                           d    directory
+    -user &lt;name&gt;         list files owned by username
+    -name &lt;glob&gt;         list files matching glob (only filename)
+    -iname &lt;glob&gt;        list files matching glob case-insensitive
+
+    -exec &lt;cmd&gt; {} ;     run cmd on each file
+    -exec &lt;cmd&gt; {} +     run cmd with all files as argument
+</code></pre>
+<blockquote>
+<p>Depending on the shell the <code>&lt;glob&gt;</code> must be quoted or escaped. The
+exec modifier characters <code>;</code> and <code>+</code> also may need to be escaped.</p>
+</blockquote>
+<h3 id="example--exec-option"><a class="header" href="#example--exec-option">Example <code>-exec</code> option</a></h3>
+<pre><code class="language-sh">&gt; find . -maxdepth 1 -type d -exec echo x {} \;
+# x .
+# x ./.github
+# x ./book
+# x ./src
+# x ./.git
+# x ./docs
+
+&gt; find . -maxdepth 1 -type d -exec echo x {} +
+# x . ./.github ./book ./src ./.git ./docs
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
 <ul>
 <li><a href="tools/./tmux.html">tmux</a></li>
@@ -1579,6 +1630,7 @@ sudo stty -F /dev/ttyUSB0 -a
   C-h c &lt;KEY&gt;   print command bound to &lt;KEY&gt;
   C-h k &lt;KEY&gt;   describe command bound to &lt;KEY&gt;
   C-h b         list buffer local key-bindings
+  C-h F         show emacs manual for command/function
   &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
 </code></pre>
@@ -1597,6 +1649,10 @@ sudo stty -F /dev/ttyUSB0 -a
   C-x 2    split-window-below      split horizontal
   C-x 3    split-window-right      split vertical
   C-x o    other-window            other window (cycle)
+
+  C-x r w  window-configuration-to-register
+                                   save window configuration in a register
+                                   (use C-x r j to jump to the windows config again)
 </code></pre>
 <h2 id="minibuffer"><a class="header" href="#minibuffer">minibuffer</a></h2>
 <pre><code class="language-markdown">  key            description
@@ -1616,6 +1672,7 @@ sudo stty -F /dev/ttyUSB0 -a
   C-x w      write-file           write buffer (save as)
   C-x b      switch-to-buffer     switch buffer
   C-x C-b    list-buffers         buffer list
+  C-x x r    rename-buffer        renames a buffer (allows multiple shell, compile, grep, .. buffers)
 </code></pre>
 <h2 id="ibuffer"><a class="header" href="#ibuffer">ibuffer</a></h2>
 <p>Builtin advanced buffer selection mode</p>
@@ -1624,6 +1681,9 @@ sudo stty -F /dev/ttyUSB0 -a
              ibuffer       enter buffer selection
 
   h                        ibuffer help
+
+  d                        mark for deletion
+  x                        kill buffers marked for deletion
 
   o                        open buffer in other window
   C-o                      open buffer in other window keep focus in ibuffer
@@ -1639,6 +1699,8 @@ sudo stty -F /dev/ttyUSB0 -a
   /m                       filter by major mode
   /n                       filter by buffer name
   /f                       filter by file name
+  /i                       filter by modified buffers
+  /E                       filter by process buffers
   //                       remove all filter
 
   /g                       create filter group
@@ -1652,6 +1714,9 @@ sudo stty -F /dev/ttyUSB0 -a
   M-g M-p  previous-error    go to previous error
 
   M-g i    imenu             go to place in buffer (symbol, ...)
+
+  M-&lt;                        go to begin of buffer
+  M-&gt;                        go to end of buffer
 </code></pre>
 <h2 id="isearch"><a class="header" href="#isearch">isearch</a></h2>
 <pre><code class="language-markdown">  key    fn                           description
@@ -1686,19 +1751,23 @@ sudo stty -F /dev/ttyUSB0 -a
 <pre><code class="language-markdown">  key    fn           description
 -----------------------------------
          rgrep        recursive grep
+         lgrep        local dir grep
+         grep         raw grep command
          find-grep    run find-grep result in *grep* buffer
 
   n/p                 navigate next/previous match in *grep* buffer
   q                   quit *grep* buffer
 </code></pre>
 <h2 id="yankpaste"><a class="header" href="#yankpaste">yank/paste</a></h2>
-<pre><code class="language-markdown">  key         fn                  description
----------------------------------------------
-  C-&lt;SPACE&gt;   set-mark-command    set start mark to select text
-  M-w         kill-ring-save      copy selected text
-  C-w         kill-region         kill selected text
-  C-y         yank                paste selected text
-  M-y         yank-pop            cycle through kill-ring (only after paste)
+<pre><code class="language-markdown">  key         fn                      description
+-------------------------------------------------
+  C-&lt;SPACE&gt;   set-mark-command        set start mark to select text
+  C-x C-x     exchange-point-and-mark swap mark and point position
+  M-w         kill-ring-save          copy selected text
+  C-w         kill-region             kill selected text
+  C-y         yank                    paste selected text
+  M-y         yank-pop                cycle through kill-ring (only after paste)
+  M-y         yank-from-kill-ring     interactively select yank from kill ring
 </code></pre>
 <h2 id="register"><a class="header" href="#register">register</a></h2>
 <pre><code class="language-markdown">  key             fn                 description
@@ -1723,7 +1792,9 @@ sudo stty -F /dev/ttyUSB0 -a
 <pre><code class="language-markdown">  key       fn                       description
 ------------------------------------------------
   C-x h     mark-whole-buffer        mark whole buffer
-            delete-matching-line     delete lines matching regex
+            delete-matching-line     delete lines matchng regex
+            kill-matching-line       kill lines matching regex (puts them in kill ring)
+            keep-lines               keep matching lines
             replace-string           replace unconditional
   M-%       query-replace            search &amp; replace
   C-M-%     query-replace-regexp     search &amp; replace regex
@@ -1760,15 +1831,7 @@ sudo stty -F /dev/ttyUSB0 -a
   C-x p !   project-shell-command              shell command on project
   C-x p &amp;   project-async-shell-command        async shell command on project
 </code></pre>
-<h2 id="company"><a class="header" href="#company">company</a></h2>
-<pre><code class="language-markdown">  key         fn   description
--------------------------------
-  C-s              search through completion candidates
-  C-o              filter completion candidates based on search term
-  &lt;f1&gt;             get doc for completion condidate
-  M-&lt;digit&gt;        select completion candidate
-</code></pre>
-<h2 id="tags"><a class="header" href="#tags">tags</a></h2>
+<h2 id="tags--lsp"><a class="header" href="#tags--lsp">tags / lsp</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
 <pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
 </code></pre>
@@ -1823,11 +1886,17 @@ supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
   Y            relative symbolic link
 
   d            mark for deletion
-  m            mark file/dir
+  m            mark file/dir at point
+  * %          mark by regex
+  * *          mark all executables
+  * /          mark all dirs
   u            un-mark file/dir
   U            un-mark all
+  t            toggle marks
 
   x            execute marked actions
+  !            run shell command on marked files
+  &amp;            run shell command on marked files (async)
 
   q            quit
 </code></pre>
@@ -1856,6 +1925,26 @@ supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
   M-|   shell-command-on-region   run shell command on region;
                                   prefix with C-u to replace region with
                                   output of the command
+</code></pre>
+<h2 id="interactive-shell"><a class="header" href="#interactive-shell">interactive shell</a></h2>
+<p>Set <code>ESHELL</code> environment variable before starting emacs to change
+default shell, else customize the <code>explicit-shell-file-name</code> variable.</p>
+<pre><code class="language-markdown">  key      fn                    description
+---------------------------------------------
+  M-x      shell                 start interactive shell
+  C-u M-x  shell                 start interactive shell &amp; rename
+
+
+  M-r      comint-history-isearch-backward-regexp
+                                 search history, invoke at end of shell buffer
+  M-p      comint-previous-input go one up in history
+  C-&lt;UP&gt;
+  M-n      comint-next-input     go one down in history
+  C-&lt;DOWN&gt;
+
+  C-c C-a                        go begin of line (honors prompt)
+  C-c C-e                        go to end of line
+  C-c C-c                        interrupt active command
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
@@ -2499,6 +2588,9 @@ restic -r &lt;repo&gt; mount --path &lt;abspath&gt; &lt;mntpoint&gt;
 <li><a href="https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html#sftp">sftp</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="qrencode1"><a class="header" href="#qrencode1">qrencode(1)</a></h1>
+<pre><code>qrencode
+    -s N     pixels per feature length
+</code></pre>
 <p>Generate wifi qr code for WPA2 secured network.</p>
 <pre><code class="language-sh"># Generate on terminal.
 qrencode -t ansiutf8 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
@@ -4854,13 +4946,15 @@ run1:
 <h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
 <pre><code class="language-text">+-------------------+ --- stash -----&gt; +-------+
 | working directory |                  | stash |  // Shelving area.
-+-------------------+ &lt;-- stash pop -- +-------+
+|     (worktree)    | &lt;-- stash pop -- +-------+
++-------------------+
       |       ^
      add      |
       |     reset
       v       |
 +-------------------+
 |   staging area    |
+|      (index)      |
 +-------------------+
       |
     commit
@@ -4925,7 +5019,7 @@ run1:
                                        on-top of remote branch (in case local
                                        branch has additional commits compared to remote branch).
 </code></pre>
-<h2 id="tags-1"><a class="header" href="#tags-1">Tags</a></h2>
+<h2 id="tags"><a class="header" href="#tags">Tags</a></h2>
 <pre><code class="language-markdown">  git tag -a &lt;tname&gt; -m "descr" ........ creates an annotated tag (full object
                                          containing tagger, date, ...)
   git tag -l ........................... list available tags
@@ -5019,8 +5113,39 @@ the same repository (shared .git folder).</p>
                                    tracked files in the working tree since
                                    &lt;commit&gt; are lost
   git reset HEAD &lt;file&gt; .......... remove file from staging
-  git reset --soft HEAD~1 ........ delete most recent commit but keep work
-  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+  git reset --soft HEAD~1 ........ delete most recent commit; dont revert index &amp; worktree
+  git reset --mixed HEAD~1 ....... delete most recent commit; revert index; dont revert worktree
+  git reset --hard HEAD~1 ........ delete most recent commit; revert index &amp; worktree
+</code></pre>
+<p>Assuming an initial history <code>A - B - C - D</code> where <code>HEAD</code> currently points at
+<code>D</code>, the different reset operations work as shown below.</p>
+<p><strong>Soft</strong> reset.</p>
+<pre><code>git reset --soft HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changes from C + D are still in the worktree &amp; index (appear as staged changes).
+</code></pre>
+<p><strong>Mixed</strong> reset.</p>
+<pre><code>git reset --mixed HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changed from C + D are reverted in the index.
+-&gt; changes from C + D are still in the worktree (appear as unstaged changes).
+</code></pre>
+<p><strong>Hard</strong> reset.</p>
+<pre><code>git reset --head HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changes from C + D also reverted in the worktree &amp; index (no pending changes).
 </code></pre>
 <h2 id="submodules"><a class="header" href="#submodules">Submodules</a></h2>
 <pre><code class="language-markdown">  git submodule add &lt;url&gt; [&lt;path&gt;] .......... add new submodule to current project

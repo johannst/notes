@@ -159,13 +159,15 @@
 <h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
 <pre><code class="language-text">+-------------------+ --- stash -----&gt; +-------+
 | working directory |                  | stash |  // Shelving area.
-+-------------------+ &lt;-- stash pop -- +-------+
+|     (worktree)    | &lt;-- stash pop -- +-------+
++-------------------+
       |       ^
      add      |
       |     reset
       v       |
 +-------------------+
 |   staging area    |
+|      (index)      |
 +-------------------+
       |
     commit
@@ -324,8 +326,39 @@ the same repository (shared .git folder).</p>
                                    tracked files in the working tree since
                                    &lt;commit&gt; are lost
   git reset HEAD &lt;file&gt; .......... remove file from staging
-  git reset --soft HEAD~1 ........ delete most recent commit but keep work
-  git reset --hard HEAD~1 ........ delete most recent commit and delete work
+  git reset --soft HEAD~1 ........ delete most recent commit; dont revert index &amp; worktree
+  git reset --mixed HEAD~1 ....... delete most recent commit; revert index; dont revert worktree
+  git reset --hard HEAD~1 ........ delete most recent commit; revert index &amp; worktree
+</code></pre>
+<p>Assuming an initial history <code>A - B - C - D</code> where <code>HEAD</code> currently points at
+<code>D</code>, the different reset operations work as shown below.</p>
+<p><strong>Soft</strong> reset.</p>
+<pre><code>git reset --soft HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changes from C + D are still in the worktree &amp; index (appear as staged changes).
+</code></pre>
+<p><strong>Mixed</strong> reset.</p>
+<pre><code>git reset --mixed HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changed from C + D are reverted in the index.
+-&gt; changes from C + D are still in the worktree (appear as unstaged changes).
+</code></pre>
+<p><strong>Hard</strong> reset.</p>
+<pre><code>git reset --head HEAD~2
+
+history:    A - B
+                ^HEAD
+
+-&gt; local history is reverted, HEAD moved to B.
+-&gt; changes from C + D also reverted in the worktree &amp; index (no pending changes).
 </code></pre>
 <h2 id="submodules"><a class="header" href="#submodules">Submodules</a></h2>
 <pre><code class="language-markdown">  git submodule add &lt;url&gt; [&lt;path&gt;] .......... add new submodule to current project
