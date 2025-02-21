@@ -147,7 +147,7 @@ perf script --per-event-dump
 ### Estimate max instructions per cycle
 
 ```c
-{{#include src/noploop.c }}
+{{#include perf/noploop.c }}
 ```
 
 ```sh
