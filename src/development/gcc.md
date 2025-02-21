@@ -2,6 +2,15 @@
 
 ## CLI
 
+- `-v` verbose, outputs exact compiler/linker invocations made by the gcc driver
+- `-###` dry-run, outputting exact compiler/linker invocations
+- `-print-multi-lib` print available multilib configurations
+- `--help=<class>` print description of cmdline options for given class, eg
+  `warnings`, `optimizers`, `target`, `c`, `c++`
+- `-Wl,<opt>` additional option passed to the linker invocation (can
+  be specified multiple times)
+- `-Wl,--trace` trace each file the linker touches
+
 ### Preprocessing
 While debugging can be helpful to just pre-process files.
 
@@ -10,10 +19,6 @@ gcc -E [-dM] ...
 ```
 - `-E` run only preprocessor
 - `-dM` list only `#define` statements
-- `-###` dry-run, outputting exact compiler/linker invocations
-- `-print-multi-lib` print available multilib configurations
-- `--help=<class>` print description of cmdline options for given class, eg
-  `warnings`, `optimizers`, `target`, `c`, `c++`
 
 ### Target options
 ```bash
@@ -33,6 +38,21 @@ gcc --help=optimizers
 
 # Prepend --help with `-Q` to print wheter options are enabled or disabled
 # instead showing their description.
+```
+
+### Sanitizer
+```bash
+# Enable address sanitizer, a memory error checker (out of bounds, use after free, ..).
+gcc -fsanitize=address ...
+
+# Enable leak sanitizer, a memory leak detector.
+gcc -fsanitize=leak
+
+# Enable undefined behavior sanitizer, detects various UBs (integer overflow, ..).
+gcc -fsanitize=undefined ...
+
+# Enable thread sanitizer, a data race detector.
+gcc -fsanitize=thread
 ```
 
 ## [Builtins][builtins]
