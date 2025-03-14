@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -213,6 +213,9 @@ popfd                           // pop flags (4byte) from stack
 <pre><code class="language-x86asm">rdmsr     // Read MSR register, effectively does EDX:EAX &lt;- MSR[ECX]
 wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 </code></pre>
+<blockquote>
+<p>See <a href="https://github.com/johannst/mini-kvm-rs/blob/main/guest/guest64-msr.S">guest64-msr.S</a> as an example.</p>
+</blockquote>
 <h2 id="size-directives"><a class="header" href="#size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
 <pre><code class="language-x86asm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
@@ -298,6 +301,13 @@ core changes frequency. This is the architectural behavior moving forward.</p>
 implemented TSC ticks with a constant frequency.</p>
 <pre><code class="language-sh">grep constant_tsc /proc/cpuinfo
 </code></pre>
+<h2 id="cpu--hw-features---cpuid"><a class="header" href="#cpu--hw-features---cpuid">Cpu &amp; hw features - <code>cpuid</code></a></h2>
+<pre><code class="language-x86asm">cpuid   // in:  eax leaf; ecx sub-leaf
+        // out: eax, ebx, ecx, edx (interpreting depends on leaf)
+</code></pre>
+<p>This instruction is used to query for availability of certain
+instructions or hardware details like cache sizes and son on.</p>
+<p>An example how to read cpuid leafs is show in <a href="x86/cpuid/cpuid.c">cpuid.c</a>.</p>
 <h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SysV x86_64 ABI</a></a></h2>
 <h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
 <ul>
@@ -648,8 +658,8 @@ itself.</p>
 <pre><code># Segment Selector (cs, ds, es, ss, fs, gs).
 
 [15:3] I   Descriptor Index
- [2:1] TI  Table Indicator (0=GTD | 1=LDT)
-   [0] RPL Requested Privilege Level
+   [2] TI  Table Indicator (0=GTD | 1=LDT)
+ [1:0] RPL Requested Privilege Level
 
 
 # Segment Descriptor (2 x 4 byte words).
@@ -675,6 +685,15 @@ itself.</p>
 [47:16] Base address of GDT table.
  [15:0] Length of GDT table.
 </code></pre>
+<blockquote>
+<p>In 64-bit mode the <code>{cs, ds, es, ss}</code> segment register have no
+effect, segmentation is effectively disabled. The <code>{gs, fs}</code> segment
+register however can still be used for segmented memory access in
+64-bit with paging enabled. Segmentation takes place before VA -&gt; PA
+address translation.</p>
+<p>The example in <a href="x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
+address and to relative accesses.</p>
+</blockquote>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>

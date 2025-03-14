@@ -25,9 +25,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -2828,6 +2828,7 @@ renice -n 5 -p PID
 <li><a href="trace_profile/./oprofile.html">OProfile</a></li>
 <li><a href="trace_profile/./callgrind.html">callgrind</a></li>
 <li><a href="trace_profile/./valgrind.html">valgrind</a></li>
+<li><a href="trace_profile/./vtune.html">vtune</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="usrbintime1"><a class="header" href="#usrbintime1">/usr/bin/time(1)</a></h1>
 <pre><code class="language-markdown"># statistics of process run
@@ -3221,6 +3222,59 @@ int main() {
 
     --gen-suppressions=yes      Generate suppressions file from the run.
     --suppressions=FILE         Load suppressions file.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vtune1"><a class="header" href="#vtune1"><a href="https://www.intel.com/content/www/us/en/docs/vtune-profiler/user-guide">vtune(1)</a></a></h1>
+<p>Vtune offers different analysis. Run <code>vtune -collect help</code> to list the
+availale analysis.</p>
+<h2 id="profiling"><a class="header" href="#profiling">Profiling</a></h2>
+<p>The following shows some common flows with the <code>hotspot</code> analsysis
+as an example.</p>
+<pre><code># Launch and profile process.
+vtune -collect hotspots [opts] -- target [args]
+
+# Attach and profile running process.
+vtune -collect hotspots [opts] -target-pid &lt;pid&gt;
+</code></pre>
+<p>Some common options are the following.</p>
+<pre><code>-r &lt;dir&gt;           output directory for the profile
+-no-follow-child   dont attach to to child processes (default is to follow)
+-start-paused      start with paused profiling
+</code></pre>
+<h2 id="analyze"><a class="header" href="#analyze">Analyze</a></h2>
+<pre><code>vtune-gui &lt;dir&gt;
+</code></pre>
+<h2 id="programmatically-control-sampling"><a class="header" href="#programmatically-control-sampling">Programmatically control sampling</a></h2>
+<p>Vtune offers an API to <em>resume</em> and <em>pause</em> the profile collection from within
+the profilee itself.  This can be helpful if either only a certain phase should
+be profiled or some phase should be skipped.</p>
+<p>The following gives an example where only one phase in the program is profiled.
+The program makes calls to the vtune API to resume and pause the collection,
+while vtune is invoked with <code>-start-paused</code> to pause profiling initially.</p>
+<pre><code class="language-c">#include &lt;ittnotify.h&gt;
+
+void init();
+void compute();
+void shutdown();
+
+int main() {
+  init();
+
+  __itt_resume();
+  compute();
+  __itt_pause();
+
+  shutdown();
+  return 0;
+}
+</code></pre>
+<p>The makefile gives an example how to build and profile the application.</p>
+<pre><code class="language-makefile">VTUNE ?= /opt/intel/oneapi/vtune/latest
+
+main: main.c
+	gcc -o $@ $^ -I$(VTUNE)/include -L$(VTUNE)/lib64 -littnotify
+
+vtune: main
+	$(VTUNE)/bin64/vtune -collect hotspots -start-paused -- ./main
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="debug-1"><a class="header" href="#debug-1">Debug</a></h1>
 <ul>
@@ -4867,6 +4921,16 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
 <h2 id="cli-2"><a class="header" href="#cli-2">CLI</a></h2>
+<ul>
+<li><code>-v</code> verbose, outputs exact compiler/linker invocations made by the gcc driver</li>
+<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
+<li><code>-print-multi-lib</code> print available multilib configurations</li>
+<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
+<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
+<li><code>-Wl,&lt;opt&gt;</code> additional option passed to the linker invocation (can
+be specified multiple times)</li>
+<li><code>-Wl,--trace</code> trace each file the linker touches</li>
+</ul>
 <h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
 <p>While debugging can be helpful to just pre-process files.</p>
 <pre><code class="language-bash">gcc -E [-dM] ...
@@ -4874,10 +4938,6 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 <ul>
 <li><code>-E</code> run only preprocessor</li>
 <li><code>-dM</code> list only <code>#define</code> statements</li>
-<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
-<li><code>-print-multi-lib</code> print available multilib configurations</li>
-<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
-<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
 </ul>
 <h3 id="target-options"><a class="header" href="#target-options">Target options</a></h3>
 <pre><code class="language-bash"># List all target options with their description.
@@ -4894,6 +4954,19 @@ gcc --help=optimizers
 
 # Prepend --help with `-Q` to print wheter options are enabled or disabled
 # instead showing their description.
+</code></pre>
+<h3 id="sanitizer"><a class="header" href="#sanitizer">Sanitizer</a></h3>
+<pre><code class="language-bash"># Enable address sanitizer, a memory error checker (out of bounds, use after free, ..).
+gcc -fsanitize=address ...
+
+# Enable leak sanitizer, a memory leak detector.
+gcc -fsanitize=leak
+
+# Enable undefined behavior sanitizer, detects various UBs (integer overflow, ..).
+gcc -fsanitize=undefined ...
+
+# Enable thread sanitizer, a data race detector.
+gcc -fsanitize=thread
 </code></pre>
 <h2 id="builtins"><a class="header" href="#builtins"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
 <h3 id="__builtin_expectexpr-cond"><a class="header" href="#__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
@@ -8231,6 +8304,9 @@ popfd                           // pop flags (4byte) from stack
 <pre><code class="language-x86asm">rdmsr     // Read MSR register, effectively does EDX:EAX &lt;- MSR[ECX]
 wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 </code></pre>
+<blockquote>
+<p>See <a href="https://github.com/johannst/mini-kvm-rs/blob/main/guest/guest64-msr.S">guest64-msr.S</a> as an example.</p>
+</blockquote>
 <h2 id="size-directives"><a class="header" href="#size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
 <pre><code class="language-x86asm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
@@ -8316,6 +8392,13 @@ core changes frequency. This is the architectural behavior moving forward.</p>
 implemented TSC ticks with a constant frequency.</p>
 <pre><code class="language-sh">grep constant_tsc /proc/cpuinfo
 </code></pre>
+<h2 id="cpu--hw-features---cpuid"><a class="header" href="#cpu--hw-features---cpuid">Cpu &amp; hw features - <code>cpuid</code></a></h2>
+<pre><code class="language-x86asm">cpuid   // in:  eax leaf; ecx sub-leaf
+        // out: eax, ebx, ecx, edx (interpreting depends on leaf)
+</code></pre>
+<p>This instruction is used to query for availability of certain
+instructions or hardware details like cache sizes and son on.</p>
+<p>An example how to read cpuid leafs is show in <a href="arch/x86/cpuid/cpuid.c">cpuid.c</a>.</p>
 <h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SysV x86_64 ABI</a></a></h2>
 <h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
 <ul>
@@ -8666,8 +8749,8 @@ itself.</p>
 <pre><code># Segment Selector (cs, ds, es, ss, fs, gs).
 
 [15:3] I   Descriptor Index
- [2:1] TI  Table Indicator (0=GTD | 1=LDT)
-   [0] RPL Requested Privilege Level
+   [2] TI  Table Indicator (0=GTD | 1=LDT)
+ [1:0] RPL Requested Privilege Level
 
 
 # Segment Descriptor (2 x 4 byte words).
@@ -8693,6 +8776,15 @@ itself.</p>
 [47:16] Base address of GDT table.
  [15:0] Length of GDT table.
 </code></pre>
+<blockquote>
+<p>In 64-bit mode the <code>{cs, ds, es, ss}</code> segment register have no
+effect, segmentation is effectively disabled. The <code>{gs, fs}</code> segment
+register however can still be used for segmented memory access in
+64-bit with paging enabled. Segmentation takes place before VA -&gt; PA
+address translation.</p>
+<p>The example in <a href="arch/x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
+address and to relative accesses.</p>
+</blockquote>
 <h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>

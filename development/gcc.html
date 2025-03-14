@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -157,6 +157,16 @@
                     <main>
                         <h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
 <h2 id="cli"><a class="header" href="#cli">CLI</a></h2>
+<ul>
+<li><code>-v</code> verbose, outputs exact compiler/linker invocations made by the gcc driver</li>
+<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
+<li><code>-print-multi-lib</code> print available multilib configurations</li>
+<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
+<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
+<li><code>-Wl,&lt;opt&gt;</code> additional option passed to the linker invocation (can
+be specified multiple times)</li>
+<li><code>-Wl,--trace</code> trace each file the linker touches</li>
+</ul>
 <h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
 <p>While debugging can be helpful to just pre-process files.</p>
 <pre><code class="language-bash">gcc -E [-dM] ...
@@ -164,10 +174,6 @@
 <ul>
 <li><code>-E</code> run only preprocessor</li>
 <li><code>-dM</code> list only <code>#define</code> statements</li>
-<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
-<li><code>-print-multi-lib</code> print available multilib configurations</li>
-<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
-<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
 </ul>
 <h3 id="target-options"><a class="header" href="#target-options">Target options</a></h3>
 <pre><code class="language-bash"># List all target options with their description.
@@ -184,6 +190,19 @@ gcc --help=optimizers
 
 # Prepend --help with `-Q` to print wheter options are enabled or disabled
 # instead showing their description.
+</code></pre>
+<h3 id="sanitizer"><a class="header" href="#sanitizer">Sanitizer</a></h3>
+<pre><code class="language-bash"># Enable address sanitizer, a memory error checker (out of bounds, use after free, ..).
+gcc -fsanitize=address ...
+
+# Enable leak sanitizer, a memory leak detector.
+gcc -fsanitize=leak
+
+# Enable undefined behavior sanitizer, detects various UBs (integer overflow, ..).
+gcc -fsanitize=undefined ...
+
+# Enable thread sanitizer, a data race detector.
+gcc -fsanitize=thread
 </code></pre>
 <h2 id="builtins"><a class="header" href="#builtins"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
 <h3 id="__builtin_expectexpr-cond"><a class="header" href="#__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
