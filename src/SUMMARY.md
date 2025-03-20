@@ -71,6 +71,7 @@
     - [c++](./development/c++.md)
     - [glibc](./development/glibc.md)
     - [gcc](./development/gcc.md)
+    - [gas](./development/gas.md)
     - [git](./development/git.md)
     - [cmake](./development/cmake.md)
     - [make](./development/make.md)
