@@ -216,6 +216,41 @@ wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 <blockquote>
 <p>See <a href="https://github.com/johannst/mini-kvm-rs/blob/main/guest/guest64-msr.S">guest64-msr.S</a> as an example.</p>
 </blockquote>
+<h4 id="some-interesting-msrs"><a class="header" href="#some-interesting-msrs">Some interesting MSRs</a></h4>
+<ul>
+<li><code>C000_0082: IA32_LSTAR</code> target address for <a href="https://www.felixcloutier.com/x86/syscall"><code>syscall</code></a> instruction
+in <strong>IA-32e</strong> (64 bit) mode.</li>
+<li><code>C000_0100: IA32_FS_BASE</code> storage for <strong>%fs</strong> segment base address.</li>
+<li><code>C000_0101: IA32_GS_BASE</code> storage for <strong>%gs</strong> segment base address.</li>
+<li><code>C000_0102: IA32_KERNEL_GS_BASE</code> additional register, <a href="https://www.felixcloutier.com/x86/swapgs"><code>swapgs</code></a>
+swaps <strong>GS_BASE</strong> and <strong>KERNEL_GS_BASE</strong>, without altering any register state.
+Can be used to swap in a pointer to a kernel data structure on syscall entry,
+as for example in <a href="https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/entry/entry_64.S?h=v6.13#n87"><code>entry_SYSCALL_64</code></a>.</li>
+</ul>
+<h2 id="current-privilege-level"><a class="header" href="#current-privilege-level">Current privilege level</a></h2>
+<p>The current privilege level can be found at any time in the last two bits of the
+code segment selector <code>cs</code>. The following shows an example debugging an entry
+and exit of a syscall in x86_64-linux.</p>
+<pre><code>Breakpoint 1, entry_SYSCALL_64 () at arch/x86/entry/entry_64.S:90
+90		swapgs
+(gdb) info r rax rcx cs
+rax            0x0                 0                ; syscall nr
+rcx            0x7feb16399e56      140647666916950  ; ret addr
+cs             0x10                16               ; cs &amp; 0x3 -&gt; 0 (ring0,kernel)
+
+(gdb) c
+Breakpoint 2, entry_SYSCALL_64 () at arch/x86/entry/entry_64.S:217
+217		sysretq
+(gdb) info r rcx cs
+rcx            0x7feb16399e56      140647666916950  ; ret addr
+cs             0x10                16               ; cs &amp; 0x3 -&gt; 0 (ring0,kernel)
+
+(gdb) b *$rcx
+(gdb) s
+Breakpoint 3, 0x00007feb16399e56 in ?? ()
+(gdb) info r cs
+cs             0x33                51  ; cs &amp; 0x3 -&gt; 3 (ring3,user)
+</code></pre>
 <h2 id="size-directives"><a class="header" href="#size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
 <pre><code class="language-x86asm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
@@ -281,6 +316,18 @@ lea di, [dest]
 mov al, 0xaa
 mov cx, 0x10
 rep stosb
+</code></pre>
+<h2 id="att-syntax-for-intel-syntax-users"><a class="header" href="#att-syntax-for-intel-syntax-users">AT&amp;T syntax for intel syntax users</a></h2>
+<pre><code class="language-x86asm">mov %rax, %rbx           // mov rbx, rax
+mov $12, %rax            // mov rax, 12
+
+mov (%rsp), %rax         // mov rax, [rsp]
+mov 8(%rsp), %rax        // mov rax, [rsp + 8]
+mov (%rsp,%rcx,4), %rax  // mov rax, [rsp + 8 * rcx]
+mov 0x100, %rax          // mov rax, [0x100]
+mov (0x100), %rax        // mov rax, [0x100]
+
+mov %gs:8, %rax          // mov rax, gs:8
 </code></pre>
 <h2 id="time-stamp-counter---rdtsc"><a class="header" href="#time-stamp-counter---rdtsc">Time stamp counter - <code>rdtsc</code></a></h2>
 <pre><code class="language-c">static inline uint64_t rdtsc() {
@@ -475,34 +522,35 @@ must must save these registers in case they are used.</p>
 <li>gnu assembler <a href="https://sourceware.org/binutils/docs/as"><code>gas</code></a></li>
 <li>intel syntax</li>
 </ul>
-<pre><code class="language-x86asm"># file: greet.s
+<pre><code class="language-x86asm">// file: greet.S
+#include &lt;asm/unistd.h&gt;
 
     .intel_syntax noprefix
 
     .section .text, "ax", @progbits
     .global _start
 _start:
-    mov rdi, 1                      # fd
+    mov rdi, 1                      # fd (stdout)
     lea rsi, [rip + greeting]       # buf
     mov rdx, [rip + greeting_len]   # count
-    mov rax, 1                      # write(2) syscall nr
+    mov rax, __NR_write             # write(2) syscall nr
     syscall
 
-    mov rdi, 0                      # exit code
+    mov rdi, __NR_exit              # exit code
     mov rax, 60                     # exit(2) syscall nr
     syscall
 
     .section .rdonly, "a", @progbits
 greeting:
-    .asciz "Hi ASM-World!\n"
+    .ascii "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
 <blockquote>
-<p>Syscall numbers are defined in <code>/usr/include/asm/unistd.h</code>.</p>
+<p>Files with <code>.S</code> suffix are pre-processed, while files with <code>.s</code> suffix are not.</p>
 </blockquote>
 <p>To compile and run:</p>
-<pre><code class="language-bash">&gt; gcc -o greet greet.s -nostartfiles -nostdlib &amp;&amp; ./greet
+<pre><code class="language-bash">&gt; gcc -o greet greet.S -nostartfiles -nostdlib &amp;&amp; ./greet
 Hi ASM-World!
 </code></pre>
 <h2 id="mbr-boot-sectors-example"><a class="header" href="#mbr-boot-sectors-example">MBR boot sectors example</a></h2>

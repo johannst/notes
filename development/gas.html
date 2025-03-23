@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gcc - Notes</title>
+        <title>gas - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -155,112 +155,65 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
-<h2 id="cli"><a class="header" href="#cli">CLI</a></h2>
+                        <h1 id="gas"><a class="header" href="#gas">gas</a></h1>
+<h2 id="frequently-used-directives"><a class="header" href="#frequently-used-directives">Frequently used directives</a></h2>
 <ul>
-<li><code>-v</code> verbose, outputs exact compiler/linker invocations made by the gcc driver</li>
-<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
-<li><code>-print-multi-lib</code> print available multilib configurations</li>
-<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
-<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
-<li><code>-Wl,&lt;opt&gt;</code> additional option passed to the linker invocation (can
-be specified multiple times)</li>
-<li><code>-Wl,--trace</code> trace each file the linker touches</li>
-</ul>
-<h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
-<p>While debugging can be helpful to just pre-process files.</p>
-<pre><code class="language-bash">gcc -E [-dM] ...
+<li>
+<p><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value</p>
+<pre><code class="language-x86asm">.byte 0xaa
+.2byte 0xaabb
+.2byte 0xaa, 0xbb
+.4byte 0xaabbccdd
+.8byte 0xaabbccdd11223344
 </code></pre>
-<ul>
-<li><code>-E</code> run only preprocessor</li>
-<li><code>-dM</code> list only <code>#define</code> statements</li>
-</ul>
-<h3 id="target-options"><a class="header" href="#target-options">Target options</a></h3>
-<pre><code class="language-bash"># List all target options with their description.
-gcc --help=target
+</li>
+<li>
+<p><code>.ascii</code> to define an ascii string</p>
+<pre><code class="language-x86asm">.ascii "foo"   ; allocates 3 bytes
+</code></pre>
+</li>
+<li>
+<p><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator</p>
+<pre><code class="language-x86asm">.asciz "foo"   ; allocates 4 bytes (str + \0)
+</code></pre>
+</li>
+<li>
+<p><code>.macro</code> to define assembler macros. Arguments are accessed with the
+<code>\arg</code> syntax.</p>
+<pre><code class="language-x86asm">.macro defstr name str
+\name:
+    .ascii "\str"
+\name\()_len:
+    .8byte . - \name
+.endm
 
-# Configure for current cpu arch and query (-Q) value of options.
-gcc -march=native -Q --help=target
+; use as
+defstr foo, "foobar"
 </code></pre>
-<h3 id="warnings--optimizations"><a class="header" href="#warnings--optimizations">Warnings / optimizations</a></h3>
-<pre><code class="language-bash"># List available warnings with short description.
-gcc --help=warnings
-# List available optimizations with short description.
-gcc --help=optimizers
-
-# Prepend --help with `-Q` to print wheter options are enabled or disabled
-# instead showing their description.
-</code></pre>
-<h3 id="sanitizer"><a class="header" href="#sanitizer">Sanitizer</a></h3>
-<pre><code class="language-bash"># Enable address sanitizer, a memory error checker (out of bounds, use after free, ..).
-gcc -fsanitize=address ...
-
-# Enable leak sanitizer, a memory leak detector.
-gcc -fsanitize=leak
-
-# Enable undefined behavior sanitizer, detects various UBs (integer overflow, ..).
-gcc -fsanitize=undefined ...
-
-# Enable thread sanitizer, a data race detector.
-gcc -fsanitize=thread
-</code></pre>
-<h2 id="builtins"><a class="header" href="#builtins"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
-<h3 id="__builtin_expectexpr-cond"><a class="header" href="#__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
-<p>Give the compiler a hint which branch is hot, so it can lay out the code
-accordingly to reduce number of jump instructions.
-See on <a href="https://godbolt.org/z/MbTHAP">compiler explorer</a>.</p>
-<p>The semantics of this hint are as follows, the compiler prioritises <code>expr == cond</code>. So <code>__builtin_expect(expr, 0)</code> means that we expect the <code>expr</code> to be <code>0</code>
-most of the time.</p>
-<pre><code class="language-bash">echo "
-extern void foo();
-extern void bar();
-void run0(int x) {
-  if (__builtin_expect(x,0)) { foo(); }
-  else { bar(); }
-}
-void run1(int x) {
-  if (__builtin_expect(x,1)) { foo(); }
-  else { bar(); }
-}
-" | gcc -O2 -S -masm=intel -o /dev/stdout -xc -
-</code></pre>
-<p>Will generate something similar to the following.</p>
-<ul>
-<li><code>run0</code>: <code>bar</code> is on the path without branch</li>
-<li><code>run1</code>: <code>foo</code> is on the path without branch</li>
-</ul>
-<pre><code class="language-x86asm">run0:
-        test    edi, edi
-        jne     .L4
-        xor     eax, eax
-        jmp     bar
-.L4:
-        xor     eax, eax
-        jmp     foo
-run1:
-        test    edi, edi
-        je      .L6
-        xor     eax, eax
-        jmp     foo
-.L6:
-        xor     eax, eax
-        jmp     bar
-</code></pre>
-<h2 id="abi-linux"><a class="header" href="#abi-linux">ABI (Linux)</a></h2>
-<ul>
-<li>C ABI (x86_64) - <a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV ABI</a></li>
-<li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
+<blockquote>
+<p>Use <code>\()</code> to concatenate macro argument and literal.</p>
+</blockquote>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></p>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></p>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></p>
+</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../development/glibc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../development/gcc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../development/gas.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../development/git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -270,11 +223,11 @@ run1:
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../development/glibc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../development/gcc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../development/gas.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../development/git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

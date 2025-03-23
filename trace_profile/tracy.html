@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gcc - Notes</title>
+        <title>tracy - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -155,112 +155,241 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
-<h2 id="cli"><a class="header" href="#cli">CLI</a></h2>
-<ul>
-<li><code>-v</code> verbose, outputs exact compiler/linker invocations made by the gcc driver</li>
-<li><code>-###</code> dry-run, outputting exact compiler/linker invocations</li>
-<li><code>-print-multi-lib</code> print available multilib configurations</li>
-<li><code>--help=&lt;class&gt;</code> print description of cmdline options for given class, eg
-<code>warnings</code>, <code>optimizers</code>, <code>target</code>, <code>c</code>, <code>c++</code></li>
-<li><code>-Wl,&lt;opt&gt;</code> additional option passed to the linker invocation (can
-be specified multiple times)</li>
-<li><code>-Wl,--trace</code> trace each file the linker touches</li>
-</ul>
-<h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
-<p>While debugging can be helpful to just pre-process files.</p>
-<pre><code class="language-bash">gcc -E [-dM] ...
+                        <h1 id="tracy1"><a class="header" href="#tracy1">tracy(1)</a></h1>
+<p><a href="https://github.com/wolfpld/tracy">Tracy</a> is a frame profiler, supporting manual code instrumentation
+and providing a sampling profiler.</p>
+<p>One can either record and visualize the profiling data live using
+<code>tracy-profiler</code> or record the profiling data to a file using <code>tracy-capture</code>.</p>
+<pre><code>tracy-profiler [file] [-p port]
+
+tracy-capture -o file [-f] [-p port]
+    -f   overwrite &lt;file&gt; if it exists
 </code></pre>
-<ul>
-<li><code>-E</code> run only preprocessor</li>
-<li><code>-dM</code> list only <code>#define</code> statements</li>
-</ul>
-<h3 id="target-options"><a class="header" href="#target-options">Target options</a></h3>
-<pre><code class="language-bash"># List all target options with their description.
-gcc --help=target
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<p>The example showcases different cases:</p>
+<ol>
+<li>Use tracy from a single binary. In that case the <code>TracyClient.cpp</code> can be
+directly linked / included in the instrumented binary.</li>
+<li>Use tracy from different binaries (eg main executable + shared library). In
+this case the <code>TracyClient.cpp</code> should be compiled into its own shared
+library, such that there is a single tracy client.</li>
+<li>Use tracy from different binaries on windows. In this case the
+<code>TracyClient.cpp</code> must be compiled again into a separate shared library,
+while defining <code>TRACY_EXPORTS</code>. The code being instrumented must be compiled
+with <code>TRACY_IMPORTS</code> defined.</li>
+</ol>
+<p>An instrumented <code>c++</code> example:</p>
+<pre><code class="language-cpp">#include &lt;chrono&gt;
+#include &lt;thread&gt;
 
-# Configure for current cpu arch and query (-Q) value of options.
-gcc -march=native -Q --help=target
-</code></pre>
-<h3 id="warnings--optimizations"><a class="header" href="#warnings--optimizations">Warnings / optimizations</a></h3>
-<pre><code class="language-bash"># List available warnings with short description.
-gcc --help=warnings
-# List available optimizations with short description.
-gcc --help=optimizers
+#include &lt;tracy/Tracy.hpp&gt;
 
-# Prepend --help with `-Q` to print wheter options are enabled or disabled
-# instead showing their description.
-</code></pre>
-<h3 id="sanitizer"><a class="header" href="#sanitizer">Sanitizer</a></h3>
-<pre><code class="language-bash"># Enable address sanitizer, a memory error checker (out of bounds, use after free, ..).
-gcc -fsanitize=address ...
+#ifdef USE_FOO
+extern "C" void foo_comp_hook(int64_t);
+#endif
 
-# Enable leak sanitizer, a memory leak detector.
-gcc -fsanitize=leak
+void init() {
+  // Create a named zone (active for the current scope).
+  // Name will be used when rendering the zone in the thread timeline.
+  ZoneScopedN("init()");
+  // Set explicit color for the rendered zone.
+  ZoneColor(0xff0000);
 
-# Enable undefined behavior sanitizer, detects various UBs (integer overflow, ..).
-gcc -fsanitize=undefined ...
-
-# Enable thread sanitizer, a data race detector.
-gcc -fsanitize=thread
-</code></pre>
-<h2 id="builtins"><a class="header" href="#builtins"><a href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">Builtins</a></a></h2>
-<h3 id="__builtin_expectexpr-cond"><a class="header" href="#__builtin_expectexpr-cond"><code>__builtin_expect(expr, cond)</code></a></h3>
-<p>Give the compiler a hint which branch is hot, so it can lay out the code
-accordingly to reduce number of jump instructions.
-See on <a href="https://godbolt.org/z/MbTHAP">compiler explorer</a>.</p>
-<p>The semantics of this hint are as follows, the compiler prioritises <code>expr == cond</code>. So <code>__builtin_expect(expr, 0)</code> means that we expect the <code>expr</code> to be <code>0</code>
-most of the time.</p>
-<pre><code class="language-bash">echo "
-extern void foo();
-extern void bar();
-void run0(int x) {
-  if (__builtin_expect(x,0)) { foo(); }
-  else { bar(); }
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 }
-void run1(int x) {
-  if (__builtin_expect(x,1)) { foo(); }
-  else { bar(); }
+
+void comp(const char* name) {
+  // Track call count.
+  static int64_t ccnt = 0;
+  ccnt += 1;
+
+  // Create an unnamed zone for the current scope.
+  ZoneScoped;
+  // Name the zone by formatting the name dynamically.
+  // This name is shown for the zone in the thread timeline, however
+  // in the zone statistics they are all accounted under one common
+  // zone "comp".
+  ZoneNameF("comp(%s)", name);
+  // Additional text to attach to the zone.
+  ZoneTextF("text(%s)", name);
+  // Additional value to attach to the zone measurement.
+  ZoneValue(ccnt);
+
+  // Statistics for dynamic names, text and values can be looked at in the zone
+  // statistics.There measurements can be grouped by different categories.
+
+  // Add a simple plot.
+  TracyPlot("comp-plot", ccnt % 4);
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+#ifdef USE_FOO
+  foo_comp_hook(ccnt);
+#endif
 }
-" | gcc -O2 -S -masm=intel -o /dev/stdout -xc -
+
+void post_comp() {
+  // Create an unnamed zone for the current scope and capture callstack (max
+  // depth 10). Capturing callstack requires platform with TRACY_HAS_CALLSTACK
+  // support.
+  ZoneScopedS(10);
+  // Name the zone, w/o formatting.
+  const char name[] = "post_comp()";
+  ZoneName(name, sizeof(name));
+
+  // Add trace messages to the timeline.
+  TracyMessageL("start sleep in post_comp()");
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  TracyMessageL("end sleep in post_comp()");
+}
+
+void fini() {
+  // Create a named zone with an explicit color.
+  ZoneScopedNC("fini()", 0x00ff00);
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+
+int main() {
+  // Create a named zone.
+  ZoneScopedN("main()");
+
+  init();
+
+  int step = 0;
+  while (step++ &lt; 10) {
+    // Create a frame message, this start a new frame with the name
+    // "step" and end the previous frame with the name "step".
+    FrameMarkNamed("step");
+    // Create a named scope.
+    ZoneScopedN("step()");
+    comp("a");
+    comp("b");
+    comp("c");
+    post_comp();
+  }
+
+  fini();
+}
 </code></pre>
-<p>Will generate something similar to the following.</p>
-<ul>
-<li><code>run0</code>: <code>bar</code> is on the path without branch</li>
-<li><code>run1</code>: <code>foo</code> is on the path without branch</li>
-</ul>
-<pre><code class="language-x86asm">run0:
-        test    edi, edi
-        jne     .L4
-        xor     eax, eax
-        jmp     bar
-.L4:
-        xor     eax, eax
-        jmp     foo
-run1:
-        test    edi, edi
-        je      .L6
-        xor     eax, eax
-        jmp     foo
-.L6:
-        xor     eax, eax
-        jmp     bar
+<p>An instrumented <code>c</code> example:</p>
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+#include &lt;stdio.h&gt;
+
+#include &lt;tracy/TracyC.h&gt;
+
+static void comp_helper(int64_t i) {
+  char buf[64];
+  int cnt = snprintf(buf, sizeof(buf), "helper(%" PRId64 ")", i);
+
+  // Create an active unnamed zone.
+  TracyCZone(ctx, 1);
+
+  // Name the zone.
+  TracyCZoneName(ctx, buf, cnt);
+  // Add custom text to the zone measurement.
+  TracyCZoneText(ctx, buf, cnt);
+  // Add custom value to the zone measurement.
+  TracyCZoneValue(ctx, i);
+
+  for (int ii = 0; ii &lt; i * 100000; ++ii) {
+    /* fake work */
+  }
+
+  // End the zone measurement.
+  TracyCZoneEnd(ctx);
+}
+
+void foo_comp_hook(int64_t cnt) {
+  // Create an active named zone.
+  TracyCZoneN(ctx, "foo", 1);
+
+  for (int i = 0; i &lt; cnt; ++i) {
+    // Plot value.
+    TracyCPlot("foo_comp_hook", cnt + i);
+
+    comp_helper(i);
+  }
+
+  // Configure plot "foo", probably best done once during initialization..
+  TracyCPlotConfig("foo", TracyPlotFormatNumber, 1 /* step */, 1 /* fill */,
+                   0xff0000);
+  // Plot value.
+  TracyCPlot("foo", cnt);
+
+  // End the zone measurement.
+  TracyCZoneEnd(ctx);
+}
 </code></pre>
-<h2 id="abi-linux"><a class="header" href="#abi-linux">ABI (Linux)</a></h2>
-<ul>
-<li>C ABI (x86_64) - <a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV ABI</a></li>
-<li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
-</ul>
+<p>Raw build commands to demonstrate compiling tracy w/o <code>cmake</code>, in case we need
+to integrate it into a different build system.</p>
+<pre><code class="language-makefile">B := BUILD
+
+main: $(B)/main-static $(B)/main-dynamic $(B)/main-dynamic-win
+tracy: $(B)/tracy
+.PHONY: main tracy
+
+# -- TRACY STATIC ---------------------------------------------------------------
+
+$(B)/main-static: main.cpp | $(B)
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -o $@ $^ $(B)/tracy/public/TracyClient.cpp
+
+# -- TRACY DYNAMIC --------------------------------------------------------------
+
+$(B)/main-dynamic: main.cpp $(B)/foo.so $(B)/TracyClient.so | $(B)
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -DUSE_FOO -o $@ $^
+
+$(B)/foo.so: foo.c $(B)/TracyClient.so
+	clang -DTRACY_ENABLE -I$(B)/tracy/public -fPIC -shared -o $@ $^
+
+$(B)/TracyClient.so: $(B)/tracy/public/TracyClient.cpp
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -fPIC -shared -o $@ $^
+
+# -- TRACY DYNAMIC WINDOWS ------------------------------------------------------
+
+$(B)/main-dynamic-win: main.cpp $(B)/foo.dll $(B)/TracyClient.dll
+	@# eg run with wine
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_IMPORTS -DUSE_FOO -o $@ $^ -I $(B)/tracy/public
+
+$(B)/foo.dll: foo.c $(B)/TracyClient.dll
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_IMPORTS -fPIC -shared -o $@ $^ -I $(B)/tracy/public
+
+$(B)/TracyClient.dll: $(B)/tracy/public/TracyClient.cpp
+	@# win libs from 'pragma comment(lib, ..)'
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_EXPORTS -fPIC -shared -o $@ $^ -lws2_32 -ldbghelp -ladvapi32 -luser32
+
+# -- TRACY ----------------------------------------------------------------------
+
+# Get latest tracy and build profiler.
+$(B)/tracy: $(B)
+	cd $(B); bash $(CURDIR)/get-tracy.sh
+.PHONY: $(B)/tracy
+
+$B:
+	mkdir -p $(B)
+.PHONY: $(B)
+
+# -- CLEAN ----------------------------------------------------------------------
+
+clean:
+	$(RM) $(B)/*.so $(B)/*.dll $(B)/*.pdb $(B)/*.lib $(B)/main*
+
+distclean:
+	rm -rf $(B)
+</code></pre>
+<blockquote>
+<p>Find <code>get-tracy.sh</code> <a href="https://github.com/johannst/notes/blob/master/src/trace_profile/tracy/get-tracy.sh">here</a>.</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../development/glibc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../trace_profile/vtune.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../development/gas.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../debug/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -270,11 +399,11 @@ run1:
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../development/glibc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../trace_profile/vtune.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../development/gas.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../debug/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

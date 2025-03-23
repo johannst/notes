@@ -2829,6 +2829,7 @@ renice -n 5 -p PID
 <li><a href="trace_profile/./callgrind.html">callgrind</a></li>
 <li><a href="trace_profile/./valgrind.html">valgrind</a></li>
 <li><a href="trace_profile/./vtune.html">vtune</a></li>
+<li><a href="trace_profile/./tracy.html">tracy</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="usrbintime1"><a class="header" href="#usrbintime1">/usr/bin/time(1)</a></h1>
 <pre><code class="language-markdown"># statistics of process run
@@ -3276,6 +3277,231 @@ main: main.c
 vtune: main
 	$(VTUNE)/bin64/vtune -collect hotspots -start-paused -- ./main
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tracy1"><a class="header" href="#tracy1">tracy(1)</a></h1>
+<p><a href="https://github.com/wolfpld/tracy">Tracy</a> is a frame profiler, supporting manual code instrumentation
+and providing a sampling profiler.</p>
+<p>One can either record and visualize the profiling data live using
+<code>tracy-profiler</code> or record the profiling data to a file using <code>tracy-capture</code>.</p>
+<pre><code>tracy-profiler [file] [-p port]
+
+tracy-capture -o file [-f] [-p port]
+    -f   overwrite &lt;file&gt; if it exists
+</code></pre>
+<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
+<p>The example showcases different cases:</p>
+<ol>
+<li>Use tracy from a single binary. In that case the <code>TracyClient.cpp</code> can be
+directly linked / included in the instrumented binary.</li>
+<li>Use tracy from different binaries (eg main executable + shared library). In
+this case the <code>TracyClient.cpp</code> should be compiled into its own shared
+library, such that there is a single tracy client.</li>
+<li>Use tracy from different binaries on windows. In this case the
+<code>TracyClient.cpp</code> must be compiled again into a separate shared library,
+while defining <code>TRACY_EXPORTS</code>. The code being instrumented must be compiled
+with <code>TRACY_IMPORTS</code> defined.</li>
+</ol>
+<p>An instrumented <code>c++</code> example:</p>
+<pre><code class="language-cpp">#include &lt;chrono&gt;
+#include &lt;thread&gt;
+
+#include &lt;tracy/Tracy.hpp&gt;
+
+#ifdef USE_FOO
+extern "C" void foo_comp_hook(int64_t);
+#endif
+
+void init() {
+  // Create a named zone (active for the current scope).
+  // Name will be used when rendering the zone in the thread timeline.
+  ZoneScopedN("init()");
+  // Set explicit color for the rendered zone.
+  ZoneColor(0xff0000);
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+
+void comp(const char* name) {
+  // Track call count.
+  static int64_t ccnt = 0;
+  ccnt += 1;
+
+  // Create an unnamed zone for the current scope.
+  ZoneScoped;
+  // Name the zone by formatting the name dynamically.
+  // This name is shown for the zone in the thread timeline, however
+  // in the zone statistics they are all accounted under one common
+  // zone "comp".
+  ZoneNameF("comp(%s)", name);
+  // Additional text to attach to the zone.
+  ZoneTextF("text(%s)", name);
+  // Additional value to attach to the zone measurement.
+  ZoneValue(ccnt);
+
+  // Statistics for dynamic names, text and values can be looked at in the zone
+  // statistics.There measurements can be grouped by different categories.
+
+  // Add a simple plot.
+  TracyPlot("comp-plot", ccnt % 4);
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+#ifdef USE_FOO
+  foo_comp_hook(ccnt);
+#endif
+}
+
+void post_comp() {
+  // Create an unnamed zone for the current scope and capture callstack (max
+  // depth 10). Capturing callstack requires platform with TRACY_HAS_CALLSTACK
+  // support.
+  ZoneScopedS(10);
+  // Name the zone, w/o formatting.
+  const char name[] = "post_comp()";
+  ZoneName(name, sizeof(name));
+
+  // Add trace messages to the timeline.
+  TracyMessageL("start sleep in post_comp()");
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  TracyMessageL("end sleep in post_comp()");
+}
+
+void fini() {
+  // Create a named zone with an explicit color.
+  ZoneScopedNC("fini()", 0x00ff00);
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+
+int main() {
+  // Create a named zone.
+  ZoneScopedN("main()");
+
+  init();
+
+  int step = 0;
+  while (step++ &lt; 10) {
+    // Create a frame message, this start a new frame with the name
+    // "step" and end the previous frame with the name "step".
+    FrameMarkNamed("step");
+    // Create a named scope.
+    ZoneScopedN("step()");
+    comp("a");
+    comp("b");
+    comp("c");
+    post_comp();
+  }
+
+  fini();
+}
+</code></pre>
+<p>An instrumented <code>c</code> example:</p>
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;inttypes.h&gt;
+#include &lt;stdio.h&gt;
+
+#include &lt;tracy/TracyC.h&gt;
+
+static void comp_helper(int64_t i) {
+  char buf[64];
+  int cnt = snprintf(buf, sizeof(buf), "helper(%" PRId64 ")", i);
+
+  // Create an active unnamed zone.
+  TracyCZone(ctx, 1);
+
+  // Name the zone.
+  TracyCZoneName(ctx, buf, cnt);
+  // Add custom text to the zone measurement.
+  TracyCZoneText(ctx, buf, cnt);
+  // Add custom value to the zone measurement.
+  TracyCZoneValue(ctx, i);
+
+  for (int ii = 0; ii &lt; i * 100000; ++ii) {
+    /* fake work */
+  }
+
+  // End the zone measurement.
+  TracyCZoneEnd(ctx);
+}
+
+void foo_comp_hook(int64_t cnt) {
+  // Create an active named zone.
+  TracyCZoneN(ctx, "foo", 1);
+
+  for (int i = 0; i &lt; cnt; ++i) {
+    // Plot value.
+    TracyCPlot("foo_comp_hook", cnt + i);
+
+    comp_helper(i);
+  }
+
+  // Configure plot "foo", probably best done once during initialization..
+  TracyCPlotConfig("foo", TracyPlotFormatNumber, 1 /* step */, 1 /* fill */,
+                   0xff0000);
+  // Plot value.
+  TracyCPlot("foo", cnt);
+
+  // End the zone measurement.
+  TracyCZoneEnd(ctx);
+}
+</code></pre>
+<p>Raw build commands to demonstrate compiling tracy w/o <code>cmake</code>, in case we need
+to integrate it into a different build system.</p>
+<pre><code class="language-makefile">B := BUILD
+
+main: $(B)/main-static $(B)/main-dynamic $(B)/main-dynamic-win
+tracy: $(B)/tracy
+.PHONY: main tracy
+
+# -- TRACY STATIC ---------------------------------------------------------------
+
+$(B)/main-static: main.cpp | $(B)
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -o $@ $^ $(B)/tracy/public/TracyClient.cpp
+
+# -- TRACY DYNAMIC --------------------------------------------------------------
+
+$(B)/main-dynamic: main.cpp $(B)/foo.so $(B)/TracyClient.so | $(B)
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -DUSE_FOO -o $@ $^
+
+$(B)/foo.so: foo.c $(B)/TracyClient.so
+	clang -DTRACY_ENABLE -I$(B)/tracy/public -fPIC -shared -o $@ $^
+
+$(B)/TracyClient.so: $(B)/tracy/public/TracyClient.cpp
+	clang++ -DTRACY_ENABLE -I$(B)/tracy/public -fPIC -shared -o $@ $^
+
+# -- TRACY DYNAMIC WINDOWS ------------------------------------------------------
+
+$(B)/main-dynamic-win: main.cpp $(B)/foo.dll $(B)/TracyClient.dll
+	@# eg run with wine
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_IMPORTS -DUSE_FOO -o $@ $^ -I $(B)/tracy/public
+
+$(B)/foo.dll: foo.c $(B)/TracyClient.dll
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_IMPORTS -fPIC -shared -o $@ $^ -I $(B)/tracy/public
+
+$(B)/TracyClient.dll: $(B)/tracy/public/TracyClient.cpp
+	@# win libs from 'pragma comment(lib, ..)'
+	zig c++ -target x86_64-windows -DTRACY_ENABLE -DTRACY_EXPORTS -fPIC -shared -o $@ $^ -lws2_32 -ldbghelp -ladvapi32 -luser32
+
+# -- TRACY ----------------------------------------------------------------------
+
+# Get latest tracy and build profiler.
+$(B)/tracy: $(B)
+	cd $(B); bash $(CURDIR)/get-tracy.sh
+.PHONY: $(B)/tracy
+
+$B:
+	mkdir -p $(B)
+.PHONY: $(B)
+
+# -- CLEAN ----------------------------------------------------------------------
+
+clean:
+	$(RM) $(B)/*.so $(B)/*.dll $(B)/*.pdb $(B)/*.lib $(B)/main*
+
+distclean:
+	rm -rf $(B)
+</code></pre>
+<blockquote>
+<p>Find <code>get-tracy.sh</code> <a href="https://github.com/johannst/notes/blob/master/src/trace_profile/tracy/get-tracy.sh">here</a>.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="debug-1"><a class="header" href="#debug-1">Debug</a></h1>
 <ul>
 <li><a href="debug/./gdb.html">gdb</a></li>
@@ -3774,7 +4000,7 @@ $MOOSE=moose
       host:port
       tty
 </code></pre>
-<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
+<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
@@ -3941,6 +4167,7 @@ objdump -C --disassemble=foo::bar &lt;bin&gt;
 <li><a href="development/./c++.html">c++</a></li>
 <li><a href="development/./glibc.html">glibc</a></li>
 <li><a href="development/./gcc.html">gcc</a></li>
+<li><a href="development/./gas.html">gas</a></li>
 <li><a href="development/./git.html">git</a></li>
 <li><a href="development/./cmake.html">cmake</a></li>
 <li><a href="development/./make.html">make</a></li>
@@ -5014,6 +5241,55 @@ run1:
 <ul>
 <li>C ABI (x86_64) - <a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV ABI</a></li>
 <li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="gas"><a class="header" href="#gas">gas</a></h1>
+<h2 id="frequently-used-directives"><a class="header" href="#frequently-used-directives">Frequently used directives</a></h2>
+<ul>
+<li>
+<p><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value</p>
+<pre><code class="language-x86asm">.byte 0xaa
+.2byte 0xaabb
+.2byte 0xaa, 0xbb
+.4byte 0xaabbccdd
+.8byte 0xaabbccdd11223344
+</code></pre>
+</li>
+<li>
+<p><code>.ascii</code> to define an ascii string</p>
+<pre><code class="language-x86asm">.ascii "foo"   ; allocates 3 bytes
+</code></pre>
+</li>
+<li>
+<p><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator</p>
+<pre><code class="language-x86asm">.asciz "foo"   ; allocates 4 bytes (str + \0)
+</code></pre>
+</li>
+<li>
+<p><code>.macro</code> to define assembler macros. Arguments are accessed with the
+<code>\arg</code> syntax.</p>
+<pre><code class="language-x86asm">.macro defstr name str
+\name:
+    .ascii "\str"
+\name\()_len:
+    .8byte . - \name
+.endm
+
+; use as
+defstr foo, "foobar"
+</code></pre>
+<blockquote>
+<p>Use <code>\()</code> to concatenate macro argument and literal.</p>
+</blockquote>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></p>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></p>
+</li>
+<li>
+<p><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></p>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
 <h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
@@ -6091,7 +6367,7 @@ link time <code>-lgcov</code>.</p>
 generated for a single file for example such as</p>
 <pre><code class="language-shell">gcov &lt;SRC FILE | OBJ FILE&gt;
 </code></pre>
-<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
+<h2 id="example-9"><a class="header" href="#example-9">Example</a></h2>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
 
 void tell_me(int desc) {
@@ -6997,7 +7273,7 @@ cpupower -c all frequency-info -g
 # Change frequency governor to POWERSAVE (eg).
 cpupower -c all frequency-set -g powersave
 </code></pre>
-<h2 id="example-9"><a class="header" href="#example-9">Example</a></h2>
+<h2 id="example-10"><a class="header" href="#example-10">Example</a></h2>
 <p>Watch cpu frequency.</p>
 <pre><code class="language-sh">watch -n1 "cpupower -c all frequency-info -f -m | xargs -n2 -d'\n'"
 </code></pre>
@@ -7112,7 +7388,7 @@ locally and <code>-R</code> means that requests are issued remotely.</p>
 drop into shell)</li>
 <li><code>-f</code> run <code>ssh</code> command in the background</li>
 </ul>
-<h3 id="example-10"><a class="header" href="#example-10">Example</a></h3>
+<h3 id="example-11"><a class="header" href="#example-11">Example</a></h3>
 <pre><code class="language-sh"># Forward requests on localhost:8080 to moose:1234 and keep ssh in forground
 # but dont drop into a shell.
 ssh -N -L 8080:1234 moose
@@ -8307,6 +8583,41 @@ wrmsr     // Write MSR register, effectively does MSR[ECX] &lt;- EDX:EAX
 <blockquote>
 <p>See <a href="https://github.com/johannst/mini-kvm-rs/blob/main/guest/guest64-msr.S">guest64-msr.S</a> as an example.</p>
 </blockquote>
+<h4 id="some-interesting-msrs"><a class="header" href="#some-interesting-msrs">Some interesting MSRs</a></h4>
+<ul>
+<li><code>C000_0082: IA32_LSTAR</code> target address for <a href="https://www.felixcloutier.com/x86/syscall"><code>syscall</code></a> instruction
+in <strong>IA-32e</strong> (64 bit) mode.</li>
+<li><code>C000_0100: IA32_FS_BASE</code> storage for <strong>%fs</strong> segment base address.</li>
+<li><code>C000_0101: IA32_GS_BASE</code> storage for <strong>%gs</strong> segment base address.</li>
+<li><code>C000_0102: IA32_KERNEL_GS_BASE</code> additional register, <a href="https://www.felixcloutier.com/x86/swapgs"><code>swapgs</code></a>
+swaps <strong>GS_BASE</strong> and <strong>KERNEL_GS_BASE</strong>, without altering any register state.
+Can be used to swap in a pointer to a kernel data structure on syscall entry,
+as for example in <a href="https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/entry/entry_64.S?h=v6.13#n87"><code>entry_SYSCALL_64</code></a>.</li>
+</ul>
+<h2 id="current-privilege-level"><a class="header" href="#current-privilege-level">Current privilege level</a></h2>
+<p>The current privilege level can be found at any time in the last two bits of the
+code segment selector <code>cs</code>. The following shows an example debugging an entry
+and exit of a syscall in x86_64-linux.</p>
+<pre><code>Breakpoint 1, entry_SYSCALL_64 () at arch/x86/entry/entry_64.S:90
+90		swapgs
+(gdb) info r rax rcx cs
+rax            0x0                 0                ; syscall nr
+rcx            0x7feb16399e56      140647666916950  ; ret addr
+cs             0x10                16               ; cs &amp; 0x3 -&gt; 0 (ring0,kernel)
+
+(gdb) c
+Breakpoint 2, entry_SYSCALL_64 () at arch/x86/entry/entry_64.S:217
+217		sysretq
+(gdb) info r rcx cs
+rcx            0x7feb16399e56      140647666916950  ; ret addr
+cs             0x10                16               ; cs &amp; 0x3 -&gt; 0 (ring0,kernel)
+
+(gdb) b *$rcx
+(gdb) s
+Breakpoint 3, 0x00007feb16399e56 in ?? ()
+(gdb) info r cs
+cs             0x33                51  ; cs &amp; 0x3 -&gt; 3 (ring3,user)
+</code></pre>
 <h2 id="size-directives"><a class="header" href="#size-directives">Size directives</a></h2>
 <p>Explicitly specify size of the operation.</p>
 <pre><code class="language-x86asm">mov  byte ptr [rax], 0xff    // save 1 byte(s) at [rax]
@@ -8372,6 +8683,18 @@ lea di, [dest]
 mov al, 0xaa
 mov cx, 0x10
 rep stosb
+</code></pre>
+<h2 id="att-syntax-for-intel-syntax-users"><a class="header" href="#att-syntax-for-intel-syntax-users">AT&amp;T syntax for intel syntax users</a></h2>
+<pre><code class="language-x86asm">mov %rax, %rbx           // mov rbx, rax
+mov $12, %rax            // mov rax, 12
+
+mov (%rsp), %rax         // mov rax, [rsp]
+mov 8(%rsp), %rax        // mov rax, [rsp + 8]
+mov (%rsp,%rcx,4), %rax  // mov rax, [rsp + 8 * rcx]
+mov 0x100, %rax          // mov rax, [0x100]
+mov (0x100), %rax        // mov rax, [0x100]
+
+mov %gs:8, %rax          // mov rax, gs:8
 </code></pre>
 <h2 id="time-stamp-counter---rdtsc"><a class="header" href="#time-stamp-counter---rdtsc">Time stamp counter - <code>rdtsc</code></a></h2>
 <pre><code class="language-c">static inline uint64_t rdtsc() {
@@ -8566,34 +8889,35 @@ must must save these registers in case they are used.</p>
 <li>gnu assembler <a href="https://sourceware.org/binutils/docs/as"><code>gas</code></a></li>
 <li>intel syntax</li>
 </ul>
-<pre><code class="language-x86asm"># file: greet.s
+<pre><code class="language-x86asm">// file: greet.S
+#include &lt;asm/unistd.h&gt;
 
     .intel_syntax noprefix
 
     .section .text, "ax", @progbits
     .global _start
 _start:
-    mov rdi, 1                      # fd
+    mov rdi, 1                      # fd (stdout)
     lea rsi, [rip + greeting]       # buf
     mov rdx, [rip + greeting_len]   # count
-    mov rax, 1                      # write(2) syscall nr
+    mov rax, __NR_write             # write(2) syscall nr
     syscall
 
-    mov rdi, 0                      # exit code
+    mov rdi, __NR_exit              # exit code
     mov rax, 60                     # exit(2) syscall nr
     syscall
 
     .section .rdonly, "a", @progbits
 greeting:
-    .asciz "Hi ASM-World!\n"
+    .ascii "Hi ASM-World!\n"
 greeting_len:
     .int .-greeting
 </code></pre>
 <blockquote>
-<p>Syscall numbers are defined in <code>/usr/include/asm/unistd.h</code>.</p>
+<p>Files with <code>.S</code> suffix are pre-processed, while files with <code>.s</code> suffix are not.</p>
 </blockquote>
 <p>To compile and run:</p>
-<pre><code class="language-bash">&gt; gcc -o greet greet.s -nostartfiles -nostdlib &amp;&amp; ./greet
+<pre><code class="language-bash">&gt; gcc -o greet greet.S -nostartfiles -nostdlib &amp;&amp; ./greet
 Hi ASM-World!
 </code></pre>
 <h2 id="mbr-boot-sectors-example"><a class="header" href="#mbr-boot-sectors-example">MBR boot sectors example</a></h2>
