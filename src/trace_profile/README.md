@@ -8,3 +8,4 @@
 - [callgrind](./callgrind.md)
 - [valgrind](./valgrind.md)
 - [vtune](./vtune.md)
+- [tracy](./tracy.md)
