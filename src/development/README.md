@@ -5,6 +5,7 @@
 - [glibc](./glibc.md)
 - [gcc](./gcc.md)
 - [gas](./gas.md)
+- [ld](./ld.md)
 - [git](./git.md)
 - [cmake](./cmake.md)
 - [make](./make.md)

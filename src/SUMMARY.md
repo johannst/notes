@@ -73,6 +73,7 @@
     - [glibc](./development/glibc.md)
     - [gcc](./development/gcc.md)
     - [gas](./development/gas.md)
+    - [ld](./development/ld.md)
     - [git](./development/git.md)
     - [cmake](./development/cmake.md)
     - [make](./development/make.md)
