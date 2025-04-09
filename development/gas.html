@@ -31,10 +31,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -44,8 +45,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -59,7 +60,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -72,8 +74,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -109,6 +111,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -158,8 +161,18 @@
                         <h1 id="gas"><a class="header" href="#gas">gas</a></h1>
 <h2 id="frequently-used-directives"><a class="header" href="#frequently-used-directives">Frequently used directives</a></h2>
 <ul>
-<li>
-<p><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value</p>
+<li><code>.section</code> to define a section (elf files)
+<pre><code class="language-x86asm">.section .text.foo, "ax", @progbits
+; defines section named .text.foo with alloc+exec perms
+
+.section .data.foo, "aw", @progbits
+; defines section named .data.foo with alloc+write perms
+
+.section .rodata.foo, "a", @progbits
+; defines section named .rodata.foo with alloc perms
+</code></pre>
+</li>
+<li><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value
 <pre><code class="language-x86asm">.byte 0xaa
 .2byte 0xaabb
 .2byte 0xaa, 0xbb
@@ -167,19 +180,16 @@
 .8byte 0xaabbccdd11223344
 </code></pre>
 </li>
-<li>
-<p><code>.ascii</code> to define an ascii string</p>
+<li><code>.ascii</code> to define an ascii string
 <pre><code class="language-x86asm">.ascii "foo"   ; allocates 3 bytes
 </code></pre>
 </li>
-<li>
-<p><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator</p>
+<li><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator
 <pre><code class="language-x86asm">.asciz "foo"   ; allocates 4 bytes (str + \0)
 </code></pre>
 </li>
-<li>
-<p><code>.macro</code> to define assembler macros. Arguments are accessed with the
-<code>\arg</code> syntax.</p>
+<li><code>.macro</code> to define assembler macros. Arguments are accessed with the
+<code>\arg</code> syntax.
 <pre><code class="language-x86asm">.macro defstr name str
 \name:
     .ascii "\str"
@@ -194,15 +204,36 @@ defstr foo, "foobar"
 <p>Use <code>\()</code> to concatenate macro argument and literal.</p>
 </blockquote>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></p>
+<li><code>.rept</code> to repeat a sequence of lines between <code>.rept</code> and <code>.endr</code>.
+<pre><code class="language-x86asm">.rept 4
+.4byte 123
+.endr
+</code></pre>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></p>
+<li><code>.fill cnt, elem_size, val</code> write <code>cnt</code> times <code>val</code> with element size <code>elem_size</code>. For example one can use it to create a mbr boot record (magic number 0xaa55 at byte 511, 512).
+<pre><code class="language-x86asm">.section .boot, "ax", @progbits
+; some code ..
+.4byte 0xff
+
+.fill 510 - (. - .boot), 1, 0x00
+.2byte 0xaa55
+
+; as foo.s &amp;&amp; objdump -j .boot -s
+; Contents of section .boot:
+; 0000 ff000000 00000000 00000000 00000000
+; ..
+; 01f0 00000000 00000000 00000000 000055aa
+</code></pre>
+<blockquote>
+<p>Here <code>.</code> stands for the current location counter.</p>
+</blockquote>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></p>
-</li>
+</ul>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
+<li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
+<li><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></li>
 </ul>
 
                     </main>
@@ -213,7 +244,7 @@ defstr foo, "foobar"
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../development/git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../development/ld.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -227,7 +258,7 @@ defstr foo, "foobar"
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../development/git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../development/ld.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>find - Notes</title>
+        <title>ld - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -158,45 +158,220 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="find1"><a class="header" href="#find1">find(1)</a></h1>
-<pre><code>find &lt;start&gt; [opts]
-    -maxdepth &lt;n&gt;        maximally search n dirs deep
-    -type &lt;t&gt;            match on file type
-                           f    regular file
-                           d    directory
-    -user &lt;name&gt;         list files owned by username
-    -name &lt;glob&gt;         list files matching glob (only filename)
-    -iname &lt;glob&gt;        list files matching glob case-insensitive
+                        <h1 id="ld1"><a class="header" href="#ld1">ld(1)</a></h1>
+<pre><code>ld [opts] files...
+    -T &lt;script&gt;        use &lt;script&gt; as linker script
+    --trace            report each file the linker touches
+    --start-group archives --end-group
+                       search archives repearepeatedly until no new
+                       undefined  references are created
+                       (eg helpfull with list of static libraries)
+</code></pre>
+<h2 id="linker-script"><a class="header" href="#linker-script">Linker Script</a></h2>
+<p><code>output</code> sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
+section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">input section</a>).</p>
+<pre><code>section_name [vaddr] : [AT(paddr)] {
+    file_pattern (section_pattern)
+}
+</code></pre>
+<p>The following gives an example of an <code>output</code> section with two <code>input</code> section rules.</p>
+<pre><code>.foo : {
+    abc.o (.foo)
+    *.o (.foo.*)
+}
+</code></pre>
+<h3 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h3>
+<p>Sometimes code is initially located at a different location as when being run.
+For example in embedded cases, where code may initially resides in a <em>rom</em> and
+startup code will copy a section with writable <em>data</em> into <em>ram</em>. Code accessing
+the writable data accesses the data in the <em>ram</em>.</p>
+<p>In this case we need different addresses for the same data.</p>
+<ul>
+<li>The <code>virtual</code> or <em>runtime</em> address, this is the address used when the linker
+resolves accesses to the data. Hence, this is the address the data will have
+when the code is running.</li>
+<li>The <code>physical</code> or <em>load</em> address, this is the address the data is stored at
+initially. Startup code typically copies the initial values from the
+<code>physical</code> to the <code>virtual</code> address.</li>
+</ul>
+<p>The following shows an example linker script which uses <em>virtual</em> and <em>physical</em>
+addresses. The full source files can be found <a href="https://github.com/johannst/notes/tree/master/src/development/ld">here</a>.</p>
+<pre><code>OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_entry)
 
-    -exec &lt;cmd&gt; {} ;     run cmd on each file
-    -exec &lt;cmd&gt; {} +     run cmd with all files as argument
+SECTIONS {
+    /* Set the initial location counter (vaddr) */
+    . = 0x00800000;
+
+    /* Create .text output section at current vaddr */
+    .text : {
+        *(.text*)
+    }
+
+    ASSERT(. == 0x00800000 + SIZEOF(.text), "inc loc counter automatically")
+
+    /* Create .data section at location counter aligned to the next 0x100 (vaddr) */
+    /* Set the load address to  0x00100000 (paddr) */
+    .data ALIGN(0x100) : AT(0x00100000) {
+        HIDDEN(_data_vaddr = .);
+        HIDDEN(_data_paddr = LOADADDR(.data));
+        *(.data*)
+    }
+
+    /* Create .rodata with explicit vaddr */
+    /* Re-adjust the paddr location counter */
+    .rodata 0x00804000 : AT(ADDR(.rodata)) {
+        *(.rodata*)
+    }
+
+    ASSERT(. == 0x00804000 + SIZEOF(.rodata), "inc loc counter automatically")
+
+    .stack ALIGN (0x1000) : {
+        . += 0x1000;
+        HIDDEN(_stack_top = .);
+    }
+
+    /DISCARD/ : {
+        *(.*)
+    }
+}
+
+/* Some example assertions */
+ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
+</code></pre>
+<p>We can use the following assembly snippet to explore the linker script.</p>
+<pre><code class="language-x86asm">.section .text, "ax", @progbits
+.global _entry
+_entry:
+    mov $_stack_top, %rsp
+    mov $asm_array, %rax
+    mov (asm_len), %eax
+
+    hlt
+    jmp _entry
+
+.section .data.asm, "aw", @progbits
+asm_array:
+    .4byte 0xa
+    .4byte 0xb
+    .4byte 0xc
+    .4byte 0xd
+.rept 4
+    .4byte 0xff
+.endr
+
+.section .rodata.asm, "a", @progbits
+asm_len:
+    .4byte 8
 </code></pre>
 <blockquote>
-<p>Depending on the shell the <code>&lt;glob&gt;</code> must be quoted or escaped. The
-exec modifier characters <code>;</code> and <code>+</code> also may need to be escaped.</p>
+<p><code>gcc -c data.S &amp;&amp; ld -o link-nomem -T link-nomem.ld data.o</code></p>
 </blockquote>
-<h3 id="example--exec-option"><a class="header" href="#example--exec-option">Example <code>-exec</code> option</a></h3>
-<pre><code class="language-sh">&gt; find . -maxdepth 1 -type d -exec echo x {} \;
-# x .
-# x ./.github
-# x ./book
-# x ./src
-# x ./.git
-# x ./docs
-
-&gt; find . -maxdepth 1 -type d -exec echo x {} +
-# x . ./.github ./book ./src ./.git ./docs
+<p>The elf load segments show the difference in <em>physical</em> and <em>virtual</em> address
+for the segment containing the <code>.data</code> section.</p>
+<pre><code class="language-sh">&gt; readelf -W -l link-nomem
+# There are 4 program headers, starting at offset 64
+#
+# Program Headers:
+#   Type   Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+#   LOAD   0x001100 0x0000000000800100 0x0000000000100000 0x000020 0x000020 RW  0x1000
+#   LOAD   0x002000 0x0000000000800000 0x0000000000800000 0x000018 0x000018 R E 0x1000
+#   LOAD   0x003000 0x0000000000804000 0x0000000000804000 0x000004 0x000004 R   0x1000
+#   LOAD   0x000000 0x0000000000805000 0x0000000000805000 0x000000 0x001000 RW  0x1000
+#
+#  Section to Segment mapping:
+#   Segment Sections...
+#   00     .data
+#   01     .text
+#   02     .rodata
+#   03     .stack
 </code></pre>
+<p>Startup code could copy data from <code>_data_paddr</code> to <code>_data_vaddr</code>.</p>
+<pre><code class="language-sh">&gt; nm link-nomem
+# 0000000000800100 d asm_array
+# 0000000000804000 r asm_len
+# 0000000000100000 a _data_paddr
+# 0000000000800100 d _data_vaddr
+# 0000000000800000 T _entry
+# 0000000000806000 b _stack_top
+</code></pre>
+<p>The linker resolves symbols to their <em>virtual</em> address, this can be seen by the
+access to the <code>asm_array</code> variable.</p>
+<pre><code class="language-sh">&gt; objdump -d link-nomem
+# Disassembly of section .text:
+#
+# 0000000000800000 &lt;_entry&gt;:
+#   800000:	48 c7 c4 00 60 80 00 	mov    $0x806000,%rsp
+#   800007:	48 c7 c0 00 01 80 00 	mov    $0x800100,%rax   ;; mov $asm_array, %rax
+#   80000e:	8b 04 25 00 40 80 00 	mov    0x804000,%eax
+#   800015:	f4                   	hlt
+#   800016:	eb e8                	jmp    800000 &lt;_entry&gt;
+</code></pre>
+<p>The following linker script shows an example with the <code>MEMORY</code> command.</p>
+<pre><code>OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_entry)
+
+MEMORY {
+    ROM : ORIGIN = 0x00100000, LENGTH = 0x4000
+    RAM : ORIGIN = 0x00800000, LENGTH = 0x4000
+}
+
+SECTIONS {
+    /* Create .text output section at ROM (vaddr) */
+    .text : {
+        *(.text*)
+    } &gt; ROM
+
+    ASSERT(. == ORIGIN(ROM) + SIZEOF(.text), "inc loc counter automatically")
+
+    /* Create .data output section at RAM (vaddr) */
+    /* Set load addr to ROM, right after .text (paddr) */
+    .data : {
+        HIDDEN(_data_vaddr = .);
+        HIDDEN(_data_paddr = LOADADDR(.data));
+        *(.data*)
+    } &gt; RAM AT &gt; ROM
+
+    /* Append .rodata output section at ROM (vaddr) */
+    .rodata : {
+        *(.rodata*)
+    } &gt; ROM
+
+    /* Append .stack output section at RAM (vaddr) aligned up to next 0x1000 */
+    .stack : ALIGN (0x1000) {
+        . += 0x1000;
+        HIDDEN(_stack_top = .);
+    } &gt; RAM
+
+    /DISCARD/ : {
+        *(.*)
+    }
+}
+
+/* Some example assertions */
+ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal")
+ASSERT(ADDR(.stack) == ORIGIN(RAM) + 0x1000, "STACK section must aligned to 0x1000")
+ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
+</code></pre>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">ld script: output sections</a></li>
+<li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../cli/grep.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../development/gas.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../tools/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../development/git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -206,11 +381,11 @@ exec modifier characters <code>;</code> and <code>+</code> also may need to be e
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../cli/grep.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../development/gas.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../tools/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../development/git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -32,10 +32,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -1426,7 +1429,7 @@ eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
 #   eval strace -f -P /dev/stdin -P /dev/stdout -P /dev/stderr ls
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="grep1"><a class="header" href="#grep1">grep(1)</a></h1>
-<pre><code>sort [opts] [pattern] [files]
+<pre><code>grep [opts] [pattern] [files]
     -e &lt;pattern&gt;        pattern to search for (can be supplied multiple times)
     -i                  ignore case in patterns
     -v                  invert match
@@ -4168,6 +4171,7 @@ objdump -C --disassemble=foo::bar &lt;bin&gt;
 <li><a href="development/./glibc.html">glibc</a></li>
 <li><a href="development/./gcc.html">gcc</a></li>
 <li><a href="development/./gas.html">gas</a></li>
+<li><a href="development/./ld.html">ld</a></li>
 <li><a href="development/./git.html">git</a></li>
 <li><a href="development/./cmake.html">cmake</a></li>
 <li><a href="development/./make.html">make</a></li>
@@ -5245,8 +5249,18 @@ run1:
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gas"><a class="header" href="#gas">gas</a></h1>
 <h2 id="frequently-used-directives"><a class="header" href="#frequently-used-directives">Frequently used directives</a></h2>
 <ul>
-<li>
-<p><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value</p>
+<li><code>.section</code> to define a section (elf files)
+<pre><code class="language-x86asm">.section .text.foo, "ax", @progbits
+; defines section named .text.foo with alloc+exec perms
+
+.section .data.foo, "aw", @progbits
+; defines section named .data.foo with alloc+write perms
+
+.section .rodata.foo, "a", @progbits
+; defines section named .rodata.foo with alloc perms
+</code></pre>
+</li>
+<li><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value
 <pre><code class="language-x86asm">.byte 0xaa
 .2byte 0xaabb
 .2byte 0xaa, 0xbb
@@ -5254,19 +5268,16 @@ run1:
 .8byte 0xaabbccdd11223344
 </code></pre>
 </li>
-<li>
-<p><code>.ascii</code> to define an ascii string</p>
+<li><code>.ascii</code> to define an ascii string
 <pre><code class="language-x86asm">.ascii "foo"   ; allocates 3 bytes
 </code></pre>
 </li>
-<li>
-<p><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator</p>
+<li><code>.asciz</code> to define an ascii string with <code>'\0'</code> terminator
 <pre><code class="language-x86asm">.asciz "foo"   ; allocates 4 bytes (str + \0)
 </code></pre>
 </li>
-<li>
-<p><code>.macro</code> to define assembler macros. Arguments are accessed with the
-<code>\arg</code> syntax.</p>
+<li><code>.macro</code> to define assembler macros. Arguments are accessed with the
+<code>\arg</code> syntax.
 <pre><code class="language-x86asm">.macro defstr name str
 \name:
     .ascii "\str"
@@ -5281,15 +5292,240 @@ defstr foo, "foobar"
 <p>Use <code>\()</code> to concatenate macro argument and literal.</p>
 </blockquote>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></p>
+<li><code>.rept</code> to repeat a sequence of lines between <code>.rept</code> and <code>.endr</code>.
+<pre><code class="language-x86asm">.rept 4
+.4byte 123
+.endr
+</code></pre>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></p>
+<li><code>.fill cnt, elem_size, val</code> write <code>cnt</code> times <code>val</code> with element size <code>elem_size</code>. For example one can use it to create a mbr boot record (magic number 0xaa55 at byte 511, 512).
+<pre><code class="language-x86asm">.section .boot, "ax", @progbits
+; some code ..
+.4byte 0xff
+
+.fill 510 - (. - .boot), 1, 0x00
+.2byte 0xaa55
+
+; as foo.s &amp;&amp; objdump -j .boot -s
+; Contents of section .boot:
+; 0000 ff000000 00000000 00000000 00000000
+; ..
+; 01f0 00000000 00000000 00000000 000055aa
+</code></pre>
+<blockquote>
+<p>Here <code>.</code> stands for the current location counter.</p>
+</blockquote>
 </li>
-<li>
-<p><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></p>
-</li>
+</ul>
+<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
+<li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
+<li><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ld1"><a class="header" href="#ld1">ld(1)</a></h1>
+<pre><code>ld [opts] files...
+    -T &lt;script&gt;        use &lt;script&gt; as linker script
+    --trace            report each file the linker touches
+    --start-group archives --end-group
+                       search archives repearepeatedly until no new
+                       undefined  references are created
+                       (eg helpfull with list of static libraries)
+</code></pre>
+<h2 id="linker-script"><a class="header" href="#linker-script">Linker Script</a></h2>
+<p><code>output</code> sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
+section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">input section</a>).</p>
+<pre><code>section_name [vaddr] : [AT(paddr)] {
+    file_pattern (section_pattern)
+}
+</code></pre>
+<p>The following gives an example of an <code>output</code> section with two <code>input</code> section rules.</p>
+<pre><code>.foo : {
+    abc.o (.foo)
+    *.o (.foo.*)
+}
+</code></pre>
+<h3 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h3>
+<p>Sometimes code is initially located at a different location as when being run.
+For example in embedded cases, where code may initially resides in a <em>rom</em> and
+startup code will copy a section with writable <em>data</em> into <em>ram</em>. Code accessing
+the writable data accesses the data in the <em>ram</em>.</p>
+<p>In this case we need different addresses for the same data.</p>
+<ul>
+<li>The <code>virtual</code> or <em>runtime</em> address, this is the address used when the linker
+resolves accesses to the data. Hence, this is the address the data will have
+when the code is running.</li>
+<li>The <code>physical</code> or <em>load</em> address, this is the address the data is stored at
+initially. Startup code typically copies the initial values from the
+<code>physical</code> to the <code>virtual</code> address.</li>
+</ul>
+<p>The following shows an example linker script which uses <em>virtual</em> and <em>physical</em>
+addresses. The full source files can be found <a href="https://github.com/johannst/notes/tree/master/src/development/ld">here</a>.</p>
+<pre><code>OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_entry)
+
+SECTIONS {
+    /* Set the initial location counter (vaddr) */
+    . = 0x00800000;
+
+    /* Create .text output section at current vaddr */
+    .text : {
+        *(.text*)
+    }
+
+    ASSERT(. == 0x00800000 + SIZEOF(.text), "inc loc counter automatically")
+
+    /* Create .data section at location counter aligned to the next 0x100 (vaddr) */
+    /* Set the load address to  0x00100000 (paddr) */
+    .data ALIGN(0x100) : AT(0x00100000) {
+        HIDDEN(_data_vaddr = .);
+        HIDDEN(_data_paddr = LOADADDR(.data));
+        *(.data*)
+    }
+
+    /* Create .rodata with explicit vaddr */
+    /* Re-adjust the paddr location counter */
+    .rodata 0x00804000 : AT(ADDR(.rodata)) {
+        *(.rodata*)
+    }
+
+    ASSERT(. == 0x00804000 + SIZEOF(.rodata), "inc loc counter automatically")
+
+    .stack ALIGN (0x1000) : {
+        . += 0x1000;
+        HIDDEN(_stack_top = .);
+    }
+
+    /DISCARD/ : {
+        *(.*)
+    }
+}
+
+/* Some example assertions */
+ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
+</code></pre>
+<p>We can use the following assembly snippet to explore the linker script.</p>
+<pre><code class="language-x86asm">.section .text, "ax", @progbits
+.global _entry
+_entry:
+    mov $_stack_top, %rsp
+    mov $asm_array, %rax
+    mov (asm_len), %eax
+
+    hlt
+    jmp _entry
+
+.section .data.asm, "aw", @progbits
+asm_array:
+    .4byte 0xa
+    .4byte 0xb
+    .4byte 0xc
+    .4byte 0xd
+.rept 4
+    .4byte 0xff
+.endr
+
+.section .rodata.asm, "a", @progbits
+asm_len:
+    .4byte 8
+</code></pre>
+<blockquote>
+<p><code>gcc -c data.S &amp;&amp; ld -o link-nomem -T link-nomem.ld data.o</code></p>
+</blockquote>
+<p>The elf load segments show the difference in <em>physical</em> and <em>virtual</em> address
+for the segment containing the <code>.data</code> section.</p>
+<pre><code class="language-sh">&gt; readelf -W -l link-nomem
+# There are 4 program headers, starting at offset 64
+#
+# Program Headers:
+#   Type   Offset   VirtAddr           PhysAddr           FileSiz  MemSiz   Flg Align
+#   LOAD   0x001100 0x0000000000800100 0x0000000000100000 0x000020 0x000020 RW  0x1000
+#   LOAD   0x002000 0x0000000000800000 0x0000000000800000 0x000018 0x000018 R E 0x1000
+#   LOAD   0x003000 0x0000000000804000 0x0000000000804000 0x000004 0x000004 R   0x1000
+#   LOAD   0x000000 0x0000000000805000 0x0000000000805000 0x000000 0x001000 RW  0x1000
+#
+#  Section to Segment mapping:
+#   Segment Sections...
+#   00     .data
+#   01     .text
+#   02     .rodata
+#   03     .stack
+</code></pre>
+<p>Startup code could copy data from <code>_data_paddr</code> to <code>_data_vaddr</code>.</p>
+<pre><code class="language-sh">&gt; nm link-nomem
+# 0000000000800100 d asm_array
+# 0000000000804000 r asm_len
+# 0000000000100000 a _data_paddr
+# 0000000000800100 d _data_vaddr
+# 0000000000800000 T _entry
+# 0000000000806000 b _stack_top
+</code></pre>
+<p>The linker resolves symbols to their <em>virtual</em> address, this can be seen by the
+access to the <code>asm_array</code> variable.</p>
+<pre><code class="language-sh">&gt; objdump -d link-nomem
+# Disassembly of section .text:
+#
+# 0000000000800000 &lt;_entry&gt;:
+#   800000:	48 c7 c4 00 60 80 00 	mov    $0x806000,%rsp
+#   800007:	48 c7 c0 00 01 80 00 	mov    $0x800100,%rax   ;; mov $asm_array, %rax
+#   80000e:	8b 04 25 00 40 80 00 	mov    0x804000,%eax
+#   800015:	f4                   	hlt
+#   800016:	eb e8                	jmp    800000 &lt;_entry&gt;
+</code></pre>
+<p>The following linker script shows an example with the <code>MEMORY</code> command.</p>
+<pre><code>OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_entry)
+
+MEMORY {
+    ROM : ORIGIN = 0x00100000, LENGTH = 0x4000
+    RAM : ORIGIN = 0x00800000, LENGTH = 0x4000
+}
+
+SECTIONS {
+    /* Create .text output section at ROM (vaddr) */
+    .text : {
+        *(.text*)
+    } &gt; ROM
+
+    ASSERT(. == ORIGIN(ROM) + SIZEOF(.text), "inc loc counter automatically")
+
+    /* Create .data output section at RAM (vaddr) */
+    /* Set load addr to ROM, right after .text (paddr) */
+    .data : {
+        HIDDEN(_data_vaddr = .);
+        HIDDEN(_data_paddr = LOADADDR(.data));
+        *(.data*)
+    } &gt; RAM AT &gt; ROM
+
+    /* Append .rodata output section at ROM (vaddr) */
+    .rodata : {
+        *(.rodata*)
+    } &gt; ROM
+
+    /* Append .stack output section at RAM (vaddr) aligned up to next 0x1000 */
+    .stack : ALIGN (0x1000) {
+        . += 0x1000;
+        HIDDEN(_stack_top = .);
+    } &gt; RAM
+
+    /DISCARD/ : {
+        *(.*)
+    }
+}
+
+/* Some example assertions */
+ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal")
+ASSERT(ADDR(.stack) == ORIGIN(RAM) + 0x1000, "STACK section must aligned to 0x1000")
+ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
+</code></pre>
+<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
+<ul>
+<li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">ld script: output sections</a></li>
+<li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
 <h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
@@ -6244,7 +6480,7 @@ func_v0
 func_v1
 func_v2
 </code></pre>
-<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
+<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
 <ul>
 <li><a href="https://akkadia.org/drepper/symbol-versioning">ELF Symbol Versioning</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/VERSION.html">Binutils ld: Symbol Versioning</a></li>
@@ -6648,7 +6884,7 @@ journalctl --user -u test -n 5
     --disk-usage            Show current disk usage
     --vacuum-size=&lt;size&gt;    Reduce journal log to &lt;size&gt; (K/M/G)
 </code></pre>
-<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
+<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.unit.5.html">man systemd.unit(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.service.5.html">man systemd.service(5)</a></li>
@@ -7031,7 +7267,7 @@ group::r-x
 mask::r-x
 other::rwx
 </code></pre>
-<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
+<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/acl.5.html">acl(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man1/getfacl.1.html">getfacl(1)</a></li>
@@ -7328,6 +7564,9 @@ lp -d PRINTER FILE
     -o sides=one-sided               print front-page only
     -o sides=two-sided-long-edge     print duplex
 
+# Show job queue
+lpq -P PRINTER
+
 # Remove pending print job.
 lprm JOOBID
 </code></pre>
@@ -7566,7 +7805,7 @@ firewall-cmd --remove-port 8000/tcp
 # Remove rich rule.
 firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 </code></pre>
-<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
+<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
 <ul>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewall-cmd.html">firewall-cmd(1)</a></li>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a></li>
@@ -9109,7 +9348,7 @@ address translation.</p>
 <p>The example in <a href="arch/x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
 address and to relative accesses.</p>
 </blockquote>
-<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
+<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
@@ -9382,7 +9621,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm64.</p>
 </blockquote>
-<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
+<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
 <li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer's Guide</a></li>
@@ -9627,7 +9866,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm.</p>
 </blockquote>
-<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
+<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
 <li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer's Guide</a></li>
@@ -9708,7 +9947,7 @@ distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on riscv.</p>
 <p>Select dynamic linker according to abi used during compile &amp; link.</p>
 </blockquote>
-<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
+<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
