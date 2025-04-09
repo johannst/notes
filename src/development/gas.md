@@ -1,6 +1,17 @@
 # gas
 
 ## Frequently used directives
+- `.section` to define a section (elf files)
+  ```x86asm
+  .section .text.foo, "ax", @progbits
+  ; defines section named .text.foo with alloc+exec perms
+
+  .section .data.foo, "aw", @progbits
+  ; defines section named .data.foo with alloc+write perms
+
+  .section .rodata.foo, "a", @progbits
+  ; defines section named .rodata.foo with alloc perms
+  ```
 - `.byte`, `.2byte`, `.4byte`, `.8byte` to define a N byte value
   ```x86asm
   .byte 0xaa
@@ -31,8 +42,30 @@
   defstr foo, "foobar"
   ```
   > Use `\()` to concatenate macro argument and literal.
+- `.rept` to repeat a sequence of lines between `.rept` and `.endr`.
+  ```x86asm
+  .rept 4
+  .4byte 123
+  .endr
+  ```
+- `.fill cnt, elem_size, val` write `cnt` times `val` with element size `elem_size`. For example one can use it to create a mbr boot record (magic number 0xaa55 at byte 511, 512).
+  ```x86asm
+  .section .boot, "ax", @progbits
+  ; some code ..
+  .4byte 0xff
 
+  .fill 510 - (. - .boot), 1, 0x00
+  .2byte 0xaa55
 
+  ; as foo.s && objdump -j .boot -s
+  ; Contents of section .boot:
+  ; 0000 ff000000 00000000 00000000 00000000
+  ; ..
+  ; 01f0 00000000 00000000 00000000 000055aa
+  ```
+  > Here `.` stands for the current location counter.
+
+## References
 - [GNU Assembler][gas_doc]
 - [GNU Assembler Directives][gas_directives]
 - [GNU Assembler `x86_64` dependent features][gas_x86_64]
