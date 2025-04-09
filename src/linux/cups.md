@@ -57,6 +57,9 @@ lp -d PRINTER FILE
     -o sides=one-sided               print front-page only
     -o sides=two-sided-long-edge     print duplex
 
+# Show job queue
+lpq -P PRINTER
+
 # Remove pending print job.
 lprm JOOBID
 ```
