@@ -1,7 +1,7 @@
 # grep(1)
 
 ```
-sort [opts] [pattern] [files]
+grep [opts] [pattern] [files]
     -e <pattern>        pattern to search for (can be supplied multiple times)
     -i                  ignore case in patterns
     -v                  invert match
