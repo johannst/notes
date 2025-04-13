@@ -34,3 +34,10 @@
     >> };
     >> unsigned int _proc_self_fd_11_len = 4;
 ```
+
+## Patching binary file by hand in hex mode
+```markdown
+  xxd /bin/ls > ls.hex
+  # edit binary file in hex format (ascii)
+  xxd -r ls.hex > ls
+```
