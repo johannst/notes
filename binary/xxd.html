@@ -184,6 +184,11 @@
     &gt;&gt; };
     &gt;&gt; unsigned int _proc_self_fd_11_len = 4;
 </code></pre>
+<h2 id="patching-binary-file-by-hand-in-hex-mode"><a class="header" href="#patching-binary-file-by-hand-in-hex-mode">Patching binary file by hand in hex mode</a></h2>
+<pre><code class="language-markdown">  xxd /bin/ls &gt; ls.hex
+  # edit binary file in hex format (ascii)
+  xxd -r ls.hex &gt; ls
+</code></pre>
 
                     </main>
 

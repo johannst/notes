@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Tools - Notes</title>
+        <title>dd - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -158,31 +158,53 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
-<ul>
-<li><a href="./tmux.html">tmux</a></li>
-<li><a href="./screen.html">screen</a></li>
-<li><a href="./emacs.html">emacs</a></li>
-<li><a href="./gpg.html">gpg</a></li>
-<li><a href="./radare2.html">radare2</a></li>
-<li><a href="./qemu.html">qemu</a></li>
-<li><a href="./pacman.html">pacman</a></li>
-<li><a href="./dot.html">dot</a></li>
-<li><a href="./ffmpeg.html">ffmpeg</a></li>
-<li><a href="./gnuplot.html">gnuplot</a></li>
-<li><a href="./restic.html">restic</a></li>
-<li><a href="./qrencode.html">qrencode</a></li>
-</ul>
+                        <h1 id="dd1"><a class="header" href="#dd1">dd(1)</a></h1>
+<p>Copy data <code>block-wise</code>.</p>
+<pre><code>dd [opts]
+    if=&lt;path&gt;         input file to read (stdin in case not specified)
+    of=&lt;path&gt;         oputput file to write
+    status=progress   show progress while copying
+    bs=&lt;bytes&gt;        block size
+    count=&lt;n&gt;         copy only &lt;n&gt; blocks
+    skip=&lt;n&gt;          skip &lt;n&gt; blocks in input (seek input)
+    seek=&lt;n&gt;          skip &lt;n&gt; blocks in oputput (seek output)
+    conv=&lt;conv&gt;
+         notrunc      dont truncate output file
+         excl         fail if output already exists
+         nocreat      fail if output does not exists
+</code></pre>
+<h2 id="example-bootstick"><a class="header" href="#example-bootstick">Example: bootstick</a></h2>
+<pre><code class="language-bash">dd bs=4M if=&lt;iso&gt; of=&lt;blkdev&gt; oflag=sync status=progress
+</code></pre>
+<h2 id="example-patch-file-in-place"><a class="header" href="#example-patch-file-in-place">Example: patch file in place</a></h2>
+<pre><code class="language-bash"># Create a 1024 bytes file filled with zeros.
+dd if=/dev/zero of=disk bs=512 count=2
+
+# Overwrite 4 bytes starting at byte 0.
+printf "aaaa" | dd of=disk bs=1 seek=0 conv=notrunc
+
+# Overwrite 4 bytes starting at byte 512.
+printf "bbbb" | dd of=disk bs=1 seek=512 conv=notrunc
+
+hexdump disk
+# 0000000 6161 6161 0000 0000 0000 0000 0000 0000
+# 0000010 0000 0000 0000 0000 0000 0000 0000 0000
+# *
+# 0000200 6262 6262 0000 0000 0000 0000 0000 0000
+# 0000210 0000 0000 0000 0000 0000 0000 0000 0000
+# *
+# 0000400
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../cli/dd.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli/find.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../tools/tmux.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../tools/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -192,11 +214,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../cli/dd.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli/find.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../tools/tmux.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../tools/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

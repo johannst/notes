@@ -1004,6 +1004,7 @@ status -f              # abs path of current file
 <li><a href="cli/./xargs.html">xargs</a></li>
 <li><a href="cli/./grep.html">grep</a></li>
 <li><a href="cli/./find.html">find</a></li>
+<li><a href="cli/./dd.html">dd</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
 <pre><code class="language-markdown">awk [opt] program [input]
@@ -1476,6 +1477,43 @@ exec modifier characters <code>;</code> and <code>+</code> also may need to be e
 
 &gt; find . -maxdepth 1 -type d -exec echo x {} +
 # x . ./.github ./book ./src ./.git ./docs
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dd1"><a class="header" href="#dd1">dd(1)</a></h1>
+<p>Copy data <code>block-wise</code>.</p>
+<pre><code>dd [opts]
+    if=&lt;path&gt;         input file to read (stdin in case not specified)
+    of=&lt;path&gt;         oputput file to write
+    status=progress   show progress while copying
+    bs=&lt;bytes&gt;        block size
+    count=&lt;n&gt;         copy only &lt;n&gt; blocks
+    skip=&lt;n&gt;          skip &lt;n&gt; blocks in input (seek input)
+    seek=&lt;n&gt;          skip &lt;n&gt; blocks in oputput (seek output)
+    conv=&lt;conv&gt;
+         notrunc      dont truncate output file
+         excl         fail if output already exists
+         nocreat      fail if output does not exists
+</code></pre>
+<h2 id="example-bootstick"><a class="header" href="#example-bootstick">Example: bootstick</a></h2>
+<pre><code class="language-bash">dd bs=4M if=&lt;iso&gt; of=&lt;blkdev&gt; oflag=sync status=progress
+</code></pre>
+<h2 id="example-patch-file-in-place"><a class="header" href="#example-patch-file-in-place">Example: patch file in place</a></h2>
+<pre><code class="language-bash"># Create a 1024 bytes file filled with zeros.
+dd if=/dev/zero of=disk bs=512 count=2
+
+# Overwrite 4 bytes starting at byte 0.
+printf "aaaa" | dd of=disk bs=1 seek=0 conv=notrunc
+
+# Overwrite 4 bytes starting at byte 512.
+printf "bbbb" | dd of=disk bs=1 seek=512 conv=notrunc
+
+hexdump disk
+# 0000000 6161 6161 0000 0000 0000 0000 0000 0000
+# 0000010 0000 0000 0000 0000 0000 0000 0000 0000
+# *
+# 0000200 6262 6262 0000 0000 0000 0000 0000 0000
+# 0000210 0000 0000 0000 0000 0000 0000 0000 0000
+# *
+# 0000400
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
 <ul>
@@ -2157,6 +2195,10 @@ Ctrl+a c           switch between monitor and console
 
 # Confifure virtio as 3D video graphic accelerator (requires virgl in guest).
 -vga virtio
+
+# Disable graphical output, and redirect serial console to qemu processes stdio
+# (-serial stdio).
+-nographic
 </code></pre>
 <h3 id="boot-menu"><a class="header" href="#boot-menu">Boot Menu</a></h3>
 <pre><code class="language-bash"># Enables boot menu to select boot device (enter with `ESC`).
@@ -4089,6 +4131,11 @@ the <code>.rodata</code> section as follows:</p>
     &gt;&gt;   0x7f, 0x45, 0x4c, 0x46
     &gt;&gt; };
     &gt;&gt; unsigned int _proc_self_fd_11_len = 4;
+</code></pre>
+<h2 id="patching-binary-file-by-hand-in-hex-mode"><a class="header" href="#patching-binary-file-by-hand-in-hex-mode">Patching binary file by hand in hex mode</a></h2>
+<pre><code class="language-markdown">  xxd /bin/ls &gt; ls.hex
+  # edit binary file in hex format (ascii)
+  xxd -r ls.hex &gt; ls
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="readelf1"><a class="header" href="#readelf1">readelf(1)</a></h1>
 <pre><code class="language-markdown">  readelf [opts] &lt;elf&gt;
