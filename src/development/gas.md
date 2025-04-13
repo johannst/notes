@@ -15,10 +15,10 @@
 - `.byte`, `.2byte`, `.4byte`, `.8byte` to define a N byte value
   ```x86asm
   .byte 0xaa
-  .2byte 0xaabb
+  .2byte 0xaabb                 # .word
   .2byte 0xaa, 0xbb
-  .4byte 0xaabbccdd
-  .8byte 0xaabbccdd11223344
+  .4byte 0xaabbccdd             # .long
+  .8byte 0xaabbccdd11223344     # .quad
   ```
 - `.ascii` to define an ascii string
   ```x86asm
