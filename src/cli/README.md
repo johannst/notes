@@ -12,3 +12,4 @@
 - [xargs](./xargs.md)
 - [grep](./grep.md)
 - [find](./find.md)
+- [dd](./dd.md)

@@ -20,6 +20,7 @@
     - [xargs](./cli/xargs.md)
     - [grep](./cli/grep.md)
     - [find](./cli/find.md)
+    - [dd](./cli/dd.md)
 
 - [Tools](./tools/README.md)
     - [tmux](./tools/tmux.md)
