@@ -5309,10 +5309,10 @@ run1:
 </li>
 <li><code>.byte</code>, <code>.2byte</code>, <code>.4byte</code>, <code>.8byte</code> to define a N byte value
 <pre><code class="language-x86asm">.byte 0xaa
-.2byte 0xaabb
+.2byte 0xaabb                 # .word
 .2byte 0xaa, 0xbb
-.4byte 0xaabbccdd
-.8byte 0xaabbccdd11223344
+.4byte 0xaabbccdd             # .long
+.8byte 0xaabbccdd11223344     # .quad
 </code></pre>
 </li>
 <li><code>.ascii</code> to define an ascii string
