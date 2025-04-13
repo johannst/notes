@@ -63,6 +63,10 @@ qemu-system-x86_64                 \
 
 # Confifure virtio as 3D video graphic accelerator (requires virgl in guest).
 -vga virtio
+
+# Disable graphical output, and redirect serial console to qemu processes stdio
+# (-serial stdio).
+-nographic
 ```
 
 ### Boot Menu
