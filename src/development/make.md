@@ -126,6 +126,13 @@ out := $(patsubst %.c, build/%.o, $(in))
 # This is actually equivalent to $(in:%.c=build/%.o)
 ```
 
+Replace multiple patterns, requires multiple `patsubst` invocations.
+```make
+in  := foo.S bar.zig
+out := $(patsubst %.S, a/%.o, $(patsubst %.zig, z/%.o, $(in)))
+# => out = a/foo.o z/bar.o
+```
+
 ### `filter`
 Keep strings matching a pattern in a list.
 ```make
@@ -155,16 +162,26 @@ $(realpath fname1 fname2 ..)
 ```
 
 ### `call`  ([ref][make-call])
-Invoke parametrized function, which is an expression saved in a variable.
+Invoke parametrized function, which can be an expression saved in a variable
+(single line), or a `define/endef` block (multi line).
 ```make
 swap = $(2) $(1)
 
+# Use echo here just for the purpose of the demonstration.
+define cc
+@echo mkdir -p $(dir $1)
+@echo gcc -o $1 $2
+endef
+
 all:
 	@echo "call swap first second -> $(call swap,first,second)"
+	$(call cc,build/abc,def)
 ```
 Outputs:
 ```text
 call swap first second -> second first
+mkdir -p build/
+gcc -o build/abc def
 ```
 
 ### `eval` ([ref][make-eval])
@@ -262,6 +279,32 @@ rule1 -> foo
 rule2 -> bar
 ```
 > Use `make -R -p` to print the make database including the rules.
+
+### Verbose command (similar to linux kernel)
+```make
+VCMD = $(if $(filter-out 0,$(V)), \
+         @printf "$(3)\n", \
+         @printf "%-8s $(2)\n" $(1)) ; \
+      $(3)
+
+# Mock ruls to demonstrate.
+all: foo.o
+%.o: %.c
+	$(call VCMD,CC,$@,true || gcc -c -o $@ $<)
+foo.c:
+```
+> The condition in `$(if cond,then,else)` is expanded as string and stripped,
+> and any non-empty string is treated as true.
+
+Outputs:
+```text
+> make
+CC       foo.o
+> make V=0
+CC       foo.o
+> make V=1
+true || gcc -c -o foo.o foo.c
+```
 
 [make-var-override]: https://www.gnu.org/software/make/manual/html_node/Overriding.html
 [make-patsubst]: https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#index-patsubst-1
