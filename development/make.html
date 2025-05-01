@@ -265,6 +265,11 @@ out := $(patsubst %.c, build/%.o, $(in))
 
 # This is actually equivalent to $(in:%.c=build/%.o)
 </code></pre>
+<p>Replace multiple patterns, requires multiple <code>patsubst</code> invocations.</p>
+<pre><code class="language-make">in  := foo.S bar.zig
+out := $(patsubst %.S, a/%.o, $(patsubst %.zig, z/%.o, $(in)))
+# =&gt; out = a/foo.o z/bar.o
+</code></pre>
 <h3 id="filter"><a class="header" href="#filter"><code>filter</code></a></h3>
 <p>Keep strings matching a pattern in a list.</p>
 <pre><code class="language-make">in  := a.a b.b c.c d.d
@@ -286,14 +291,24 @@ out := $(filter-out %.b %.c, $(in))
 <pre><code class="language-make">$(realpath fname1 fname2 ..)
 </code></pre>
 <h3 id="call--ref"><a class="header" href="#call--ref"><code>call</code>  (<a href="https://www.gnu.org/software/make/manual/html_node/Call-Function.html">ref</a>)</a></h3>
-<p>Invoke parametrized function, which is an expression saved in a variable.</p>
+<p>Invoke parametrized function, which can be an expression saved in a variable
+(single line), or a <code>define/endef</code> block (multi line).</p>
 <pre><code class="language-make">swap = $(2) $(1)
+
+# Use echo here just for the purpose of the demonstration.
+define cc
+@echo mkdir -p $(dir $1)
+@echo gcc -o $1 $2
+endef
 
 all:
 	@echo "call swap first second -&gt; $(call swap,first,second)"
+	$(call cc,build/abc,def)
 </code></pre>
 <p>Outputs:</p>
 <pre><code class="language-text">call swap first second -&gt; second first
+mkdir -p build/
+gcc -o build/abc def
 </code></pre>
 <h3 id="eval-ref"><a class="header" href="#eval-ref"><code>eval</code> (<a href="https://www.gnu.org/software/make/manual/html_node/Eval-Function.html">ref</a>)</a></h3>
 <p>Allows to define new makefile constructs by evaluating the result of a variable
@@ -379,6 +394,30 @@ rule2 -&gt; bar
 <blockquote>
 <p>Use <code>make -R -p</code> to print the make database including the rules.</p>
 </blockquote>
+<h3 id="verbose-command-similar-to-linux-kernel"><a class="header" href="#verbose-command-similar-to-linux-kernel">Verbose command (similar to linux kernel)</a></h3>
+<pre><code class="language-make">VCMD = $(if $(filter-out 0,$(V)), \
+         @printf "$(3)\n", \
+         @printf "%-8s $(2)\n" $(1)) ; \
+      $(3)
+
+# Mock ruls to demonstrate.
+all: foo.o
+%.o: %.c
+	$(call VCMD,CC,$@,true || gcc -c -o $@ $&lt;)
+foo.c:
+</code></pre>
+<blockquote>
+<p>The condition in <code>$(if cond,then,else)</code> is expanded as string and stripped,
+and any non-empty string is treated as true.</p>
+</blockquote>
+<p>Outputs:</p>
+<pre><code class="language-text">&gt; make
+CC       foo.o
+&gt; make V=0
+CC       foo.o
+&gt; make V=1
+true || gcc -c -o foo.o foo.c
+</code></pre>
 
                     </main>
 
