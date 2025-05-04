@@ -191,6 +191,8 @@
   C-x r w  window-configuration-to-register
                                    save window configuration in a register
                                    (use C-x r j to jump to the windows config again)
+  C-x w d toggle-window-dedicated  toggles windows dedicated state
+                                   (dedicated windows cant be reused by display functions)
 </code></pre>
 <h2 id="minibuffer"><a class="header" href="#minibuffer">minibuffer</a></h2>
 <pre><code class="language-markdown">  key            description
@@ -284,6 +286,8 @@
 <pre><code class="language-markdown">  key      fn                                 description
 ---------------------------------------------------------
            multi-occur-in-matching-buffers    run occur in buffers matching regexp
+           occur-edit-mode                    in occur buffer, enter edit mode.
+                                              C-c C-c after editing to save changes.
 </code></pre>
 <h2 id="grep"><a class="header" href="#grep">grep</a></h2>
 <pre><code class="language-markdown">  key    fn           description
@@ -369,6 +373,12 @@
   C-x p !   project-shell-command              shell command on project
   C-x p &amp;   project-async-shell-command        async shell command on project
 </code></pre>
+<h2 id="vc"><a class="header" href="#vc">vc</a></h2>
+<pre><code class="language-markdown">  key       fn                          description
+----------------------------------------------------------
+C-x v =		vc-diff                     show diff of buffer
+C-x v ~		vc-revision-other-window    show other revison of buffer
+</code></pre>
 <h2 id="tags--lsp"><a class="header" href="#tags--lsp">tags / lsp</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
 <pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
@@ -449,9 +459,11 @@ supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
 
   ^   Info-Up               up in info node tree
 
-  m   Info-menu             goto menu (by minibuf completion)
   s   Info-search           search info
   g   Info-goto-node        goto info node (by minibuf completion)
+                            a node is any section in a node tree
+  m   Info-menu             goto menu (by minibuf completion)
+                            a node in the current nodes menu list
 
       Info-history          open info history in buffer
 </code></pre>
@@ -483,6 +495,13 @@ default shell, else customize the <code>explicit-shell-file-name</code> variable
   C-c C-a                        go begin of line (honors prompt)
   C-c C-e                        go to end of line
   C-c C-c                        interrupt active command
+</code></pre>
+<h2 id="gdb"><a class="header" href="#gdb">gdb</a></h2>
+<pre><code class="language-markdown">  key         fn                  description
+---------------------------------------------
+C-x C-a C-b   gud-break           create breakpoint
+
+              gdb-many-windows    toggle gdb many window view
 </code></pre>
 
                     </main>

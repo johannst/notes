@@ -166,9 +166,13 @@
                        search archives repearepeatedly until no new
                        undefined  references are created
                        (eg helpfull with list of static libraries)
+    --verbose          dump the default linker script
 </code></pre>
 <h2 id="linker-script"><a class="header" href="#linker-script">Linker Script</a></h2>
-<p><code>output</code> sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
+<p>Generally speaking, the linker script describes how to map a set of <em>input
+sections</em> from different <em>input files</em> to a set of <em>output sections</em> in the
+<em>output file</em>.</p>
+<p>The output sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
 section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">input section</a>).</p>
 <pre><code>section_name [vaddr] : [AT(paddr)] {
     file_pattern (section_pattern)
@@ -180,7 +184,19 @@ section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.h
     *.o (.foo.*)
 }
 </code></pre>
-<h3 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h3>
+<p>The first rule includes the section <code>.foo</code> from the object file <code>abc.o</code>.
+The second rule is a wildcard rule, which includes all sections match the glob
+<code>.foo.*</code> from all object files matching the <code>*.o</code> glob.</p>
+<h3 id="common-linker-script-commands-and-functions"><a class="header" href="#common-linker-script-commands-and-functions">Common linker script <em>commands</em> and <em>functions</em></a></h3>
+<p>The <code>OUTPUT_FORMAT</code> defines the format of the output file the linker is
+creates. This command takes up to three arguments and possible values can be
+found by running <code>objdump -i</code>.</p>
+<pre><code>OUTPUT_FORMAT(default, little, big)
+</code></pre>
+<p>The <code>ENTRY</code> command takes a symbols name, which will be used as entry point.</p>
+<pre><code>ENTRY(sym)
+</code></pre>
+<h2 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h2>
 <p>Sometimes code is initially located at a different location as when being run.
 For example in embedded cases, where code may initially resides in a <em>rom</em> and
 startup code will copy a section with writable <em>data</em> into <em>ram</em>. Code accessing
@@ -360,6 +376,8 @@ ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 <li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">ld script: output sections</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Simple-Commands.html">ld script: simple commands</a></li>
+<li>[ld script: builtin functions][ld-buil]</li>
 <li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
 </ul>
 

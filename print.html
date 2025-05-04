@@ -1694,6 +1694,8 @@ sudo stty -F /dev/ttyUSB0 -a
   C-x r w  window-configuration-to-register
                                    save window configuration in a register
                                    (use C-x r j to jump to the windows config again)
+  C-x w d toggle-window-dedicated  toggles windows dedicated state
+                                   (dedicated windows cant be reused by display functions)
 </code></pre>
 <h2 id="minibuffer"><a class="header" href="#minibuffer">minibuffer</a></h2>
 <pre><code class="language-markdown">  key            description
@@ -1787,6 +1789,8 @@ sudo stty -F /dev/ttyUSB0 -a
 <pre><code class="language-markdown">  key      fn                                 description
 ---------------------------------------------------------
            multi-occur-in-matching-buffers    run occur in buffers matching regexp
+           occur-edit-mode                    in occur buffer, enter edit mode.
+                                              C-c C-c after editing to save changes.
 </code></pre>
 <h2 id="grep"><a class="header" href="#grep">grep</a></h2>
 <pre><code class="language-markdown">  key    fn           description
@@ -1872,6 +1876,12 @@ sudo stty -F /dev/ttyUSB0 -a
   C-x p !   project-shell-command              shell command on project
   C-x p &amp;   project-async-shell-command        async shell command on project
 </code></pre>
+<h2 id="vc"><a class="header" href="#vc">vc</a></h2>
+<pre><code class="language-markdown">  key       fn                          description
+----------------------------------------------------------
+C-x v =		vc-diff                     show diff of buffer
+C-x v ~		vc-revision-other-window    show other revison of buffer
+</code></pre>
 <h2 id="tags--lsp"><a class="header" href="#tags--lsp">tags / lsp</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
 <pre><code class="language-markdown">  ctags -R -e .         generate emacs tag file (important `-e`)
@@ -1952,9 +1962,11 @@ supports <code>fido-vertical-mode</code> in case vertical mode is preferred.</p>
 
   ^   Info-Up               up in info node tree
 
-  m   Info-menu             goto menu (by minibuf completion)
   s   Info-search           search info
   g   Info-goto-node        goto info node (by minibuf completion)
+                            a node is any section in a node tree
+  m   Info-menu             goto menu (by minibuf completion)
+                            a node in the current nodes menu list
 
       Info-history          open info history in buffer
 </code></pre>
@@ -1986,6 +1998,13 @@ default shell, else customize the <code>explicit-shell-file-name</code> variable
   C-c C-a                        go begin of line (honors prompt)
   C-c C-e                        go to end of line
   C-c C-c                        interrupt active command
+</code></pre>
+<h2 id="gdb"><a class="header" href="#gdb">gdb</a></h2>
+<pre><code class="language-markdown">  key         fn                  description
+---------------------------------------------
+C-x C-a C-b   gud-break           create breakpoint
+
+              gdb-many-windows    toggle gdb many window view
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
@@ -4159,6 +4178,7 @@ the <code>.rodata</code> section as follows:</p>
     -j &lt;section&gt;               display info for section
     --[no-]show-raw-insn       [dont] show object code next to disassembly
     --visualize-jumps[=color]  visualize jumps with ascii art, optionally color arrows
+    -i                         list supported binary formats (binutils)
 </code></pre>
 <h2 id="disassemble-section"><a class="header" href="#disassemble-section">Disassemble section</a></h2>
 <p>For example <code>.plt</code> section:</p>
@@ -5378,9 +5398,13 @@ defstr foo, "foobar"
                        search archives repearepeatedly until no new
                        undefined  references are created
                        (eg helpfull with list of static libraries)
+    --verbose          dump the default linker script
 </code></pre>
 <h2 id="linker-script"><a class="header" href="#linker-script">Linker Script</a></h2>
-<p><code>output</code> sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
+<p>Generally speaking, the linker script describes how to map a set of <em>input
+sections</em> from different <em>input files</em> to a set of <em>output sections</em> in the
+<em>output file</em>.</p>
+<p>The output sections are defined as follows (full description at <a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">output
 section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">input section</a>).</p>
 <pre><code>section_name [vaddr] : [AT(paddr)] {
     file_pattern (section_pattern)
@@ -5392,7 +5416,19 @@ section</a> and <a href="https://sourceware.org/binutils/docs/ld/Input-Section.h
     *.o (.foo.*)
 }
 </code></pre>
-<h3 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h3>
+<p>The first rule includes the section <code>.foo</code> from the object file <code>abc.o</code>.
+The second rule is a wildcard rule, which includes all sections match the glob
+<code>.foo.*</code> from all object files matching the <code>*.o</code> glob.</p>
+<h3 id="common-linker-script-commands-and-functions"><a class="header" href="#common-linker-script-commands-and-functions">Common linker script <em>commands</em> and <em>functions</em></a></h3>
+<p>The <code>OUTPUT_FORMAT</code> defines the format of the output file the linker is
+creates. This command takes up to three arguments and possible values can be
+found by running <code>objdump -i</code>.</p>
+<pre><code>OUTPUT_FORMAT(default, little, big)
+</code></pre>
+<p>The <code>ENTRY</code> command takes a symbols name, which will be used as entry point.</p>
+<pre><code>ENTRY(sym)
+</code></pre>
+<h2 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h2>
 <p>Sometimes code is initially located at a different location as when being run.
 For example in embedded cases, where code may initially resides in a <em>rom</em> and
 startup code will copy a section with writable <em>data</em> into <em>ram</em>. Code accessing
@@ -5572,6 +5608,8 @@ ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 <li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">ld script: output sections</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Simple-Commands.html">ld script: simple commands</a></li>
+<li>[ld script: builtin functions][ld-buil]</li>
 <li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
@@ -9448,7 +9486,7 @@ address and to relative accesses.</p>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></li>
 <li><a href="https://github.com/johannst/juicebox-asm"><code>juicebox-asm</code> an <code>x86_64</code> jit assembler playground</a></li>
-<li><a href="https://git.memzero.de/testground/zig-playground/tree/x86-bare-metal">zig x86 bare metal examples</a></li>
+<li><a href="https://git.memzero.de/testground/x86-bare-metal-playground">zig x86 bare metal examples</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="armv8"><a class="header" href="#armv8">armv8</a></h1>
 <p>keywords: aarch64, arm64, A64, aarch32, A32, T32, abi</p>
