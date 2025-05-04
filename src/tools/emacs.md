@@ -37,6 +37,8 @@
   C-x r w  window-configuration-to-register
                                    save window configuration in a register
                                    (use C-x r j to jump to the windows config again)
+  C-x w d toggle-window-dedicated  toggles windows dedicated state
+                                   (dedicated windows cant be reused by display functions)
 ```
 
 ## minibuffer
@@ -143,6 +145,8 @@ Builtin advanced buffer selection mode
   key      fn                                 description
 ---------------------------------------------------------
            multi-occur-in-matching-buffers    run occur in buffers matching regexp
+           occur-edit-mode                    in occur buffer, enter edit mode.
+                                              C-c C-c after editing to save changes.
 ```
 
 ## grep
@@ -250,6 +254,14 @@ Builtin advanced buffer selection mode
   C-x p &   project-async-shell-command        async shell command on project
 ```
 
+## vc
+```markdown
+  key       fn                          description
+----------------------------------------------------------
+C-x v =		vc-diff                     show diff of buffer
+C-x v ~		vc-revision-other-window    show other revison of buffer
+```
+
 ## tags / lsp
 To generate `etags` using `ctags`
 ```markdown
@@ -345,9 +357,11 @@ supports `fido-vertical-mode` in case vertical mode is preferred.
 
   ^   Info-Up               up in info node tree
 
-  m   Info-menu             goto menu (by minibuf completion)
   s   Info-search           search info
   g   Info-goto-node        goto info node (by minibuf completion)
+                            a node is any section in a node tree
+  m   Info-menu             goto menu (by minibuf completion)
+                            a node in the current nodes menu list
 
       Info-history          open info history in buffer
 ```
@@ -384,4 +398,14 @@ default shell, else customize the `explicit-shell-file-name` variable.
   C-c C-a                        go begin of line (honors prompt)
   C-c C-e                        go to end of line
   C-c C-c                        interrupt active command
+```
+
+## gdb
+
+```markdown
+  key         fn                  description
+---------------------------------------------
+C-x C-a C-b   gud-break           create breakpoint
+
+              gdb-many-windows    toggle gdb many window view
 ```
