@@ -11,6 +11,7 @@
     -j <section>               display info for section
     --[no-]show-raw-insn       [dont] show object code next to disassembly
     --visualize-jumps[=color]  visualize jumps with ascii art, optionally color arrows
+    -i                         list supported binary formats (binutils)
 ```
 
 ## Disassemble section

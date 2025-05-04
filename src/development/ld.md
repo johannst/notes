@@ -8,11 +8,16 @@ ld [opts] files...
                        search archives repearepeatedly until no new
                        undefined  references are created
                        (eg helpfull with list of static libraries)
+    --verbose          dump the default linker script
 ```
 
 ## Linker Script
 
-`output` sections are defined as follows (full description at [output
+Generally speaking, the linker script describes how to map a set of *input
+sections* from different *input files* to a set of *output sections* in the
+*output file*.
+
+The output sections are defined as follows (full description at [output
 section][ld-out] and [input section][ld-in]).
 
 ```
@@ -28,8 +33,25 @@ The following gives an example of an `output` section with two `input` section r
     *.o (.foo.*)
 }
 ```
+The first rule includes the section `.foo` from the object file `abc.o`.
+The second rule is a wildcard rule, which includes all sections match the glob
+`.foo.*` from all object files matching the `*.o` glob.
 
-### Example: virtual vs physical (load) address
+### Common linker script *commands* and *functions*
+
+The `OUTPUT_FORMAT` defines the format of the output file the linker is
+creates. This command takes up to three arguments and possible values can be
+found by running `objdump -i`.
+```
+OUTPUT_FORMAT(default, little, big)
+```
+
+The `ENTRY` command takes a symbols name, which will be used as entry point.
+```
+ENTRY(sym)
+```
+
+## Example: virtual vs physical (load) address
 
 Sometimes code is initially located at a different location as when being run.
 For example in embedded cases, where code may initially resides in a _rom_ and
@@ -110,14 +132,17 @@ The following linker script shows an example with the `MEMORY` command.
 {{#include ld/link-mem.ld}}
 ```
 
-
 ## References
 - [ld manual][ld]
 - [ld script: input sections][ld-in]
 - [ld script: output sections][ld-out]
+- [ld script: simple commands][ld-cmd]
+- [ld script: builtin functions][ld-buil]
 - [notes/ld example files][src]
 
 [ld]: https://sourceware.org/binutils/docs/ld/
 [ld-in]: https://sourceware.org/binutils/docs/ld/Input-Section.html
 [ld-out]: https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html
+[ld-cmd]: https://sourceware.org/binutils/docs/ld/Simple-Commands.html
+[ld-builtin]: https://sourceware.org/binutils/docs/ld/Builtin-Functions.html
 [src]: https://github.com/johannst/notes/tree/master/src/development/ld
