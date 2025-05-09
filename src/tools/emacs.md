@@ -162,6 +162,17 @@ Builtin advanced buffer selection mode
   q                   quit *grep* buffer
 ```
 
+## highlight
+```markdown
+  key      fn                                  description
+----------------------------------------------------------
+  M-s h .  highlight-symbol-at-point           use C-u prefix to select color
+  M-s h r  highlight-regexp                    use C-u prefix to select color
+  M-s h l  highlight-lines-matching-regexp     use C-u prefix to select color
+
+  M-s h u  unhighlight-regexp                  use C-u prefix to unselect all
+```
+
 ## yank/paste
 ```markdown
   key         fn                      description
@@ -257,9 +268,9 @@ Builtin advanced buffer selection mode
 ## vc
 ```markdown
   key       fn                          description
-----------------------------------------------------------
-C-x v =		vc-diff                     show diff of buffer
-C-x v ~		vc-revision-other-window    show other revison of buffer
+---------------------------------------------------
+  C-x v =   vc-diff                     show diff of buffer
+  C-x v ~   vc-revision-other-window    show other revison of buffer
 ```
 
 ## tags / lsp
@@ -277,22 +288,12 @@ Navigate using tags
   M-?      xref-find-references     find references of tag
 ```
 
-## lisp
+## completion
 ```markdown
-  key   fn        description
-------------------------------
-        ielm      open interactive elips shell
-```
-
-In `lisp-interaction-mode` (`*scratch*` buffer by defult)
-```markdown
-  key              fn                           description
------------------------------------------------------------
-  C-j              eval-print-last-sexp         evaluate & print preceeding lisp expr
-
-  C-x C-e          eval-last-sexp               evaluate lisp expr
-  C-u C-x C-e      eval-last-sexp               evaluate & print
-  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+  key     fn                   description
+------------------------------------------
+  M-/     dabbrev-expand       expand dynamically at point
+  C-M-/   dabbrev-completion   provide completion at point
 ```
 
 ## ido
@@ -403,9 +404,102 @@ default shell, else customize the `explicit-shell-file-name` variable.
 ## gdb
 
 ```markdown
-  key         fn                  description
----------------------------------------------
-C-x C-a C-b   gud-break           create breakpoint
+  key           fn                  description
+------------------------------------------------
+  C-x C-a C-b   gud-break           create breakpoint
 
-              gdb-many-windows    toggle gdb many window view
+                gdb-many-windows    toggle gdb many window view
+```
+
+
+## lisp
+```markdown
+  key   fn        description
+------------------------------
+        ielm      open interactive elips shell
+```
+
+In `lisp-interaction-mode` (`*scratch*` buffer by default)
+```markdown
+  key              fn                           description
+-----------------------------------------------------------
+  C-j              eval-print-last-sexp         evaluate & print symbolic expression
+                                                (last before the cursor)
+  C-x C-e          eval-last-sexp               evaluate symbolic expression (last)
+
+  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+
+  C-M-x            eval-defun                   evaluate top-level function
+                                                (surrounding cursor position)
+```
+
+### elisp
+
+When evaluating a symbol by itself, its value is returned.
+```lisp
+(setq foo "bar")
+
+foo
+"bar"          ;; C-j
+```
+When evaluating a list, the first symbol in the list is interpreted as function.
+```lisp
+(defun foo (a b)
+  (+ 1 2 a b))
+
+(foo 1 2)
+6              ;; C-j
+
+;; Expressions are evaluated left-to-right and from inside-to-outside.
+(+ 1 (string-to-number "2"))
+3              ;; C-j
+```
+A symbol can be bound to a `value` and a `function` at the same time.
+
+```lisp
+(setq moose 3)
+
+(defun moose ()
+  (concat "abc" "def"))
+
+moose
+3              ;; C-j eval as value
+
+(moose)
+"abcdef"       ;; C-j eval as function
+```
+If a symbol is `quoted` it is not evaluated.
+```lisp
+'foo
+foo            ;; C-j dont eval as value
+
+'(a b c)
+(a b c)        ;; C-j dont eval as function
+
+(setq foo '(a b)) ;; the inner list is not evaluated
+foo            ;; C-j eval as value, contains un-evaluated list
+(a b)
+
+;; (quote ..) is equivalent to '
+(quote bar)
+bar            ;; C-j
+
+(quote (c d))
+(c d)          ;; C-j
+
+;; print argument and print evaluated result
+(defun p (arg)
+  (message "arg =%s" arg)
+  (message "eval=%s" (eval arg)))
+
+;; pass quoted variable
+(setq foo '(a b))
+(p 'foo)
+"arg =foo"     ;; C-j and take print from *Message* buffer
+"eval=(a b)"
+
+;; pass quoted function
+(p '(concat "a" "b"))
+"arg =(concat a b)"    ;; C-j and take print from *Message* buffer
+"eval=ab"
 ```
