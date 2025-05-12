@@ -292,8 +292,13 @@ Navigate using tags
 ```markdown
   key     fn                   description
 ------------------------------------------
-  M-/     dabbrev-expand       expand dynamically at point
-  C-M-/   dabbrev-completion   provide completion at point
+  C-M-i   complete-symbol      completion on text around point
+                               (based on completion-at-point-functions)
+
+  M-/     dabbrev-expand       dynamically expand at point, press to cycles
+                               (based on typed words in buffer)
+  C-M-/   dabbrev-completion   provide completion at point, interactive completion
+                               (based on typed words in buffer)
 ```
 
 ## ido
