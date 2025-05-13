@@ -12,3 +12,4 @@
 - [gnuplot](./gnuplot.md)
 - [restic](./restic.md)
 - [qrencode](./qrencode.md)
+- [nix](./nix.md)

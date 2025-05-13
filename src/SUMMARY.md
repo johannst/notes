@@ -35,6 +35,7 @@
     - [gnuplot](./tools/gnuplot.md)
     - [restic](./tools/restic.md)
     - [qrencode](./tools/qrencode.md)
+    - [nix](./tools/nix.md)
 
 - [Process management & inspection](./process/README.md)
     - [lsof](./process/lsof.md)
