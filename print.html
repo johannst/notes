@@ -1529,6 +1529,7 @@ hexdump disk
 <li><a href="tools/./gnuplot.html">gnuplot</a></li>
 <li><a href="tools/./restic.html">restic</a></li>
 <li><a href="tools/./qrencode.html">qrencode</a></li>
+<li><a href="tools/./nix.html">nix</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tmux1"><a class="header" href="#tmux1">tmux(1)</a></h1>
 <p>Terminology:</p>
@@ -1803,6 +1804,15 @@ sudo stty -F /dev/ttyUSB0 -a
   n/p                 navigate next/previous match in *grep* buffer
   q                   quit *grep* buffer
 </code></pre>
+<h2 id="highlight"><a class="header" href="#highlight">highlight</a></h2>
+<pre><code class="language-markdown">  key      fn                                  description
+----------------------------------------------------------
+  M-s h .  highlight-symbol-at-point           use C-u prefix to select color
+  M-s h r  highlight-regexp                    use C-u prefix to select color
+  M-s h l  highlight-lines-matching-regexp     use C-u prefix to select color
+
+  M-s h u  unhighlight-regexp                  use C-u prefix to unselect all
+</code></pre>
 <h2 id="yankpaste"><a class="header" href="#yankpaste">yank/paste</a></h2>
 <pre><code class="language-markdown">  key         fn                      description
 -------------------------------------------------
@@ -1878,9 +1888,9 @@ sudo stty -F /dev/ttyUSB0 -a
 </code></pre>
 <h2 id="vc"><a class="header" href="#vc">vc</a></h2>
 <pre><code class="language-markdown">  key       fn                          description
-----------------------------------------------------------
-C-x v =		vc-diff                     show diff of buffer
-C-x v ~		vc-revision-other-window    show other revison of buffer
+---------------------------------------------------
+  C-x v =   vc-diff                     show diff of buffer
+  C-x v ~   vc-revision-other-window    show other revison of buffer
 </code></pre>
 <h2 id="tags--lsp"><a class="header" href="#tags--lsp">tags / lsp</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
@@ -1894,19 +1904,16 @@ C-x v ~		vc-revision-other-window    show other revison of buffer
            xref-find-apropos        find symbols matching regexp
   M-?      xref-find-references     find references of tag
 </code></pre>
-<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
-<pre><code class="language-markdown">  key   fn        description
-------------------------------
-        ielm      open interactive elips shell
-</code></pre>
-<p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by defult)</p>
-<pre><code class="language-markdown">  key              fn                           description
------------------------------------------------------------
-  C-j              eval-print-last-sexp         evaluate &amp; print preceeding lisp expr
+<h2 id="completion-2"><a class="header" href="#completion-2">completion</a></h2>
+<pre><code class="language-markdown">  key     fn                   description
+------------------------------------------
+  C-M-i   complete-symbol      completion on text around point
+                               (based on completion-at-point-functions)
 
-  C-x C-e          eval-last-sexp               evaluate lisp expr
-  C-u C-x C-e      eval-last-sexp               evaluate &amp; print
-  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+  M-/     dabbrev-expand       dynamically expand at point, press to cycles
+                               (based on typed words in buffer)
+  C-M-/   dabbrev-completion   provide completion at point, interactive completion
+                               (based on typed words in buffer)
 </code></pre>
 <h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
@@ -2000,11 +2007,92 @@ default shell, else customize the <code>explicit-shell-file-name</code> variable
   C-c C-c                        interrupt active command
 </code></pre>
 <h2 id="gdb"><a class="header" href="#gdb">gdb</a></h2>
-<pre><code class="language-markdown">  key         fn                  description
----------------------------------------------
-C-x C-a C-b   gud-break           create breakpoint
+<pre><code class="language-markdown">  key           fn                  description
+------------------------------------------------
+  C-x C-a C-b   gud-break           create breakpoint
 
-              gdb-many-windows    toggle gdb many window view
+                gdb-many-windows    toggle gdb many window view
+</code></pre>
+<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
+<pre><code class="language-markdown">  key   fn        description
+------------------------------
+        ielm      open interactive elips shell
+</code></pre>
+<p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by default)</p>
+<pre><code class="language-markdown">  key              fn                           description
+-----------------------------------------------------------
+  C-j              eval-print-last-sexp         evaluate &amp; print symbolic expression
+                                                (last before the cursor)
+  C-x C-e          eval-last-sexp               evaluate symbolic expression (last)
+
+  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+
+  C-M-x            eval-defun                   evaluate top-level function
+                                                (surrounding cursor position)
+</code></pre>
+<h3 id="elisp"><a class="header" href="#elisp">elisp</a></h3>
+<p>When evaluating a symbol by itself, its value is returned.</p>
+<pre><code class="language-lisp">(setq foo "bar")
+
+foo
+"bar"          ;; C-j
+</code></pre>
+<p>When evaluating a list, the first symbol in the list is interpreted as function.</p>
+<pre><code class="language-lisp">(defun foo (a b)
+  (+ 1 2 a b))
+
+(foo 1 2)
+6              ;; C-j
+
+;; Expressions are evaluated left-to-right and from inside-to-outside.
+(+ 1 (string-to-number "2"))
+3              ;; C-j
+</code></pre>
+<p>A symbol can be bound to a <code>value</code> and a <code>function</code> at the same time.</p>
+<pre><code class="language-lisp">(setq moose 3)
+
+(defun moose ()
+  (concat "abc" "def"))
+
+moose
+3              ;; C-j eval as value
+
+(moose)
+"abcdef"       ;; C-j eval as function
+</code></pre>
+<p>If a symbol is <code>quoted</code> it is not evaluated.</p>
+<pre><code class="language-lisp">'foo
+foo            ;; C-j dont eval as value
+
+'(a b c)
+(a b c)        ;; C-j dont eval as function
+
+(setq foo '(a b)) ;; the inner list is not evaluated
+foo            ;; C-j eval as value, contains un-evaluated list
+(a b)
+
+;; (quote ..) is equivalent to '
+(quote bar)
+bar            ;; C-j
+
+(quote (c d))
+(c d)          ;; C-j
+
+;; print argument and print evaluated result
+(defun p (arg)
+  (message "arg =%s" arg)
+  (message "eval=%s" (eval arg)))
+
+;; pass quoted variable
+(setq foo '(a b))
+(p 'foo)
+"arg =foo"     ;; C-j and take print from *Message* buffer
+"eval=(a b)"
+
+;; pass quoted function
+(p '(concat "a" "b"))
+"arg =(concat a b)"    ;; C-j and take print from *Message* buffer
+"eval=ab"
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
@@ -2662,6 +2750,318 @@ qrencode -t ansiutf8 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 # Generate picture for printing.
 qrencode -t png -o wifi.png 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nix"><a class="header" href="#nix">nix</a></h1>
+<p>This notes assume to have the <a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-experimental-features"><code>experimental-features = nix-command flakes</code></a> enabled.</p>
+<h2 id="nixconf-ref"><a class="header" href="#nixconf-ref">nix.conf (<a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html">ref</a>)</a></h2>
+<pre><code class="language-bash">nix config show
+# experimental-features
+#     enable additional experimental features
+# flake-registery
+#     url of global registry
+# tarball-ttl
+#     time the downloaded tarball is treated as valid
+</code></pre>
+<h2 id="nix-search-ref"><a class="header" href="#nix-search-ref">nix search (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search">ref</a>)</a></h2>
+<pre><code class="language-bash">nix search &lt;installable&gt; &lt;regex&gt;
+nix search nixpkgs glibc
+</code></pre>
+<h2 id="nix-profile-ref"><a class="header" href="#nix-profile-ref">nix profile (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile">ref</a>)</a></h2>
+<p>The history allows to install packages, update them and easily rollback.</p>
+<pre><code class="language-bash"># Install/remove/upgrade package(s) (creates a new history version).
+nix profile install &lt;installable&gt;
+nix profile remove
+nix profile upgrade --all
+
+# List installed packages.
+nix profile list
+
+# Show different hisitory versions.
+nix profile history
+
+# Rollback profile history.
+nix profile rollback [--to N]
+</code></pre>
+<h2 id="nix-store-ref"><a class="header" href="#nix-store-ref">nix store (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-store">ref</a>)</a></h2>
+<pre><code class="language-bash"># Show all alive store paths (paths with active reference).
+nix-store --gc --print-live
+# Show all dead store paths (paths w/o active reference).
+nix-store --gc --print-dead
+
+# Run garbage collection on nix store. This deletes all paths which are no
+# gcroots and any dependency of any gcroot.
+nix store gc
+
+# Delete single path from store.
+nix store delete &lt;path&gt;
+
+# gcroots are for example created automatically when installing packages into
+# the profile or when building a flake locally.
+# gcroots are located under /nix/var/nix/gcroots
+#
+# One can also create mamual gcroots (eg for tmp operation).
+&gt; nix-store --gc --print-dead | grep 'binutils-2.44$'
+/nix/store/wcv8n2k53w8sbffpf716gxj6mjb5jf26-binutils-2.44
+
+&gt; mkdir -p /nix/var/nix/gcroots/tmp
+&gt; ln -s /nix/store/wcv8n2k53w8sbffpf716gxj6mjb5jf26-binutils-2.44 /nix/var/nix/gcroots/tmp/keep-binutils
+
+&gt; nix-store --gc --print-dead | grep 'binutils-2.44$'
+&gt; nix-store --gc --print-live | grep 'binutils-2.44$'
+/nix/store/wcv8n2k53w8sbffpf716gxj6mjb5jf26-binutils-2.44
+</code></pre>
+<h2 id="nix-flake-ref"><a class="header" href="#nix-flake-ref">nix flake (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake">ref</a>)</a></h2>
+<p>Flakes provide a description for reproducible builds.</p>
+<pre><code class="language-bash"># Create a new flake in a folder with name.
+nix flake new &lt;name&gt;
+# Create a new flake from given template.
+nix flake new -t &lt;template&gt; &lt;name&gt;
+# Create a new flake with the c-hello output from the templates flake.
+nix flake create -t templates#c-hello myflake
+
+# Show the outputs of a flake
+nix flake show &lt;flake&gt;
+# Show outputs from the default "templates" flake.
+nix flake show templates
+# Assumes '.' as flake (which effectively means flake.nix in cwd).
+nix flake show
+
+# Show the derivation of an installable in pretty format.
+nix derivation show &lt;installable&gt;
+# Show the derivation of the glibc output from the nixpkg flake.
+nix derivation show nixpkgs#glibc
+# Assumes '.' as flake.
+nix derivation show
+
+# Show a flakes metadata (eg store path, inputs, description, ..)
+nix flake metadata &lt;flake&gt;
+
+# Update the versions in the flake.lock file.
+nix flake update
+</code></pre>
+<blockquote>
+<p>Use <code>nix registry list</code> to list available global flakes.</p>
+<p>Documentation for <a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables">installable</a> syntax.</p>
+</blockquote>
+<h3 id="a-bare-bones-flake"><a class="header" href="#a-bare-bones-flake">a bare bones flake</a></h3>
+<p>The following shows a <em>bare bones</em> flake using the
+<a href="https://nix.dev/manual/nix/latest/language/derivations"><code>builtins.derivation</code></a> function to define an output called
+<strong>moose</strong>. The builtin provides an empty environment.</p>
+<p>In general, a derivation is a declarative description of how to run an
+<em>executable (builder)</em> on a set of <em>inputs (input derivations aka dependencies)</em>
+to produce a set of <em>outputs (store paths)</em>.</p>
+<pre><code class="language-nix"># The flake is effectively an attribute set with a standard set of attributes.
+{
+  description = "bare bones (flake)";
+
+  # Input(s) of the flake.
+  # Each input attribute is passed into the output function below.
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  # The 'outputs' attribute is a function, accepting an attribute set with a
+  # self reference and all the inputs specified above.
+  # The function shall return an attribute set with different outputs.
+  # There are standardized outputs for different commands such as:
+  #   &gt; nix build
+  #   &gt; nix develop
+  outputs = { self, nixpkgs }: let
+    # Define local variables with let .. in construct.
+    system = "x86_64-linux";
+    # Import another flake, passing an attribute set.
+    # inherit system, is effectively system = system;
+    pkgs = import nixpkgs { inherit system; };
+  in
+  # Return attribute set.
+  {
+    # Some output.
+    moose = builtins.derivation {
+      # -- Required attributes.
+      inherit system;
+      name = "bone";
+      builder = "${pkgs.bash}/bin/bash";
+      # -- Optional attributes.
+      args = [ "-c" "echo hello &gt; $out" ];
+    };
+  };
+}
+</code></pre>
+<p>Understanding this example is crucial as any abstractions such as the
+<a href="https://nixos.org/manual/nixpkgs/stable/#chap-stdenv"><code>nixpkgs.stdenv</code></a> builds on top of this.</p>
+<p>One can inspect and build the derivation as follows.</p>
+<pre><code class="language-bash"># Show the derivation for the output "moose".
+&gt; nix derivation show .#moose
+{
+  "/nix/store/q2l7g7myy5gmks7jml6hz2jd73yybplq-bone.drv": {
+    ...
+    "inputDrvs": {
+      "/nix/store/d2gv7y7i7bw79dpfskzzk2g4h6mc0677-bash-interactive-5.2p37.drv": {
+}
+
+# Build the output 'moose' for the flake.nix in the cwd ('.').
+&gt; nix build .#moose ; cat result
+hello
+</code></pre>
+<blockquote>
+<p><code>.#moose</code> references the flake.nix in the cwd <code>'.'</code> and the output <code>moose</code>.</p>
+</blockquote>
+<p>An interesting point to observe is that nix computed <em>bash</em> as input derivation
+(inputDrv) and hence as input dependency for this output.</p>
+<h3 id="a-stdenv-flake"><a class="header" href="#a-stdenv-flake">a stdenv flake</a></h3>
+<p>The <a href="https://nixos.org/manual/nixpkgs/stable/#chap-stdenv"><code>stdenv</code></a> library from the <em>nixpkgs</em> flake provides the
+<code>mkDerivation</code> function to simplify building packages (defining derivations).
+Many tools commonly used to build software are available out of the box.
+Specifying build and runtime dependencies can also be done easiy.</p>
+<p>The default builder provided by the <code>mkDerivation</code> function, organizes the build
+into multiple phases like <em>config</em>, <em>build</em> and <em>install</em>. When defining the
+derivation these phases can be easily overwritten.</p>
+<p>The example show a simple build and installation of a C file.</p>
+<pre><code class="language-nix">{
+  description = "stdenv (flake)";
+
+  inputs = { nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable"; };
+
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      # Enable support for 'nix fmt'.
+      formatter.${system} = pkgs.nixfmt;
+
+      # This is the default output that will be build &amp; run if no output is
+      # specified, when running the following in the flakes directory.
+      # &gt; nix build
+      # &gt; nix run
+      packages.${system}.default = pkgs.stdenv.mkDerivation {
+        # Either specify 'name' or 'pname &amp; version'.
+        # In the latter case, 'name' will be ${pname}-${version}.
+        pname = "test";
+        version = "0.1";
+
+        # There are different builtins to also unpack or fetch tarballs.
+        src = ./src;
+
+        # The default builder of the stdenv defines many different phases that
+        # can be overwritten.
+
+        buildPhase = ''
+          gcc -O2 -g -o test test.c
+        '';
+
+        installPhase = ''
+          mkdir -p $out/bin
+          cp test $out/bin
+        '';
+      };
+    };
+}
+</code></pre>
+<p>One can also define multiple <em>output</em> directories using the <code>outputs</code> attribute
+in the derivation. Each output turns into an environment variable of the same
+name. Use <code>nix derivation show</code> to inspect the outputs and the environment the
+builder inherits.</p>
+<p>The for example the <em>glibc</em> package in the <em>nixpkgs</em> flake, which provides
+multiple outputs.</p>
+<pre><code class="language-bash">&gt; nix derivation show nixpkgs#glibc
+..
+"outputs": {
+      ..
+      "out": {
+        "path": "/nix/store/g3s0z9r7m1lsfxdk8bj88nw8k8q3dmmg-glibc-2.40-66"
+      },
+      "static": {
+        "path": "/nix/store/lfj0w1r0ppj2swb11pz8vkppmsy1rf6y-glibc-2.40-66-static"
+      }stdenv/flake.nix
+    },
+..
+</code></pre>
+<h3 id="a-development-shell-flake"><a class="header" href="#a-development-shell-flake">a development shell flake</a></h3>
+<p>The <code>nixpkgs</code> flake also provides the <a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell"><code>mkShell</code></a> derivation
+function (specialization of <code>mkDerivation</code>), which can be used to easily define
+a development environment.</p>
+<p>The examples shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
+server. Running <code>nix develop</code> will drop in a shell where these packages are
+available.</p>
+<pre><code class="language-nix">{
+  description = "dev shell (flake)";
+
+  inputs = { nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable"; };
+
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [
+          pkgs.zig
+          pkgs.zls
+        ];
+      };
+    };
+}
+</code></pre>
+<h2 id="nix-lang-basics"><a class="header" href="#nix-lang-basics">nix lang basics</a></h2>
+<p>Nix is a functional language, where everything is an expression.
+The following shows enough nix lang to come quite far.</p>
+<pre><code class="language-nix">$ nix repl
+
+nix-repl&gt; 1 + 2
+3
+
+# String interpolation.
+# (Assignment operation special to repl).
+nix-repl&gt; foo = "bar"
+nix-repl&gt; "hello ${foo}"
+"hello bar"
+
+# Simple function with argument.
+nix-repl&gt; f = a: a + 2
+nix-repl&gt; f 4
+6
+
+# Attribute sets (kv).
+nix-repl&gt; { a = 1; b = 2; }
+{
+  a = 1;
+  b = 2;
+}
+
+# Function taking an attribute set.
+nix-repl&gt; f = { a, b }: a + b
+nix-repl&gt; f { a = 1; b = 2; }
+3
+
+# Defining local variables with "let .. in".
+nix-repl&gt; let x = 1; in x + 3
+4
+nix-repl&gt; x
+error: undefined variable 'x'
+
+# Let .. in expression returning an attribute set (handy when defining derivations).
+nix-repl&gt; let x = "abc"; in { name = "bar ${x}"; }
+{ name = "bar abc"; }
+
+# Show all builtin functions.
+nix-repl&gt; builtins
+{
+  abort = «primop abort»;
+  add = «primop add»;
+  ..
+</code></pre>
+<h2 id="references-3"><a class="header" href="#references-3">References</a></h2>
+<ul>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables">nix installable</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake">nix flake</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-store">nix store</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile">nix profile</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html">nix conf</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/language/derivations"><code>builtin.derivation</code></a></li>
+<li><a href="https://nixos.org/manual/nixpkgs/stable/#chap-stdenv"><code>nixpkgs.stdenv</code></a></li>
+<li><a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell"><code>nixpkgs.mkShell</code></a></li>
+<li><a href="https://nixos.org/guides/nix-pills/">nix pills</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="process-management--inspection"><a class="header" href="#process-management--inspection">Process management &amp; inspection</a></h1>
 <ul>
 <li><a href="process/./lsof.html">lsof</a></li>
@@ -3152,7 +3552,7 @@ perf report --stdio -g graph,callee
 #                        __libc_start_main
 #                        _start             &lt;- callstack bottom
 </code></pre>
-<h2 id="references-3"><a class="header" href="#references-3">References</a></h2>
+<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
 <ul>
 <li><a href="https://github.com/intel/perfmon">intel/perfmon</a> - intel PMU event database per uarch</li>
 <li><a href="https://perfmon-events.intel.com/">intel/perfmon-html</a> - a html rendered version of the PMU
@@ -5384,7 +5784,7 @@ defstr foo, "foobar"
 </blockquote>
 </li>
 </ul>
-<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
+<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
@@ -5603,7 +6003,7 @@ ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal
 ASSERT(ADDR(.stack) == ORIGIN(RAM) + 0x1000, "STACK section must aligned to 0x1000")
 ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 </code></pre>
-<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
+<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
@@ -6604,7 +7004,7 @@ func_v0
 func_v1
 func_v2
 </code></pre>
-<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
+<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
 <ul>
 <li><a href="https://akkadia.org/drepper/symbol-versioning">ELF Symbol Versioning</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/VERSION.html">Binutils ld: Symbol Versioning</a></li>
@@ -7008,7 +7408,7 @@ journalctl --user -u test -n 5
     --disk-usage            Show current disk usage
     --vacuum-size=&lt;size&gt;    Reduce journal log to &lt;size&gt; (K/M/G)
 </code></pre>
-<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
+<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.unit.5.html">man systemd.unit(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.service.5.html">man systemd.service(5)</a></li>
@@ -7391,7 +7791,7 @@ group::r-x
 mask::r-x
 other::rwx
 </code></pre>
-<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
+<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/acl.5.html">acl(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man1/getfacl.1.html">getfacl(1)</a></li>
@@ -7929,7 +8329,7 @@ firewall-cmd --remove-port 8000/tcp
 # Remove rich rule.
 firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 </code></pre>
-<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
+<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
 <ul>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewall-cmd.html">firewall-cmd(1)</a></li>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a></li>
@@ -9472,7 +9872,7 @@ address translation.</p>
 <p>The example in <a href="arch/x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
 address and to relative accesses.</p>
 </blockquote>
-<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
+<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
@@ -9746,7 +10146,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm64.</p>
 </blockquote>
-<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
+<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
 <li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer's Guide</a></li>
@@ -9991,7 +10391,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm.</p>
 </blockquote>
-<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
+<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
 <li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer's Guide</a></li>
@@ -10072,7 +10472,7 @@ distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on riscv.</p>
 <p>Select dynamic linker according to abi used during compile &amp; link.</p>
 </blockquote>
-<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
+<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>

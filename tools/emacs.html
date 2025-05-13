@@ -300,6 +300,15 @@
   n/p                 navigate next/previous match in *grep* buffer
   q                   quit *grep* buffer
 </code></pre>
+<h2 id="highlight"><a class="header" href="#highlight">highlight</a></h2>
+<pre><code class="language-markdown">  key      fn                                  description
+----------------------------------------------------------
+  M-s h .  highlight-symbol-at-point           use C-u prefix to select color
+  M-s h r  highlight-regexp                    use C-u prefix to select color
+  M-s h l  highlight-lines-matching-regexp     use C-u prefix to select color
+
+  M-s h u  unhighlight-regexp                  use C-u prefix to unselect all
+</code></pre>
 <h2 id="yankpaste"><a class="header" href="#yankpaste">yank/paste</a></h2>
 <pre><code class="language-markdown">  key         fn                      description
 -------------------------------------------------
@@ -375,9 +384,9 @@
 </code></pre>
 <h2 id="vc"><a class="header" href="#vc">vc</a></h2>
 <pre><code class="language-markdown">  key       fn                          description
-----------------------------------------------------------
-C-x v =		vc-diff                     show diff of buffer
-C-x v ~		vc-revision-other-window    show other revison of buffer
+---------------------------------------------------
+  C-x v =   vc-diff                     show diff of buffer
+  C-x v ~   vc-revision-other-window    show other revison of buffer
 </code></pre>
 <h2 id="tags--lsp"><a class="header" href="#tags--lsp">tags / lsp</a></h2>
 <p>To generate <code>etags</code> using <code>ctags</code></p>
@@ -391,19 +400,16 @@ C-x v ~		vc-revision-other-window    show other revison of buffer
            xref-find-apropos        find symbols matching regexp
   M-?      xref-find-references     find references of tag
 </code></pre>
-<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
-<pre><code class="language-markdown">  key   fn        description
-------------------------------
-        ielm      open interactive elips shell
-</code></pre>
-<p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by defult)</p>
-<pre><code class="language-markdown">  key              fn                           description
------------------------------------------------------------
-  C-j              eval-print-last-sexp         evaluate &amp; print preceeding lisp expr
+<h2 id="completion"><a class="header" href="#completion">completion</a></h2>
+<pre><code class="language-markdown">  key     fn                   description
+------------------------------------------
+  C-M-i   complete-symbol      completion on text around point
+                               (based on completion-at-point-functions)
 
-  C-x C-e          eval-last-sexp               evaluate lisp expr
-  C-u C-x C-e      eval-last-sexp               evaluate &amp; print
-  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+  M-/     dabbrev-expand       dynamically expand at point, press to cycles
+                               (based on typed words in buffer)
+  C-M-/   dabbrev-completion   provide completion at point, interactive completion
+                               (based on typed words in buffer)
 </code></pre>
 <h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
@@ -497,11 +503,92 @@ default shell, else customize the <code>explicit-shell-file-name</code> variable
   C-c C-c                        interrupt active command
 </code></pre>
 <h2 id="gdb"><a class="header" href="#gdb">gdb</a></h2>
-<pre><code class="language-markdown">  key         fn                  description
----------------------------------------------
-C-x C-a C-b   gud-break           create breakpoint
+<pre><code class="language-markdown">  key           fn                  description
+------------------------------------------------
+  C-x C-a C-b   gud-break           create breakpoint
 
-              gdb-many-windows    toggle gdb many window view
+                gdb-many-windows    toggle gdb many window view
+</code></pre>
+<h2 id="lisp"><a class="header" href="#lisp">lisp</a></h2>
+<pre><code class="language-markdown">  key   fn        description
+------------------------------
+        ielm      open interactive elips shell
+</code></pre>
+<p>In <code>lisp-interaction-mode</code> (<code>*scratch*</code> buffer by default)</p>
+<pre><code class="language-markdown">  key              fn                           description
+-----------------------------------------------------------
+  C-j              eval-print-last-sexp         evaluate &amp; print symbolic expression
+                                                (last before the cursor)
+  C-x C-e          eval-last-sexp               evaluate symbolic expression (last)
+
+  C-c C-e          elisp-eval-region-or-buffer  eval buffer or region (elisp mode)
+
+  C-M-x            eval-defun                   evaluate top-level function
+                                                (surrounding cursor position)
+</code></pre>
+<h3 id="elisp"><a class="header" href="#elisp">elisp</a></h3>
+<p>When evaluating a symbol by itself, its value is returned.</p>
+<pre><code class="language-lisp">(setq foo "bar")
+
+foo
+"bar"          ;; C-j
+</code></pre>
+<p>When evaluating a list, the first symbol in the list is interpreted as function.</p>
+<pre><code class="language-lisp">(defun foo (a b)
+  (+ 1 2 a b))
+
+(foo 1 2)
+6              ;; C-j
+
+;; Expressions are evaluated left-to-right and from inside-to-outside.
+(+ 1 (string-to-number "2"))
+3              ;; C-j
+</code></pre>
+<p>A symbol can be bound to a <code>value</code> and a <code>function</code> at the same time.</p>
+<pre><code class="language-lisp">(setq moose 3)
+
+(defun moose ()
+  (concat "abc" "def"))
+
+moose
+3              ;; C-j eval as value
+
+(moose)
+"abcdef"       ;; C-j eval as function
+</code></pre>
+<p>If a symbol is <code>quoted</code> it is not evaluated.</p>
+<pre><code class="language-lisp">'foo
+foo            ;; C-j dont eval as value
+
+'(a b c)
+(a b c)        ;; C-j dont eval as function
+
+(setq foo '(a b)) ;; the inner list is not evaluated
+foo            ;; C-j eval as value, contains un-evaluated list
+(a b)
+
+;; (quote ..) is equivalent to '
+(quote bar)
+bar            ;; C-j
+
+(quote (c d))
+(c d)          ;; C-j
+
+;; print argument and print evaluated result
+(defun p (arg)
+  (message "arg =%s" arg)
+  (message "eval=%s" (eval arg)))
+
+;; pass quoted variable
+(setq foo '(a b))
+(p 'foo)
+"arg =foo"     ;; C-j and take print from *Message* buffer
+"eval=(a b)"
+
+;; pass quoted function
+(p '(concat "a" "b"))
+"arg =(concat a b)"    ;; C-j and take print from *Message* buffer
+"eval=ab"
 </code></pre>
 
                     </main>
