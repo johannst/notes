@@ -151,6 +151,7 @@ The example show a simple build and installation of a C file.
 ```nix
 {{#include nix/stdenv/flake.nix}}
 ```
+> Use [`NIX_DEBUG=[0-7]`][nixpkgs-nixdebug] to enable `stdenv` debug logging.
 
 One can also define multiple *output* directories using the `outputs` attribute
 in the derivation. Each output turns into an environment variable of the same
@@ -262,6 +263,7 @@ nix-repl> builtins
 
 [builtin-drv]: https://nix.dev/manual/nix/latest/language/derivations
 [nixpkgs-stdenv]: https://nixos.org/manual/nixpkgs/stable/#chap-stdenv
+[nixpkgs-nixdebug]: https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG
 [nixpkgs-mkshell]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell
 
 [nix-pills]: https://nixos.org/guides/nix-pills/
