@@ -11,6 +11,20 @@
   be specified multiple times)
 - `-Wl,--trace` trace each file the linker touches
 
+### Environment variables
+```
+# Colon separated list of additional include paths used during preprocessing.
+# This has the same effect as adding -isystem on the cmdline, however cmdline
+# options take precedence over the environment variables.
+C_INCLUDE_PATH
+CPLUS_INCLUDE_PATH
+
+# Colon separated list of additional library search paths, used when linking
+# with gcc. This has the same effect as adding -L to the cmdline, however cmdline
+# options take precedence over the environment variables.
+LIBRARY_PATH
+```
+
 ### Preprocessing
 While debugging can be helpful to just pre-process files.
 
