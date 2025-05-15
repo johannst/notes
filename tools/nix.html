@@ -365,6 +365,9 @@ derivation these phases can be easily overwritten.</p>
     };
 }
 </code></pre>
+<blockquote>
+<p>Use <a href="https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG"><code>NIX_DEBUG=[0-7]</code></a> to enable <code>stdenv</code> debug logging.</p>
+</blockquote>
 <p>One can also define multiple <em>output</em> directories using the <code>outputs</code> attribute
 in the derivation. Each output turns into an environment variable of the same
 name. Use <code>nix derivation show</code> to inspect the outputs and the environment the

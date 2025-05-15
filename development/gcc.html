@@ -170,6 +170,18 @@
 be specified multiple times)</li>
 <li><code>-Wl,--trace</code> trace each file the linker touches</li>
 </ul>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h3>
+<pre><code># Colon separated list of additional include paths used during preprocessing.
+# This has the same effect as adding -isystem on the cmdline, however cmdline
+# options take precedence over the environment variables.
+C_INCLUDE_PATH
+CPLUS_INCLUDE_PATH
+
+# Colon separated list of additional library search paths, used when linking
+# with gcc. This has the same effect as adding -L to the cmdline, however cmdline
+# options take precedence over the environment variables.
+LIBRARY_PATH
+</code></pre>
 <h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
 <p>While debugging can be helpful to just pre-process files.</p>
 <pre><code class="language-bash">gcc -E [-dM] ...

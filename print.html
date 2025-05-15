@@ -2957,6 +2957,9 @@ derivation these phases can be easily overwritten.</p>
     };
 }
 </code></pre>
+<blockquote>
+<p>Use <a href="https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG"><code>NIX_DEBUG=[0-7]</code></a> to enable <code>stdenv</code> debug logging.</p>
+</blockquote>
 <p>One can also define multiple <em>output</em> directories using the <code>outputs</code> attribute
 in the derivation. Each output turns into an environment variable of the same
 name. Use <code>nix derivation show</code> to inspect the outputs and the environment the
@@ -3682,11 +3685,57 @@ int main() {
 <pre><code class="language-sh">valgrind [OPTIONS] PROGRAM [ARGS]
     --log-file=FILE             Write valgrind output to FILE.
     --leak-check=full           Enable full leak check.
+    --show-error-list=yes       List errors at exit again (use 'all' to include suppressed).
     --track-origins=yes         Show origins of undefined values.
     --keep-debuginfo=no|yes     Keep symbols etc for unloaded code.
+    --num-callers=N             Max depth for reported backtrace.
 
     --gen-suppressions=yes      Generate suppressions file from the run.
     --suppressions=FILE         Load suppressions file.
+
+    --vgdb=yes                  Enable builtin gdbserver.
+    --vgdb-error=N              Stop after N errors. Starting from then on,
+                                each error triggers a breakpoint.
+</code></pre>
+<h2 id="example-use-gdbserver-to-catch-valgrind-errors"><a class="header" href="#example-use-gdbserver-to-catch-valgrind-errors">Example: use gdbserver to catch valgrind errors</a></h2>
+<p>The following shows an example how to connect a gdb to a program running under
+valgrind and stop at any valgrind error to inspect the program state.</p>
+<p>The example program wich may access an uninitialized variable.</p>
+<pre><code class="language-c">// build: gcc -g -o uninit uninit.c
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int get(int* v, int cond) {
+  if (cond)
+    *v = 2;
+  return *v;
+}
+
+void use(int* v) {
+  printf("v=%d\n", *v);
+}
+
+int main(int argc, char* argv[]) {
+  int v;
+  get(&amp;v, argc == 2);
+  use(&amp;v);
+}
+</code></pre>
+<p>Run the program in valgrind and instruct the gdbserver to stop from the very
+first valgrind error encountered.</p>
+<pre><code class="language-sh">&gt; valgrind --vgdb=yes --vgdb-error=0 ./uninit
+</code></pre>
+<p>Connect gdb to valgrinds gdbserver. If one has multiple valgrind gdbserver
+running, pass <code>--pid=</code> to <code>vgdb</code> to disambiguate.</p>
+<pre><code>&gt; gdb -q -ex 'target remote | vgdb' uninit
+(gdb) c
+# ...
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x00000000048ea522 in _itoa_word (value=&lt;optimized out&gt;, value@entry=0, buflim=0x1fff000177 "", 
+    buflim@entry=0x1fff000178 "", base=&lt;optimized out&gt;, upper_case=upper_case@entry=0) at _itoa.c:183
+183	      SPECIAL (10);
+(gdb)
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vtune1"><a class="header" href="#vtune1"><a href="https://www.intel.com/content/www/us/en/docs/vtune-profiler/user-guide">vtune(1)</a></a></h1>
 <p>Vtune offers different analysis. Run <code>vtune -collect help</code> to list the
@@ -5629,6 +5678,18 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 be specified multiple times)</li>
 <li><code>-Wl,--trace</code> trace each file the linker touches</li>
 </ul>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h3>
+<pre><code># Colon separated list of additional include paths used during preprocessing.
+# This has the same effect as adding -isystem on the cmdline, however cmdline
+# options take precedence over the environment variables.
+C_INCLUDE_PATH
+CPLUS_INCLUDE_PATH
+
+# Colon separated list of additional library search paths, used when linking
+# with gcc. This has the same effect as adding -L to the cmdline, however cmdline
+# options take precedence over the environment variables.
+LIBRARY_PATH
+</code></pre>
 <h3 id="preprocessing"><a class="header" href="#preprocessing">Preprocessing</a></h3>
 <p>While debugging can be helpful to just pre-process files.</p>
 <pre><code class="language-bash">gcc -E [-dM] ...
@@ -6574,7 +6635,7 @@ CC       foo.o
 true || gcc -c -o foo.o foo.c
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ldso8"><a class="header" href="#ldso8">ld.so(8)</a></h1>
-<h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
+<h2 id="environment-variables-1"><a class="header" href="#environment-variables-1">Environment Variables</a></h2>
 <pre><code class="language-console">LD_PRELOAD=&lt;l_so&gt;       colon separated list of libso's to be pre loaded
 LD_DEBUG=&lt;opts&gt;         comma separated list of debug options
         =help           list available options
