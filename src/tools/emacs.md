@@ -459,8 +459,8 @@ When evaluating a list, the first symbol in the list is interpreted as function.
 (+ 1 (string-to-number "2"))
 3              ;; C-j
 ```
-A symbol can be bound to a `value` and a `function` at the same time.
 
+A symbol can be bound to a `value` and a `function` at the same time.
 ```lisp
 (setq moose 3)
 
@@ -473,6 +473,7 @@ moose
 (moose)
 "abcdef"       ;; C-j eval as function
 ```
+
 If a symbol is `quoted` it is not evaluated.
 ```lisp
 'foo
@@ -507,4 +508,62 @@ bar            ;; C-j
 (p '(concat "a" "b"))
 "arg =(concat a b)"    ;; C-j and take print from *Message* buffer
 "eval=ab"
+```
+
+The following gives some overview over the emacs basics to load/unload
+files and features.
+```lisp
+load-path      ;; var: list of search paths for files/features
+load-history   ;; var: alist with mapping of files to symbols
+features       ;; var: list of loaded files/features
+
+(add-to-list 'load-path "foo/bar") ;; fn: add search path
+
+(load-file "<path>/foo.el")  ;; fn: load file with explicit path
+(load "foo")                 ;; fn: load file/feature, load-path (var) search path
+                             ;;     (w/o suffix, tries elc, el)
+
+;; Compared to just loading, this creates dependencies.
+;; Unloading a file/feature which some other file requires fails.
+;; One either needs to unload all the dependents or do a forced unload.
+(require 'foo)               ;; fn: load file/feature, add dependency
+(provide 'foo)               ;; fn: declare feature wich can be required
+
+(featurep 'foo)              ;; fn: predicate to check if file/feature is loaded
+
+(unload-feature 'foo)        ;; fn: unload file/feature and associated functions
+(unload-feature 'foo t)      ;; fn: forced unload file/feature
+                             ;;     (even if some dependency exists)
+
+(when (featurep 'foo)
+    (unload-feature 'foo))   ;; example: unload foo if loaded
+```
+
+Automatically execute code on file/feature load.
+```lisp
+;; Execute lambda when "test" is loaded, or execute lambda immediately
+;; if "test" is already loaded.
+(eval-after-load 'test
+  (lambda ()
+    (message "moose 1")
+    (message "moose 2")))
+
+;; Convenience macro around eval-after-load, to just write out the body.
+(with-eval-after-load 'test
+  (message "moose 1")
+  (message "moose 2"))
+```
+
+Automatically execute code when a mode is activated. Each mode has a variable
+`<mode>-hook` which one can add callbacks using `add-hook`. Callbacks take no
+argument.
+```lisp
+;; Add a hook to the c++ mode.
+(add-hook 'c++-mode-hook 'display-line-numbers-mode)
+
+;; Add another hook to the c++ mode, either use a lambda or
+;; a separate function to do more work.
+(add-hook 'c++-mode-hook
+          (lambda ()
+            '(message "in cpp")))
 ```
