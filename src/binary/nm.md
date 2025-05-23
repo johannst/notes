@@ -2,6 +2,8 @@
 
 ```markdown
   nm [opts] <elf>
-    -C          demangle
-    -u          undefined only
+    -C                  demangle
+    -u --undefined-ony  undefined only
+    -U --defined-only   defined only
+    -g                  exported only
 ```
