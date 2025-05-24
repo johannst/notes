@@ -42,6 +42,17 @@
         <script src="toc.js"></script>
     </head>
     <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
     <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
@@ -119,7 +130,7 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -2093,6 +2104,58 @@ bar            ;; C-j
 (p '(concat "a" "b"))
 "arg =(concat a b)"    ;; C-j and take print from *Message* buffer
 "eval=ab"
+</code></pre>
+<p>The following gives some overview over the emacs basics to load/unload
+files and features.</p>
+<pre><code class="language-lisp">load-path      ;; var: list of search paths for files/features
+load-history   ;; var: alist with mapping of files to symbols
+features       ;; var: list of loaded files/features
+
+(add-to-list 'load-path "foo/bar") ;; fn: add search path
+
+(load-file "&lt;path&gt;/foo.el")  ;; fn: load file with explicit path
+(load "foo")                 ;; fn: load file/feature, load-path (var) search path
+                             ;;     (w/o suffix, tries elc, el)
+
+;; Compared to just loading, this creates dependencies.
+;; Unloading a file/feature which some other file requires fails.
+;; One either needs to unload all the dependents or do a forced unload.
+(require 'foo)               ;; fn: load file/feature, add dependency
+(provide 'foo)               ;; fn: declare feature wich can be required
+
+(featurep 'foo)              ;; fn: predicate to check if file/feature is loaded
+
+(unload-feature 'foo)        ;; fn: unload file/feature and associated functions
+(unload-feature 'foo t)      ;; fn: forced unload file/feature
+                             ;;     (even if some dependency exists)
+
+(when (featurep 'foo)
+    (unload-feature 'foo))   ;; example: unload foo if loaded
+</code></pre>
+<p>Automatically execute code on file/feature load.</p>
+<pre><code class="language-lisp">;; Execute lambda when "test" is loaded, or execute lambda immediately
+;; if "test" is already loaded.
+(eval-after-load 'test
+  (lambda ()
+    (message "moose 1")
+    (message "moose 2")))
+
+;; Convenience macro around eval-after-load, to just write out the body.
+(with-eval-after-load 'test
+  (message "moose 1")
+  (message "moose 2"))
+</code></pre>
+<p>Automatically execute code when a mode is activated. Each mode has a variable
+<code>&lt;mode&gt;-hook</code> which one can add callbacks using <code>add-hook</code>. Callbacks take no
+argument.</p>
+<pre><code class="language-lisp">;; Add a hook to the c++ mode.
+(add-hook 'c++-mode-hook 'display-line-numbers-mode)
+
+;; Add another hook to the c++ mode, either use a lambda or
+;; a separate function to do more work.
+(add-hook 'c++-mode-hook
+          (lambda ()
+            '(message "in cpp")))
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
@@ -4677,8 +4740,10 @@ objdump -C --disassemble=foo::bar &lt;bin&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="nm1"><a class="header" href="#nm1">nm(1)</a></h1>
 <pre><code class="language-markdown">  nm [opts] &lt;elf&gt;
-    -C          demangle
-    -u          undefined only
+    -C                  demangle
+    -u --undefined-ony  undefined only
+    -U --defined-only   defined only
+    -g                  exported only
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="development"><a class="header" href="#development">Development</a></h1>
 <ul>
