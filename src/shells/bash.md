@@ -136,12 +136,17 @@ v=abc ; ( v=foo; echo $v; ) ; echo $v
 ## Trap Handling
 
 ```bash
-trap "<CMDs>" <SIG>/EXIT
+trap "<CMDs>" <SIG>
 
 # Show current trap handler.
 trap -p
 # List signal names.
 trap -l
+
+# Run commands on exit.
+trap "<CMDs>" EXIT
+# Run commands on any error.
+trap "<CMDs>" ERR
 ```
 
 #### Example: Run handler only on error exit
@@ -165,6 +170,18 @@ flock -w 3600 -x 100 || { echo "flock timeout"; exit 1; }
 
 # eg automatically release lock when script exits
 trap "flock -u 100" EXIT
+```
+
+#### Example: Run handler only on error exit
+```bash
+# eg use LINENO to print line number where error occured
+trap 'ec=$?; echo "error at $LINENO"; exit $ec' ERR
+
+true
+# Error handled, will not trap.
+false || :
+# Error, will trap.
+false
 ```
 
 ## Argument parsing with `getopts`
