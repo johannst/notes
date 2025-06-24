@@ -625,12 +625,17 @@ v=abc ; ( v=foo; echo $v; ) ; echo $v
 # abc
 </code></pre>
 <h2 id="trap-handling-1"><a class="header" href="#trap-handling-1">Trap Handling</a></h2>
-<pre><code class="language-bash">trap "&lt;CMDs&gt;" &lt;SIG&gt;/EXIT
+<pre><code class="language-bash">trap "&lt;CMDs&gt;" &lt;SIG&gt;
 
 # Show current trap handler.
 trap -p
 # List signal names.
 trap -l
+
+# Run commands on exit.
+trap "&lt;CMDs&gt;" EXIT
+# Run commands on any error.
+trap "&lt;CMDs&gt;" ERR
 </code></pre>
 <h4 id="example-run-handler-only-on-error-exit-1"><a class="header" href="#example-run-handler-only-on-error-exit-1">Example: Run handler only on error exit</a></h4>
 <pre><code class="language-bash">trap 'test $? -ne 0 &amp;&amp; echo "run exit trap"' EXIT
@@ -650,6 +655,16 @@ flock -w 3600 -x 100 || { echo "flock timeout"; exit 1; }
 
 # eg automatically release lock when script exits
 trap "flock -u 100" EXIT
+</code></pre>
+<h4 id="example-run-handler-only-on-error-exit-2"><a class="header" href="#example-run-handler-only-on-error-exit-2">Example: Run handler only on error exit</a></h4>
+<pre><code class="language-bash"># eg use LINENO to print line number where error occured
+trap 'ec=$?; echo "error at $LINENO"; exit $ec' ERR
+
+true
+# Error handled, will not trap.
+false || :
+# Error, will trap.
+false
 </code></pre>
 <h2 id="argument-parsing-with-getopts"><a class="header" href="#argument-parsing-with-getopts">Argument parsing with <code>getopts</code></a></h2>
 <p>The <code>getopts</code> builtin uses following global variables:</p>
