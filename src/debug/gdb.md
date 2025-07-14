@@ -273,6 +273,16 @@ thread name <name>
 ```
 > Logging options should be configured before logging is turned on.
 
+## Builtin Variables
+
+```markdown
+  $_thread
+          Thread number of the current thread.
+
+  $_siginfo
+          Additional signal information.
+```
+
 # Text user interface (TUI)
 ```markdown
   C-x a     Toggle UI.
