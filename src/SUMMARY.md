@@ -35,6 +35,7 @@
     - [gnuplot](./tools/gnuplot.md)
     - [restic](./tools/restic.md)
     - [qrencode](./tools/qrencode.md)
+    - [poppler](./tools/poppler.md)
     - [nix](./tools/nix.md)
 
 - [Process management & inspection](./process/README.md)

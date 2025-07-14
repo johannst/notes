@@ -12,4 +12,5 @@
 - [gnuplot](./gnuplot.md)
 - [restic](./restic.md)
 - [qrencode](./qrencode.md)
+- [poppler](./poppler.md)
 - [nix](./nix.md)
