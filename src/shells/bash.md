@@ -78,6 +78,40 @@ by `|` char.
 > Note: `shopt -s extglob`/`shopt -u extglob` to enable/disable `extglob`
 > option.
 
+## Heredoc
+
+One can also use a different delimiter for the heredoc than `EOF.
+```bash
+# Heredoc with variable substitution.
+cat <<EOF
+foobar
+$HOME
+EOF
+
+# Heredoc without variable substitution.
+cat <<"EOF"
+foobar
+$HOME
+EOF
+```
+
+One can also build an output pipeline and redirect the output.
+```bash
+cat <<EOF | grep -v '^#' > foo.txt
+#foobar
+$HOME
+EOF
+```
+
+Prefixing the delimiter with `-` has the effect that the heredoc removes any
+training **tab** character (no whitespace).
+```bash
+# Heredoc without variable substitution.
+	cat <<-EOF
+	$HOME
+	EOF
+```
+
 ## I/O redirection
 
 > Note: The trick with bash I/O redirection is to interpret from left-to-right.
