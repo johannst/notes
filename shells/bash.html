@@ -36,6 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -92,10 +93,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -149,7 +153,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -239,6 +248,33 @@ by <code>|</code> char.</p>
 <p>Note: <code>shopt -s extglob</code>/<code>shopt -u extglob</code> to enable/disable <code>extglob</code>
 option.</p>
 </blockquote>
+<h2 id="heredoc"><a class="header" href="#heredoc">Heredoc</a></h2>
+<p>One can also use a different delimiter for the heredoc than `EOF.</p>
+<pre><code class="language-bash"># Heredoc with variable substitution.
+cat &lt;&lt;EOF
+foobar
+$HOME
+EOF
+
+# Heredoc without variable substitution.
+cat &lt;&lt;"EOF"
+foobar
+$HOME
+EOF
+</code></pre>
+<p>One can also build an output pipeline and redirect the output.</p>
+<pre><code class="language-bash">cat &lt;&lt;EOF | grep -v '^#' &gt; foo.txt
+#foobar
+$HOME
+EOF
+</code></pre>
+<p>Prefixing the delimiter with <code>-</code> has the effect that the heredoc removes any
+training <strong>tab</strong> character (no whitespace).</p>
+<pre><code class="language-bash"># Heredoc without variable substitution.
+	cat &lt;&lt;-EOF
+	$HOME
+	EOF
+</code></pre>
 <h2 id="io-redirection"><a class="header" href="#io-redirection">I/O redirection</a></h2>
 <blockquote>
 <p>Note: The trick with bash I/O redirection is to interpret from left-to-right.</p>
@@ -485,6 +521,7 @@ complete -F _foo foo
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

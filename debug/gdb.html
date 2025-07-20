@@ -36,6 +36,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -92,10 +93,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -149,7 +153,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -416,6 +425,13 @@ thread name &lt;name&gt;
 <blockquote>
 <p>Logging options should be configured before logging is turned on.</p>
 </blockquote>
+<h2 id="builtin-variables"><a class="header" href="#builtin-variables">Builtin Variables</a></h2>
+<pre><code class="language-markdown">  $_thread
+          Thread number of the current thread.
+
+  $_siginfo
+          Additional signal information.
+</code></pre>
 <h1 id="text-user-interface-tui"><a class="header" href="#text-user-interface-tui">Text user interface (TUI)</a></h1>
 <pre><code class="language-markdown">  C-x a     Toggle UI.
   C-l       Redraw UI (curses UI can be messed up after the debugee prints to
@@ -697,6 +713,7 @@ $MOOSE=moose
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
 
 
     </div>

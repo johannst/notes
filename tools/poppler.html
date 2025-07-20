@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>ffmpeg - Notes</title>
+        <title>poppler - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -178,39 +178,43 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ffmpeg-1"><a class="header" href="#ffmpeg-1">ffmpeg (1)</a></h1>
-<h2 id="screen-capture-specific-window-x11"><a class="header" href="#screen-capture-specific-window-x11">screen capture specific window (x11)</a></h2>
-<p>Following snippet allows to select a window which is then captured.</p>
-<pre><code class="language-bash">#!/bin/bash
+                        <h1 id="poppler"><a class="header" href="#poppler">poppler</a></h1>
+<pre><code class="language-sh">pdfseparate [opts] &lt;input&gt; &lt;output-pattern&gt;
+  -f N   Index of first page to extract.
+  -l N   Index of last page to extract.
 
-echo "Click on window to record .."
-# Extract window size and x,y offset.
-video_args=$(xwininfo \
-    | awk '/Absolute upper-left X:/ { xoff = $4 }
-           /Absolute upper-left Y:/ { yoff=$4 }
-           /Width:/ { if ($2 % 2 == 1) { width=$2-1; } else { width=$2; } }
-           /Height:/ { if ($2 % 2 == 1) { height=$2-1; } else { height=$2; } }
-           END { printf "-video_size %dx%d -i :0.0+%d,%d", width, height, xoff, yoff  }')
+         Use %d in output pattern if extracting multiple pages.
+         If -f is absent, it defaults to page 1.
+         If -l is absent, it defaults to the last page.
 
-ffmpeg -framerate 25 -f x11grab $video_args -pix_fmt yuv420p $@ output.mp4
+pdfunite &lt;input&gt; [&lt;input&gt;] &lt;output&gt;
 </code></pre>
-<blockquote>
-<p>Use <code>yuv420p</code> pixel format if video is played on the web
-(<a href="https://stackoverflow.com/questions/32829514/which-pixel-format-for-web-mp4-video">ref</a>)</p>
-</blockquote>
-<p>The input <code>-i 0,0+xoff,yoff</code> means to capture <code>$DISPLAY=0.0</code> starting at the
-coordinate <code>(xoff, yoff)</code>, which is the left-upper corner, and the size of the
-capture is defined by the <code>-video_size</code> argument.</p>
+<h2 id="example-split-pdfs"><a class="header" href="#example-split-pdfs">Example: split pdfs</a></h2>
+<p>Extract pages from an input pdf.</p>
+<pre><code class="language-sh"># Extract single page.
+pdfseparate -f 2 -l 2 2017-statement.pdf foo.pdf
+
+# Extract multiple pages.
+pdfseparate -f 2 -l 3 2017-statement.pdf foo%d.pdf
+</code></pre>
+<h2 id="example-merge-pdfs"><a class="header" href="#example-merge-pdfs">Example: merge pdfs</a></h2>
+<p>Merge multiple pdf input files into a single output file.</p>
+<pre><code class="language-sh">pdfunite 201704-statement.pdf 201705-statement.pdf 2017-statement.pdf
+</code></pre>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<ul>
+<li>https://poppler.freedesktop.org/</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../tools/dot.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../tools/qrencode.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../tools/gnuplot.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../tools/nix.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -220,11 +224,11 @@ capture is defined by the <code>-video_size</code> argument.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../tools/dot.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../tools/qrencode.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../tools/gnuplot.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../tools/nix.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

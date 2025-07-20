@@ -37,6 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -93,10 +94,13 @@
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -150,7 +154,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -578,6 +587,33 @@ by <code>|</code> char.</p>
 <p>Note: <code>shopt -s extglob</code>/<code>shopt -u extglob</code> to enable/disable <code>extglob</code>
 option.</p>
 </blockquote>
+<h2 id="heredoc"><a class="header" href="#heredoc">Heredoc</a></h2>
+<p>One can also use a different delimiter for the heredoc than `EOF.</p>
+<pre><code class="language-bash"># Heredoc with variable substitution.
+cat &lt;&lt;EOF
+foobar
+$HOME
+EOF
+
+# Heredoc without variable substitution.
+cat &lt;&lt;"EOF"
+foobar
+$HOME
+EOF
+</code></pre>
+<p>One can also build an output pipeline and redirect the output.</p>
+<pre><code class="language-bash">cat &lt;&lt;EOF | grep -v '^#' &gt; foo.txt
+#foobar
+$HOME
+EOF
+</code></pre>
+<p>Prefixing the delimiter with <code>-</code> has the effect that the heredoc removes any
+training <strong>tab</strong> character (no whitespace).</p>
+<pre><code class="language-bash"># Heredoc without variable substitution.
+	cat &lt;&lt;-EOF
+	$HOME
+	EOF
+</code></pre>
 <h2 id="io-redirection"><a class="header" href="#io-redirection">I/O redirection</a></h2>
 <blockquote>
 <p>Note: The trick with bash I/O redirection is to interpret from left-to-right.</p>
@@ -1555,6 +1591,7 @@ hexdump disk
 <li><a href="tools/./gnuplot.html">gnuplot</a></li>
 <li><a href="tools/./restic.html">restic</a></li>
 <li><a href="tools/./qrencode.html">qrencode</a></li>
+<li><a href="tools/./poppler.html">poppler</a></li>
 <li><a href="tools/./nix.html">nix</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tmux1"><a class="header" href="#tmux1">tmux(1)</a></h1>
@@ -2828,6 +2865,33 @@ qrencode -t ansiutf8 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 # Generate picture for printing.
 qrencode -t png -o wifi.png 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="poppler"><a class="header" href="#poppler">poppler</a></h1>
+<pre><code class="language-sh">pdfseparate [opts] &lt;input&gt; &lt;output-pattern&gt;
+  -f N   Index of first page to extract.
+  -l N   Index of last page to extract.
+
+         Use %d in output pattern if extracting multiple pages.
+         If -f is absent, it defaults to page 1.
+         If -l is absent, it defaults to the last page.
+
+pdfunite &lt;input&gt; [&lt;input&gt;] &lt;output&gt;
+</code></pre>
+<h2 id="example-split-pdfs"><a class="header" href="#example-split-pdfs">Example: split pdfs</a></h2>
+<p>Extract pages from an input pdf.</p>
+<pre><code class="language-sh"># Extract single page.
+pdfseparate -f 2 -l 2 2017-statement.pdf foo.pdf
+
+# Extract multiple pages.
+pdfseparate -f 2 -l 3 2017-statement.pdf foo%d.pdf
+</code></pre>
+<h2 id="example-merge-pdfs"><a class="header" href="#example-merge-pdfs">Example: merge pdfs</a></h2>
+<p>Merge multiple pdf input files into a single output file.</p>
+<pre><code class="language-sh">pdfunite 201704-statement.pdf 201705-statement.pdf 2017-statement.pdf
+</code></pre>
+<h1 id="references-3"><a class="header" href="#references-3">References</a></h1>
+<ul>
+<li>https://poppler.freedesktop.org/</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="nix"><a class="header" href="#nix">nix</a></h1>
 <p>This notes assume to have the <a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-experimental-features"><code>experimental-features = nix-command flakes</code></a> enabled.</p>
 <h2 id="nixconf-ref"><a class="header" href="#nixconf-ref">nix.conf (<a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html">ref</a>)</a></h2>
@@ -3131,7 +3195,7 @@ nix-repl&gt; builtins
   add = «primop add»;
   ..
 </code></pre>
-<h2 id="references-3"><a class="header" href="#references-3">References</a></h2>
+<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
 <ul>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables">nix installable</a></li>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake">nix flake</a></li>
@@ -3633,7 +3697,7 @@ perf report --stdio -g graph,callee
 #                        __libc_start_main
 #                        _start             &lt;- callstack bottom
 </code></pre>
-<h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
+<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
 <ul>
 <li><a href="https://github.com/intel/perfmon">intel/perfmon</a> - intel PMU event database per uarch</li>
 <li><a href="https://perfmon-events.intel.com/">intel/perfmon-html</a> - a html rendered version of the PMU
@@ -4345,6 +4409,13 @@ thread name &lt;name&gt;
 <blockquote>
 <p>Logging options should be configured before logging is turned on.</p>
 </blockquote>
+<h2 id="builtin-variables"><a class="header" href="#builtin-variables">Builtin Variables</a></h2>
+<pre><code class="language-markdown">  $_thread
+          Thread number of the current thread.
+
+  $_siginfo
+          Additional signal information.
+</code></pre>
 <h1 id="text-user-interface-tui"><a class="header" href="#text-user-interface-tui">Text user interface (TUI)</a></h1>
 <pre><code class="language-markdown">  C-x a     Toggle UI.
   C-l       Redraw UI (curses UI can be messed up after the debugee prints to
@@ -5925,7 +5996,7 @@ defstr foo, "foobar"
 </blockquote>
 </li>
 </ul>
-<h2 id="references-5"><a class="header" href="#references-5">References</a></h2>
+<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
@@ -6144,7 +6215,7 @@ ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal
 ASSERT(ADDR(.stack) == ORIGIN(RAM) + 0x1000, "STACK section must aligned to 0x1000")
 ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 </code></pre>
-<h2 id="references-6"><a class="header" href="#references-6">References</a></h2>
+<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/ld/">ld manual</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
@@ -7145,7 +7216,7 @@ func_v0
 func_v1
 func_v2
 </code></pre>
-<h2 id="references-7"><a class="header" href="#references-7">References</a></h2>
+<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
 <ul>
 <li><a href="https://akkadia.org/drepper/symbol-versioning">ELF Symbol Versioning</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/VERSION.html">Binutils ld: Symbol Versioning</a></li>
@@ -7549,7 +7620,7 @@ journalctl --user -u test -n 5
     --disk-usage            Show current disk usage
     --vacuum-size=&lt;size&gt;    Reduce journal log to &lt;size&gt; (K/M/G)
 </code></pre>
-<h2 id="references-8"><a class="header" href="#references-8">References</a></h2>
+<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.unit.5.html">man systemd.unit(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.service.5.html">man systemd.service(5)</a></li>
@@ -7932,7 +8003,7 @@ group::r-x
 mask::r-x
 other::rwx
 </code></pre>
-<h2 id="references-9"><a class="header" href="#references-9">References</a></h2>
+<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
 <ul>
 <li><a href="https://www.man7.org/linux/man-pages/man5/acl.5.html">acl(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man1/getfacl.1.html">getfacl(1)</a></li>
@@ -8470,7 +8541,7 @@ firewall-cmd --remove-port 8000/tcp
 # Remove rich rule.
 firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" protocol="tcp" to-port="8080"'
 </code></pre>
-<h2 id="references-10"><a class="header" href="#references-10">References</a></h2>
+<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
 <ul>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewall-cmd.html">firewall-cmd(1)</a></li>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a></li>
@@ -10013,7 +10084,7 @@ address translation.</p>
 <p>The example in <a href="arch/x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
 address and to relative accesses.</p>
 </blockquote>
-<h2 id="references-11"><a class="header" href="#references-11">References</a></h2>
+<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
@@ -10287,7 +10358,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm64.</p>
 </blockquote>
-<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
+<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
 <li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer's Guide</a></li>
@@ -10532,7 +10603,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm.</p>
 </blockquote>
-<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
+<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
 <li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer's Guide</a></li>
@@ -10613,7 +10684,7 @@ distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on riscv.</p>
 <p>Select dynamic linker according to abi used during compile &amp; link.</p>
 </blockquote>
-<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
+<h2 id="references-15"><a class="header" href="#references-15">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
@@ -10660,6 +10731,7 @@ required when compiling natively on riscv.</p>
             window.setTimeout(window.print, 100);
         });
         </script>
+
 
     </div>
     </body>
