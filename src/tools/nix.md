@@ -16,7 +16,24 @@ nix config show
 ## nix search ([ref][nix-search])
 ```bash
 nix search <installable> <regex>
+# Flakeref from registry.
 nix search nixpkgs glibc
+# Explicit flakeref.
+nix search nixpkgs/nixos-25.05 glibc
+```
+
+## nix run ([ref][nix-run])
+```bash
+nix run <installable> -- <args>
+nix run nixpkgs#strace -- -o strace.txt /bin/ls
+nix run nixpkgs/nixos-25.05#emacs
+```
+
+## nix shell ([ref][nix-shell])
+```bash
+# Enter interactive shell with pkgs in PATH.
+nix shell <installable> [<installable>]
+nix shell nixpkgs#qemu nixpkgs#zig nixpkgs/nixos-25.05#strace
 ```
 
 ## nix profile ([ref][nix-profile])
@@ -98,7 +115,8 @@ nix flake metadata <flake>
 # Update the versions in the flake.lock file.
 nix flake update
 ```
-> Use `nix registry list` to list available global flakes.
+> Use `nix registry list` to list available global flakes or `nix registry pin
+> <flake>`, to pin a flake to a fixed version.
 >
 > Documentation for [installable][nix-installable] syntax.
 
@@ -243,6 +261,7 @@ nix-repl> builtins
 ## References
 
 - [nix installable][nix-installable]
+- [nix flakeref][nix-flakeref]
 - [nix flake][nix-flake]
 - [nix store][nix-store]
 - [nix profile][nix-profile]
@@ -251,19 +270,24 @@ nix-repl> builtins
 - [`nixpkgs.stdenv`][nixpkgs-stdenv]
 - [`nixpkgs.mkShell`][nixpkgs-mkshell]
 - [nix pills][nix-pills]
+- [nixpkgs search][nixpgs-search]
 
 
-[nix-conf]: https://nix.dev/manual/nix/latest/command-ref/conf-file.html
+[nix-conf]: https://nix.dev/manual/nix/latest/command-ref/conf-file
 [nix-conf-cmds]: https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-experimental-features
 [nix-search]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search
 [nix-profile]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile
 [nix-flake]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake
+[nix-flakeref]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake#flake-references
 [nix-store]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-store
 [nix-installable]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables
+[nix-run]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-run
+[nix-shell]: https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-env-shell
 
 [builtin-drv]: https://nix.dev/manual/nix/latest/language/derivations
 [nixpkgs-stdenv]: https://nixos.org/manual/nixpkgs/stable/#chap-stdenv
 [nixpkgs-nixdebug]: https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG
 [nixpkgs-mkshell]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell
+[nixpgs-search]: https://search.nixos.org/packages
 
 [nix-pills]: https://nixos.org/guides/nix-pills/
