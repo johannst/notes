@@ -180,7 +180,7 @@
                     <main>
                         <h1 id="nix"><a class="header" href="#nix">nix</a></h1>
 <p>This notes assume to have the <a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-experimental-features"><code>experimental-features = nix-command flakes</code></a> enabled.</p>
-<h2 id="nixconf-ref"><a class="header" href="#nixconf-ref">nix.conf (<a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html">ref</a>)</a></h2>
+<h2 id="nixconf-ref"><a class="header" href="#nixconf-ref">nix.conf (<a href="https://nix.dev/manual/nix/latest/command-ref/conf-file">ref</a>)</a></h2>
 <pre><code class="language-bash">nix config show
 # experimental-features
 #     enable additional experimental features
@@ -191,7 +191,20 @@
 </code></pre>
 <h2 id="nix-search-ref"><a class="header" href="#nix-search-ref">nix search (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-search">ref</a>)</a></h2>
 <pre><code class="language-bash">nix search &lt;installable&gt; &lt;regex&gt;
+# Flakeref from registry.
 nix search nixpkgs glibc
+# Explicit flakeref.
+nix search nixpkgs/nixos-25.05 glibc
+</code></pre>
+<h2 id="nix-run-ref"><a class="header" href="#nix-run-ref">nix run (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-run">ref</a>)</a></h2>
+<pre><code class="language-bash">nix run &lt;installable&gt; -- &lt;args&gt;
+nix run nixpkgs#strace -- -o strace.txt /bin/ls
+nix run nixpkgs/nixos-25.05#emacs
+</code></pre>
+<h2 id="nix-shell-ref"><a class="header" href="#nix-shell-ref">nix shell (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-env-shell">ref</a>)</a></h2>
+<pre><code class="language-bash"># Enter interactive shell with pkgs in PATH.
+nix shell &lt;installable&gt; [&lt;installable&gt;]
+nix shell nixpkgs#qemu nixpkgs#zig nixpkgs/nixos-25.05#strace
 </code></pre>
 <h2 id="nix-profile-ref"><a class="header" href="#nix-profile-ref">nix profile (<a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile">ref</a>)</a></h2>
 <p>The history allows to install packages, update them and easily rollback.</p>
@@ -267,7 +280,7 @@ nix flake metadata &lt;flake&gt;
 nix flake update
 </code></pre>
 <blockquote>
-<p>Use <code>nix registry list</code> to list available global flakes.</p>
+<p>Use <code>nix registry list</code> to list available global flakes or <code>nix registry pin &lt;flake&gt;</code>, to pin a flake to a fixed version.</p>
 <p>Documentation for <a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables">installable</a> syntax.</p>
 </blockquote>
 <h3 id="a-bare-bones-flake"><a class="header" href="#a-bare-bones-flake">a bare bones flake</a></h3>
@@ -484,14 +497,16 @@ nix-repl&gt; builtins
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix#installables">nix installable</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake#flake-references">nix flakeref</a></li>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-flake">nix flake</a></li>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-store">nix store</a></li>
 <li><a href="https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile">nix profile</a></li>
-<li><a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html">nix conf</a></li>
+<li><a href="https://nix.dev/manual/nix/latest/command-ref/conf-file">nix conf</a></li>
 <li><a href="https://nix.dev/manual/nix/latest/language/derivations"><code>builtin.derivation</code></a></li>
 <li><a href="https://nixos.org/manual/nixpkgs/stable/#chap-stdenv"><code>nixpkgs.stdenv</code></a></li>
 <li><a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell"><code>nixpkgs.mkShell</code></a></li>
 <li><a href="https://nixos.org/guides/nix-pills/">nix pills</a></li>
+<li><a href="https://search.nixos.org/packages">nixpkgs search</a></li>
 </ul>
 
                     </main>
