@@ -3058,7 +3058,9 @@ to produce a set of <em>outputs (store paths)</em>.</p>
 hello
 </code></pre>
 <blockquote>
-<p><code>.#moose</code> references the flake.nix in the cwd <code>'.'</code> and the output <code>moose</code>.</p>
+<p>A derivation also defines a set of <code>outputs</code>, which by default is <code>["out"]</code>.
+Outputs are passed as environment variables to the builder, from where they
+can be used as install targets for example.</p>
 </blockquote>
 <p>An interesting point to observe is that nix computed <em>bash</em> as input derivation
 (inputDrv) and hence as input dependency for this output.</p>
