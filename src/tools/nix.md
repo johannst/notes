@@ -191,7 +191,7 @@ multiple outputs.
       },
       "static": {
         "path": "/nix/store/lfj0w1r0ppj2swb11pz8vkppmsy1rf6y-glibc-2.40-66-static"
-      }stdenv/flake.nix
+      }
     },
 ..
 ```
