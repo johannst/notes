@@ -149,7 +149,9 @@ One can inspect and build the derivation as follows.
 > nix build .#moose ; cat result
 hello
 ```
-> `.#moose` references the flake.nix in the cwd `'.'` and the output `moose`.
+> A derivation also defines a set of `outputs`, which by default is `["out"]`.
+> Outputs are passed as environment variables to the builder, from where they
+> can be used as install targets for example.
 
 An interesting point to observe is that nix computed *bash* as input derivation
 (inputDrv) and hence as input dependency for this output.
