@@ -563,6 +563,48 @@ printf -v "$NAME" "%s" "def"
 <blockquote>
 <p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="shells/bash.html#pathname">pathnames</a>.</p>
 </blockquote>
+<h3 id="array"><a class="header" href="#array">Array</a></h3>
+<pre><code class="language-bash"># Fill array.
+FOO=(a b c)
+FOO+=(d)
+
+# Read values at index.
+echo ${FOO[0]}
+# a
+echo ${FOO[2]}
+# c
+echo ${FOO[-1]}
+# d
+
+# Get all values.
+echo ${FOO[@]}
+# a b c d
+
+# Number of elements.
+echo ${#FOO[@]}
+# 4
+
+# Generate indexes for array.
+echo ${!FOO[@]}
+0 1 2 3
+
+# mapfile builtin (read file into array)
+
+# default delimiter is newline
+mapfile FOO &lt; &lt;(echo -e "AA\nBB\nCC")
+echo ${FOO[1]}
+# BB
+
+# different delimiter
+mapfile -d ' ' FOO &lt; &lt;(echo "AA BB CC")
+echo ${FOO[1]}
+# BB
+
+# For example, read column from tabulated data.
+mapfile BAR &lt; &lt;(echo -e "a1 a2\nb1 b2\nc1 c2" | awk '{ print  $2 }')
+echo ${BAR[@]}
+# a2 b2 c2
+</code></pre>
 <h3 id="pathname"><a class="header" href="#pathname">Pathname</a></h3>
 <pre><code class="language-bash">*           match any string
 ?           match any single char
@@ -7573,6 +7615,7 @@ rather than re-write it.</p>
 <li><a href="linux/./zfs.html">zfs</a></li>
 <li><a href="linux/./cpufreq.html">cpufreq</a></li>
 <li><a href="linux/./cups.html">cups</a></li>
+<li><a href="linux/./namespaces.html">namespaces</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="systemd"><a class="header" href="#systemd">systemd</a></h1>
 <h2 id="systemctl"><a class="header" href="#systemctl">systemctl</a></h2>
@@ -8331,6 +8374,26 @@ cupsdisable PRINTER
 # Accept/rejects jobs for printer.
 cupsaccept PRINTER
 cupsreject PRINTER
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="namespaces7"><a class="header" href="#namespaces7">namespaces(7)</a></h1>
+<h2 id="list-namespaces"><a class="header" href="#list-namespaces">List namespaces</a></h2>
+<pre><code class="language-sh"># List all namespaces.
+lsns
+# List all namespaces of specific type.
+lsns -t net
+lsns -t pid
+</code></pre>
+<h2 id="enter-namespaces"><a class="header" href="#enter-namespaces">Enter namespaces</a></h2>
+<pre><code class="language-sh"> # Enter all namespaces of a pid.
+ nsenter -t &lt;pid&gt; --all
+ # Enter specific namespaces of a pid.
+ nsenter -t &lt;pid&gt; --net
+ nsenter -t &lt;pid&gt; --pid --mount
+</code></pre>
+<h3 id="example-enter-podman-container"><a class="header" href="#example-enter-podman-container">Example: Enter podman container</a></h3>
+<p>Running <code>podman exec -it webserver /bin/sh</code> is basically equivalent to the
+following.</p>
+<pre><code class="language-sh">sudo nsenter -t (podman inspect -f '{{.State.Pid}}' webserver) --all /bin/sh
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="network-1"><a class="header" href="#network-1">Network</a></h1>
 <ul>
