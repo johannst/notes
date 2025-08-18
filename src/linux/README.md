@@ -10,3 +10,4 @@
 - [zfs](./zfs.md)
 - [cpufreq](./cpufreq.md)
 - [cups](./cups.md)
+- [namespaces](./namespaces.md)

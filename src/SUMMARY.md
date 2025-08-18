@@ -97,6 +97,7 @@
     - [zfs](./linux/zfs.md)
     - [cpufreq](./linux/cpufreq.md)
     - [cups](./linux/cups.md)
+    - [namespaces](./linux/namespaces.md)
 
 - [Network](./network/README.md)
     - [ssh](./network/ssh.md)
