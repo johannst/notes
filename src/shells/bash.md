@@ -50,6 +50,50 @@ printf -v "$NAME" "%s" "def"
 
 > Note: `prefix`/`suffix`/`pattern` are expanded as [pathnames](#pathname).
 
+### Array
+```bash
+# Fill array.
+FOO=(a b c)
+FOO+=(d)
+
+# Read values at index.
+echo ${FOO[0]}
+# a
+echo ${FOO[2]}
+# c
+echo ${FOO[-1]}
+# d
+
+# Get all values.
+echo ${FOO[@]}
+# a b c d
+
+# Number of elements.
+echo ${#FOO[@]}
+# 4
+
+# Generate indexes for array.
+echo ${!FOO[@]}
+0 1 2 3
+
+# mapfile builtin (read file into array)
+
+# default delimiter is newline
+mapfile FOO < <(echo -e "AA\nBB\nCC")
+echo ${FOO[1]}
+# BB
+
+# different delimiter
+mapfile -d ' ' FOO < <(echo "AA BB CC")
+echo ${FOO[1]}
+# BB
+
+# For example, read column from tabulated data.
+mapfile BAR < <(echo -e "a1 a2\nb1 b2\nc1 c2" | awk '{ print  $2 }')
+echo ${BAR[@]}
+# a2 b2 c2
+```
+
 ### Pathname
 
 ```bash
