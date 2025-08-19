@@ -301,6 +301,68 @@ Navigate using tags
                                (based on typed words in buffer)
 ```
 
+## abbreviation
+```markdown
+
+  key        fn                                    description
+--------------------------------------------------------------
+  C-x a e    expand-abbrev              expand abbrev at point
+
+             abbrev-mode                automatically expand abbrevs while typing
+             define-mode-abbrev         interactively define a new mode abbrev
+             define-global-abbrev       interactively define a new global abbrev
+             list-abbrev                list all available abbrevs
+             edit-abbrev                interactively edit list of abbrevs
+                                        (C-c C-c to apply edits)
+             write-abbrev-file          write abbrevs to file
+                                        (abbrev-file-name will be autoloaded)
+```
+
+### expand.el (builtin)
+Allow to define `abbrevs` with slots that can be jumped to.
+```lisp
+(defconst c-expand-list
+  '(("ifn" "if () {}" (5 8))
+    ("ui" "unsigned int")
+    ("main" "int\nmain(int argc, char * argv[])\n{\n\n}\n" 37)))
+  "Expansions for C mode")
+
+;; Install into the c-mode abbrev table.
+(expand-add-abbrevs c-mode-abbrev-table c-expand-list)
+```
+> `C-h P expannd` to see full example.
+
+```markdown
+  key        fn                                    description
+--------------------------------------------------------------
+  C-x a n    expand-jump-to-next-slot        jump to next slot in abbrev
+  C-x a p    expand-jump-to-previous-slot    jump to previous slot in abbrev
+```
+
+### skeleton.el (builtin)
+Simple template engine.
+```lisp
+;; skeleton which can be called interactively or bound to a keymap
+(define-skeleton my-c-for-loop
+  ;; Documentation.
+  "Insert a C-style for loop."
+  ;; Prompt user, save result in 'str' variable.
+  "Iteration variable name: "
+  ;; Skeleton template.
+  ''   'str' input from user prompt.
+  ;;   '_' marks location for cursor.
+  ;;   '>' indent.
+  "for (int " str " = 0; " str " < " (skeleton-read "Upper bound: ") "; " str "++) {\n"
+  > _ "\n" ;; `_` marks where the cursor ends up after expansion
+  "}\n")
+
+;; One can also define an abbrev for the skeleton , either programatically or
+;; interactive when editing the abbrevs. The syntax for interactive edits is:
+;;     (c-mode-abbrev-table)
+;;     "for"           0    ""         my-c-for-loop
+(define-abbrev c-mode-abbrev-table "for" "" 'my-c-for-loop’)
+```
+
 ## ido
 Builtin fuzzy completion mode (eg buffer select, dired, ...).
 ```markdown
