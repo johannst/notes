@@ -2020,6 +2020,62 @@ sudo stty -F /dev/ttyUSB0 -a
   C-M-/   dabbrev-completion   provide completion at point, interactive completion
                                (based on typed words in buffer)
 </code></pre>
+<h2 id="abbreviation"><a class="header" href="#abbreviation">abbreviation</a></h2>
+<pre><code class="language-markdown">
+  key        fn                                    description
+--------------------------------------------------------------
+  C-x a e    expand-abbrev              expand abbrev at point
+
+             abbrev-mode                automatically expand abbrevs while typing
+             define-mode-abbrev         interactively define a new mode abbrev
+             define-global-abbrev       interactively define a new global abbrev
+             list-abbrev                list all available abbrevs
+             edit-abbrev                interactively edit list of abbrevs
+                                        (C-c C-c to apply edits)
+             write-abbrev-file          write abbrevs to file
+                                        (abbrev-file-name will be autoloaded)
+</code></pre>
+<h3 id="expandel-builtin"><a class="header" href="#expandel-builtin">expand.el (builtin)</a></h3>
+<p>Allow to define <code>abbrevs</code> with slots that can be jumped to.</p>
+<pre><code class="language-lisp">(defconst c-expand-list
+  '(("ifn" "if () {}" (5 8))
+    ("ui" "unsigned int")
+    ("main" "int\nmain(int argc, char * argv[])\n{\n\n}\n" 37)))
+  "Expansions for C mode")
+
+;; Install into the c-mode abbrev table.
+(expand-add-abbrevs c-mode-abbrev-table c-expand-list)
+</code></pre>
+<blockquote>
+<p><code>C-h P expannd</code> to see full example.</p>
+</blockquote>
+<pre><code class="language-markdown">  key        fn                                    description
+--------------------------------------------------------------
+  C-x a n    expand-jump-to-next-slot        jump to next slot in abbrev
+  C-x a p    expand-jump-to-previous-slot    jump to previous slot in abbrev
+</code></pre>
+<h3 id="skeletonel-builtin"><a class="header" href="#skeletonel-builtin">skeleton.el (builtin)</a></h3>
+<p>Simple template engine.</p>
+<pre><code class="language-lisp">;; skeleton which can be called interactively or bound to a keymap
+(define-skeleton my-c-for-loop
+  ;; Documentation.
+  "Insert a C-style for loop."
+  ;; Prompt user, save result in 'str' variable.
+  "Iteration variable name: "
+  ;; Skeleton template.
+  ''   'str' input from user prompt.
+  ;;   '_' marks location for cursor.
+  ;;   '&gt;' indent.
+  "for (int " str " = 0; " str " &lt; " (skeleton-read "Upper bound: ") "; " str "++) {\n"
+  &gt; _ "\n" ;; `_` marks where the cursor ends up after expansion
+  "}\n")
+
+;; One can also define an abbrev for the skeleton , either programatically or
+;; interactive when editing the abbrevs. The syntax for interactive edits is:
+;;     (c-mode-abbrev-table)
+;;     "for"           0    ""         my-c-for-loop
+(define-abbrev c-mode-abbrev-table "for" "" 'my-c-for-loop’)
+</code></pre>
 <h2 id="ido"><a class="header" href="#ido">ido</a></h2>
 <p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
 <pre><code class="language-markdown">  key              fn          description
