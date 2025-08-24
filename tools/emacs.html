@@ -446,6 +446,21 @@
              write-abbrev-file          write abbrevs to file
                                         (abbrev-file-name will be autoloaded)
 </code></pre>
+<p>One can also define a function to run when expanding an abbreviation.
+For example the following define some abbreviations which expand to an
+empty string but which then run a function on expansion which inserts
+text.</p>
+<pre><code class="language-emacs">(defun my-snippet1 ()
+  (insert "foobar"))
+
+; can run lisp code to assemble the string
+(defun my-snippet2 ()
+  (let ((x 10))
+    (insert (format "x=%d" 10))))
+
+(define-abbrev global-abbrev-table "s1" "" 'my-snippet1)
+(define-abbrev global-abbrev-table "s2" "" 'my-snippet2)
+</code></pre>
 <h3 id="expandel-builtin"><a class="header" href="#expandel-builtin">expand.el (builtin)</a></h3>
 <p>Allow to define <code>abbrevs</code> with slots that can be jumped to.</p>
 <pre><code class="language-lisp">(defconst c-expand-list
