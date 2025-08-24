@@ -318,6 +318,23 @@ Navigate using tags
                                         (abbrev-file-name will be autoloaded)
 ```
 
+One can also define a function to run when expanding an abbreviation.
+For example the following define some abbreviations which expand to an
+empty string but which then run a function on expansion which inserts
+text.
+```emacs
+(defun my-snippet1 ()
+  (insert "foobar"))
+
+; can run lisp code to assemble the string
+(defun my-snippet2 ()
+  (let ((x 10))
+    (insert (format "x=%d" 10))))
+
+(define-abbrev global-abbrev-table "s1" "" 'my-snippet1)
+(define-abbrev global-abbrev-table "s2" "" 'my-snippet2)
+```
+
 ### expand.el (builtin)
 Allow to define `abbrevs` with slots that can be jumped to.
 ```lisp
