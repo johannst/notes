@@ -248,6 +248,10 @@
   o                        open buffer in other window
   C-o                      open buffer in other window keep focus in ibuffer
 
+  O                        occur on marked buffers
+  Q                        query-replace in marked buffers
+  I                        query-replace-regexp in marked buffers
+
   s a                      sort by buffer name
   s f                      sort by file name
   s v                      sort by last viewed
@@ -388,7 +392,7 @@
 <h3 id="org-source"><a class="header" href="#org-source">org source</a></h3>
 <pre><code class="language-markdown">  key       fn     description
 ------------------------------
-  &lt;s TAB           generate a source block
+  &lt;s TAB           generate a source block (requires to load org-tempo)
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 </code></pre>
@@ -683,7 +687,7 @@ bar            ;; C-j
 </code></pre>
 <p>If a symbol is <code>backquote</code>-d only parts of the expression are evaluated.
 This can be used to build some tempaltes.</p>
-<pre><code class="language-elisp">(setq val 42)
+<pre><code class="language-lisp">(setq val 42)
 (setq vals '(1 2 3 4))
 
 ;; , is used to insert a value
