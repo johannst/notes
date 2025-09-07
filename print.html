@@ -2039,7 +2039,7 @@ sudo stty -F /dev/ttyUSB0 -a
 For example the following define some abbreviations which expand to an
 empty string but which then run a function on expansion which inserts
 text.</p>
-<pre><code class="language-emacs">(defun my-snippet1 ()
+<pre><code class="language-lisp">(defun my-snippet1 ()
   (insert "foobar"))
 
 ; can run lisp code to assemble the string
@@ -2236,7 +2236,7 @@ moose
 (moose)
 "abcdef"       ;; C-j eval as function
 </code></pre>
-<p>If a symbol is <code>quoted</code> it is not evaluated.</p>
+<p>If a symbol is <code>quote</code>-d it is not evaluated.</p>
 <pre><code class="language-lisp">'foo
 foo            ;; C-j dont eval as value
 
@@ -2269,6 +2269,25 @@ bar            ;; C-j
 (p '(concat "a" "b"))
 "arg =(concat a b)"    ;; C-j and take print from *Message* buffer
 "eval=ab"
+</code></pre>
+<p>If a symbol is <code>backquote</code>-d only parts of the expression are evaluated.
+This can be used to build some tempaltes.</p>
+<pre><code class="language-elisp">(setq val 42)
+(setq vals '(1 2 3 4))
+
+;; , is used to insert a value
+`(A ,val)
+(A 42)         ;; C-j
+`(B ,vals)
+(B (1 2 3 4))  ;; C-j
+
+;; ,@ is used to splice in a value
+`(C ,@vals)
+(C 1 2 3 4)    ;; C-j
+
+;; (backquote ..) is equivalent to `
+(backquote (D ,val ,@vals))
+(D 42 1 2 3 4)
 </code></pre>
 <p>The following gives some overview over the emacs basics to load/unload
 files and features.</p>
