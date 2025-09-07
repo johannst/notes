@@ -80,6 +80,10 @@ Builtin advanced buffer selection mode
   o                        open buffer in other window
   C-o                      open buffer in other window keep focus in ibuffer
 
+  O                        occur on marked buffers
+  Q                        query-replace in marked buffers
+  I                        query-replace-regexp in marked buffers
+
   s a                      sort by buffer name
   s f                      sort by file name
   s v                      sort by last viewed
@@ -248,7 +252,7 @@ Builtin advanced buffer selection mode
 ```markdown
   key       fn     description
 ------------------------------
-  <s TAB           generate a source block
+  <s TAB           generate a source block (requires to load org-tempo)
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 ```
@@ -591,7 +595,7 @@ bar            ;; C-j
 
 If a symbol is `backquote`-d only parts of the expression are evaluated.
 This can be used to build some tempaltes.
-```elisp
+```lisp
 (setq val 42)
 (setq vals '(1 2 3 4))
 
