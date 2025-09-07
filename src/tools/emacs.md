@@ -322,7 +322,7 @@ One can also define a function to run when expanding an abbreviation.
 For example the following define some abbreviations which expand to an
 empty string but which then run a function on expansion which inserts
 text.
-```emacs
+```lisp
 (defun my-snippet1 ()
   (insert "foobar"))
 
@@ -553,7 +553,7 @@ moose
 "abcdef"       ;; C-j eval as function
 ```
 
-If a symbol is `quoted` it is not evaluated.
+If a symbol is `quote`-d it is not evaluated.
 ```lisp
 'foo
 foo            ;; C-j dont eval as value
@@ -587,6 +587,27 @@ bar            ;; C-j
 (p '(concat "a" "b"))
 "arg =(concat a b)"    ;; C-j and take print from *Message* buffer
 "eval=ab"
+```
+
+If a symbol is `backquote`-d only parts of the expression are evaluated.
+This can be used to build some tempaltes.
+```elisp
+(setq val 42)
+(setq vals '(1 2 3 4))
+
+;; , is used to insert a value
+`(A ,val)
+(A 42)         ;; C-j
+`(B ,vals)
+(B (1 2 3 4))  ;; C-j
+
+;; ,@ is used to splice in a value
+`(C ,@vals)
+(C 1 2 3 4)    ;; C-j
+
+;; (backquote ..) is equivalent to `
+(backquote (D ,val ,@vals))
+(D 42 1 2 3 4)
 ```
 
 The following gives some overview over the emacs basics to load/unload
