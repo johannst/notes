@@ -246,6 +246,8 @@ Builtin advanced buffer selection mode
   C-RET                 create new item below current
   C-S-RET               create new TODO item below current
   S-left/S-right        cycle TODO states
+  C-c C-,               insert block (src, example, quote, ...)
+  C-c C-e               export org document
 ```
 
 ### org source
@@ -256,6 +258,22 @@ Builtin advanced buffer selection mode
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 ```
+
+By default only `emacs-lisp` is loaded for evaluating code blocks. One
+can customize the `org-babel-load-languages` variable to control which
+languages are loaded or alternatively one can load the language library
+`ob-<lang>` explicitly [[ref](https://orgmode.org/manual/Languages.html)].
+```lisp
+;; disable emacs-lisp, enable C/cpp.
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (C . t)))
+
+;; load bable C/cpp support.
+(require 'ob-C)
+```
+> A list of supporte languages is [here](https://orgmode.org/worg/org-contrib/babel/languages/index.html).
 
 ## project
 ```markdown
