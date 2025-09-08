@@ -1977,6 +1977,8 @@ sudo stty -F /dev/ttyUSB0 -a
   C-RET                 create new item below current
   C-S-RET               create new TODO item below current
   S-left/S-right        cycle TODO states
+  C-c C-,               insert block (src, example, quote, ...)
+  C-c C-e               export org document
 </code></pre>
 <h3 id="org-source"><a class="header" href="#org-source">org source</a></h3>
 <pre><code class="language-markdown">  key       fn     description
@@ -1985,6 +1987,22 @@ sudo stty -F /dev/ttyUSB0 -a
   C-c '            edit source block (in lang specific buffer)
   C-c C-c          eval source block
 </code></pre>
+<p>By default only <code>emacs-lisp</code> is loaded for evaluating code blocks. One
+can customize the <code>org-babel-load-languages</code> variable to control which
+languages are loaded or alternatively one can load the language library
+<code>ob-&lt;lang&gt;</code> explicitly [<a href="https://orgmode.org/manual/Languages.html">ref</a>].</p>
+<pre><code class="language-lisp">;; disable emacs-lisp, enable C/cpp.
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . nil)
+   (C . t)))
+
+;; load bable C/cpp support.
+(require 'ob-C)
+</code></pre>
+<blockquote>
+<p>A list of supporte languages is <a href="https://orgmode.org/worg/org-contrib/babel/languages/index.html">here</a>.</p>
+</blockquote>
 <h2 id="project"><a class="header" href="#project">project</a></h2>
 <pre><code class="language-markdown">  key       fn                                 description
 ----------------------------------------------------------
