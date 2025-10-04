@@ -40,4 +40,6 @@ SECTIONS {
 
 /* Some example assertions */
 ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal")
+ASSERT(ADDR(.stack) == 0x00805000, "STACK section must aligned to 0x1000")
 ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
