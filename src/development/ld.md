@@ -51,6 +51,33 @@ The `ENTRY` command takes a symbols name, which will be used as entry point.
 ENTRY(sym)
 ```
 
+### Linker script snippets
+
+Using the [`INSERT`][ld-misc] command, one can insert linker script
+snippets without overwriting the default linker script.
+
+```
+{{#include ld/handler-fntab.ld}}
+```
+
+The following shows an example program using two linker script
+snippets generating two different sections in the final binary.
+```c
+{{#include ld/handler.c}}
+```
+> This can be compiled like `gcc -o handler handler.c -T handler-fntab.ld -T handler-datatab.ld`.
+> All the sources can be found [here][src].
+
+```
+> readelf -W -S handler
+# Section Headers:
+#   [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+#    ..
+#   [23] .data             PROGBITS        0000000000404000 003000 000010 00  WA  0   0  8
+#   [24] .datatab          PROGBITS        0000000000404010 003010 000020 00  WA  0   0 16
+#   [25] .fntab            PROGBITS        0000000000404030 003030 000018 00  WA  0   0  8
+```
+
 ## Example: virtual vs physical (load) address
 
 Sometimes code is initially located at a different location as when being run.
@@ -137,12 +164,14 @@ The following linker script shows an example with the `MEMORY` command.
 - [ld script: input sections][ld-in]
 - [ld script: output sections][ld-out]
 - [ld script: simple commands][ld-cmd]
-- [ld script: builtin functions][ld-buil]
+- [ld script: other script commands][ld-misc]
+- [ld script: builtin functions][ld-builtin]
 - [notes/ld example files][src]
 
 [ld]: https://sourceware.org/binutils/docs/ld/
 [ld-in]: https://sourceware.org/binutils/docs/ld/Input-Section.html
 [ld-out]: https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html
 [ld-cmd]: https://sourceware.org/binutils/docs/ld/Simple-Commands.html
+[ld-misc]: https://sourceware.org/binutils/docs/ld/Miscellaneous-Commands.html
 [ld-builtin]: https://sourceware.org/binutils/docs/ld/Builtin-Functions.html
 [src]: https://github.com/johannst/notes/tree/master/src/development/ld
