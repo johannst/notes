@@ -6211,6 +6211,106 @@ found by running <code>objdump -i</code>.</p>
 <p>The <code>ENTRY</code> command takes a symbols name, which will be used as entry point.</p>
 <pre><code>ENTRY(sym)
 </code></pre>
+<h3 id="linker-script-snippets"><a class="header" href="#linker-script-snippets">Linker script snippets</a></h3>
+<p>Using the <a href="https://sourceware.org/binutils/docs/ld/Miscellaneous-Commands.html"><code>INSERT</code></a> command, one can insert linker script
+snippets without overwriting the default linker script.</p>
+<pre><code>SECTIONS
+{
+        . = ALIGN(8);
+        HIDDEN(_fntab_start = .);
+        .fntab : {
+               /* Sort entries for numerical priorities in section names. */
+               KEEP(*(SORT(.fntab*)));
+        }
+        HIDDEN(_fntab_end = .);
+}
+INSERT AFTER .data
+</code></pre>
+<p>The following shows an example program using two linker script
+snippets generating two different sections in the final binary.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+#define SECTION(S) __attribute__((section(S)))
+#define USED       __attribute__((used))
+
+// -- FUNCTON POINTER TABLE ----------------------------------------------------
+
+typedef void (*fntab_t)();
+
+// Define a function table entry with a priotiy.
+#define FNTAB_ENTRY(E, P) \
+  SECTION(".fntab" #P) USED static const fntab_t fnentry_##E##P = E;
+
+// Iterate the function table.
+#define FNTAB_FOREACH(V)    \
+  extern char _fntab_start; \
+  extern char _fntab_end;   \
+  for (fntab_t* V = (fntab_t*)&amp;_fntab_start; V &lt; (fntab_t*)&amp;_fntab_end; ++V)
+
+// func10 &amp; func11 are defined with the same prority, order not guaranteed.
+// func20 has a lower priority, only runs after func10 &amp; func11.
+
+void func10() {
+  puts("func10 called");
+}
+FNTAB_ENTRY(func10, 1);
+
+void func11() {
+  puts("func11 called");
+}
+FNTAB_ENTRY(func11, 1);
+
+void func20() {
+  puts("func20 called");
+}
+FNTAB_ENTRY(func20, 2);
+
+// -- DATA TABLE ---------------------------------------------------------------
+
+struct datatab_t {
+  const char* name;
+  void (*fn)();
+};
+
+#define DATATAB_ENTRY(E) \
+  SECTION(".datatab")    \
+  USED static const struct datatab_t dentry_##E = {.name = #E, .fn = E};
+
+#define DATATAB_FOREACH(V)                                               \
+  extern char _datatab_start;                                            \
+  extern char _datatab_end;                                              \
+  for (struct datatab_t* V = (struct datatab_t*)&amp;_datatab_start; \
+       V &lt; (struct datatab_t*)&amp;_datatab_end; ++V)
+
+DATATAB_ENTRY(func10);
+DATATAB_ENTRY(func20);
+
+// -- RUN EXAMPLE --------------------------------------------------------------
+
+int main() {
+  FNTAB_FOREACH(f) {
+    printf("call fntab entry @%p\n", *f);
+    (*f)();
+  }
+
+  DATATAB_FOREACH(d) {
+    printf("datatab entry d-&gt;name=%s call d-&gt;fn=%p\n", d-&gt;name, d-&gt;fn);
+    (*d-&gt;fn)();
+  }
+}
+</code></pre>
+<blockquote>
+<p>This can be compiled like <code>gcc -o handler handler.c -T handler-fntab.ld -T handler-datatab.ld</code>.
+All the sources can be found <a href="https://github.com/johannst/notes/tree/master/src/development/ld">here</a>.</p>
+</blockquote>
+<pre><code>&gt; readelf -W -S handler
+# Section Headers:
+#   [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+#    ..
+#   [23] .data             PROGBITS        0000000000404000 003000 000010 00  WA  0   0  8
+#   [24] .datatab          PROGBITS        0000000000404010 003010 000020 00  WA  0   0 16
+#   [25] .fntab            PROGBITS        0000000000404030 003030 000018 00  WA  0   0  8
+</code></pre>
 <h2 id="example-virtual-vs-physical-load-address"><a class="header" href="#example-virtual-vs-physical-load-address">Example: virtual vs physical (load) address</a></h2>
 <p>Sometimes code is initially located at a different location as when being run.
 For example in embedded cases, where code may initially resides in a <em>rom</em> and
@@ -6269,6 +6369,8 @@ SECTIONS {
 
 /* Some example assertions */
 ASSERT(ADDR(.data) != LOADADDR(.data), "DATA vaddr and paddr must be different")
+ASSERT(ADDR(.rodata) == LOADADDR(.rodata), "RODATA vaddr and paddr must be euqal")
+ASSERT(ADDR(.stack) == 0x00805000, "STACK section must aligned to 0x1000")
 ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 </code></pre>
 <p>We can use the following assembly snippet to explore the linker script.</p>
@@ -6392,7 +6494,8 @@ ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 <li><a href="https://sourceware.org/binutils/docs/ld/Input-Section.html">ld script: input sections</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Output-Section-Attributes.html">ld script: output sections</a></li>
 <li><a href="https://sourceware.org/binutils/docs/ld/Simple-Commands.html">ld script: simple commands</a></li>
-<li>[ld script: builtin functions][ld-buil]</li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Miscellaneous-Commands.html">ld script: other script commands</a></li>
+<li><a href="https://sourceware.org/binutils/docs/ld/Builtin-Functions.html">ld script: builtin functions</a></li>
 <li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>

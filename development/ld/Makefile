@@ -11,5 +11,11 @@ link-%: link-%.ld data.o
 %.o: %.S
 	gcc -c $^
 
+handler: handler.c
+	gcc -o $@ $^ -T handler-fntab.ld -T handler-datatab.ld -Wall -Wextra -g
+	readelf -W -S $@
+	./$@
+.PHONY: handler
+
 clean:
-	$(RM) mem *.o
+	$(RM) mem *.o handler
