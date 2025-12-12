@@ -58,6 +58,7 @@
     - [valgrind](./trace_profile/valgrind.md)
     - [vtune](./trace_profile/vtune.md)
     - [tracy](./trace_profile/tracy.md)
+    - [xray](./trace_profile/xray.md)
 
 - [Debug](./debug/README.md)
     - [gdb](./debug/gdb.md)
