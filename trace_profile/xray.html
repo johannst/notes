@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>armv7 - Notes</title>
+        <title>xray - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -177,259 +177,64 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="armv7a"><a class="header" href="#armv7a">armv7a</a></h1>
-<p>keywords: arm, armv7, abi</p>
+                        <h1 id="xray-instrument"><a class="header" href="#xray-instrument">xray-instrument</a></h1>
+<p><a href="https://llvm.org/docs/XRay.html">Xray</a> offers a function trace instrumentation which has very little
+overhead when trace capturing is disabled.</p>
+<p>The xray system consists of compile time instrumentation, a runtime library to
+control capturing as well as tools for post processing.</p>
+<p>During compilation functions are instrumented with nop space which is patched on
+the fly when tracing is enabled to hook function entry and exit
+points. Additional information for enabling the traces is placed in some special
+sections in the elf file.</p>
+<p>The following provides an starting point example demonstrating</p>
 <ul>
-<li>ISA type: <code>RISC</code></li>
-<li>Endianness: <code>little</code>, <code>big</code></li>
+<li><code>account</code> to gather function call statistics.</li>
+<li><code>convert</code> to convert the binary trace into a trace format that can be opened
+by other tools (eg <a href="https://ui.perfetto.dev/">perfetto.dev</a> or <a href="https://www.speedscope.app/">speedscope.app</a>.</li>
 </ul>
-<h2 id="registers"><a class="header" href="#registers">Registers</a></h2>
-<h3 id="general-purpose-registers"><a class="header" href="#general-purpose-registers">General purpose registers</a></h3>
-<pre><code class="language-markdown">bytes
-[3:0]     alt     desc
----------------------------------------------
-r0-r12            general purpose registers
-r11       fp
-r13       sp      stack pointer
-r14       lr      link register
-r15       pc      program counter
-</code></pre>
-<h3 id="special-registers"><a class="header" href="#special-registers">Special registers</a></h3>
-<pre><code class="language-markdown">bytes
-[3:0]             desc
----------------------------------------------
-cpsr              current program status register
-</code></pre>
-<h3 id="cpsr-register"><a class="header" href="#cpsr-register">CPSR register</a></h3>
-<pre><code class="language-markdown">cpsr
-bits  desc
------------------------------
- [31]  N negative flag
- [30]  Z zero flag
- [29]  C carry flag
- [28]  V overflow flag
- [27]  Q cummulative saturation (sticky)
-  [9]  E load/store endianness
-  [8]  A disable asynchronous aborts
-  [7]  I disable IRQ
-  [6]  F disable FIQ
-  [5]  T indicate Thumb state
-[4:0]  M process mode (USR, FIQ, IRQ, SVC, ABT, UND, SYS)
-</code></pre>
-<h2 id="instructions-cheatsheet"><a class="header" href="#instructions-cheatsheet">Instructions cheatsheet</a></h2>
-<h3 id="accessing-system-registers"><a class="header" href="#accessing-system-registers">Accessing system registers</a></h3>
-<p>Reading from system registers:</p>
-<pre><code class="language-armasm">mrs r0, cpsr      // move cpsr into r0
-</code></pre>
-<p>Writing to system registers:</p>
-<pre><code class="language-armasm">msr cpsr, r0      // move r0 into cpsr
-</code></pre>
-<h3 id="control-flow"><a class="header" href="#control-flow">Control Flow</a></h3>
-<pre><code class="language-armasm">b &lt;lable&gt;     // relative forward/back branch
-bl &lt;lable&gt;    // relative forward/back branch &amp; link return addr in r14 (LR)
+<pre><code class="language-make">run: main
+	XRAY_OPTIONS="patch_premain=true,xray_mode=xray-basic,verbosity=1" ./$&lt; 1 2 3 4 5 &gt; /dev/null
+	llvm-xray account --instr_map=$&lt; --sort=sum $$(ls -t1 xray-log.main.* | head -n1)
+	llvm-xray convert --instr_map=$&lt; --symbolize --output-format=trace_event $$(ls -t1 xray-log.main.* | head -n1)  | tee xray-trace.txt
 
-// branch &amp; exchange (can change between ARM &amp; Thumb instruction set)
-//   bit Rm[0] == 0 -&gt; ARM
-//   bit Rm[0] == 1 -&gt; Thumb
-bx &lt;Rm&gt;       // absolute branch to address in register Rm
-blx &lt;Rm&gt;      // absolute branch to address in register Rm &amp;
-              // link return addr in r14 (LR)
-</code></pre>
-<h3 id="loadstore"><a class="header" href="#loadstore">Load/Store</a></h3>
-<p>Different addressing modes.</p>
-<pre><code class="language-armasm">ldr r1, [r0]                // r1 = [r0]
-ldr r1, [r0, #4]            // r1 = [r0+4]
+main: main.c
+	clang -o $@ $&lt; -g -fxray-instrument -fxray-instruction-threshold=1
 
-ldr r1, [r0, #4]!           // pre-inc : r0+=4; r1 = [r0]
-ldr r1, [r0], #4            // post-inc: [r0] = r1; r0+=4
+clean:
+	$(RM) main xray-log.main.* xray-trace.txt
+</code></pre>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
-ldr r0, [r1, r2, lsl #3]    // r0 = [r1 + (r2&lt;&lt;3)]
-</code></pre>
-<p>Load/store multiple registers full-descending.</p>
-<pre><code class="language-armasm">stmfd r0!, {r1-r2, r5}    // r0-=4; [r0]=r5
-                          // r0-=4; [r0]=r2
-                          // r0-=4; [r0]=r1
-ldmfd r0!, {r1-r2, r5}    // r1=[r0]; r0+=4
-                          // r2=[r0]; r0+=4
-                          // r5=[r0]; r0+=4
-</code></pre>
-<blockquote>
-<p><code>!</code> is optional but has the effect to update the base pointer register <code>r0</code> here.</p>
-</blockquote>
-<p>Push/Pop</p>
-<pre><code class="language-armasm">push {r0-r2}    // effectively stmfd sp!, {r0-r2}
-pop {r0-r2}     // effectively ldmfd sp!, {r0-r2}
-</code></pre>
-<h2 id="procedure-call-standard-arm-aapcs32"><a class="header" href="#procedure-call-standard-arm-aapcs32">Procedure Call Standard ARM (<a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst"><code>aapcs32</code></a>)</a></h2>
-<h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
-<ul>
-<li>integer/pointer arguments
-<pre><code class="language-markdown">reg     arg
------------
-r0        1
-..       ..
-r3        4
-</code></pre>
-</li>
-<li>a double word (64bit) is passed in two consecutive registers (eg <code>r1+r2</code>)</li>
-<li>additional arguments are passed on the stack. Arguments are pushed
-<code>right-to-left (RTL)</code>, meaning next arguments are closer to current <code>sp</code>.
-<pre><code class="language-markdown">void take(..., int a5, int a6);
-                   |       |   | ... |       Hi
-                   |       +--&gt;| a6  |       |
-                   +----------&gt;| a5  | &lt;-SP  |
-                               +-----+       v
-                               | ... |       Lo
-</code></pre>
-</li>
-</ul>
-<h3 id="return-values-from-functions"><a class="header" href="#return-values-from-functions">Return values from functions</a></h3>
-<ul>
-<li>integer/pointer return values
-<pre><code class="language-markdown">reg          size
------------------
-r0         32 bit
-r0+r1      64 bit
-</code></pre>
-</li>
-</ul>
-<h3 id="callee-saved-registers"><a class="header" href="#callee-saved-registers">Callee saved registers</a></h3>
-<ul>
-<li><code>r4</code> - <code>r11</code></li>
-<li><code>sp</code></li>
-</ul>
-<h3 id="stack"><a class="header" href="#stack">Stack</a></h3>
-<ul>
-<li>full descending
-<ul>
-<li>full: <code>sp</code> points to the last used location (valid item)</li>
-<li>descending: stack grows downwards</li>
-</ul>
-</li>
-<li><code>sp</code> must be 4byte aligned (word boundary) at all time</li>
-<li><code>sp</code> must be 8byte aligned on public interface interfaces</li>
-</ul>
-<h3 id="frame-chain"><a class="header" href="#frame-chain">Frame chain</a></h3>
-<ul>
-<li>not strictly required by each platform</li>
-<li>linked list of stack-frames</li>
-<li>each frame links to the frame of its caller by a <code>frame record</code>
-<ul>
-<li>a frame record is described as a <code>(FP,LR)</code> pair (2x32bit)</li>
-</ul>
-</li>
-<li><code>r11 (FP)</code> must point to the frame record of the current stack-frame
-<pre><code class="language-markdown">      +------+                   Hi
-      |   0  |     frame0        |
-   +-&gt;|   0  |                   |
-   |  |  ... |                   |
-   |  +------+                   |
-   |  |  LR  |     frame1        |
-   +--|  FP  |&lt;-+                |
-      | ...  |  |                |
-      +------+  |                |
-      |  LR  |  |  current       |
-r11 -&gt;|  FP  |--+  frame         v
-      | ...  |                   Lo
-</code></pre>
-</li>
-<li>end of the frame chain is indicated by following frame record <code>(0,-)</code></li>
-<li>location of the frame record in the stack frame is not specified</li>
-<li><code>r11</code> is not updated before the new frame record is fully constructed</li>
-</ul>
-<h3 id="function-prologue--epilogue"><a class="header" href="#function-prologue--epilogue">Function prologue &amp; epilogue</a></h3>
-<ul>
-<li>prologue
-<pre><code class="language-armasm">push {fp, lr}
-mov fp, sp              // FP points to frame record
-</code></pre>
-</li>
-<li>epilogue
-<pre><code class="language-armasm">pop {fp, pc}            // pop LR directly into PC
-</code></pre>
-</li>
-</ul>
-<h2 id="asm-skeleton"><a class="header" href="#asm-skeleton">ASM skeleton</a></h2>
-<p>Small assembler skeleton, ready to use with following properties:</p>
-<ul>
-<li>use raw Linux syscalls (<code>man 2 syscall</code> for ABI)</li>
-<li>no <code>C runtime (crt)</code></li>
-<li>gnu assembler <a href="https://sourceware.org/binutils/docs/as"><code>gas</code></a></li>
-</ul>
-<pre><code class="language-armasm">// file: greet.S
+void work3() {
+  usleep(3 * 1000);
+}
 
-#include &lt;asm/unistd.h&gt;      // syscall NRs
+void work2() {
+  usleep(5 * 1000);
+  work3();
+}
 
-    .arch armv7-a
+void work1() {
+  usleep(10 * 1000);
+}
 
-    .section .text, "ax"
-    .balign 4
-
-    // Emit `arm` instructions, same as `.arm` directive.
-    .code 32
-    .global _start
-_start:
-    // Branch with link and exchange instruction set.
-    blx _do_greet
-
-    mov r0, #0               // exit code
-    mov r7, #__NR_exit       // exit(2) syscall
-    swi 0x0
-
-    // Emit `thumb` instructions, same as `.thumb` directive.
-    .code 16
-    .thumb_func
-_do_greet:
-    mov r0, #2               // fd
-    ldr r1, =greeting        // buf
-    ldr r2, =greeting_len    // &amp;len
-    ldr r2, [r2]             // len
-    mov r7, #__NR_write      // write(2) syscall
-    swi 0x0
-
-    // Branch and exchange instruction set.
-    bx lr
-
-    .balign 8                // align data on 8byte boundary
-    .section .rodata, "a"
-greeting:
-    .asciz "Hi ASM-World!\n"
-greeting_len:
-    .int .-greeting
+int main(int argc, char* argv[]) {
+  for (int i = 0; i &lt; argc; ++i) {
+    work1();
+    work2();
+  }
+}
 </code></pre>
-<blockquote>
-<p>man gcc: <code>file.S</code> assembler code that must be preprocessed.</p>
-</blockquote>
-<p>To cross-compile and run:</p>
-<pre><code class="language-bash">&gt; arm-linux-gnueabi-gcc -o greet greet.S -nostartfiles -nostdlib  \
-    -Wl,--dynamic-linker=/usr/arm-linux-gnueabi/lib/ld-linux.so.3 \
-  &amp;&amp; qemu-arm ./greet
-Hi ASM-World!
-</code></pre>
-<blockquote>
-<p>Cross-compiling on <code>Ubuntu 20.04 (x86_64)</code>, paths might differ on other
-distributions. Explicitly specifying the dynamic linker should not be
-required when compiling natively on arm.</p>
-</blockquote>
-<h2 id="references"><a class="header" href="#references">References</a></h2>
-<ul>
-<li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
-<li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer’s Guide</a></li>
-<li><a href="https://developer.arm.com/documentation/ddi0406/latest">ARMv7-A Architecture Reference Manual</a></li>
-<li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
-<li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
-<li><a href="https://sourceware.org/binutils/docs/as/ARM_002dDependent.html">GNU Assembler <code>ARM</code> dependent features</a></li>
-</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../arch/arm64.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../trace_profile/tracy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../arch/riscv.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../debug/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -439,11 +244,11 @@ required when compiling natively on arm.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../arch/arm64.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../trace_profile/tracy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../arch/riscv.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../debug/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

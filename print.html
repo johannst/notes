@@ -13,21 +13,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -37,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex.js";
+            window.path_to_searchindex_js = "searchindex-bfab07f4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-212c885b.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -54,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div id="body-container">
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -83,12 +82,12 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -103,39 +102,39 @@
             }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -143,52 +142,54 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/johannst/notes" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
                         <div class="search-wrapper">
-                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
                             <div class="spinner-wrapper">
-                                <i class="fa fa-spinner fa-spin"></i>
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
                             </div>
                         </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="notes"><a class="header" href="#notes">Notes</a></h1>
 <p>A personal collection of notes and cheatsheets.</p>
 <p>Source code is located at <a href="https://github.com/johannst/notes">johannst/notes</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="shells"><a class="header" href="#shells">Shells</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="shells"><a class="header" href="#shells">Shells</a></h1>
 <ul>
-<li><a href="shells/./zsh.html">zsh</a></li>
-<li><a href="shells/./bash.html">bash</a></li>
-<li><a href="shells/./fish.html">fish</a></li>
+<li><a href="#zsh1">zsh</a></li>
+<li><a href="#bash1">bash</a></li>
+<li><a href="#fish1">fish</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="zsh1"><a class="header" href="#zsh1">zsh(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="zsh1"><a class="header" href="#zsh1">zsh(1)</a></h1>
 <h2 id="keybindings"><a class="header" href="#keybindings">Keybindings</a></h2>
 <p>Change input mode:</p>
 <pre><code class="language-zsh">bindkey -v              change to vi keymap
@@ -323,7 +324,7 @@ echo ${(kv)vec}       # a aa b bb
 for k v in ${(kv)vec)}; do ...; done
 </code></pre>
 <h2 id="io-redirections"><a class="header" href="#io-redirections">I/O redirections</a></h2>
-<p>See <a href="shells/bash.html#io-redirection">bash - I/O redirection</a></p>
+<p>See <a href="#io-redirection">bash - I/O redirection</a></p>
 <h2 id="process-substitution"><a class="header" href="#process-substitution">Process substitution</a></h2>
 <p>Process substitution allows to redirect the stdout of multiple processes at
 once.</p>
@@ -517,7 +518,8 @@ previous rules apply, so in our example for <code>arg3, argN..</code>.</li>
 <li><a href="https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org#utility-functions">zsh completion utility functions</a></li>
 </ul>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="bash1"><a class="header" href="#bash1">bash(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="bash1"><a class="header" href="#bash1">bash(1)</a></h1>
 <h2 id="expansion"><a class="header" href="#expansion">Expansion</a></h2>
 <h3 id="generator"><a class="header" href="#generator">Generator</a></h3>
 <pre><code class="language-bash"># generate sequence from n to m
@@ -561,7 +563,7 @@ NAME=VAR2
 printf -v "$NAME" "%s" "def"
 </code></pre>
 <blockquote>
-<p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="shells/bash.html#pathname">pathnames</a>.</p>
+<p>Note: <code>prefix</code>/<code>suffix</code>/<code>pattern</code> are expanded as <a href="#pathname">pathnames</a>.</p>
 </blockquote>
 <h3 id="array"><a class="header" href="#array">Array</a></h3>
 <pre><code class="language-bash"># Fill array.
@@ -734,7 +736,7 @@ flock -w 3600 -x 100 || { echo "flock timeout"; exit 1; }
 # eg automatically release lock when script exits
 trap "flock -u 100" EXIT
 </code></pre>
-<h4 id="example-run-handler-only-on-error-exit-2"><a class="header" href="#example-run-handler-only-on-error-exit-2">Example: Run handler only on error exit</a></h4>
+<h4 id="example-run-handler-only-on-error-exit-1-1"><a class="header" href="#example-run-handler-only-on-error-exit-1-1">Example: Run handler only on error exit</a></h4>
 <pre><code class="language-bash"># eg use LINENO to print line number where error occured
 trap 'ec=$?; echo "error at $LINENO"; exit $ec' ERR
 
@@ -834,7 +836,7 @@ compgen -W "foo foobar bar" "f"
 # compare "hom" against file/dir names and generate matches
 compgen -d -f "hom"
 </code></pre>
-<h3 id="example-3"><a class="header" href="#example-3">Example</a></h3>
+<h3 id="example-1-1"><a class="header" href="#example-1-1">Example</a></h3>
 <p>Skeleton to copy/paste for writing simple completions.</p>
 <p>Assume a program <code>foo</code> with the following interface:</p>
 <pre><code class="language-bash">foo -c green|red|blue -s low|high -f &lt;file&gt; -h
@@ -855,7 +857,8 @@ compgen -d -f "hom"
 
 complete -F _foo foo
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="fish1"><a class="header" href="#fish1">fish(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="fish1"><a class="header" href="#fish1">fish(1)</a></h1>
 <h2 id="quick-info"><a class="header" href="#quick-info">Quick Info</a></h2>
 <p>Fish initialization file <code>~/.config/fish/config.fish</code></p>
 <p>Switch between different key bindings:</p>
@@ -891,7 +894,7 @@ $last_pid    # pid of last started process ($! in bash)
 $CMD_DURATION   # runtime of last command in ms
 </code></pre>
 <h3 id="lists"><a class="header" href="#lists">Lists</a></h3>
-<p>In <code>fish</code> all variables are lists (start with index <code>1</code>, but lists can't
+<p>In <code>fish</code> all variables are lists (start with index <code>1</code>, but lists can’t
 contain lists.</p>
 <pre><code class="language-sh">set foo a b c d
 
@@ -1094,23 +1097,25 @@ status -f              # abs path of current file
   breakpoint ................ halt script execution and gives shell (C-d | exit
                               to continue)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cli-foo"><a class="header" href="#cli-foo">CLI foo</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cli-foo"><a class="header" href="#cli-foo">CLI foo</a></h1>
 <ul>
-<li><a href="cli/./awk.html">awk</a></li>
-<li><a href="cli/./cut.html">cut</a></li>
-<li><a href="cli/./sed.html">sed</a></li>
-<li><a href="cli/./column.html">column</a></li>
-<li><a href="cli/./sort.html">sort</a></li>
-<li><a href="cli/./tr.html">tr</a></li>
-<li><a href="cli/./tac.html">tac</a></li>
-<li><a href="cli/./rev.html">rev</a></li>
-<li><a href="cli/./paste.html">paste</a></li>
-<li><a href="cli/./xargs.html">xargs</a></li>
-<li><a href="cli/./grep.html">grep</a></li>
-<li><a href="cli/./find.html">find</a></li>
-<li><a href="cli/./dd.html">dd</a></li>
+<li><a href="#awk1">awk</a></li>
+<li><a href="#cut1">cut</a></li>
+<li><a href="#sed1">sed</a></li>
+<li><a href="#column1">column</a></li>
+<li><a href="#sort1">sort</a></li>
+<li><a href="#tr1">tr</a></li>
+<li><a href="#tac1">tac</a></li>
+<li><a href="#rev1">rev</a></li>
+<li><a href="#paste1">paste</a></li>
+<li><a href="#xargs1">xargs</a></li>
+<li><a href="#grep1">grep</a></li>
+<li><a href="#find1">find</a></li>
+<li><a href="#dd1">dd</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="awk1"><a class="header" href="#awk1">awk(1)</a></h1>
 <pre><code class="language-markdown">awk [opt] program [input]
     -F &lt;sepstr&gt;        field separator string (can be regex)
     program            awk program
@@ -1131,7 +1136,7 @@ but can be changed via the builtin variable <code>FS</code> or command line opti
 <li><code>$0</code> whole <code>record</code></li>
 <li><code>$1</code> field one</li>
 <li><code>$2</code> field two</li>
-<li>...</li>
+<li>…</li>
 </ul>
 <h2 id="program"><a class="header" href="#program">Program</a></h2>
 <p>An <code>awk</code> program is composed of pairs of the form:</p>
@@ -1163,9 +1168,9 @@ multiple times. Actions with those patterns are <strong>executed exactly once</s
 <h3 id="special-variables"><a class="header" href="#special-variables">Special variables</a></h3>
 <ul>
 <li><code>RS</code> <em>record separator</em>: first char is the record separator, by default
-<newline></li>
+<code>&lt;newline&gt;</code></li>
 <li><code>FS</code> <em>field separator</em>: regex to split records into fields, by default
-<space></li>
+<code>&lt;space&gt;</code></li>
 <li><code>NR</code> <em>number record</em>: number of current record</li>
 <li><code>NF</code> <em>number fields</em>: number of fields in the current record</li>
 </ul>
@@ -1283,7 +1288,8 @@ At the <code>END</code> we compute the average of each key.</p>
 </code></pre>
 <p>We build a <code>ps</code> command line and capture the first line of the processes output
 in the <code>user</code> variable and then print it.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cut1"><a class="header" href="#cut1">cut(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cut1"><a class="header" href="#cut1">cut(1)</a></h1>
 <pre><code class="language-sh"># Remove sections from each line of files(s).
 cut OPT FILE [FILE]
     -d DELIM     delimiter to tokenize
@@ -1317,7 +1323,8 @@ echo 'aa bb cc dd' | cut -d ' ' -f 3-
 echo 'aa bb cc dd' | rev | cut -d ' ' -f3- | rev
 # aa bb
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sed1"><a class="header" href="#sed1">sed(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sed1"><a class="header" href="#sed1">sed(1)</a></h1>
 <pre><code>sed [opts] [script] [file]
   opts:
     -i          edit file in place
@@ -1407,7 +1414,8 @@ sed -i '1iabc' link
 ls -l link
 # -rw-r--r-- 1 johannst johannst 0 Feb  7 23:02 link
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="column1"><a class="header" href="#column1">column(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="column1"><a class="header" href="#column1">column(1)</a></h1>
 <h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
 <pre><code class="language-sh"># Show as table (aligned columns), with comma as delimiter from stdin.
 echo -e 'a,b,c\n111,22222,33' | column -t -s ','
@@ -1415,7 +1423,8 @@ echo -e 'a,b,c\n111,22222,33' | column -t -s ','
 # Show file as table.
 column -t -s ',' test.csv
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sort1"><a class="header" href="#sort1">sort(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="sort1"><a class="header" href="#sort1">sort(1)</a></h1>
 <pre><code>sort [opts] [file]
   opts:
     -r      reverse output
@@ -1446,7 +1455,8 @@ c,21' | sort -k2 -n -t,
 <blockquote>
 <p>Use <code>--debug</code> to annotate part of the line used to sort and hence debug the key usage.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tr1"><a class="header" href="#tr1">tr(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tr1"><a class="header" href="#tr1">tr(1)</a></h1>
 <pre><code>tr [opt] str1 [str2]
     -d      delete characters in str1
     -s      squeeze repeating sequence of characters in str1
@@ -1474,7 +1484,8 @@ echo moose | tr -d 'os'
 <pre><code class="language-sh">echo moooooossse | tr -s 'os'
 # output: mose
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tac1"><a class="header" href="#tac1">tac(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tac1"><a class="header" href="#tac1">tac(1)</a></h1>
 <pre><code class="language-sh"># Reverse output lines of file(s) and concatenate (reverse of cat).
 tac FILE [FILE]
 
@@ -1484,7 +1495,8 @@ echo -e 'a1\nb2\nc3\nd4' | tac
 # b2
 # a1
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="rev1"><a class="header" href="#rev1">rev(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rev1"><a class="header" href="#rev1">rev(1)</a></h1>
 <pre><code class="language-sh"># Reverse each line of file(s), character by character.
 rev FILE [FILE]
 
@@ -1498,7 +1510,8 @@ echo -e '123\nabc' | rev
 echo 'aa bb cc dd' | rev | cut -d ' ' -f3- | rev
 # aa bb
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="paste1"><a class="header" href="#paste1">paste(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="paste1"><a class="header" href="#paste1">paste(1)</a></h1>
 <pre><code># Concatenate input files linewise and join them by a TAB char.
 
 paste FILE [FILE]
@@ -1515,14 +1528,15 @@ echo -e 'a1 a2\nb1 b2\nc1 c2\nd1 d2' | paste - -
 # a1 a2	b1 b2
 # c1 c2	d1 d2
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="xargs1"><a class="header" href="#xargs1">xargs(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="xargs1"><a class="header" href="#xargs1">xargs(1)</a></h1>
 <pre><code>xargs [opts] [cmd [init-args]]
     -l [&lt;num&gt;]   maximal number of lines per cmd invocation
                  if &lt;num&gt; it not provided, num=1 is assumed
     -I &lt;str&gt;     replace &lt;str&gt; in the [init-args] with the arg;
                  this implies -l, and hence processes one arg at a time
 </code></pre>
-<h2 id="example-4"><a class="header" href="#example-4">Example</a></h2>
+<h2 id="example-3"><a class="header" href="#example-3">Example</a></h2>
 <p>Collect arguments and prefix them with another option.</p>
 <pre><code class="language-sh"># Using -l to process one arg at a time.
 eval strace -f (find /dev -name 'std*' | xargs -l echo -P | xargs) ls
@@ -1533,7 +1547,8 @@ eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
 # Both commands achieve the same thing and result in something like:
 #   eval strace -f -P /dev/stdin -P /dev/stdout -P /dev/stderr ls
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="grep1"><a class="header" href="#grep1">grep(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="grep1"><a class="header" href="#grep1">grep(1)</a></h1>
 <pre><code>grep [opts] [pattern] [files]
     -e &lt;pattern&gt;        pattern to search for (can be supplied multiple times)
     -i                  ignore case in patterns
@@ -1553,7 +1568,8 @@ eval strace -f (find /dev -name 'std*' | xargs -I {} echo -P {}) ls
 <blockquote>
 <p><code>&lt;glob&gt;</code> patterns may need to be quoted or escaped if the shell also does glob expansion.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="find1"><a class="header" href="#find1">find(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="find1"><a class="header" href="#find1">find(1)</a></h1>
 <pre><code>find &lt;start&gt; [opts]
     -maxdepth &lt;n&gt;        maximally search n dirs deep
     -type &lt;t&gt;            match on file type
@@ -1582,7 +1598,8 @@ exec modifier characters <code>;</code> and <code>+</code> also may need to be e
 &gt; find . -maxdepth 1 -type d -exec echo x {} +
 # x . ./.github ./book ./src ./.git ./docs
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="dd1"><a class="header" href="#dd1">dd(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="dd1"><a class="header" href="#dd1">dd(1)</a></h1>
 <p>Copy data <code>block-wise</code>.</p>
 <pre><code>dd [opts]
     if=&lt;path&gt;         input file to read (stdin in case not specified)
@@ -1619,24 +1636,26 @@ hexdump disk
 # *
 # 0000400
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
 <ul>
-<li><a href="tools/./tmux.html">tmux</a></li>
-<li><a href="tools/./screen.html">screen</a></li>
-<li><a href="tools/./emacs.html">emacs</a></li>
-<li><a href="tools/./gpg.html">gpg</a></li>
-<li><a href="tools/./radare2.html">radare2</a></li>
-<li><a href="tools/./qemu.html">qemu</a></li>
-<li><a href="tools/./pacman.html">pacman</a></li>
-<li><a href="tools/./dot.html">dot</a></li>
-<li><a href="tools/./ffmpeg.html">ffmpeg</a></li>
-<li><a href="tools/./gnuplot.html">gnuplot</a></li>
-<li><a href="tools/./restic.html">restic</a></li>
-<li><a href="tools/./qrencode.html">qrencode</a></li>
-<li><a href="tools/./poppler.html">poppler</a></li>
-<li><a href="tools/./nix.html">nix</a></li>
+<li><a href="#tmux1">tmux</a></li>
+<li><a href="#screen1">screen</a></li>
+<li><a href="#emacs1">emacs</a></li>
+<li><a href="#gpg1">gpg</a></li>
+<li><a href="#radare21">radare2</a></li>
+<li><a href="#qemu1">qemu</a></li>
+<li><a href="#pacman1">pacman</a></li>
+<li><a href="#dot1">dot</a></li>
+<li><a href="#ffmpeg-1">ffmpeg</a></li>
+<li><a href="#gnuplot-1">gnuplot</a></li>
+<li><a href="#restic1">restic</a></li>
+<li><a href="#qrencode1">qrencode</a></li>
+<li><a href="#poppler">poppler</a></li>
+<li><a href="#nix">nix</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tmux1"><a class="header" href="#tmux1">tmux(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tmux1"><a class="header" href="#tmux1">tmux(1)</a></h1>
 <p>Terminology:</p>
 <ul>
 <li><code>session</code> is a collection of pseudo terminals which can have multiple
@@ -1733,7 +1752,8 @@ y     yank selected text
 <pre><code class="language-markdown">setw synchronize-panes on/off       enables/disables synchronized input to all panes
 list-keys -t vi-copy                list keymaps for vi-copy mode
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="screen1"><a class="header" href="#screen1">screen(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="screen1"><a class="header" href="#screen1">screen(1)</a></h1>
 <pre><code class="language-sh"># Create new session.
 screen
 
@@ -1767,7 +1787,8 @@ screen /dev/ttyUSB0 1500000,cs8,-cstopb,-parenb
 # Print current tty settings.
 sudo stty -F /dev/ttyUSB0 -a
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="emacs1"><a class="header" href="#emacs1">emacs(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="emacs1"><a class="header" href="#emacs1">emacs(1)</a></h1>
 <h2 id="help"><a class="header" href="#help">help</a></h2>
 <pre><code class="language-markdown">  C-h ?         list available help modes
   C-h e         show message output (`*Messages*` buffer)
@@ -2114,7 +2135,7 @@ text.</p>
 (define-abbrev c-mode-abbrev-table "for" "" 'my-c-for-loop’)
 </code></pre>
 <h2 id="ido"><a class="header" href="#ido">ido</a></h2>
-<p>Builtin fuzzy completion mode (eg buffer select, dired, ...).</p>
+<p>Builtin fuzzy completion mode (eg buffer select, dired, …).</p>
 <pre><code class="language-markdown">  key              fn          description
 ------------------------------------------
                   ido-mode     toggle ido mode
@@ -2363,7 +2384,8 @@ argument.</p>
           (lambda ()
             '(message "in cpp")))
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gpg1"><a class="header" href="#gpg1">gpg(1)</a></h1>
 <pre><code>gpg
   -o|--output                 Specify output file
   -a|--armor                  Create ascii output
@@ -2486,7 +2508,8 @@ gpg&gt; save
 
 # Update keyserver(s) and/or export new pub keyfile.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="radare21"><a class="header" href="#radare21">radare2(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="radare21"><a class="header" href="#radare21">radare2(1)</a></h1>
 <h2 id="print"><a class="header" href="#print">print</a></h2>
 <pre><code class="language-markdown">
   pd &lt;n&gt; [@ &lt;addr&gt;]     # print disassembly for &lt;n&gt; instructions
@@ -2521,7 +2544,8 @@ gpg&gt; save
   &gt; rasm2 -a x86 -d "b8efbeadde"
   mov eax, 0xdeadbeef
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="qemu1"><a class="header" href="#qemu1">qemu(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="qemu1"><a class="header" href="#qemu1">qemu(1)</a></h1>
 <p>All the examples &amp; notes use <code>qemu-system-x86_64</code> but in most cases
 this can be swapped with the system emulator for other architectures.</p>
 <h2 id="keybindings-1"><a class="header" href="#keybindings-1">Keybindings</a></h2>
@@ -2773,7 +2797,8 @@ _start:
 <li><a href="https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html">QEMU machine protocol (QMP)</a></li>
 <li><a href="https://qemu-project.gitlab.io/qemu/system/images.html#vm-005fsnapshots">QEMU VM Snapshots</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pacman1"><a class="header" href="#pacman1">pacman(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pacman1"><a class="header" href="#pacman1">pacman(1)</a></h1>
 <h2 id="remote-package-repositories"><a class="header" href="#remote-package-repositories">Remote package repositories</a></h2>
 <pre><code class="language-text">pacman -Sy              refresh package database
 pacman -S &lt;pkg&gt;         install pkg
@@ -2816,7 +2841,8 @@ package and sort by size.</p>
 database.</p>
 <pre><code class="language-text">pacman --root abc --dbpath /var/lib/pacman -S mingw-w64-gcc
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="dot1"><a class="header" href="#dot1">dot(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="dot1"><a class="header" href="#dot1">dot(1)</a></h1>
 <p><a href="https://edotor.net/">Online playground</a></p>
 <h2 id="example-dot-file-to-copy--paste-from"><a class="header" href="#example-dot-file-to-copy--paste-from">Example <code>dot</code> file to copy &amp; paste from.</a></h2>
 <p>Can be rendered to <code>svg</code> with the following command.</p>
@@ -2858,7 +2884,7 @@ digraph {
 }
 </code></pre>
 <p>Rendered <code>svg</code> file.
-<img src="tools/assets/g.svg" alt="g.svg" /></p>
+<img src="tools/assets/g.svg" alt="g.svg"></p>
 <h2 id="references-1"><a class="header" href="#references-1">References</a></h2>
 <ul>
 <li><a href="https://graphviz.org/doc/info/lang.html">DOT language</a></li>
@@ -2867,7 +2893,8 @@ digraph {
 <li><a href="https://graphviz.org/doc/info/colors.html">Colors</a></li>
 <li><a href="https://graphviz.org/pdf/dotguide.pdf">User manual</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ffmpeg-1"><a class="header" href="#ffmpeg-1">ffmpeg (1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ffmpeg-1"><a class="header" href="#ffmpeg-1">ffmpeg (1)</a></h1>
 <h2 id="screen-capture-specific-window-x11"><a class="header" href="#screen-capture-specific-window-x11">screen capture specific window (x11)</a></h2>
 <p>Following snippet allows to select a window which is then captured.</p>
 <pre><code class="language-bash">#!/bin/bash
@@ -2890,7 +2917,8 @@ ffmpeg -framerate 25 -f x11grab $video_args -pix_fmt yuv420p $@ output.mp4
 <p>The input <code>-i 0,0+xoff,yoff</code> means to capture <code>$DISPLAY=0.0</code> starting at the
 coordinate <code>(xoff, yoff)</code>, which is the left-upper corner, and the size of the
 capture is defined by the <code>-video_size</code> argument.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gnuplot-1"><a class="header" href="#gnuplot-1">gnuplot (1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gnuplot-1"><a class="header" href="#gnuplot-1">gnuplot (1)</a></h1>
 <pre><code># Launch interactive shell.
 gnuplot
 
@@ -2973,7 +3001,8 @@ done
 
 gnuplot -p -c mem_lat.plot
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="restic1"><a class="header" href="#restic1">restic(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="restic1"><a class="header" href="#restic1">restic(1)</a></h1>
 <h2 id="create-new-snapshot-repository"><a class="header" href="#create-new-snapshot-repository">Create new snapshot repository</a></h2>
 <pre><code class="language-bash"># Create a local backup repository.
 restic -r &lt;path&gt; init
@@ -3008,7 +3037,8 @@ restic -r &lt;repo&gt; mount --path &lt;abspath&gt; &lt;mntpoint&gt;
 <li><a href="https://restic.readthedocs.io/en/stable/index.html"><code>restic</code> read the docs</a></li>
 <li><a href="https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html#sftp">sftp</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="qrencode1"><a class="header" href="#qrencode1">qrencode(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="qrencode1"><a class="header" href="#qrencode1">qrencode(1)</a></h1>
 <pre><code>qrencode
     -s N     pixels per feature length
 </code></pre>
@@ -3019,7 +3049,8 @@ qrencode -t ansiutf8 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 # Generate picture for printing.
 qrencode -t png -o wifi.png 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="poppler"><a class="header" href="#poppler">poppler</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="poppler"><a class="header" href="#poppler">poppler</a></h1>
 <pre><code class="language-sh">pdfseparate [opts] &lt;input&gt; &lt;output-pattern&gt;
   -f N   Index of first page to extract.
   -l N   Index of last page to extract.
@@ -3046,7 +3077,8 @@ pdfseparate -f 2 -l 3 2017-statement.pdf foo%d.pdf
 <ul>
 <li>https://poppler.freedesktop.org/</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="nix"><a class="header" href="#nix">nix</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="nix"><a class="header" href="#nix">nix</a></h1>
 <p>This notes assume to have the <a href="https://nix.dev/manual/nix/latest/command-ref/conf-file.html#conf-experimental-features"><code>experimental-features = nix-command flakes</code></a> enabled.</p>
 <h2 id="nixconf-ref"><a class="header" href="#nixconf-ref">nix.conf (<a href="https://nix.dev/manual/nix/latest/command-ref/conf-file">ref</a>)</a></h2>
 <pre><code class="language-bash">nix config show
@@ -3378,18 +3410,20 @@ nix-repl&gt; builtins
 <li><a href="https://nixos.org/guides/nix-pills/">nix pills</a></li>
 <li><a href="https://search.nixos.org/packages">nixpkgs search</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="process-management--inspection"><a class="header" href="#process-management--inspection">Process management &amp; inspection</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="process-management--inspection"><a class="header" href="#process-management--inspection">Process management &amp; inspection</a></h1>
 <ul>
-<li><a href="process/./lsof.html">lsof</a></li>
-<li><a href="process/./pidstat.html">pidstat</a></li>
-<li><a href="process/./pgrep.html">pgrep</a></li>
-<li><a href="process/./ps.html">ps</a></li>
-<li><a href="process/./pmap.html">pmap</a></li>
-<li><a href="process/./pstack.html">pstack</a></li>
-<li><a href="process/./taskset.html">taskset</a></li>
-<li><a href="process/./nice.html">nice</a></li>
+<li><a href="#lsof8">lsof</a></li>
+<li><a href="#pidstat1">pidstat</a></li>
+<li><a href="#pgrep1">pgrep</a></li>
+<li><a href="#ps1">ps</a></li>
+<li><a href="#pmap1">pmap</a></li>
+<li><a href="#pstack1">pstack</a></li>
+<li><a href="#taskset1">taskset</a></li>
+<li><a href="#nice1">nice</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="lsof8"><a class="header" href="#lsof8">lsof(8)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lsof8"><a class="header" href="#lsof8">lsof(8)</a></h1>
 <pre><code class="language-markdown">lsof
   -r &lt;s&gt; ..... repeatedly execute command ervery &lt;s&gt; seconds
   -a ......... AND slection filters instead ORing (OR: default)
@@ -3445,7 +3479,8 @@ and the device is currently busy.</p>
 <pre><code class="language-markdown"># Assuming /proc is a mount point.
 lsof /proc
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pidstat1"><a class="header" href="#pidstat1">pidstat(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pidstat1"><a class="header" href="#pidstat1">pidstat(1)</a></h1>
 <pre><code class="language-markdown">pidstat [opt] [interval] [cont]
   -U [user]     show username instead UID, optionally only show for user
   -r            memory statistics
@@ -3468,7 +3503,8 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <h1 id="io-statistics"><a class="header" href="#io-statistics">I/O statistics</a></h1>
 <pre><code class="language-markdown">pidstat -d -p &lt;pid&gt; [interval] [count]
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pgrep1"><a class="header" href="#pgrep1">pgrep(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pgrep1"><a class="header" href="#pgrep1">pgrep(1)</a></h1>
 <pre><code class="language-markdown">pgrep [opts] &lt;pattern&gt;
   -n         only list newest matching process
   -u &lt;usr&gt;   only show matching for user &lt;usr&gt;
@@ -3480,7 +3516,8 @@ major_pagefault: Happens when the page needed is NOT in memory, the kernel
 <p>For example attach gdb to newest zsh process from <code>$USER</code>.</p>
 <pre><code class="language-markdown">gdb -p $(pgrep -n -u $USER zsh)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ps1"><a class="header" href="#ps1">ps(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ps1"><a class="header" href="#ps1">ps(1)</a></h1>
 <pre><code>ps [opt]
   opt:
     --no-header .... do not print column header
@@ -3533,7 +3570,8 @@ ps -o pid,user,sig,sigcatch,sigignore,sigmask,comm -p 66570
 # With signal names.
 ps --signames -o pid,user,sig,sigcatch,sigignore,sigmask,comm -p 66570
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pmap1"><a class="header" href="#pmap1">pmap(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pmap1"><a class="header" href="#pmap1">pmap(1)</a></h1>
 <pre><code class="language-markdown">pmap [opts] &lt;pid&gt;
     Dump virtual memory map of process.
     Compared to /proc/&lt;pid&gt;/maps it shows the size of the mappings.
@@ -3541,11 +3579,13 @@ opts:
   -p         show full path in the mapping
   -x         show details (eg RSS usage of each segment)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pstack1"><a class="header" href="#pstack1">pstack(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pstack1"><a class="header" href="#pstack1">pstack(1)</a></h1>
 <pre><code class="language-markdown">pstack &lt;pid&gt;
     Dump stack for all threads of process.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="taskset1"><a class="header" href="#taskset1">taskset(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="taskset1"><a class="header" href="#taskset1">taskset(1)</a></h1>
 <p>Set cpu affinity for new processes or already running ones.</p>
 <pre><code class="language-sh"># Pin all (-a) tasks of new command on cores 0,1,2,4.
 taskset -ac 0-2,4 CMD [ARGS]
@@ -3553,7 +3593,7 @@ taskset -ac 0-2,4 CMD [ARGS]
 # Pin all tasks of running PID onto cores 0,2,4.
 taskset -ac 0-5:2 -p PID
 </code></pre>
-<h3 id="example-5"><a class="header" href="#example-5">Example</a></h3>
+<h3 id="example-4"><a class="header" href="#example-4">Example</a></h3>
 <p>Utility script to extract cpu lists grouped by the last-level-cache.</p>
 <pre><code class="language-python">import subprocess
 
@@ -3586,7 +3626,8 @@ for llc, cpus in LLC2CPU.items():
 
 print(LLC2RANGE)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="nice1"><a class="header" href="#nice1">nice(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="nice1"><a class="header" href="#nice1">nice(1)</a></h1>
 <p>Adjust <code>niceness</code> of a new command or running process.</p>
 <p>Niceness influences the scheduling priority and ranges between:</p>
 <ul>
@@ -3599,23 +3640,27 @@ nice -n 5 yes
 # Adjust niceness of running process.
 renice -n 5 -p PID
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="trace-and-profile"><a class="header" href="#trace-and-profile">Trace and Profile</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="trace-and-profile"><a class="header" href="#trace-and-profile">Trace and Profile</a></h1>
 <ul>
-<li><a href="trace_profile/./time.html">time</a></li>
-<li><a href="trace_profile/./strace.html">strace</a></li>
-<li><a href="trace_profile/./ltrace.html">ltrace</a></li>
-<li><a href="trace_profile/./perf.html">perf</a></li>
-<li><a href="trace_profile/./oprofile.html">OProfile</a></li>
-<li><a href="trace_profile/./callgrind.html">callgrind</a></li>
-<li><a href="trace_profile/./valgrind.html">valgrind</a></li>
-<li><a href="trace_profile/./vtune.html">vtune</a></li>
-<li><a href="trace_profile/./tracy.html">tracy</a></li>
+<li><a href="#usrbintime1">time</a></li>
+<li><a href="#strace1">strace</a></li>
+<li><a href="#ltrace1">ltrace</a></li>
+<li><a href="#perf1">perf</a></li>
+<li><a href="#oprofile">OProfile</a></li>
+<li><a href="#callgrind">callgrind</a></li>
+<li><a href="#valgrind1">valgrind</a></li>
+<li><a href="#vtune1">vtune</a></li>
+<li><a href="#tracy1">tracy</a></li>
+<li><a href="#xray-instrument">xray</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="usrbintime1"><a class="header" href="#usrbintime1">/usr/bin/time(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="usrbintime1"><a class="header" href="#usrbintime1">/usr/bin/time(1)</a></h1>
 <pre><code class="language-markdown"># statistics of process run
 /usr/bin/time -v &lt;cmd&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="strace1"><a class="header" href="#strace1">strace(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="strace1"><a class="header" href="#strace1">strace(1)</a></h1>
 <pre><code class="language-markdown">strace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -ff ......... follow fork and separate output file per child
@@ -3655,7 +3700,8 @@ renice -n 5 -p PID
 <p>Show successful calls to <code>perf_event_open((2)</code> without abbreviating  arguments.</p>
 <pre><code class="language-markdown">strace -v -z -e trace=perf_event_open perf stat -e cycles ls
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ltrace1"><a class="header" href="#ltrace1">ltrace(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ltrace1"><a class="header" href="#ltrace1">ltrace(1)</a></h1>
 <pre><code class="language-markdown">ltrace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -p &lt;pid&gt; .... attach to running process
@@ -3667,7 +3713,7 @@ renice -n 5 -p PID
                 (can be of form sym_pattern@lib_pattern)
   -n &lt;num&gt;      number of spaces to indent nested calls
 </code></pre>
-<h1 id="example-6"><a class="header" href="#example-6">Example</a></h1>
+<h1 id="example-5"><a class="header" href="#example-5">Example</a></h1>
 <p>List which program/libs call into <code>libstdc++</code>:</p>
 <pre><code class="language-bash">ltrace -l '*libstdc++*' -C -o ltrace.log ./main
 </code></pre>
@@ -3686,7 +3732,8 @@ ltrace -x '@liby*'
 # Trace symbol "foo" from all dlopened libraries matching the pattern.
 ltrace -x 'foo@liby*'
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="perf1"><a class="header" href="#perf1">perf(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="perf1"><a class="header" href="#perf1">perf(1)</a></h1>
 <pre><code>perf list     show supported hw/sw events &amp; metrics
   -v ........ print longer event descriptions
   --details . print information on the perf event names
@@ -3882,7 +3929,8 @@ events with search</li>
 <li><a href="https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html">intel/sdm</a> - intel software developer manuals (eg Optimization
 Reference Manual)</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="oprofile"><a class="header" href="#oprofile"><a href="https://oprofile.sourceforge.io/">OProfile</a></a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="oprofile"><a class="header" href="#oprofile"><a href="https://oprofile.sourceforge.io/">OProfile</a></a></h1>
 <pre><code class="language-markdown">operf -g -p &lt;pid&gt;
   -g ...... caputre call-graph information
 
@@ -3894,7 +3942,8 @@ opreport [opt] FILE
 
 ophelp      show supported hw/sw events
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="callgrind"><a class="header" href="#callgrind">callgrind</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="callgrind"><a class="header" href="#callgrind">callgrind</a></h1>
 <p>Callgrind is a tracing profiler which records the function call history of a
 target program and collects the number of executed instructions. It is part of
 the <a href="https://valgrind.org/docs/manual/cl-manual.html">valgrind</a> tool suite.</p>
@@ -3985,7 +4034,8 @@ int main() {
 <p>Alternatively instrumentation can be controlled with <code>callgrind_control -i on/off</code>.</p>
 <p>The files <a href="trace_profile/callgrind/cg_example.cc">cg_example.cc</a> and
 <a href="trace_profile/callgrind/Makefile">Makefile</a> provide a full example.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="valgrind1"><a class="header" href="#valgrind1">valgrind(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="valgrind1"><a class="header" href="#valgrind1">valgrind(1)</a></h1>
 <h2 id="memcheck---toolmemcheck"><a class="header" href="#memcheck---toolmemcheck">Memcheck <code>--tool=memcheck</code></a></h2>
 <p>Is the default tool when invoking <code>valgrind</code> without explicitly specifying
 <code>--tool</code>.</p>
@@ -4050,7 +4100,8 @@ Program received signal SIGTRAP, Trace/breakpoint trap.
 183	      SPECIAL (10);
 (gdb)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="vtune1"><a class="header" href="#vtune1"><a href="https://www.intel.com/content/www/us/en/docs/vtune-profiler/user-guide">vtune(1)</a></a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="vtune1"><a class="header" href="#vtune1"><a href="https://www.intel.com/content/www/us/en/docs/vtune-profiler/user-guide">vtune(1)</a></a></h1>
 <p>Vtune offers different analysis. Run <code>vtune -collect help</code> to list the
 availale analysis.</p>
 <h2 id="profiling"><a class="header" href="#profiling">Profiling</a></h2>
@@ -4103,7 +4154,8 @@ main: main.c
 vtune: main
 	$(VTUNE)/bin64/vtune -collect hotspots -start-paused -- ./main
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tracy1"><a class="header" href="#tracy1">tracy(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tracy1"><a class="header" href="#tracy1">tracy(1)</a></h1>
 <p><a href="https://github.com/wolfpld/tracy">Tracy</a> is a frame profiler, supporting manual code instrumentation
 and providing a sampling profiler.</p>
 <p>One can either record and visualize the profiling data live using
@@ -4113,7 +4165,7 @@ and providing a sampling profiler.</p>
 tracy-capture -o file [-f] [-p port]
     -f   overwrite &lt;file&gt; if it exists
 </code></pre>
-<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
+<h2 id="example-6"><a class="header" href="#example-6">Example</a></h2>
 <p>The example showcases different cases:</p>
 <ol>
 <li>Use tracy from a single binary. In that case the <code>TracyClient.cpp</code> can be
@@ -4328,12 +4380,63 @@ distclean:
 <blockquote>
 <p>Find <code>get-tracy.sh</code> <a href="https://github.com/johannst/notes/blob/master/src/trace_profile/tracy/get-tracy.sh">here</a>.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="debug-1"><a class="header" href="#debug-1">Debug</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="xray-instrument"><a class="header" href="#xray-instrument">xray-instrument</a></h1>
+<p><a href="https://llvm.org/docs/XRay.html">Xray</a> offers a function trace instrumentation which has very little
+overhead when trace capturing is disabled.</p>
+<p>The xray system consists of compile time instrumentation, a runtime library to
+control capturing as well as tools for post processing.</p>
+<p>During compilation functions are instrumented with nop space which is patched on
+the fly when tracing is enabled to hook function entry and exit
+points. Additional information for enabling the traces is placed in some special
+sections in the elf file.</p>
+<p>The following provides an starting point example demonstrating</p>
 <ul>
-<li><a href="debug/./gdb.html">gdb</a></li>
-<li><a href="debug/./gdbserver.html">gdbserver</a></li>
+<li><code>account</code> to gather function call statistics.</li>
+<li><code>convert</code> to convert the binary trace into a trace format that can be opened
+by other tools (eg <a href="https://ui.perfetto.dev/">perfetto.dev</a> or <a href="https://www.speedscope.app/">speedscope.app</a>.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gdb1"><a class="header" href="#gdb1">gdb(1)</a></h1>
+<pre><code class="language-make">run: main
+	XRAY_OPTIONS="patch_premain=true,xray_mode=xray-basic,verbosity=1" ./$&lt; 1 2 3 4 5 &gt; /dev/null
+	llvm-xray account --instr_map=$&lt; --sort=sum $$(ls -t1 xray-log.main.* | head -n1)
+	llvm-xray convert --instr_map=$&lt; --symbolize --output-format=trace_event $$(ls -t1 xray-log.main.* | head -n1)  | tee xray-trace.txt
+
+main: main.c
+	clang -o $@ $&lt; -g -fxray-instrument -fxray-instruction-threshold=1
+
+clean:
+	$(RM) main xray-log.main.* xray-trace.txt
+</code></pre>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+void work3() {
+  usleep(3 * 1000);
+}
+
+void work2() {
+  usleep(5 * 1000);
+  work3();
+}
+
+void work1() {
+  usleep(10 * 1000);
+}
+
+int main(int argc, char* argv[]) {
+  for (int i = 0; i &lt; argc; ++i) {
+    work1();
+    work2();
+  }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="debug-1"><a class="header" href="#debug-1">Debug</a></h1>
+<ul>
+<li><a href="#gdb1">gdb</a></li>
+<li><a href="#gdbserver1">gdbserver</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gdb1"><a class="header" href="#gdb1">gdb(1)</a></h1>
 <h1 id="cli"><a class="header" href="#cli">CLI</a></h1>
 <pre><code class="language-markdown">  gdb [opts] [prg [-c coredump | -p pid]]
   gdb [opts] --args prg &lt;prg-args&gt;
@@ -4763,7 +4866,7 @@ New value = 3
 set (s=0x7fffffffe594, v=3) at test.c:5
 5   }
 </code></pre>
-<h2 id="shell-commands-2"><a class="header" href="#shell-commands-2">Shell commands</a></h2>
+<h2 id="shell-commands-1-1"><a class="header" href="#shell-commands-1-1">Shell commands</a></h2>
 <pre><code class="language-markdown"># Run shell commands.
 
 (gdb) shell zcat /proc/config.gz | grep CONFIG_KVM=
@@ -4821,7 +4924,8 @@ $MOOSE=&lt;nullptr&gt;
 running test.sh wapper
 $MOOSE=moose
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gdbserver1"><a class="header" href="#gdbserver1">gdbserver(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gdbserver1"><a class="header" href="#gdbserver1">gdbserver(1)</a></h1>
 <h1 id="cli-1"><a class="header" href="#cli-1">CLI</a></h1>
 <pre><code class="language-markdown">  gdbserver [opts] comm prog [args]
     opts:
@@ -4833,7 +4937,7 @@ $MOOSE=moose
       host:port
       tty
 </code></pre>
-<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
+<h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
 <pre><code class="language-markdown"># Start gdbserver.
 gdbserver localhost:1234 /bin/ls
 
@@ -4845,15 +4949,17 @@ gdb -ex 'target remote localhost:1234'
 The wrapper will be executed before the debugee.</p>
 <pre><code class="language-markdown">gdbserver --wrapper env FOO=123 BAR=321 -- :12345 /bin/ls
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="binary"><a class="header" href="#binary">Binary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="binary"><a class="header" href="#binary">Binary</a></h1>
 <ul>
-<li><a href="binary/./od.html">od</a></li>
-<li><a href="binary/./xxd.html">xxd</a></li>
-<li><a href="binary/./readelf.html">readelf</a></li>
-<li><a href="binary/./objdump.html">objdump</a></li>
-<li><a href="binary/./nm.html">nm</a></li>
+<li><a href="#od1">od</a></li>
+<li><a href="#xxd1">xxd</a></li>
+<li><a href="#readelf1">readelf</a></li>
+<li><a href="#objdump1">objdump</a></li>
+<li><a href="#nm1">nm</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="od1"><a class="header" href="#od1">od(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="od1"><a class="header" href="#od1">od(1)</a></h1>
 <pre><code class="language-markdown">  od [opts] &lt;file&gt;
     -An         don't print addr info
     -tx4        print hex in 4 byte chunks
@@ -4894,7 +5000,8 @@ the <code>.rodata</code> section as follows:</p>
     &gt;&gt; 0004754 00000004
 </code></pre>
 <p><strong>Note</strong>: Numbers starting with <code>0x</code> will be interpreted as hex by <code>od</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="xxd1"><a class="header" href="#xxd1">xxd(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="xxd1"><a class="header" href="#xxd1">xxd(1)</a></h1>
 <pre><code class="language-markdown">  xxd [opts]
     -p          dump continuous hexdump
     -r          convert hexdump into binary ('revert')
@@ -4925,7 +5032,8 @@ the <code>.rodata</code> section as follows:</p>
   # edit binary file in hex format (ascii)
   xxd -r ls.hex &gt; ls
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="readelf1"><a class="header" href="#readelf1">readelf(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="readelf1"><a class="header" href="#readelf1">readelf(1)</a></h1>
 <pre><code class="language-markdown">  readelf [opts] &lt;elf&gt;
     -W|--wide     wide output, dont break output at 80 chars
     -h            print ELF header
@@ -4936,7 +5044,8 @@ the <code>.rodata</code> section as follows:</p>
     --dyn-syms    print dynamic symbol table (exported symbols for dynamic linker)
     -r            print relocation sections (.rel.*, .rela.*)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="objdump1"><a class="header" href="#objdump1">objdump(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="objdump1"><a class="header" href="#objdump1">objdump(1)</a></h1>
 <pre><code class="language-markdown">  objdump [opts] &lt;elf&gt;
     -M intel                   use intil syntax
     -d                         disassemble text section
@@ -4995,31 +5104,34 @@ objdump --disassemble=_ZN3foo3barEvr &lt;bin&gt;
 # Disassemble 'foo::bar()' (demangled), requires -C
 objdump -C --disassemble=foo::bar &lt;bin&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="nm1"><a class="header" href="#nm1">nm(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="nm1"><a class="header" href="#nm1">nm(1)</a></h1>
 <pre><code class="language-markdown">  nm [opts] &lt;elf&gt;
     -C                  demangle
     -u --undefined-ony  undefined only
     -U --defined-only   defined only
     -g                  exported only
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="development"><a class="header" href="#development">Development</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="development"><a class="header" href="#development">Development</a></h1>
 <ul>
-<li><a href="development/./c++filt.html">c++filt</a></li>
-<li><a href="development/./c++.html">c++</a></li>
-<li><a href="development/./glibc.html">glibc</a></li>
-<li><a href="development/./gcc.html">gcc</a></li>
-<li><a href="development/./gas.html">gas</a></li>
-<li><a href="development/./ld.html">ld</a></li>
-<li><a href="development/./git.html">git</a></li>
-<li><a href="development/./cmake.html">cmake</a></li>
-<li><a href="development/./make.html">make</a></li>
-<li><a href="development/./ld.so.html">ld.so</a></li>
-<li><a href="development/./symbolver.html">symbol versioning</a></li>
-<li><a href="development/./python.html">python</a></li>
-<li><a href="development/./gcov.html">gcov</a></li>
-<li><a href="development/./pgo.html">pgo</a></li>
+<li><a href="#cfilt1">c++filt</a></li>
+<li><a href="#c">c++</a></li>
+<li><a href="#glibc">glibc</a></li>
+<li><a href="#gcc1">gcc</a></li>
+<li><a href="#gas">gas</a></li>
+<li><a href="#ld1">ld</a></li>
+<li><a href="#git1">git</a></li>
+<li><a href="#cmake1">cmake</a></li>
+<li><a href="#make1">make</a></li>
+<li><a href="#ldso8">ld.so</a></li>
+<li><a href="#elf-symbol-versioning">symbol versioning</a></li>
+<li><a href="#python">python</a></li>
+<li><a href="#gcov1">gcov</a></li>
+<li><a href="#profile-guided-optimization-pgo">pgo</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cfilt1"><a class="header" href="#cfilt1">c++filt(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cfilt1"><a class="header" href="#cfilt1">c++filt(1)</a></h1>
 <h2 id="demangle-symbol"><a class="header" href="#demangle-symbol">Demangle symbol</a></h2>
 <pre><code class="language-markdown">  c++-filt [opts] &lt;symbol_str&gt;
     -t    Try to also demangle types.
@@ -5058,7 +5170,8 @@ unsigned char -&gt; unsigned char
 Foo&lt;&gt; -&gt; Foo&lt;void&gt;
 Foo&lt;int&gt; -&gt; Foo&lt;int&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="c"><a class="header" href="#c">c++</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="c"><a class="header" href="#c">c++</a></h1>
 <p>openstd <a href="https://www.open-std.org/jtc1/sc22/wg21/docs/standards">cpp standards</a>.</p>
 <p>Source files of most examples is available <a href="https://github.com/johannst/notes/tree/master/src/development/c%2B%2B">here</a>.</p>
 <h2 id="type-deduction"><a class="header" href="#type-deduction">Type deduction</a></h2>
@@ -5186,8 +5299,8 @@ ret
 <blockquote>
 <ol start="5">
 <li>Any object pointer type <code>T1*</code> can be converted to another object pointer
-type <code>cv T2*</code>. This is exactly equivalent to <code>static_cast&lt;cv T2*&gt;(static_cast&lt;cv void*&gt;(expression))</code> (which implies that if T2's
-alignment requirement is not stricter than T1's, the value of the pointer
+type <code>cv T2*</code>. This is exactly equivalent to <code>static_cast&lt;cv T2*&gt;(static_cast&lt;cv void*&gt;(expression))</code> (which implies that if T2’s
+alignment requirement is not stricter than T1’s, the value of the pointer
 does not change and conversion of the resulting pointer back to its
 original type yields the original value). In any case, the resulting
 pointer may only be dereferenced safely if allowed by the type aliasing
@@ -5588,7 +5701,7 @@ int main() {
 }
 </code></pre>
 <h2 id="example-concepts-pre-c20"><a class="header" href="#example-concepts-pre-c20">Example: Concepts pre c++20</a></h2>
-<p>Prior to c++20's concepts, <code>SFINAE</code> and <code>std::void_t</code> can be leveraged to build
+<p>Prior to c++20’s concepts, <code>SFINAE</code> and <code>std::void_t</code> can be leveraged to build
 something similar allowing to define an interface (aka trait) for a template
 parameter.</p>
 <pre><code class="language-cpp">
@@ -5958,11 +6071,12 @@ int main() {
     option&lt;M&gt; x /* option(M&amp;&amp;) + M(M&amp;&amp;) */ = M{} /* M() */;
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="glibc"><a class="header" href="#glibc">glibc</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="glibc"><a class="header" href="#glibc">glibc</a></h1>
 <h2 id="malloc-tracer-mtrace3"><a class="header" href="#malloc-tracer-mtrace3">malloc tracer <a href="http://man7.org/linux/man-pages/man3/mtrace.3.html"><code>mtrace(3)</code></a></a></h2>
 <p>Trace memory allocation and de-allocation to detect memory leaks.
 Need to call <code>mtrace(3)</code> to install the tracing hooks.</p>
-<p>If we can't modify the binary to call <code>mtrace</code> we can create a small shared
+<p>If we can’t modify the binary to call <code>mtrace</code> we can create a small shared
 library and pre-load it.</p>
 <pre><code class="language-c">// libmtrace.c
 #include &lt;mcheck.h&gt;
@@ -5975,7 +6089,7 @@ __attribute__((constructor))  static void init_mtrace() { mtrace(); }
 <pre><code class="language-bash">export MALLOC_TRACE=&lt;file&gt;
 LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 </code></pre>
-<p><strong>Note</strong>: If <code>MALLOC_TRACE</code> is not set <code>mtrace</code> won't install tracing hooks.</p>
+<p><strong>Note</strong>: If <code>MALLOC_TRACE</code> is not set <code>mtrace</code> won’t install tracing hooks.</p>
 <p>To get the results of the trace file:</p>
 <pre><code class="language-bash">mtrace &lt;binary&gt; $MALLOC_TRACE
 </code></pre>
@@ -5988,7 +6102,8 @@ LD_PRELOAD=./libmtrace.so &lt;binary&gt;
 3   print detailed error + stack trace + memory mappings &amp; abort
 7   print simple error message + stack trace + memory mappings &amp; abort
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gcc1"><a class="header" href="#gcc1">gcc(1)</a></h1>
 <h2 id="cli-2"><a class="header" href="#cli-2">CLI</a></h2>
 <ul>
 <li><code>-v</code> verbose, outputs exact compiler/linker invocations made by the gcc driver</li>
@@ -6096,7 +6211,8 @@ run1:
 <li>C ABI (x86_64) - <a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV ABI</a></li>
 <li>C++ ABI - <a href="https://itanium-cxx-abi.github.io/cxx-abi">C++ Itanium ABI</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gas"><a class="header" href="#gas">gas</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gas"><a class="header" href="#gas">gas</a></h1>
 <h2 id="frequently-used-directives"><a class="header" href="#frequently-used-directives">Frequently used directives</a></h2>
 <ul>
 <li><code>.section</code> to define a section (elf files)
@@ -6173,7 +6289,8 @@ defstr foo, "foobar"
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/i386_002dDependent.html">GNU Assembler <code>x86_64</code> dependent features</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ld1"><a class="header" href="#ld1">ld(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ld1"><a class="header" href="#ld1">ld(1)</a></h1>
 <pre><code>ld [opts] files...
     -T &lt;script&gt;        use &lt;script&gt; as linker script
     --trace            report each file the linker touches
@@ -6498,7 +6615,8 @@ ASSERT(SIZEOF(.stack) == 0x1000, "STACK section must be 0x1000")
 <li><a href="https://sourceware.org/binutils/docs/ld/Builtin-Functions.html">ld script: builtin functions</a></li>
 <li><a href="https://github.com/johannst/notes/tree/master/src/development/ld">notes/ld example files</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="git1"><a class="header" href="#git1">git(1)</a></h1>
 <h2 id="working-areas"><a class="header" href="#working-areas">Working areas</a></h2>
 <pre><code class="language-text">+-------------------+ --- stash -----&gt; +-------+
 | working directory |                  | stash |  // Shelving area.
@@ -6742,7 +6860,8 @@ history:    A - B
                 difference between HEAD^ and HEAD~)
   git rev-list --max-parents=0 HEAD ........... first commit
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cmake1"><a class="header" href="#cmake1">cmake(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cmake1"><a class="header" href="#cmake1">cmake(1)</a></h1>
 <h2 id="frequently-used-variables"><a class="header" href="#frequently-used-variables">Frequently used variables</a></h2>
 <pre><code># Install location.
 CMAKE_INSTALL_PREFIX=&lt;path&gt;
@@ -6799,7 +6918,8 @@ target_link_libraries(main liba)
 </code></pre>
 <p>Looks for <code>name-config.cmake</code> or <code>NameConfig.cmake</code> in paths given by
 <code>CMAKE_PREFIX_PATH</code>, or path given by <code>Name_DIR</code> and then builtin paths.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="make1"><a class="header" href="#make1">make(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="make1"><a class="header" href="#make1">make(1)</a></h1>
 <h2 id="anatomy-of-make-rules"><a class="header" href="#anatomy-of-make-rules">Anatomy of <code>make</code> rules</a></h2>
 <pre><code class="language-make">target .. : prerequisite ..
 	recipe
@@ -6824,7 +6944,7 @@ substring and other character match just them self.</p>
 <p>The substring matched by <code>%</code> is called the <code>stem</code>.</p>
 <p><code>%</code> in the prerequisite stands for the matched <code>stem</code> in the target.</p>
 <h3 id="automatic-variables"><a class="header" href="#automatic-variables">Automatic variables</a></h3>
-<p>As targets and prerequisites in pattern rules can't be spelled explicitly in
+<p>As targets and prerequisites in pattern rules can’t be spelled explicitly in
 the recipe, make provides a set of automatic variables to work with:</p>
 <ul>
 <li><code>$@</code>: Name of the target that triggered the rule.</li>
@@ -6924,7 +7044,7 @@ out := $(filter-out %.b %.c, $(in))
 # =&gt; out = a.a d.d
 </code></pre>
 <h3 id="abspath"><a class="header" href="#abspath"><code>abspath</code></a></h3>
-<p>Resolve each file name as absolute path (don't resolve symlinks).</p>
+<p>Resolve each file name as absolute path (don’t resolve symlinks).</p>
 <pre><code class="language-make">$(abspath fname1 fname2 ..)
 </code></pre>
 <h3 id="realpath"><a class="header" href="#realpath"><code>realpath</code></a></h3>
@@ -7059,7 +7179,8 @@ CC       foo.o
 &gt; make V=1
 true || gcc -c -o foo.o foo.c
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ldso8"><a class="header" href="#ldso8">ld.so(8)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ldso8"><a class="header" href="#ldso8">ld.so(8)</a></h1>
 <h2 id="environment-variables-1"><a class="header" href="#environment-variables-1">Environment Variables</a></h2>
 <pre><code class="language-console">LD_PRELOAD=&lt;l_so&gt;       colon separated list of libso's to be pre loaded
 LD_DEBUG=&lt;opts&gt;         comma separated list of debug options
@@ -7293,7 +7414,8 @@ search for and where to put the function pointer:
 </code></pre>
 As we can see the offset from relocation at index <code>0</code> points to <code>GOT[3]</code>.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="elf-symbol-versioning"><a class="header" href="#elf-symbol-versioning">ELF Symbol Versioning</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="elf-symbol-versioning"><a class="header" href="#elf-symbol-versioning">ELF Symbol Versioning</a></h1>
 <p>The <a href="https://refspecs.linuxbase.org/LSB_5.0.0/LSB-Core-generic/LSB-Core-generic/symversion.html">ELF symbol versioning</a> mechanism allows to attach version
 information to symbols.
 This can be used to express symbol version requirements or to provide certain
@@ -7498,7 +7620,8 @@ func_v2
 <li><a href="https://akkadia.org/drepper/dsohowto.pdf">How To Write Shared Libraries</a></li>
 <li><a href="https://refspecs.linuxbase.org/elf/elf.pdf">LSB: ELF File Format</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="python"><a class="header" href="#python">python</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="python"><a class="header" href="#python">python</a></h1>
 <h2 id="decorator-run"><a class="header" href="#decorator-run">Decorator [<a href="https://www.online-python.com/IDdiE0gpYU">run</a>]</a></h2>
 <p>Some decorator examples with type annotation.</p>
 <pre><code class="language-python">from typing import Callable
@@ -7552,8 +7675,7 @@ while tok := next(toks, None):
 print([tok for t in ["  a", "  ", " b "] if (tok := t.strip())])
 </code></pre>
 <h2 id="unittest-run"><a class="header" href="#unittest-run"><a href="https://docs.python.org/3/library/unittest.html">Unittest</a> [<a href="https://www.online-python.com/2fit4UcbzI">run</a>]</a></h2>
-<p>Run unittests directly from the command line as <br />
-<code>python3 -m unittest -v test</code></p>
+<p>Run unittests directly from the command line as <br><code>python3 -m unittest -v test</code></p>
 <p>Optionally pass <code>-k &lt;patter&gt;</code> to only run subset of tests.</p>
 <pre><code class="language-python"># file: test.py
 
@@ -7572,8 +7694,7 @@ class MyTest(unittest.TestCase):
             list()[0]
 </code></pre>
 <h2 id="doctest-run"><a class="header" href="#doctest-run"><a href="https://docs.python.org/3/library/doctest.html">Doctest</a> [<a href="https://www.online-python.com/LZst51UNIH">run</a>]</a></h2>
-<p>Run doctests directly from the command line as <br />
-<code>python -m doctest -v test.py</code></p>
+<p>Run doctests directly from the command line as <br><code>python -m doctest -v test.py</code></p>
 <pre><code class="language-python"># file: test.py
 
 def sum(a: int, b: int) -&gt; int:
@@ -7591,7 +7712,8 @@ def sum(a: int, b: int) -&gt; int:
 <p>Micro benchmarking.</p>
 <pre><code class="language-bash">python -m timeit '[x.strip() for x in ["a ", " b"]]'
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gcov1"><a class="header" href="#gcov1">gcov(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="gcov1"><a class="header" href="#gcov1">gcov(1)</a></h1>
 <p>Generate code coverage reports in text format.</p>
 <p>Compile the source files of interest and link the final binary with the
 following flags:</p>
@@ -7613,7 +7735,7 @@ link time <code>-lgcov</code>.</p>
 generated for a single file for example such as</p>
 <pre><code class="language-shell">gcov &lt;SRC FILE | OBJ FILE&gt;
 </code></pre>
-<h2 id="example-9"><a class="header" href="#example-9">Example</a></h2>
+<h2 id="example-8"><a class="header" href="#example-8">Example</a></h2>
 <pre><code class="language-cpp">#include &lt;cstdio&gt;
 
 void tell_me(int desc) {
@@ -7678,7 +7800,8 @@ clean:
         1:   16:  return 0;
         -:   17:}
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="profile-guided-optimization-pgo"><a class="header" href="#profile-guided-optimization-pgo">Profile guided optimization (pgo)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="profile-guided-optimization-pgo"><a class="header" href="#profile-guided-optimization-pgo">Profile guided optimization (pgo)</a></h1>
 <p><code>pgo</code> is an optimization technique to optimize a program for its usual
 workload.</p>
 <p>It is applied in two phases:</p>
@@ -7818,21 +7941,23 @@ rather than re-write it.</p>
     1071:  5a                   pop    rdx
     1072:  c3                   ret
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <ul>
-<li><a href="linux/./systemd.html">systemd</a></li>
-<li><a href="linux/./coredump.html">coredump</a></li>
-<li><a href="linux/./ptrace_scope.html">ptrace_scope</a></li>
-<li><a href="linux/./cryptsetup.html">cryptsetup</a></li>
-<li><a href="linux/./swap.html">swap</a></li>
-<li><a href="linux/./input.html">input</a></li>
-<li><a href="linux/./acl.html">acl</a></li>
-<li><a href="linux/./zfs.html">zfs</a></li>
-<li><a href="linux/./cpufreq.html">cpufreq</a></li>
-<li><a href="linux/./cups.html">cups</a></li>
-<li><a href="linux/./namespaces.html">namespaces</a></li>
+<li><a href="#systemd">systemd</a></li>
+<li><a href="#core5">coredump</a></li>
+<li><a href="#ptrace_scope">ptrace_scope</a></li>
+<li><a href="#cryptsetup8">cryptsetup</a></li>
+<li><a href="#swap">swap</a></li>
+<li><a href="#linux-input">input</a></li>
+<li><a href="#access-control-list-acl">acl</a></li>
+<li><a href="#zfs">zfs</a></li>
+<li><a href="#cpufreq">cpufreq</a></li>
+<li><a href="#cups1">cups</a></li>
+<li><a href="#namespaces7">namespaces</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="systemd"><a class="header" href="#systemd">systemd</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="systemd"><a class="header" href="#systemd">systemd</a></h1>
 <h2 id="systemctl"><a class="header" href="#systemctl">systemctl</a></h2>
 <p>Inspect units:</p>
 <pre><code class="language-text">systemctl [opts] [cmd]
@@ -7900,7 +8025,8 @@ journalctl --user -u test -n 5
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.unit.5.html">man systemd.unit(5)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man5/systemd.service.5.html">man systemd.service(5)</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="core5"><a class="header" href="#core5">core(5)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="core5"><a class="header" href="#core5">core(5)</a></h1>
 <p>There are multiple requirements that must be satisfied that <code>coredumps</code> are
 being generated, a full list can be found in <a href="https://man7.org/linux/man-pages/man5/core.5.html">core(5)</a>.</p>
 <p>An important one is to configure the soft resource limit <code>RLMIT_CORE</code>
@@ -7974,7 +8100,8 @@ coredumpctl dump 6363 -o &lt;file&gt;
 <pre><code class="language-bash">apport-unpack &lt;crash_repot&gt; &lt;dest_dir&gt;
 </code></pre>
 <p>The coredump resides under <code>&lt;dest_dir&gt;/CoreDump</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ptrace_scope"><a class="header" href="#ptrace_scope">ptrace_scope</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ptrace_scope"><a class="header" href="#ptrace_scope">ptrace_scope</a></h1>
 <p>In case the kernel was compiled with the <code>yama</code> security module
 (<code>CONFIG_SECURITY_YAMA</code>), tracing processes with <code>ptrace(2)</code> can be restricted.</p>
 <pre><code class="language-config">/proc/sys/kernel/yama/ptrace_scope
@@ -7989,7 +8116,8 @@ coredumpctl dump 6363 -o &lt;file&gt;
     3 =&gt; No tracing allowed.
 </code></pre>
 <p>Further details in <a href="https://man7.org/linux/man-pages/man2/ptrace.2.html"><code>ptrace(2)</code></a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cryptsetup8"><a class="header" href="#cryptsetup8"><a href="https://www.man7.org/linux/man-pages/man8/cryptsetup.8.html">cryptsetup(8)</a></a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cryptsetup8"><a class="header" href="#cryptsetup8"><a href="https://www.man7.org/linux/man-pages/man8/cryptsetup.8.html">cryptsetup(8)</a></a></h1>
 <pre><code class="language-text">cryptsetup &lt;action&gt; [opts] &lt;action args&gt;
 
 action:
@@ -8011,8 +8139,7 @@ action:
 <a href="https://man7.org/linux/man-pages/man4/loop.4.html">loop(4)</a> device. The loop device can be replaced by any block
 device file.</p>
 <blockquote>
-<p>Optional: Overwrite existing data on disk.<br />
-<code>sudo dd if=/dev/urandom of=/dev/sdX bs=1M</code></p>
+<p>Optional: Overwrite existing data on disk.<br><code>sudo dd if=/dev/urandom of=/dev/sdX bs=1M</code></p>
 </blockquote>
 <p>First create the backing file and setup the loop device.</p>
 <pre><code class="language-sh"># Create 100MB file.
@@ -8061,7 +8188,8 @@ sudo umount &lt;mntpoint&gt;
 # Close (re-encrypt) LUKS device.
 sudo cryptsetup close loop0
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="swap"><a class="header" href="#swap">swap</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="swap"><a class="header" href="#swap">swap</a></h1>
 <h2 id="list-active-swap-areas"><a class="header" href="#list-active-swap-areas">List active swap areas</a></h2>
 <pre><code class="language-sh"># procfs
 cat /proc/swaps
@@ -8103,7 +8231,8 @@ For example as <code>systemd</code> service:</p>
 <pre><code>systemctl status dphys-swapfile
 </code></pre>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="linux-input"><a class="header" href="#linux-input">Linux input</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linux-input"><a class="header" href="#linux-input">Linux input</a></h1>
 <p>Some notes on using <code>/dev/input/*</code> device driver files.</p>
 <h2 id="mousex--mice"><a class="header" href="#mousex--mice">mouseX / mice</a></h2>
 <p>These device files are created by the <a href="https://elixir.bootlin.com/linux/latest/source/drivers/input/mousedev.c#L842">mousedev</a> driver.</p>
@@ -8220,7 +8349,8 @@ int main(int argc, char* argv[]) {
     }
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="access-control-list-acl"><a class="header" href="#access-control-list-acl">access control list (acl)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="access-control-list-acl"><a class="header" href="#access-control-list-acl">access control list (acl)</a></h1>
 <blockquote>
 <p>This describes <code>POSIX</code> acl.</p>
 </blockquote>
@@ -8284,13 +8414,14 @@ other::rwx
 <li><a href="https://www.man7.org/linux/man-pages/man1/getfacl.1.html">getfacl(1)</a></li>
 <li><a href="https://www.man7.org/linux/man-pages/man1/setfacl.1.html">setfacl(1)</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="zfs"><a class="header" href="#zfs">zfs</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="zfs"><a class="header" href="#zfs">zfs</a></h1>
 <p>Pools are managed with the <a href="https://openzfs.github.io/openzfs-docs/man/8/zpool.8.html"><code>zpool(8)</code></a> command and have the
 following hierarchy:</p>
 <ul>
 <li><code>pool</code>: consists of one or more virtual devices (<code>vdev</code>)</li>
 <li><code>vdev</code>: consists of one or more physical devices (<code>dev</code>) and come in
-different kinds such as <a href="https://openzfs.github.io/openzfs-docs/man/7/zpoolconcepts.7.html#Virtual_Devices_(vdevs)"><code>disk</code>, <code>mirror</code>, <code>raidzX</code>, ...</a>
+different kinds such as <a href="https://openzfs.github.io/openzfs-docs/man/7/zpoolconcepts.7.html#Virtual_Devices_(vdevs)"><code>disk</code>, <code>mirror</code>, <code>raidzX</code>, …</a>
 <ul>
 <li><code>disk</code>: single physical disk (<code>vdev == dev</code>)</li>
 <li><code>mirror</code>: data is identically replicated on all <code>devs</code> (requires at least 2
@@ -8302,7 +8433,7 @@ physical devices).</li>
 Therefore a total failure of a single <code>vdev</code> can lead to total loss of a pool.</p>
 <p>A <code>dataset</code> is a logical volume which can be created on top of a <code>pool</code>. Each
 <code>dataset</code> can be configured with its own set of <code>properties</code> like
-<a href="https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html"><code>encryption</code>, <code>quota</code>, ...</a>.
+<a href="https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html"><code>encryption</code>, <code>quota</code>, …</a>.
 Datasets are managed with the <a href="https://openzfs.github.io/openzfs-docs/man/8/zfs.8.html"><code>zfs(8)</code></a> command.</p>
 <h2 id="zfs-pool-management"><a class="header" href="#zfs-pool-management">zfs pool management</a></h2>
 <p>Pools are by default mounted at <code>/&lt;POOL&gt;</code>.</p>
@@ -8481,7 +8612,7 @@ zfs clone moose/foo@v1 moose/foov1
 zfs destroy moose/foo@v1
 </code></pre>
 <h3 id="access-control-list"><a class="header" href="#access-control-list">Access control list</a></h3>
-<p>Focus on <a href="linux/./acl.html">posix acl</a>.</p>
+<p>Focus on <a href="#access-control-list-acl">posix acl</a>.</p>
 <pre><code class="language-bash"># Set the ACL type for the FOO dataset to POSIXACL.
 zfs set acltype=posixacl moose/foo
 
@@ -8502,7 +8633,8 @@ cache.</p>
       └─zfs-import.target
         └─zfs-import-cache.service
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cpufreq"><a class="header" href="#cpufreq">cpufreq</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cpufreq"><a class="header" href="#cpufreq">cpufreq</a></h1>
 <p>The <code>sysfs</code> interface to cpu frequency settings and current state.</p>
 <pre><code>/sys/devices/system/cpu/cpu*/cpufreq/
 </code></pre>
@@ -8520,11 +8652,12 @@ cpupower -c all frequency-info -g
 # Change frequency governor to POWERSAVE (eg).
 cpupower -c all frequency-set -g powersave
 </code></pre>
-<h2 id="example-10"><a class="header" href="#example-10">Example</a></h2>
+<h2 id="example-9"><a class="header" href="#example-9">Example</a></h2>
 <p>Watch cpu frequency.</p>
 <pre><code class="language-sh">watch -n1 "cpupower -c all frequency-info -f -m | xargs -n2 -d'\n'"
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cups1"><a class="header" href="#cups1">cups(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cups1"><a class="header" href="#cups1">cups(1)</a></h1>
 <h2 id="discover"><a class="header" href="#discover">Discover</a></h2>
 <pre><code class="language-sh"># List available printer driver.
 lpinfo -m
@@ -8590,7 +8723,8 @@ cupsdisable PRINTER
 cupsaccept PRINTER
 cupsreject PRINTER
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="namespaces7"><a class="header" href="#namespaces7">namespaces(7)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="namespaces7"><a class="header" href="#namespaces7">namespaces(7)</a></h1>
 <h2 id="list-namespaces"><a class="header" href="#list-namespaces">List namespaces</a></h2>
 <pre><code class="language-sh"># List all namespaces.
 lsns
@@ -8610,15 +8744,17 @@ lsns -t pid
 following.</p>
 <pre><code class="language-sh">sudo nsenter -t (podman inspect -f '{{.State.Pid}}' webserver) --all /bin/sh
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="network-1"><a class="header" href="#network-1">Network</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="network-1"><a class="header" href="#network-1">Network</a></h1>
 <ul>
-<li><a href="network/./ssh.html">ssh</a></li>
-<li><a href="network/./tcpdump.html">tcpdump</a></li>
-<li><a href="network/./tshark.html">tshark</a></li>
-<li><a href="network/./firewall-cmd.html">firewall-cmd</a></li>
-<li><a href="network/./nftables.html">nftables</a></li>
+<li><a href="#ssh-1">ssh</a></li>
+<li><a href="#tcpdump1">tcpdump</a></li>
+<li><a href="#tshark-1">tshark</a></li>
+<li><a href="#firewall-cmd1">firewall-cmd</a></li>
+<li><a href="#nftables">nftables</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ssh-1"><a class="header" href="#ssh-1">ssh (1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ssh-1"><a class="header" href="#ssh-1">ssh (1)</a></h1>
 <h2 id="ssh-tunnel"><a class="header" href="#ssh-tunnel">ssh tunnel</a></h2>
 <p>Abbreviations used:</p>
 <ul>
@@ -8658,7 +8794,7 @@ locally and <code>-R</code> means that requests are issued remotely.</p>
 drop into shell)</li>
 <li><code>-f</code> run <code>ssh</code> command in the background</li>
 </ul>
-<h3 id="example-11"><a class="header" href="#example-11">Example</a></h3>
+<h3 id="example-10"><a class="header" href="#example-10">Example</a></h3>
 <pre><code class="language-sh"># Forward requests on localhost:8080 to moose:1234 and keep ssh in forground
 # but dont drop into a shell.
 ssh -N -L 8080:1234 moose
@@ -8717,7 +8853,8 @@ hoste tree*
 # ssh tree7 -&gt; banana@tree7.some-dns-path
 # ssh tree5 -&gt; cherry@tree5.some-dns-path
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ss8"><a class="header" href="#ss8">ss(8)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ss8"><a class="header" href="#ss8">ss(8)</a></h1>
 <pre><code class="language-markdown">ss [option] [filter]
 </code></pre>
 <pre><code class="language-markdown">[option]
@@ -8741,10 +8878,11 @@ hoste tree*
 <p>Show all tcp IPv4 sockets connecting to port <code>443</code>:</p>
 <pre><code class="language-markdown">ss -4 'dport 443'
 </code></pre>
-<p>Show all tcp IPv4 sockets that don't connect to port <code>443</code> or connect to address <code>1.2.3.4</code>.</p>
+<p>Show all tcp IPv4 sockets that don’t connect to port <code>443</code> or connect to address <code>1.2.3.4</code>.</p>
 <pre><code class="language-markdown">ss -4 'dport != 443 or dst 1.2.3.4'
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tcpdump1"><a class="header" href="#tcpdump1">tcpdump(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tcpdump1"><a class="header" href="#tcpdump1">tcpdump(1)</a></h1>
 <h1 id="cli-3"><a class="header" href="#cli-3">CLI</a></h1>
 <pre><code class="language-markdown">tcpdump [opts] -i &lt;if&gt; [&lt;filter&gt;]
     -n              Don't convert host/port names.
@@ -8770,7 +8908,8 @@ ssh &lt;host&gt; tcpdump -i any -w - | sudo wireshark -k -i -
 <blockquote>
 <p>The <code>any</code> interface is a special keyword to capture traffic on all interfaces.</p>
 </blockquote>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tshark-1"><a class="header" href="#tshark-1">tshark (1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="tshark-1"><a class="header" href="#tshark-1">tshark (1)</a></h1>
 <pre><code class="language-text">tshark [opts] -i &lt;if&gt;
     --color         Colorize output.
     -w &lt;file|-&gt;     Write pcap trace to file or stdout (-).
@@ -8805,7 +8944,8 @@ sudo tshark -r tx.pcap
 # View captured packets and apply additionaly display filters.
 sudo tshark -r tx.pcap -Y 'ip.addr != 192.168.1.42'
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="firewall-cmd1"><a class="header" href="#firewall-cmd1">firewall-cmd(1)</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="firewall-cmd1"><a class="header" href="#firewall-cmd1">firewall-cmd(1)</a></h1>
 <p>Command line interface to the <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a> daemon.</p>
 <h2 id="list-current-status-of-the-firewall"><a class="header" href="#list-current-status-of-the-firewall">List current status of the firewall</a></h2>
 <pre><code class="language-sh"># List all services and ports for all zones.
@@ -8841,7 +8981,8 @@ firewall-cmd --remove-rich-rule 'rule family="ipv4" forward-port port="80" proto
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewall-cmd.html">firewall-cmd(1)</a></li>
 <li>man <a href="https://firewalld.org/documentation/man-pages/firewalld.html">firewalld(1)</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="nftables"><a class="header" href="#nftables">nftables</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="nftables"><a class="header" href="#nftables">nftables</a></h1>
 <p><a href="https://nftables.org/projects/nftables/index.html">Nftables</a> is a stateful Linux firewall which uses the
 <a href="https://nftables.org">netfilter</a> kernel hooks.
 It is used for stateless, stateful packet filtering and all sorts of NAT.</p>
@@ -8932,15 +9073,17 @@ nc localhost 8000
 nc localhost 8200
 </code></pre>
 <h2 id="mental-model-for-netfilter-packet-flow"><a class="header" href="#mental-model-for-netfilter-packet-flow">Mental model for netfilter packet flow</a></h2>
-<p><img src="network/assets/nf_pkt_flow.png" alt="nf_pkt_flow.png" /></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="web"><a class="header" href="#web">Web</a></h1>
+<p><img src="network/assets/nf_pkt_flow.png" alt="nf_pkt_flow.png"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="web"><a class="header" href="#web">Web</a></h1>
 <ul>
-<li><a href="web/./html.html">html</a></li>
-<li><a href="web/./css.html">css</a></li>
-<li><a href="web/./chartjs.html">chartjs</a></li>
-<li><a href="web/./plotly.html">plotly</a></li>
+<li><a href="#html">html</a></li>
+<li><a href="#css">css</a></li>
+<li><a href="#chartjs">chartjs</a></li>
+<li><a href="#plotly-js">plotly</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="html"><a class="header" href="#html">html</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="html"><a class="header" href="#html">html</a></h1>
 <h2 id="collapsible-element"><a class="header" href="#collapsible-element">Collapsible element</a></h2>
 <p><a href="web/src/details.html">Rendered html</a></p>
 <pre><code class="language-html">&lt;details&gt;
@@ -9313,7 +9456,8 @@ and observe how the border changes.
     &lt;img src="grad.png"&gt;
 &lt;/figure&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="css"><a class="header" href="#css">css</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="css"><a class="header" href="#css">css</a></h1>
 <h2 id="selector"><a class="header" href="#selector">selector</a></h2>
 <p><code>.moose</code> element with class</p>
 <pre><code class="language-html">&lt;div class = "moose"&gt;&lt;/div&gt;  // selected
@@ -9350,7 +9494,8 @@ and observe how the border changes.
 <pre><code class="language-html">&lt;div&gt;&lt;p&gt;&lt;/p&gt;&lt;/div&gt;           // selected
 &lt;div&gt;&lt;ul&gt;&lt;p&gt;&lt;/p&gt;&lt;/ul&gt;&lt;/div&gt;  // NOT selected
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="chartjs"><a class="header" href="#chartjs">Chart.js</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="chartjs"><a class="header" href="#chartjs">Chart.js</a></h1>
 <h2 id="minimal-example-with-external-tooltips"><a class="header" href="#minimal-example-with-external-tooltips">Minimal example with <em>external</em> tooltips</a></h2>
 <p><a href="web/src/chartjs-ext-tooltip.html">Rendered html</a></p>
 <pre><code class="language-html">&lt;canvas id="myChart" style="margin:5em;"&gt;&lt;/canvas&gt;
@@ -9453,7 +9598,8 @@ const chart = new Chart(
 );
 &lt;/script&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="plotly-js"><a class="header" href="#plotly-js">Plotly js</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="plotly-js"><a class="header" href="#plotly-js">Plotly js</a></h1>
 <p>Visualization library for javascript based on <code>d3</code>.</p>
 <p>Official documentation is <a href="https://plotly.com/javascript/">here</a>.</p>
 <h2 id="line-chart-example"><a class="header" href="#line-chart-example">Line chart example</a></h2>
@@ -9528,16 +9674,18 @@ I frequently use. It is bloated on purpose to document the options for myself.</
   })
 &lt;/script&gt;
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="arch"><a class="header" href="#arch">Arch</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="arch"><a class="header" href="#arch">Arch</a></h1>
 <ul>
-<li><a href="arch/./cache.html">cache</a></li>
-<li><a href="arch/./x86_64.html">x86_64</a></li>
-<li><a href="arch/./armv8.html">armv8</a></li>
-<li><a href="arch/./arm64.html">arm64</a></li>
-<li><a href="arch/./armv7.html">armv7</a></li>
-<li><a href="arch/./riscv.html">riscv</a></li>
+<li><a href="#cache">cache</a></li>
+<li><a href="#x86_64">x86_64</a></li>
+<li><a href="#armv8">armv8</a></li>
+<li><a href="#arm64">arm64</a></li>
+<li><a href="#armv7a">armv7</a></li>
+<li><a href="#riscv">riscv</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="cache"><a class="header" href="#cache">cache</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="cache"><a class="header" href="#cache">cache</a></h1>
 <p>Caches are organized by the following components</p>
 <ul>
 <li><code>sets</code></li>
@@ -9721,7 +9869,7 @@ the homonym.</p>
 <p>Preventing <code>synonyms</code> on the other hand is harder, as neither physical tagging
 nor ASIDs help in this case. Flushing the cache during context switches only
 helps with the case where different address spaces alias shared pages, but it
-won't help if the same PA is aliased by different VAs in a single address space.
+won’t help if the same PA is aliased by different VAs in a single address space.
 There are to alternative approaches, one is to have hardware support to detect
 synonyms and the other one is to have the operating system only allow shared
 mappings with VAs that have the same index bits for the cache. However, the
@@ -9746,7 +9894,7 @@ constructed.</p>
 <li>if the <code>index</code> bits for the cache lookup, exceed the <code>page offset</code> in the
 virtual address, then <code>synonyms</code> are still possible.</li>
 <li>if all the <code>index</code> bits for the cache lookup fall into the <code>page offset</code> of
-the virtual address, then the bits used for the cache lookup won't change
+the virtual address, then the bits used for the cache lookup won’t change
 during the <code>VA -&gt; PA</code> translation, and hence the cache effectively operates as
 a PIPT cache. The only downside is that the number of sets in the cache is
 limited by the page size.</li>
@@ -9792,7 +9940,8 @@ lscpu -e
 #
 # =&gt; CPU 0,4 share L1d, L1i, L2 caches (here two hw-threads of a core).
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="x86_64"><a class="header" href="#x86_64">x86_64</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="x86_64"><a class="header" href="#x86_64">x86_64</a></h1>
 <p>keywords: x86_64, x86, abi</p>
 <ul>
 <li>64bit synonyms: <code>x86_64</code>, <code>x64</code>, <code>amd64</code>, <code>intel 64</code></li>
@@ -9990,7 +10139,7 @@ implemented TSC ticks with a constant frequency.</p>
         // out: eax, ebx, ecx, edx (interpreting depends on leaf)
 </code></pre>
 <p>This instruction is used to query for availability of certain
-instructions or hardware details like cache sizes and son on.</p>
+instructions or hardware details like cache sizes and so on.</p>
 <p>An example how to read cpuid leafs is show in <a href="arch/x86/cpuid/cpuid.c">cpuid.c</a>.</p>
 <h2 id="sysv-x86_64-abi"><a class="header" href="#sysv-x86_64-abi"><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SysV x86_64 ABI</a></a></h2>
 <h3 id="passing-arguments-to-functions"><a class="header" href="#passing-arguments-to-functions">Passing arguments to functions</a></h3>
@@ -10395,7 +10544,8 @@ address and to relative accesses.</p>
 <li><a href="https://github.com/johannst/juicebox-asm"><code>juicebox-asm</code> an <code>x86_64</code> jit assembler playground</a></li>
 <li><a href="https://git.memzero.de/testground/x86-bare-metal-playground">zig x86 bare metal examples</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="armv8"><a class="header" href="#armv8">armv8</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="armv8"><a class="header" href="#armv8">armv8</a></h1>
 <p>keywords: aarch64, arm64, A64, aarch32, A32, T32, abi</p>
 <p>The <code>armv8</code> architecture introduces support for 64-bit and defines two
 <em>execution states</em> <code>aarch64</code> and <code>aarch32</code>.</p>
@@ -10434,10 +10584,11 @@ EL</em>.</li>
 <p>This means for example, an <em>os</em> running in <code>aarch32</code> can only support <code>aarch32</code>
 user applications, while an <em>os</em> running in <code>aarch64</code> can support
 <code>aarch32 / aarch64</code> user applications.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="arm64"><a class="header" href="#arm64">arm64</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="arm64"><a class="header" href="#arm64">arm64</a></h1>
 <blockquote>
 <p>This page only talks about the 64 bit part of the <code>armv8</code> architecture. For
-an overview see <a href="arch/./armv8.html"><code>armv8</code></a>.</p>
+an overview see <a href="#armv8"><code>armv8</code></a>.</p>
 </blockquote>
 <p>keywords: arm64, aarch64, abi</p>
 <ul>
@@ -10656,7 +10807,7 @@ required when compiling natively on arm64.</p>
 <h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
-<li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer's Guide</a></li>
+<li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer’s Guide</a></li>
 <li><a href="https://developer.arm.com/documentation/ddi0487/latest">ARMv8-A Architecture Reference Manual</a></li>
 <li><a href="https://developer.arm.com/documentation/dai0527/latest">AppNote: ARMv8 Bare-metal boot code</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
@@ -10664,7 +10815,8 @@ required when compiling natively on arm64.</p>
 <li><a href="https://sourceware.org/binutils/docs/as/AArch64_002dDependent.html">GNU Assembler <code>AArch64</code> dependent features</a></li>
 <li><a href="https://developer.arm.com/documentation/ddi0602/latest/Base-Instructions">ARM64-A Instruction Browser</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="armv7a"><a class="header" href="#armv7a">armv7a</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="armv7a"><a class="header" href="#armv7a">armv7a</a></h1>
 <p>keywords: arm, armv7, abi</p>
 <ul>
 <li>ISA type: <code>RISC</code></li>
@@ -10901,13 +11053,14 @@ required when compiling natively on arm.</p>
 <h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
-<li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer's Guide</a></li>
+<li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer’s Guide</a></li>
 <li><a href="https://developer.arm.com/documentation/ddi0406/latest">ARMv7-A Architecture Reference Manual</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/ARM_002dDependent.html">GNU Assembler <code>ARM</code> dependent features</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="riscv"><a class="header" href="#riscv">riscv</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="riscv"><a class="header" href="#riscv">riscv</a></h1>
 <p>keywords: rv32, rv64</p>
 <ul>
 <li>ISA type: <code>RISC</code></li>
@@ -11003,6 +11156,11 @@ required when compiling natively on riscv.</p>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -11011,13 +11169,13 @@ required when compiling natively on riscv.</p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-4f6b82a4.js"></script>
+        <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
 
