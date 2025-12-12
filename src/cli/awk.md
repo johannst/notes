@@ -60,9 +60,9 @@ multiple times. Actions with those patterns are **executed exactly once**.
 ### Special variables
 
 - `RS` _record separator_: first char is the record separator, by default
-  <newline>
+  `<newline>`
 - `FS` _field separator_: regex to split records into fields, by default
-  <space>
+  `<space>`
 - `NR` _number record_: number of current record
 - `NF` _number fields_: number of fields in the current record
 
