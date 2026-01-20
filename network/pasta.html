@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>taskset - Notes</title>
+        <title>pasta - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -177,57 +177,39 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="taskset1"><a class="header" href="#taskset1">taskset(1)</a></h1>
-<p>Set cpu affinity for new processes or already running ones.</p>
-<pre><code class="language-sh"># Pin all (-a) tasks of new command on cores 0,1,2,4.
-taskset -ac 0-2,4 CMD [ARGS]
-
-# Pin all tasks of running PID onto cores 0,2,4.
-taskset -ac 0-5:2 -p PID
+                        <h1 id="pasta1"><a class="header" href="#pasta1">pasta(1)</a></h1>
+<pre><code class="language-sh">pasta [opts]
+  opts:
+    --ipv4-only            Enable only ipv4 operations.
+    --outbound-if4 &lt;if&gt;    Bind ipv4 outbound sockets to this network interface.
+                           This forces all outbound traffic via that interface.
+                           If -i is not specified used this interface to derive
+                           ipv4 address and routes.
+    --ns-ifname &lt;name&gt;     Name of tap device in network namespace. Default is
+                           the same as the one on the host which the ip addresses
+                           and routes are derived from.
 </code></pre>
-<h3 id="example"><a class="header" href="#example">Example</a></h3>
-<p>Utility script to extract cpu lists grouped by the last-level-cache.</p>
-<pre><code class="language-python">import subprocess
-
-res = subprocess.run(["lscpu", "-p=cpu,cache"], capture_output=True, check=True)
-
-LLC2CPU = dict()
-
-for line in res.stdout.decode().splitlines():
-    if line.startswith("#"):
-        continue
-
-    cpu, cache = line.split(",")
-    llc        = cache.split(":")[-1]
-
-    LLC2CPU.setdefault(llc, list()).append(int(cpu))
-
-LLC2RANGE = dict()
-
-for llc, cpus in LLC2CPU.items():
-    first_cpu = cpus[0]
-    prev_cpu  = cpus[0]
-    for cpu in cpus[1:]:
-        if cpu != prev_cpu + 1:
-            LLC2RANGE.setdefault(llc, list()).append(f"{first_cpu}-{prev_cpu}")
-            # New range begins.
-            first_cpu = cpu
-        prev_cpu = cpu
-    # Trailing range.
-    LLC2RANGE.setdefault(llc, list()).append(f"{first_cpu}-{prev_cpu}")
-
-print(LLC2RANGE)
+<h2 id="example-pass-extra-arguments-to-pasta-in-podman"><a class="header" href="#example-pass-extra-arguments-to-pasta-in-podman">Example: Pass extra arguments to pasta in podman</a></h2>
+<p>This shows an example how to bind outbound traffic to the host interface <code>wlp123</code>
+and name the tap interface in the container <code>eth42</code>.</p>
+<pre><code>&gt; podman run --rm -it \
+    --network pasta:--ipv4-only,--outbound-if4,wlp123,--ns-ifname,eth42 \
+    alpine
 </code></pre>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<ul>
+<li>https://passt.top/passt/about/</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../process/pstack.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../network/nftables.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../process/nice.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../web/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -237,11 +219,11 @@ print(LLC2RANGE)
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../process/pstack.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../network/nftables.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../process/nice.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../web/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

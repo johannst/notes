@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-a285c773.js";
+            window.path_to_searchindex_js = "searchindex-bce0e30b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-212c885b.js"></script>
+        <script src="toc-f3b5f28c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -8851,6 +8851,7 @@ ip netns del moose
 <li><a href="#tshark-1">tshark</a></li>
 <li><a href="#firewall-cmd1">firewall-cmd</a></li>
 <li><a href="#nftables">nftables</a></li>
+<li><a href="#pasta1">pasta</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="ssh-1"><a class="header" href="#ssh-1">ssh (1)</a></h1>
@@ -9173,6 +9174,30 @@ nc localhost 8200
 </code></pre>
 <h2 id="mental-model-for-netfilter-packet-flow"><a class="header" href="#mental-model-for-netfilter-packet-flow">Mental model for netfilter packet flow</a></h2>
 <p><img src="network/assets/nf_pkt_flow.png" alt="nf_pkt_flow.png"></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="pasta1"><a class="header" href="#pasta1">pasta(1)</a></h1>
+<pre><code class="language-sh">pasta [opts]
+  opts:
+    --ipv4-only            Enable only ipv4 operations.
+    --outbound-if4 &lt;if&gt;    Bind ipv4 outbound sockets to this network interface.
+                           This forces all outbound traffic via that interface.
+                           If -i is not specified used this interface to derive
+                           ipv4 address and routes.
+    --ns-ifname &lt;name&gt;     Name of tap device in network namespace. Default is
+                           the same as the one on the host which the ip addresses
+                           and routes are derived from.
+</code></pre>
+<h2 id="example-pass-extra-arguments-to-pasta-in-podman"><a class="header" href="#example-pass-extra-arguments-to-pasta-in-podman">Example: Pass extra arguments to pasta in podman</a></h2>
+<p>This shows an example how to bind outbound traffic to the host interface <code>wlp123</code>
+and name the tap interface in the container <code>eth42</code>.</p>
+<pre><code>&gt; podman run --rm -it \
+    --network pasta:--ipv4-only,--outbound-if4,wlp123,--ns-ifname,eth42 \
+    alpine
+</code></pre>
+<h1 id="references-12"><a class="header" href="#references-12">References</a></h1>
+<ul>
+<li>https://passt.top/passt/about/</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="web"><a class="header" href="#web">Web</a></h1>
 <ul>
@@ -10627,7 +10652,7 @@ address translation.</p>
 <p>The example in <a href="arch/x86/seg/seg.c">seg.c</a> shows how to set the <code>gs</code> base
 address and to relative accesses.</p>
 </blockquote>
-<h2 id="references-12"><a class="header" href="#references-12">References</a></h2>
+<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
 <ul>
 <li><a href="https://gitlab.com/x86-psABIs/x86-64-ABI">SystemV AMD64 ABI</a></li>
 <li><a href="https://www.amd.com/system/files/TechDocs/24592.pdf">AMD64 Vol1: Application Programming</a></li>
@@ -10903,7 +10928,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm64.</p>
 </blockquote>
-<h2 id="references-13"><a class="header" href="#references-13">References</a></h2>
+<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs64/aapcs64.rst">Procedure Call Standard ARM64</a></li>
 <li><a href="https://developer.arm.com/documentation/den0024/latest">ARMv8-A Programmer’s Guide</a></li>
@@ -11149,7 +11174,7 @@ Hi ASM-World!
 distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on arm.</p>
 </blockquote>
-<h2 id="references-14"><a class="header" href="#references-14">References</a></h2>
+<h2 id="references-15"><a class="header" href="#references-15">References</a></h2>
 <ul>
 <li><a href="https://github.com/ARM-software/abi-aa/blob/master/aapcs32/aapcs32.rst">Procedure Call Standard ARM</a></li>
 <li><a href="https://developer.arm.com/documentation/den0013/latest">ARMv7-A Programmer’s Guide</a></li>
@@ -11231,7 +11256,7 @@ distributions. Explicitly specifying the dynamic linker should not be
 required when compiling natively on riscv.</p>
 <p>Select dynamic linker according to abi used during compile &amp; link.</p>
 </blockquote>
-<h2 id="references-15"><a class="header" href="#references-15">References</a></h2>
+<h2 id="references-16"><a class="header" href="#references-16">References</a></h2>
 <ul>
 <li><a href="https://sourceware.org/binutils/docs/as">GNU Assembler</a></li>
 <li><a href="https://sourceware.org/binutils/docs/as/Pseudo-Ops.html#Pseudo-Ops">GNU Assembler Directives</a></li>
