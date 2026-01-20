@@ -5,3 +5,4 @@
 - [tshark](./tshark.md)
 - [firewall-cmd](./firewall-cmd.md)
 - [nftables](./nftables.md)
+- [pasta](./pasta.md)

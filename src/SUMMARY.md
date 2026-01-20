@@ -107,6 +107,7 @@
     - [tshark](./network/tshark.md)
     - [firewall-cmd](./network/firewall-cmd.md)
     - [nftables](./network/nftables.md)
+    - [pasta](./network/pasta.md)
 
 - [Web](./web/README.md)
     - [html](./web/html.md)
