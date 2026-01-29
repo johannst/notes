@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-bce0e30b.js";
+            window.path_to_searchindex_js = "searchindex-d1fdea1c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-f3b5f28c.js"></script>
+        <script src="toc-7892c6d7.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -1330,6 +1330,7 @@ echo 'aa bb cc dd' | rev | cut -d ' ' -f3- | rev
     -i          edit file in place
     -i.bk       edit file in place and create backup file
                 (with .bk suffix, can be specified differently)
+    -n          quite, dont print by default
     --follow-symlinks
                 follow symlinks when editing in place
     -e SCRIPT   add SCRIPT to commands to be executed
@@ -1339,6 +1340,13 @@ echo 'aa bb cc dd' | rev | cut -d ' ' -f3- | rev
     --debug     annotate program execution
 </code></pre>
 <h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<h3 id="extract-range-of-lines"><a class="header" href="#extract-range-of-lines">Extract range of lines</a></h3>
+<pre><code># Print lines between pattern bb and dd (inclusive).
+echo -e 'aa\nbb\ncc\ndd\nee' | sed -n '/bb/,/dd/p'
+# bb
+# cc
+# dd
+</code></pre>
 <h3 id="delete-lines"><a class="header" href="#delete-lines">Delete lines</a></h3>
 <pre><code class="language-sh"># Delete two lines.
 echo -e 'aa\nbb\ncc\ndd' | sed '1d;3d'
@@ -2105,7 +2113,7 @@ text.</p>
 (expand-add-abbrevs c-mode-abbrev-table c-expand-list)
 </code></pre>
 <blockquote>
-<p><code>C-h P expannd</code> to see full example.</p>
+<p><code>C-h P expand</code> to see full example.</p>
 </blockquote>
 <pre><code class="language-markdown">  key        fn                                    description
 --------------------------------------------------------------
@@ -2121,7 +2129,7 @@ text.</p>
   ;; Prompt user, save result in 'str' variable.
   "Iteration variable name: "
   ;; Skeleton template.
-  ''   'str' input from user prompt.
+  ;;   'str' input from user prompt.
   ;;   '_' marks location for cursor.
   ;;   '&gt;' indent.
   "for (int " str " = 0; " str " &lt; " (skeleton-read "Upper bound: ") "; " str "++) {\n"
@@ -2331,6 +2339,32 @@ This can be used to build some tempaltes.</p>
 ;; (backquote ..) is equivalent to `
 (backquote (D ,val ,@vals))
 (D 42 1 2 3 4)
+</code></pre>
+<p>The following gives some basic control flow.</p>
+<pre><code>;; (if COND THEN ELSE) ; if COND yields non-nil then run THEN else ELSE
+(if t (message "true") (message "false"))
+"true"
+(if nil (message "true") (message "false"))
+"false"
+
+;; (when COND BODY) ; when COND yields non-nil then run BODY
+(when t (message "true"))
+"true"
+(when nil (message "true"))
+nil
+
+;; (unless COND BODY) ; when COND yields nil then run BODY
+(unless t (message "false"))
+nil
+(unless nil (message "false"))
+"false"
+
+;; (dolist (var LIST) BODY)
+(dolist (x (list 10 20 30))
+  (insert (format "%02x-%02X\n" x x)))
+0a-0A
+14-14
+1e-1E
 </code></pre>
 <p>The following gives some overview over the emacs basics to load/unload
 files and features.</p>
@@ -3258,6 +3292,8 @@ Specifying build and runtime dependencies can also be done easiy.</p>
 <p>The default builder provided by the <code>mkDerivation</code> function, organizes the build
 into multiple phases like <em>config</em>, <em>build</em> and <em>install</em>. When defining the
 derivation these phases can be easily overwritten.</p>
+<p>Alternatively there is <code>stdenvNoCC.mkDerivation</code> which provides an environment
+without a C compiler.</p>
 <p>The example show a simple build and installation of a C file.</p>
 <pre><code class="language-nix">{
   description = "stdenv (flake)";
@@ -3267,7 +3303,7 @@ derivation these phases can be easily overwritten.</p>
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; };
     in {
       # Enable support for 'nix fmt'.
       formatter.${system} = pkgs.nixfmt;
@@ -3307,8 +3343,8 @@ derivation these phases can be easily overwritten.</p>
 in the derivation. Each output turns into an environment variable of the same
 name. Use <code>nix derivation show</code> to inspect the outputs and the environment the
 builder inherits.</p>
-<p>The for example the <em>glibc</em> package in the <em>nixpkgs</em> flake, which provides
-multiple outputs.</p>
+<p>For example the <em>glibc</em> package in the <em>nixpkgs</em> flake provides multiple
+outputs.</p>
 <pre><code class="language-bash">&gt; nix derivation show nixpkgs#glibc
 ..
 "outputs": {
@@ -3326,8 +3362,10 @@ multiple outputs.</p>
 <p>The <code>nixpkgs</code> flake also provides the <a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell"><code>mkShell</code></a> derivation
 function (specialization of <code>mkDerivation</code>), which can be used to easily define
 a development environment.</p>
-<p>The examples shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
-server. Running <code>nix develop</code> will drop in a shell where these packages are
+<p>Alternatively there is also <a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell-variants"><code>mkShellNoCC</code></a> which provides
+an environment without a C compiler.</p>
+<p>The example shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
+server. Running <code>nix develop</code> will drop into a shell where these packages are
 available.</p>
 <pre><code class="language-nix">{
   description = "dev shell (flake)";
@@ -3347,6 +3385,26 @@ available.</p>
       };
     };
 }
+</code></pre>
+<p>When launching a development shell, the environment of the current shell is
+inherited. Using <code>-i</code> clears the environment when entering the dev shell, using
+<code>-k</code> certain variables can be kept.
+For example the following command will only inherit <code>$USER, $HOME, $DISPLAY</code>
+into the development shell.</p>
+<pre><code class="language-sh">nix develop -i -k USER -k HOME -k DISPLAY
+</code></pre>
+<p>One can also just run a command in the development shell.</p>
+<pre><code class="language-sh">nix develop --command bash -c "mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make"
+</code></pre>
+<h3 id="flake-default-targets"><a class="header" href="#flake-default-targets">flake default targets</a></h3>
+<p>When called without an explicit output, certain nix commands have default
+outputs. The following gives the most relevant.</p>
+<pre><code>nix build
+nix run
+# uses -&gt; packages.&lt;SYSTEM&gt;.default
+
+nix develop
+# uses -&gt; devShells.&lt;SYSTEM&gt;.default
 </code></pre>
 <h2 id="nix-lang-basics"><a class="header" href="#nix-lang-basics">nix lang basics</a></h2>
 <p>Nix is a functional language, where everything is an expression.
@@ -3378,6 +3436,14 @@ nix-repl&gt; { a = 1; b = 2; }
 nix-repl&gt; f = { a, b }: a + b
 nix-repl&gt; f { a = 1; b = 2; }
 3
+nix-repl&gt; f { b = 1; a = 2; }
+3
+
+# Function taking an attribute set w/o explicitly naming each input.
+# Here, inp will bind to the whole input attribute set.
+nix-repl&gt; f = { a, b, ... } @ inp : a + inp.b + inp.c
+nix-repl&gt; f { b = 1; a = 2; c = 3; }
+6
 
 # Defining local variables with "let .. in".
 nix-repl&gt; let x = 1; in x + 3
@@ -3395,6 +3461,10 @@ nix-repl&gt; builtins
   abort = «primop abort»;
   add = «primop add»;
   ..
+
+# Access a flake inside repl.
+nix-repl&gt; pkgs = builtins.getFlage "nixpgs"
+nix-repl&gt; pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
 </code></pre>
 <h2 id="references-4"><a class="header" href="#references-4">References</a></h2>
 <ul>
@@ -7955,6 +8025,7 @@ rather than re-write it.</p>
 <li><a href="#cpufreq">cpufreq</a></li>
 <li><a href="#cups1">cups</a></li>
 <li><a href="#namespaces7">namespaces</a></li>
+<li><a href="#mount8">mount</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="systemd"><a class="header" href="#systemd">systemd</a></h1>
@@ -8842,6 +8913,38 @@ ip netns exec moose firefox
 # Kill all processes in the network namespace and delete the network ns.
 ip netns pids moose | xargs kill
 ip netns del moose
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="mount8"><a class="header" href="#mount8">mount(8)</a></h1>
+<h2 id="list-supported-filesystems"><a class="header" href="#list-supported-filesystems">List supported filesystems</a></h2>
+<p>If the kernel is compiled with <a href="https://elixir.bootlin.com/linux/v6.18.6/source/fs/filesystems.c#L240-L263"><code>CONFIG_PROC_FS</code></a> one can
+list the supported filesystems via the following procfs node.</p>
+<pre><code class="language-sh">cat /proc/filesystems
+</code></pre>
+<h2 id="mount-options"><a class="header" href="#mount-options">Mount options</a></h2>
+<p>The mount operation allows to specify additional <em>mout options</em>.</p>
+<ul>
+<li>The <a href="https://www.man7.org/linux/man-pages/man8/mount.8.html"><code>mount(8)</code></a> manpage provides some generic options under
+<code>FILESYSTEM-INDEPENDENT MOUNT OPTIONS</code> as well as some filesystem specific
+options under <code>FILESYSTEM-SPECIFIC MOUNT OPTIONS</code>.</li>
+<li>The manpage for the specific filesystems list additional mount options, as
+for example <a href="https://www.man7.org/linux/man-pages/man5/tmpfs.5.html"><code>tmpfs(5)</code></a>.</li>
+</ul>
+<h2 id="example-mount-tmpfs-with-given-user-id"><a class="header" href="#example-mount-tmpfs-with-given-user-id">Example: Mount tmpfs with given user id</a></h2>
+<p>This creates a in memory filesystems with a size limit where the root folder is
+owned by <code>uid=gid=1000</code>.</p>
+<pre><code class="language-sh">sudo mount -t tmpfs -o size=1G,uid=1000,gid=1000,mode=0755 none ./tmp
+</code></pre>
+<h2 id="example-bind-mount"><a class="header" href="#example-bind-mount">Example: Bind mount</a></h2>
+<pre><code class="language-sh"># Bind mount src onto dir, this does not rebind and recursive mountpoints.
+mount --bind &lt;src&gt; &lt;dst&gt;
+# Similar but rebind also recursive mountpoints.
+mount --rbind &lt;src&gt; &lt;dst&gt;
+
+# Mount file ./resolv.conf onto /etc/resolv.conf.
+mount --bind ./resolv.conf /etc/resolv.conf
+# Mount dir ./etc onto /etc.
+mount --bind ./etc /etc
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="network-1"><a class="header" href="#network-1">Network</a></h1>

@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-bce0e30b.js";
+            window.path_to_searchindex_js = "../searchindex-d1fdea1c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3b5f28c.js"></script>
+        <script src="../toc-7892c6d7.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -494,7 +494,7 @@ text.</p>
 (expand-add-abbrevs c-mode-abbrev-table c-expand-list)
 </code></pre>
 <blockquote>
-<p><code>C-h P expannd</code> to see full example.</p>
+<p><code>C-h P expand</code> to see full example.</p>
 </blockquote>
 <pre><code class="language-markdown">  key        fn                                    description
 --------------------------------------------------------------
@@ -510,7 +510,7 @@ text.</p>
   ;; Prompt user, save result in 'str' variable.
   "Iteration variable name: "
   ;; Skeleton template.
-  ''   'str' input from user prompt.
+  ;;   'str' input from user prompt.
   ;;   '_' marks location for cursor.
   ;;   '&gt;' indent.
   "for (int " str " = 0; " str " &lt; " (skeleton-read "Upper bound: ") "; " str "++) {\n"
@@ -720,6 +720,32 @@ This can be used to build some tempaltes.</p>
 ;; (backquote ..) is equivalent to `
 (backquote (D ,val ,@vals))
 (D 42 1 2 3 4)
+</code></pre>
+<p>The following gives some basic control flow.</p>
+<pre><code>;; (if COND THEN ELSE) ; if COND yields non-nil then run THEN else ELSE
+(if t (message "true") (message "false"))
+"true"
+(if nil (message "true") (message "false"))
+"false"
+
+;; (when COND BODY) ; when COND yields non-nil then run BODY
+(when t (message "true"))
+"true"
+(when nil (message "true"))
+nil
+
+;; (unless COND BODY) ; when COND yields nil then run BODY
+(unless t (message "false"))
+nil
+(unless nil (message "false"))
+"false"
+
+;; (dolist (var LIST) BODY)
+(dolist (x (list 10 20 30))
+  (insert (format "%02x-%02X\n" x x)))
+0a-0A
+14-14
+1e-1E
 </code></pre>
 <p>The following gives some overview over the emacs basics to load/unload
 files and features.</p>

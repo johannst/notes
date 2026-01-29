@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-bce0e30b.js";
+            window.path_to_searchindex_js = "../searchindex-d1fdea1c.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3b5f28c.js"></script>
+        <script src="../toc-7892c6d7.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -357,6 +357,8 @@ Specifying build and runtime dependencies can also be done easiy.</p>
 <p>The default builder provided by the <code>mkDerivation</code> function, organizes the build
 into multiple phases like <em>config</em>, <em>build</em> and <em>install</em>. When defining the
 derivation these phases can be easily overwritten.</p>
+<p>Alternatively there is <code>stdenvNoCC.mkDerivation</code> which provides an environment
+without a C compiler.</p>
 <p>The example show a simple build and installation of a C file.</p>
 <pre><code class="language-nix">{
   description = "stdenv (flake)";
@@ -366,7 +368,7 @@ derivation these phases can be easily overwritten.</p>
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; };
     in {
       # Enable support for 'nix fmt'.
       formatter.${system} = pkgs.nixfmt;
@@ -406,8 +408,8 @@ derivation these phases can be easily overwritten.</p>
 in the derivation. Each output turns into an environment variable of the same
 name. Use <code>nix derivation show</code> to inspect the outputs and the environment the
 builder inherits.</p>
-<p>The for example the <em>glibc</em> package in the <em>nixpkgs</em> flake, which provides
-multiple outputs.</p>
+<p>For example the <em>glibc</em> package in the <em>nixpkgs</em> flake provides multiple
+outputs.</p>
 <pre><code class="language-bash">&gt; nix derivation show nixpkgs#glibc
 ..
 "outputs": {
@@ -425,8 +427,10 @@ multiple outputs.</p>
 <p>The <code>nixpkgs</code> flake also provides the <a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell"><code>mkShell</code></a> derivation
 function (specialization of <code>mkDerivation</code>), which can be used to easily define
 a development environment.</p>
-<p>The examples shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
-server. Running <code>nix develop</code> will drop in a shell where these packages are
+<p>Alternatively there is also <a href="https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell-variants"><code>mkShellNoCC</code></a> which provides
+an environment without a C compiler.</p>
+<p>The example shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
+server. Running <code>nix develop</code> will drop into a shell where these packages are
 available.</p>
 <pre><code class="language-nix">{
   description = "dev shell (flake)";
@@ -446,6 +450,26 @@ available.</p>
       };
     };
 }
+</code></pre>
+<p>When launching a development shell, the environment of the current shell is
+inherited. Using <code>-i</code> clears the environment when entering the dev shell, using
+<code>-k</code> certain variables can be kept.
+For example the following command will only inherit <code>$USER, $HOME, $DISPLAY</code>
+into the development shell.</p>
+<pre><code class="language-sh">nix develop -i -k USER -k HOME -k DISPLAY
+</code></pre>
+<p>One can also just run a command in the development shell.</p>
+<pre><code class="language-sh">nix develop --command bash -c "mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make"
+</code></pre>
+<h3 id="flake-default-targets"><a class="header" href="#flake-default-targets">flake default targets</a></h3>
+<p>When called without an explicit output, certain nix commands have default
+outputs. The following gives the most relevant.</p>
+<pre><code>nix build
+nix run
+# uses -&gt; packages.&lt;SYSTEM&gt;.default
+
+nix develop
+# uses -&gt; devShells.&lt;SYSTEM&gt;.default
 </code></pre>
 <h2 id="nix-lang-basics"><a class="header" href="#nix-lang-basics">nix lang basics</a></h2>
 <p>Nix is a functional language, where everything is an expression.
@@ -477,6 +501,14 @@ nix-repl&gt; { a = 1; b = 2; }
 nix-repl&gt; f = { a, b }: a + b
 nix-repl&gt; f { a = 1; b = 2; }
 3
+nix-repl&gt; f { b = 1; a = 2; }
+3
+
+# Function taking an attribute set w/o explicitly naming each input.
+# Here, inp will bind to the whole input attribute set.
+nix-repl&gt; f = { a, b, ... } @ inp : a + inp.b + inp.c
+nix-repl&gt; f { b = 1; a = 2; c = 3; }
+6
 
 # Defining local variables with "let .. in".
 nix-repl&gt; let x = 1; in x + 3
@@ -494,6 +526,10 @@ nix-repl&gt; builtins
   abort = «primop abort»;
   add = «primop add»;
   ..
+
+# Access a flake inside repl.
+nix-repl&gt; pkgs = builtins.getFlage "nixpgs"
+nix-repl&gt; pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
 </code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>qrencode - Notes</title>
+        <title>mount - Notes</title>
 
 
         <!-- Custom HTML head -->
@@ -177,27 +177,47 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="qrencode1"><a class="header" href="#qrencode1">qrencode(1)</a></h1>
-<pre><code>qrencode
-    -s N     pixels per feature length
+                        <h1 id="mount8"><a class="header" href="#mount8">mount(8)</a></h1>
+<h2 id="list-supported-filesystems"><a class="header" href="#list-supported-filesystems">List supported filesystems</a></h2>
+<p>If the kernel is compiled with <a href="https://elixir.bootlin.com/linux/v6.18.6/source/fs/filesystems.c#L240-L263"><code>CONFIG_PROC_FS</code></a> one can
+list the supported filesystems via the following procfs node.</p>
+<pre><code class="language-sh">cat /proc/filesystems
 </code></pre>
-<p>Generate wifi qr code for WPA2 secured network.</p>
-<pre><code class="language-sh"># Generate on terminal.
-qrencode -t ansiutf8 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
+<h2 id="mount-options"><a class="header" href="#mount-options">Mount options</a></h2>
+<p>The mount operation allows to specify additional <em>mout options</em>.</p>
+<ul>
+<li>The <a href="https://www.man7.org/linux/man-pages/man8/mount.8.html"><code>mount(8)</code></a> manpage provides some generic options under
+<code>FILESYSTEM-INDEPENDENT MOUNT OPTIONS</code> as well as some filesystem specific
+options under <code>FILESYSTEM-SPECIFIC MOUNT OPTIONS</code>.</li>
+<li>The manpage for the specific filesystems list additional mount options, as
+for example <a href="https://www.man7.org/linux/man-pages/man5/tmpfs.5.html"><code>tmpfs(5)</code></a>.</li>
+</ul>
+<h2 id="example-mount-tmpfs-with-given-user-id"><a class="header" href="#example-mount-tmpfs-with-given-user-id">Example: Mount tmpfs with given user id</a></h2>
+<p>This creates a in memory filesystems with a size limit where the root folder is
+owned by <code>uid=gid=1000</code>.</p>
+<pre><code class="language-sh">sudo mount -t tmpfs -o size=1G,uid=1000,gid=1000,mode=0755 none ./tmp
+</code></pre>
+<h2 id="example-bind-mount"><a class="header" href="#example-bind-mount">Example: Bind mount</a></h2>
+<pre><code class="language-sh"># Bind mount src onto dir, this does not rebind and recursive mountpoints.
+mount --bind &lt;src&gt; &lt;dst&gt;
+# Similar but rebind also recursive mountpoints.
+mount --rbind &lt;src&gt; &lt;dst&gt;
 
-# Generate picture for printing.
-qrencode -t png -o wifi.png 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;;;'
+# Mount file ./resolv.conf onto /etc/resolv.conf.
+mount --bind ./resolv.conf /etc/resolv.conf
+# Mount dir ./etc onto /etc.
+mount --bind ./etc /etc
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../tools/restic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../linux/namespaces.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../tools/poppler.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../network/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -207,11 +227,11 @@ qrencode -t png -o wifi.png 'WIFI:S:&lt;wifiname&gt;;T:WPA2;P:&lt;wifipasswd&gt;
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../tools/restic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../linux/namespaces.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../tools/poppler.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../network/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
