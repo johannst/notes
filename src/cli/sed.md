@@ -6,6 +6,7 @@ sed [opts] [script] [file]
     -i          edit file in place
     -i.bk       edit file in place and create backup file
                 (with .bk suffix, can be specified differently)
+    -n          quite, dont print by default
     --follow-symlinks
                 follow symlinks when editing in place
     -e SCRIPT   add SCRIPT to commands to be executed
@@ -16,6 +17,15 @@ sed [opts] [script] [file]
 ```
 
 ## Examples
+### Extract range of lines
+```
+# Print lines between pattern bb and dd (inclusive).
+echo -e 'aa\nbb\ncc\ndd\nee' | sed -n '/bb/,/dd/p'
+# bb
+# cc
+# dd
+```
+
 ### Delete lines
 ```sh
 # Delete two lines.
