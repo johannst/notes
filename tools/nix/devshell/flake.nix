@@ -9,7 +9,7 @@
       pkgs = import nixpkgs { inherit system; };
     in {
       devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [
+        packages = [
           pkgs.zig
           pkgs.zls
         ];

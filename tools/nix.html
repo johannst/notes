@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-d1fdea1c.js";
+            window.path_to_searchindex_js = "../searchindex-99b1e89a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-7892c6d7.js"></script>
@@ -377,6 +377,7 @@ without a C compiler.</p>
       # specified, when running the following in the flakes directory.
       # &gt; nix build
       # &gt; nix run
+      # &gt; nix log
       packages.${system}.default = pkgs.stdenv.mkDerivation {
         # Either specify 'name' or 'pname &amp; version'.
         # In the latter case, 'name' will be ${pname}-${version}.
@@ -402,7 +403,8 @@ without a C compiler.</p>
 }
 </code></pre>
 <blockquote>
-<p>Use <a href="https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG"><code>NIX_DEBUG=[0-7]</code></a> to enable <code>stdenv</code> debug logging.</p>
+<p>Use <a href="https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG"><code>NIX_DEBUG=[0-7]</code></a> to enable <code>stdenv</code> debug logging.
+Use <code>nix log [&lt;installable&gt;]</code> to inspect the build log.</p>
 </blockquote>
 <p>One can also define multiple <em>output</em> directories using the <code>outputs</code> attribute
 in the derivation. Each output turns into an environment variable of the same
@@ -443,7 +445,7 @@ available.</p>
       pkgs = import nixpkgs { inherit system; };
     in {
       devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [
+        packages = [
           pkgs.zig
           pkgs.zls
         ];
@@ -528,8 +530,29 @@ nix-repl&gt; builtins
   ..
 
 # Access a flake inside repl.
-nix-repl&gt; pkgs = builtins.getFlage "nixpgs"
+nix-repl&gt; pkgs = builtins.getFlake "nixpgs"
 nix-repl&gt; pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
+nix-repl&gt; pkgs.legacyPackages.x86_64-linux.llvm  # tab
+pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
+pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
+pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
+
+# Factoring out code into multiple files.
+# default.nix
+#   { x, y }: {
+#       a = x + 10;
+#       b = y + 20;
+#   }
+#
+# Import nix file by name ..
+nix-repl&gt; myfn = import ./default.nix
+# .. or use short form for default.nix.
+nix-repl&gt; myfn = import ./.
+nix-repl&gt; myfn { x = 1; y = 2; }
+{ a = 11; b = 22; }
+nix-repl&gt; x = 10
+nix-repl&gt; myfn { inherit x ; y = 2; }
+{ a = 20; b = 22; }
 </code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
