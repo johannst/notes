@@ -6,7 +6,7 @@
   outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs { inherit system; };
     in {
       # Enable support for 'nix fmt'.
       formatter.${system} = pkgs.nixfmt;
@@ -15,6 +15,7 @@
       # specified, when running the following in the flakes directory.
       # > nix build
       # > nix run
+      # > nix log
       packages.${system}.default = pkgs.stdenv.mkDerivation {
         # Either specify 'name' or 'pname & version'.
         # In the latter case, 'name' will be ${pname}-${version}.

@@ -167,19 +167,23 @@ The default builder provided by the `mkDerivation` function, organizes the build
 into multiple phases like *config*, *build* and *install*. When defining the
 derivation these phases can be easily overwritten.
 
+Alternatively there is `stdenvNoCC.mkDerivation` which provides an environment
+without a C compiler.
+
 The example show a simple build and installation of a C file.
 ```nix
 {{#include nix/stdenv/flake.nix}}
 ```
 > Use [`NIX_DEBUG=[0-7]`][nixpkgs-nixdebug] to enable `stdenv` debug logging.
+> Use `nix log [<installable>]` to inspect the build log.
 
 One can also define multiple *output* directories using the `outputs` attribute
 in the derivation. Each output turns into an environment variable of the same
 name. Use `nix derivation show` to inspect the outputs and the environment the
 builder inherits.
 
-The for example the *glibc* package in the *nixpkgs* flake, which provides
-multiple outputs.
+For example the *glibc* package in the *nixpkgs* flake provides multiple
+outputs.
 
 ```bash
 > nix derivation show nixpkgs#glibc
@@ -201,12 +205,41 @@ The `nixpkgs` flake also provides the [`mkShell`][nixpkgs-mkshell] derivation
 function (specialization of `mkDerivation`), which can be used to easily define
 a development environment.
 
+Alternatively there is also [`mkShellNoCC`][nixpkgs-mkshell-nocc] which provides
+an environment without a C compiler.
 
-The examples shows an environment with the `zig` compiler and `zls`, the zig lsp
-server. Running `nix develop` will drop in a shell where these packages are
+The example shows an environment with the `zig` compiler and `zls`, the zig lsp
+server. Running `nix develop` will drop into a shell where these packages are
 available.
 ```nix
 {{#include nix/devshell/flake.nix}}
+```
+
+When launching a development shell, the environment of the current shell is
+inherited. Using `-i` clears the environment when entering the dev shell, using
+`-k` certain variables can be kept.
+For example the following command will only inherit `$USER, $HOME, $DISPLAY`
+into the development shell.
+```sh
+nix develop -i -k USER -k HOME -k DISPLAY
+```
+
+One can also just run a command in the development shell.
+```sh
+nix develop --command bash -c "mkdir build && cd build && cmake .. && make"
+```
+
+### flake default targets
+When called without an explicit output, certain nix commands have default
+outputs. The following gives the most relevant.
+```
+nix build
+nix run
+nix log
+# uses -> packages.<SYSTEM>.default
+
+nix develop
+# uses -> devShells.<SYSTEM>.default
 ```
 
 ## nix lang basics
@@ -241,6 +274,14 @@ nix-repl> { a = 1; b = 2; }
 nix-repl> f = { a, b }: a + b
 nix-repl> f { a = 1; b = 2; }
 3
+nix-repl> f { b = 1; a = 2; }
+3
+
+# Function taking an attribute set w/o explicitly naming each input.
+# Here, inp will bind to the whole input attribute set.
+nix-repl> f = { a, b, ... } @ inp : a + inp.b + inp.c
+nix-repl> f { b = 1; a = 2; c = 3; }
+6
 
 # Defining local variables with "let .. in".
 nix-repl> let x = 1; in x + 3
@@ -258,6 +299,31 @@ nix-repl> builtins
   abort = «primop abort»;
   add = «primop add»;
   ..
+
+# Access a flake inside repl.
+nix-repl> pkgs = builtins.getFlake "nixpgs"
+nix-repl> pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
+nix-repl> pkgs.legacyPackages.x86_64-linux.llvm  # tab
+pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
+pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
+pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
+
+# Factoring out code into multiple files.
+# default.nix
+#   { x, y }: {
+#       a = x + 10;
+#       b = y + 20;
+#   }
+#
+# Import nix file by name ..
+nix-repl> myfn = import ./default.nix
+# .. or use short form for default.nix.
+nix-repl> myfn = import ./.
+nix-repl> myfn { x = 1; y = 2; }
+{ a = 11; b = 22; }
+nix-repl> x = 10
+nix-repl> myfn { inherit x ; y = 2; }
+{ a = 20; b = 22; }
 ```
 
 ## References
@@ -290,6 +356,7 @@ nix-repl> builtins
 [nixpkgs-stdenv]: https://nixos.org/manual/nixpkgs/stable/#chap-stdenv
 [nixpkgs-nixdebug]: https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG
 [nixpkgs-mkshell]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell
+[nixpkgs-mkshell-nocc]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell-variants
 [nixpgs-search]: https://search.nixos.org/packages
 
 [nix-pills]: https://nixos.org/guides/nix-pills/

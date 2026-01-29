@@ -9,10 +9,14 @@
       pkgs = import nixpkgs { inherit system; };
     in {
       devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [
+        packages = [
           pkgs.zig
           pkgs.zls
         ];
+        # https://github.com/NixOS/nixpkgs/issues/270415
+        shellHook = ''
+          unset ZIG_GLOBAL_CACHE_DIR
+        '';
       };
     };
 }
