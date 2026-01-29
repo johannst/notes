@@ -11,3 +11,4 @@
 - [cpufreq](./cpufreq.md)
 - [cups](./cups.md)
 - [namespaces](./namespaces.md)
+- [mount](./mount.md)

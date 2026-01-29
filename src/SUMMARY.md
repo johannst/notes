@@ -99,6 +99,7 @@
     - [cpufreq](./linux/cpufreq.md)
     - [cups](./linux/cups.md)
     - [namespaces](./linux/namespaces.md)
+    - [mount](./linux/mount.md)
 
 - [Network](./network/README.md)
     - [ssh](./network/ssh.md)
