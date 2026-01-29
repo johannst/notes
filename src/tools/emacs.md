@@ -369,7 +369,7 @@ Allow to define `abbrevs` with slots that can be jumped to.
 ;; Install into the c-mode abbrev table.
 (expand-add-abbrevs c-mode-abbrev-table c-expand-list)
 ```
-> `C-h P expannd` to see full example.
+> `C-h P expand` to see full example.
 
 ```markdown
   key        fn                                    description
@@ -388,7 +388,7 @@ Simple template engine.
   ;; Prompt user, save result in 'str' variable.
   "Iteration variable name: "
   ;; Skeleton template.
-  ''   'str' input from user prompt.
+  ;;   'str' input from user prompt.
   ;;   '_' marks location for cursor.
   ;;   '>' indent.
   "for (int " str " = 0; " str " < " (skeleton-read "Upper bound: ") "; " str "++) {\n"
@@ -630,6 +630,34 @@ This can be used to build some tempaltes.
 ;; (backquote ..) is equivalent to `
 (backquote (D ,val ,@vals))
 (D 42 1 2 3 4)
+```
+
+The following gives some basic control flow.
+```lisp
+;; (if COND THEN ELSE) ; if COND yields non-nil then run THEN else ELSE
+(if t (message "true") (message "false"))
+"true"
+(if nil (message "true") (message "false"))
+"false"
+
+;; (when COND BODY) ; when COND yields non-nil then run BODY
+(when t (message "true"))
+"true"
+(when nil (message "true"))
+nil
+
+;; (unless COND BODY) ; when COND yields nil then run BODY
+(unless t (message "false"))
+nil
+(unless nil (message "false"))
+"false"
+
+;; (dolist (var LIST) BODY)
+(dolist (x (list 10 20 30))
+  (insert (format "%02x-%02X\n" x x)))
+0a-0A
+14-14
+1e-1E
 ```
 
 The following gives some overview over the emacs basics to load/unload
