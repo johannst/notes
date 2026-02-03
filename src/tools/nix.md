@@ -242,6 +242,26 @@ nix develop
 # uses -> devShells.<SYSTEM>.default
 ```
 
+### a flake for multiple systems
+The `nixpkgs` flake also provides lots of useful library functions. One example
+is the [`nixpkgs.lib.genAttrs`][nixpkgs-genattrs] function, which allows to
+create an attribute set from a list of keys and a lambda function which computes
+the values of the attribute set.
+
+```nix
+nix-repl> pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
+{
+  a = "some-value-a";
+  b = "some-value-b";
+}
+```
+
+This can be used to build a flake to support multiple systems. The following
+shows a small example for two systems which defines a dev shell and a formatter.
+```nix
+{{#include nix/for-systems/flake.nix}}
+```
+
 ## nix lang basics
 Nix is a functional language, where everything is an expression.
 The following shows enough nix lang to come quite far.
@@ -258,23 +278,45 @@ nix-repl> foo = "bar"
 nix-repl> "hello ${foo}"
 "hello bar"
 
-# Simple function with argument.
-nix-repl> f = a: a + 2
-nix-repl> f 4
-6
-
 # Attribute sets (kv).
 nix-repl> { a = 1; b = 2; }
 {
   a = 1;
   b = 2;
 }
+# Joining attribute sets.
+nix-repl> { a = 1; } // { b = 2; }
+{
+  a = 1;
+  b = 2;
+}
 
-# Function taking an attribute set.
-nix-repl> f = { a, b }: a + b
+
+# List, elements are separated by space.
+nix-repl> [ 1 2 ]
+[
+  1
+  2
+]
+# Joining lists.
+nix-repl> [ 1 ] ++ [ 2 ]
+[
+  1
+  2
+]
+
+# Simple function with argument.
+nix-repl> f = a: a + 2
+nix-repl> f 4
+6
+
+# Function taking an attribute set (? for default args).
+nix-repl> f = { a, b ? 2 }: a + b
 nix-repl> f { a = 1; b = 2; }
 3
 nix-repl> f { b = 1; a = 2; }
+3
+nix-repl> f { a = 1; }
 3
 
 # Function taking an attribute set w/o explicitly naming each input.
@@ -293,20 +335,20 @@ error: undefined variable 'x'
 nix-repl> let x = "abc"; in { name = "bar ${x}"; }
 { name = "bar abc"; }
 
+# With to bring names into scope for the next expression.
+nix-repl> x = { a = 1; b = 2; }
+nix-repl> with x; [ a b ]
+[
+  1
+  2
+]
+
 # Show all builtin functions.
 nix-repl> builtins
 {
   abort = «primop abort»;
   add = «primop add»;
   ..
-
-# Access a flake inside repl.
-nix-repl> pkgs = builtins.getFlake "nixpgs"
-nix-repl> pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
-nix-repl> pkgs.legacyPackages.x86_64-linux.llvm  # tab
-pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
-pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
-pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
 
 # Factoring out code into multiple files.
 # default.nix
@@ -322,8 +364,51 @@ nix-repl> myfn = import ./.
 nix-repl> myfn { x = 1; y = 2; }
 { a = 11; b = 22; }
 nix-repl> x = 10
+# 'inherit x;' is equal to 'x = x;' in the following.
 nix-repl> myfn { inherit x ; y = 2; }
 { a = 20; b = 22; }
+```
+
+> The `import` builtin reads a nix expression from a file and
+> evaluates it to return its value. For example `import ./default.nix
+> { x = 1; y = 2; }` is equivalent to `(import ./foo.nix) { x = 1; y =
+> 2; }`. First `import` reads and evaluates the nix expression in
+> `foo.nix`, which returns the function (the value), which is then
+> called with the attribute set as input.
+
+### access flakes in the repl
+
+```
+# Access a flake inside repl.
+nix-repl> pkgs = builtins.getFlake "nixpgs"
+nix-repl> pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
+nix-repl> pkgs.legacyPackages.x86_64-linux.llvm  # tab
+pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
+pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
+pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
+
+# Alternatively flakes can be put into the lookup path.
+#   arg:  nix repl -I nixpkgs=flake:nixpkgs
+#   env:  NIX_PATH=nixpkgs=flake:nixpkgs
+#   conf: extra-nix-path = nixpkgs=flake:nixpkgs
+
+# Print the current nix path.
+nix-repl> :p builtins.nixPath
+```
+
+### type example
+
+The following gives an example how to read the type definitions commonly found
+in the documentation. For that the type of the
+[`nixpkgs.lib.genAttrs`][nixpkgs-genattrs] function is explored.
+```
+genAttrs :: [ String ] -> (String -> Any) -> AttrSet
+
+# genAttrs is the name of the function.
+# It takes as arguments
+# - a list of strings - [ Strings ]
+# - and a function which maps strings to anything - (String -> Any)
+# The function then returns an attribute set.
 ```
 
 ## References
@@ -338,7 +423,7 @@ nix-repl> myfn { inherit x ; y = 2; }
 - [`nixpkgs.stdenv`][nixpkgs-stdenv]
 - [`nixpkgs.mkShell`][nixpkgs-mkshell]
 - [nix pills][nix-pills]
-- [nixpkgs search][nixpgs-search]
+- [nixpkgs search][nixpkgs-search]
 
 
 [nix-conf]: https://nix.dev/manual/nix/latest/command-ref/conf-file
@@ -357,6 +442,7 @@ nix-repl> myfn { inherit x ; y = 2; }
 [nixpkgs-nixdebug]: https://nixos.org/manual/nixpkgs/stable/#var-stdenv-NIX_DEBUG
 [nixpkgs-mkshell]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell
 [nixpkgs-mkshell-nocc]: https://nixos.org/manual/nixpkgs/stable/#sec-pkgs-mkShell-variants
-[nixpgs-search]: https://search.nixos.org/packages
+[nixpkgs-search]: https://search.nixos.org/packages
+[nixpkgs-genattrs]: https://nixos.org/manual/nixpkgs/stable/#function-library-lib.attrsets.genAttrs
 
 [nix-pills]: https://nixos.org/guides/nix-pills/
