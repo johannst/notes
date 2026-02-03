@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b86107c8.js";
+            window.path_to_searchindex_js = "../searchindex-abe4d86e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-7892c6d7.js"></script>
@@ -478,6 +478,63 @@ nix log
 nix develop
 # uses -&gt; devShells.&lt;SYSTEM&gt;.default
 </code></pre>
+<h3 id="a-flake-for-multiple-systems"><a class="header" href="#a-flake-for-multiple-systems">a flake for multiple systems</a></h3>
+<p>The <code>nixpkgs</code> flake also provides lots of useful library functions. One example
+is the <a href="https://nixos.org/manual/nixpkgs/stable/#function-library-lib.attrsets.genAttrs"><code>nixpkgs.lib.genAttrs</code></a> function, which allows to
+create an attribute set from a list of keys and a lambda function which computes
+the values of the attribute set.</p>
+<pre><code class="language-nix">nix-repl&gt; pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
+{
+  a = "some-value-a";
+  b = "some-value-b";
+}
+</code></pre>
+<p>This can be used to build a flake to support multiple systems. The following
+shows a small example for two systems which defines a dev shell and a formatter.</p>
+<pre><code class="language-nix">{
+  description = "a basic flake for multiple systems";
+
+  inputs.nixpkgs.url = "nixpkgs";
+
+  outputs =
+    { self, nixpkgs }:
+    let
+      # forSystems is a function which takes a lambda (String -&gt; Any).
+      # genAttrs will call the lambda for each list element and finally return
+      # an attribute set where the keys are the values in the list and the
+      # values are the return values from the lambda invocation.
+      forSystems = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      # pkgs is a function which takes a system as argument and imports the
+      # nixpkgs for the given system.
+      pkgs = system: import nixpkgs { inherit system; };
+    in
+    {
+      # Generate formatter.${system} attribute set for each supported system.
+      formatter = forSystems (system: (pkgs system).nixfmt);
+
+      # Generate devShells.${system}.default attribute set for each supported
+      # system.
+      devShells = forSystems (system: {
+        default =
+          # The with statement brings the result of calling (pkgs system) into
+          # scope for the next expression.
+          with (pkgs system);
+          mkShell {
+            packages = [
+              strace
+            ]
+            # An example how to customize per system.
+            ++ nixpkgs.lib.optionals (system == "x86_64-linux") [ gdb ]
+            ++ nixpkgs.lib.optionals (system == "aarch64-linux") [ lldb ];
+          };
+      });
+    };
+}
+</code></pre>
 <h2 id="nix-lang-basics"><a class="header" href="#nix-lang-basics">nix lang basics</a></h2>
 <p>Nix is a functional language, where everything is an expression.
 The following shows enough nix lang to come quite far.</p>
@@ -492,23 +549,45 @@ nix-repl&gt; foo = "bar"
 nix-repl&gt; "hello ${foo}"
 "hello bar"
 
-# Simple function with argument.
-nix-repl&gt; f = a: a + 2
-nix-repl&gt; f 4
-6
-
 # Attribute sets (kv).
 nix-repl&gt; { a = 1; b = 2; }
 {
   a = 1;
   b = 2;
 }
+# Joining attribute sets.
+nix-repl&gt; { a = 1; } // { b = 2; }
+{
+  a = 1;
+  b = 2;
+}
 
-# Function taking an attribute set.
-nix-repl&gt; f = { a, b }: a + b
+
+# List, elements are separated by space.
+nix-repl&gt; [ 1 2 ]
+[
+  1
+  2
+]
+# Joining lists.
+nix-repl&gt; [ 1 ] ++ [ 2 ]
+[
+  1
+  2
+]
+
+# Simple function with argument.
+nix-repl&gt; f = a: a + 2
+nix-repl&gt; f 4
+6
+
+# Function taking an attribute set (? for default args).
+nix-repl&gt; f = { a, b ? 2 }: a + b
 nix-repl&gt; f { a = 1; b = 2; }
 3
 nix-repl&gt; f { b = 1; a = 2; }
+3
+nix-repl&gt; f { a = 1; }
 3
 
 # Function taking an attribute set w/o explicitly naming each input.
@@ -527,20 +606,20 @@ error: undefined variable 'x'
 nix-repl&gt; let x = "abc"; in { name = "bar ${x}"; }
 { name = "bar abc"; }
 
+# With to bring names into scope for the next expression.
+nix-repl&gt; x = { a = 1; b = 2; }
+nix-repl&gt; with x; [ a b ]
+[
+  1
+  2
+]
+
 # Show all builtin functions.
 nix-repl&gt; builtins
 {
   abort = «primop abort»;
   add = «primop add»;
   ..
-
-# Access a flake inside repl.
-nix-repl&gt; pkgs = builtins.getFlake "nixpgs"
-nix-repl&gt; pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
-nix-repl&gt; pkgs.legacyPackages.x86_64-linux.llvm  # tab
-pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
-pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
-pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
 
 # Factoring out code into multiple files.
 # default.nix
@@ -556,8 +635,44 @@ nix-repl&gt; myfn = import ./.
 nix-repl&gt; myfn { x = 1; y = 2; }
 { a = 11; b = 22; }
 nix-repl&gt; x = 10
+# 'inherit x;' is equal to 'x = x;' in the following.
 nix-repl&gt; myfn { inherit x ; y = 2; }
 { a = 20; b = 22; }
+</code></pre>
+<blockquote>
+<p>The <code>import</code> builtin reads a nix expression from a file and
+evaluates it to return its value. For example <code>import ./default.nix { x = 1; y = 2; }</code> is equivalent to <code>(import ./foo.nix) { x = 1; y = 2; }</code>. First <code>import</code> reads and evaluates the nix expression in
+<code>foo.nix</code>, which returns the function (the value), which is then
+called with the attribute set as input.</p>
+</blockquote>
+<h3 id="access-flakes-in-the-repl"><a class="header" href="#access-flakes-in-the-repl">access flakes in the repl</a></h3>
+<pre><code># Access a flake inside repl.
+nix-repl&gt; pkgs = builtins.getFlake "nixpgs"
+nix-repl&gt; pkgs.legacyPackages.x86_64-linux.stdenvNoCC.mkDerivation
+nix-repl&gt; pkgs.legacyPackages.x86_64-linux.llvm  # tab
+pkgs.legacyPackages.x86_64-linux.llvm                 pkgs.legacyPackages.x86_64-linux.llvmPackages_git
+pkgs.legacyPackages.x86_64-linux.llvm-manpages        pkgs.legacyPackages.x86_64-linux.llvmPackages_latest
+pkgs.legacyPackages.x86_64-linux.llvmPackages         pkgs.legacyPackages.x86_64-linux.llvm_12
+
+# Alternatively flakes can be put into the lookup path.
+#   arg:  nix repl -I nixpkgs=flake:nixpkgs
+#   env:  NIX_PATH=nixpkgs=flake:nixpkgs
+#   conf: extra-nix-path = nixpkgs=flake:nixpkgs
+
+# Print the current nix path.
+nix-repl&gt; :p builtins.nixPath
+</code></pre>
+<h3 id="type-example"><a class="header" href="#type-example">type example</a></h3>
+<p>The following gives an example how to read the type definitions commonly found
+in the documentation. For that the type of the
+<a href="https://nixos.org/manual/nixpkgs/stable/#function-library-lib.attrsets.genAttrs"><code>nixpkgs.lib.genAttrs</code></a> function is explored.</p>
+<pre><code>genAttrs :: [ String ] -&gt; (String -&gt; Any) -&gt; AttrSet
+
+# genAttrs is the name of the function.
+# It takes as arguments
+# - a list of strings - [ Strings ]
+# - and a function which maps strings to anything - (String -&gt; Any)
+# The function then returns an attribute set.
 </code></pre>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <ul>
