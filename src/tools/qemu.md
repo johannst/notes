@@ -273,7 +273,53 @@ qemu-system-x86_64                                                     \
 ```
 Instructions to build a minimal [`Kernel` and `initrd`][blog-qemu-dbg].
 
-## Appendix: Cheap instruction tracer
+## Appendix: Build (pc) bios and vgabios from source
+
+When tinkering with the bios or writing bare metal x86 code it may be helpful
+to build the `bios` and/or the `vgabios` from source.
+```bash
+# Obtain the sources.
+git clone -b v10.2.0 https://gitlab.com/qemu-project/qemu.git
+git submodule update --init roms/seabios
+
+# Build the bios and the vgabios for the stdvga device.
+# Hint: The makefile exposes a help with other targets.
+make -C bios seavgabios-stdvga
+```
+
+One can pass the `bios` and `vgabios` (option rom) as follows, where here the
+`std` pci vga device is used.
+```bash
+qemu-system-i386 \
+  -bios roms/seabios/builds/seabios-128k/bios.bin \
+  -device VGA,romfile=roms/seabios/builds/vga-stdvga/vgabios.bin \
+  ...
+```
+> Tip: Use `-device help` to list available devices and `-device VGA,help` to
+> get device specific help.
+
+When enabled (`CONFIG_DEBUG_IO`), seabios supports printing debug messages to
+the debug console. Following gives an example how to add the `debugcon` device
+and forward its output to `stdio`.
+```bash
+qemu-system-i386 \
+  -chardev stdio,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios \
+  ...
+```
+
+Using the `monitor` one can inspect concrete device state at runtime.
+```bash
+(monitor) info qtree
+# bus: pci.0
+#   type PCI
+#   dev: VGA, id ""
+#     ...
+#     romfile = "/home/johannst/dev/x86-bare-metal-playground/seabios/out/vgabios.bin"
+#     ...
+```
+
+## Appendix: Basic instruction tracer
+
 ```make
 {{ #include qemu-src/Makefile }}
 ```
