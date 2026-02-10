@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-abe4d86e.js";
+            window.path_to_searchindex_js = "../searchindex-6c7a077b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-7892c6d7.js"></script>
@@ -390,7 +390,45 @@ launched with the <strong>same</strong> parameters.</p>
     ...
 </code></pre>
 <p>Instructions to build a minimal <a href="https://blog.memzero.de/kernel-debugging-qemu"><code>Kernel</code> and <code>initrd</code></a>.</p>
-<h2 id="appendix-cheap-instruction-tracer"><a class="header" href="#appendix-cheap-instruction-tracer">Appendix: Cheap instruction tracer</a></h2>
+<h2 id="appendix-build-pc-bios-and-vgabios-from-source"><a class="header" href="#appendix-build-pc-bios-and-vgabios-from-source">Appendix: Build (pc) bios and vgabios from source</a></h2>
+<p>When tinkering with the bios or writing bare metal x86 code it may be helpful
+to build the <code>bios</code> and/or the <code>vgabios</code> from source.</p>
+<pre><code class="language-bash"># Obtain the sources.
+git clone -b v10.2.0 https://gitlab.com/qemu-project/qemu.git
+git submodule update --init roms/seabios
+
+# Build the bios and the vgabios for the stdvga device.
+# Hint: The makefile exposes a help with other targets.
+make -C bios seavgabios-stdvga
+</code></pre>
+<p>One can pass the <code>bios</code> and <code>vgabios</code> as follows, where here the <code>std</code> pci vga
+device is used.</p>
+<pre><code class="language-bash">qemu-system-i386 \
+  -bios roms/seabios/builds/seabios-128k/bios.bin \
+  -device VGA,romfile=roms/seabios/builds/vga-stdvga/vgabios.bin \
+  ...
+</code></pre>
+<blockquote>
+<p>Tip: Use <code>-device help</code> to list available devices and <code>-device VGA,help</code> to
+get device specific help.</p>
+</blockquote>
+<p>When enabled (<code>CONFIG_DEBUG_IO</code>), seabios supports printing debug messages to
+the debug console. Following gives an example how to add the <code>debugcon</code> device
+and forward its output to <code>stdio</code>.</p>
+<pre><code class="language-bash">qemu-system-i386 \
+  -chardev stdio,id=seabios -device isa-debugcon,iobase=0x402,chardev=seabios \
+  ...
+</code></pre>
+<p>Using the <code>monitor</code> one can inspect concrete device state at runtime.</p>
+<pre><code class="language-bash">(monitor) info qtree
+# bus: pci.0
+#   type PCI
+#   dev: VGA, id ""
+#     ...
+#     romfile = "/home/johannst/dev/x86-bare-metal-playground/seabios/out/vgabios.bin"
+#     ...
+</code></pre>
+<h2 id="appendix-basic-instruction-tracer"><a class="header" href="#appendix-basic-instruction-tracer">Appendix: Basic instruction tracer</a></h2>
 <pre><code class="language-make">test: test.s
 	as -o test.o test.s
 	ld -o test test.o testc.o
