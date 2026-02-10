@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-6c7a077b.js";
+            window.path_to_searchindex_js = "searchindex-64306807.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7892c6d7.js"></script>
@@ -2803,8 +2803,8 @@ git submodule update --init roms/seabios
 # Hint: The makefile exposes a help with other targets.
 make -C bios seavgabios-stdvga
 </code></pre>
-<p>One can pass the <code>bios</code> and <code>vgabios</code> as follows, where here the <code>std</code> pci vga
-device is used.</p>
+<p>One can pass the <code>bios</code> and <code>vgabios</code> (option rom) as follows, where here the
+<code>std</code> pci vga device is used.</p>
 <pre><code class="language-bash">qemu-system-i386 \
   -bios roms/seabios/builds/seabios-128k/bios.bin \
   -device VGA,romfile=roms/seabios/builds/vga-stdvga/vgabios.bin \
