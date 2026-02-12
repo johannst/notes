@@ -128,7 +128,7 @@ The following shows a *bare bones* flake using the
 In general, a derivation is a declarative description of how to run an
 *executable (builder)* on a set of *inputs (input derivations aka dependencies)*
 to produce a set of *outputs (store paths)*.
-```nix
+```nixos
 {{#include nix/bare-bones-derivation/flake.nix}}
 ```
 Understanding this example is crucial as any abstractions such as the
@@ -171,7 +171,7 @@ Alternatively there is `stdenvNoCC.mkDerivation` which provides an environment
 without a C compiler.
 
 The example show a simple build and installation of a C file.
-```nix
+```nixos
 {{#include nix/stdenv/flake.nix}}
 ```
 > Use [`NIX_DEBUG=[0-7]`][nixpkgs-nixdebug] to enable `stdenv` debug logging.
@@ -211,7 +211,7 @@ an environment without a C compiler.
 The example shows an environment with the `zig` compiler and `zls`, the zig lsp
 server. Running `nix develop` will drop into a shell where these packages are
 available.
-```nix
+```nixos
 {{#include nix/devshell/flake.nix}}
 ```
 
@@ -248,7 +248,7 @@ is the [`nixpkgs.lib.genAttrs`][nixpkgs-genattrs] function, which allows to
 create an attribute set from a list of keys and a lambda function which computes
 the values of the attribute set.
 
-```nix
+```nixos
 nix-repl> pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
 {
   a = "some-value-a";
@@ -258,15 +258,24 @@ nix-repl> pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
 
 This can be used to build a flake to support multiple systems. The following
 shows a small example for two systems which defines a dev shell and a formatter.
-```nix
+```nixos
 {{#include nix/for-systems/flake.nix}}
+```
+
+### a flake for multiple systems from scratch
+The following shows how to build the `nixpkgs.lib.genAttrs` utility from scratch
+with nix `builtins`. This mainly serves as learning but may come in handy when
+doing work without `nixpkgs`.
+
+```nixos
+{{#include nix/for-systems-from-scratch/flake.nix}}
 ```
 
 ## nix lang basics
 Nix is a functional language, where everything is an expression.
 The following shows enough nix lang to come quite far.
 
-```nix
+```nixos
 $ nix repl
 
 nix-repl> 1 + 2
@@ -375,6 +384,26 @@ nix-repl> myfn { inherit x ; y = 2; }
 > 2; }`. First `import` reads and evaluates the nix expression in
 > `foo.nix`, which returns the function (the value), which is then
 > called with the attribute set as input.
+
+### useful builtins
+
+```nixos
+# The "map" builtin takes a function and a list, then calls the function on
+# each list value and replaces the value with the result of the function.
+nix-repl> builtins.map (val: "some val ${val}") ["a" "b"]
+[
+  "some val a"
+  "some val b"
+]
+
+# The "listToAttrs" builtin takes a list of name / value pairs (attribute sets)
+# and turns the list into a attribute set build from the name / value pairs.
+nix-repl> builtins.listToAttrs [{ name = "A"; value = "a"; } { name = "B"; value = "b"; }]
+{
+  A = "a";
+  B = "b";
+}
+```
 
 ### access flakes in the repl
 
