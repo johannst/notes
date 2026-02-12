@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-2a965dd3.js";
+            window.path_to_searchindex_js = "../searchindex-35c2edf8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-7892c6d7.js"></script>
@@ -289,7 +289,7 @@ nix flake update
 <p>In general, a derivation is a declarative description of how to run an
 <em>executable (builder)</em> on a set of <em>inputs (input derivations aka dependencies)</em>
 to produce a set of <em>outputs (store paths)</em>.</p>
-<pre><code class="language-nix"># The flake is effectively an attribute set with a standard set of attributes.
+<pre><code class="language-nixos"># The flake is effectively an attribute set with a standard set of attributes.
 {
   description = "bare bones (flake)";
 
@@ -360,7 +360,7 @@ derivation these phases can be easily overwritten.</p>
 <p>Alternatively there is <code>stdenvNoCC.mkDerivation</code> which provides an environment
 without a C compiler.</p>
 <p>The example show a simple build and installation of a C file.</p>
-<pre><code class="language-nix">{
+<pre><code class="language-nixos">{
   description = "stdenv (flake)";
 
   inputs = { nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable"; };
@@ -434,7 +434,7 @@ an environment without a C compiler.</p>
 <p>The example shows an environment with the <code>zig</code> compiler and <code>zls</code>, the zig lsp
 server. Running <code>nix develop</code> will drop into a shell where these packages are
 available.</p>
-<pre><code class="language-nix">{
+<pre><code class="language-nixos">{
   description = "dev shell (flake)";
 
   inputs = { nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable"; };
@@ -483,7 +483,7 @@ nix develop
 is the <a href="https://nixos.org/manual/nixpkgs/stable/#function-library-lib.attrsets.genAttrs"><code>nixpkgs.lib.genAttrs</code></a> function, which allows to
 create an attribute set from a list of keys and a lambda function which computes
 the values of the attribute set.</p>
-<pre><code class="language-nix">nix-repl&gt; pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
+<pre><code class="language-nixos">nix-repl&gt; pkgs.lib.genAttrs [ "a" "b" ] (arg: "some-value-${arg}")
 {
   a = "some-value-a";
   b = "some-value-b";
@@ -491,7 +491,7 @@ the values of the attribute set.</p>
 </code></pre>
 <p>This can be used to build a flake to support multiple systems. The following
 shows a small example for two systems which defines a dev shell and a formatter.</p>
-<pre><code class="language-nix">{
+<pre><code class="language-nixos">{
   description = "a basic flake for multiple systems";
 
   inputs.nixpkgs.url = "nixpkgs";
@@ -535,10 +535,72 @@ shows a small example for two systems which defines a dev shell and a formatter.
     };
 }
 </code></pre>
+<h3 id="a-flake-for-multiple-systems-from-scratch"><a class="header" href="#a-flake-for-multiple-systems-from-scratch">a flake for multiple systems from scratch</a></h3>
+<p>The following shows how to build the <code>nixpkgs.lib.genAttrs</code> utility from scratch
+with nix <code>builtins</code>. This mainly serves as learning but may come in handy when
+doing work without <code>nixpkgs</code>.</p>
+<pre><code class="language-nixos">{
+  description = "a flake for multiple systems from scratch";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs =
+    { self, nixpkgs }:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+
+      # "forSystems" is a function, which takes as argument a function.
+      # It then calls the function passed for each value in the list "systems",
+      # and passes the nixpkgs imported for the given system.
+      # Finally it returns an attribute set where each key is the system in the
+      # "systems" list and the value is what is returned from the invoked user
+      # function.
+      #
+      # The pseudo code below shows the output.
+      # {
+      #   systems[0] = f pkgs;
+      #   systems[1] = f pkgs;
+      #   ...
+      # }
+      #
+      # The "listToAttrs" builtin turns a list of name / value pairs (attribute
+      # sets) into an attribute set.
+      # &gt; listToAttrs [ { name = "A"; value = "a"; } ... ] -&gt; { A = "a"; ... }
+      #
+      # The "map" builtin takes a function and a list, then calls the function
+      # on each list value and replaces the value with the result of the function.
+      # &gt; map (v: "m${v}") [ "a" "b" ... ] -&gt; [ "ma" "mb" ... ]
+      forSystems =
+        f:
+        builtins.listToAttrs (
+          builtins.map (system: {
+            name = system;
+            value = f (import nixpkgs { inherit system; });
+          }) systems
+        );
+    in
+    {
+      formatter = forSystems (pkgs: pkgs.nixfmt);
+
+      devShells = forSystems (pkgs: {
+        default = pkgs.mkShell {
+          packages = [
+            pkgs.strace
+          ];
+        };
+      });
+    };
+}
+</code></pre>
 <h2 id="nix-lang-basics"><a class="header" href="#nix-lang-basics">nix lang basics</a></h2>
 <p>Nix is a functional language, where everything is an expression.
 The following shows enough nix lang to come quite far.</p>
-<pre><code class="language-nix">$ nix repl
+<pre><code class="language-nixos">$ nix repl
 
 nix-repl&gt; 1 + 2
 3
@@ -645,6 +707,23 @@ evaluates it to return its value. For example <code>import ./default.nix { x = 1
 <code>foo.nix</code>, which returns the function (the value), which is then
 called with the attribute set as input.</p>
 </blockquote>
+<h3 id="useful-builtins"><a class="header" href="#useful-builtins">useful builtins</a></h3>
+<pre><code class="language-nixos"># The "map" builtin takes a function and a list, then calls the function on
+# each list value and replaces the value with the result of the function.
+nix-repl&gt; builtins.map (val: "some val ${val}") ["a" "b"]
+[
+  "some val a"
+  "some val b"
+]
+
+# The "listToAttrs" builtin takes a list of name / value pairs (attribute sets)
+# and turns the list into a attribute set build from the name / value pairs.
+nix-repl&gt; builtins.listToAttrs [{ name = "A"; value = "a"; } { name = "B"; value = "b"; }]
+{
+  A = "a";
+  B = "b";
+}
+</code></pre>
 <h3 id="access-flakes-in-the-repl"><a class="header" href="#access-flakes-in-the-repl">access flakes in the repl</a></h3>
 <pre><code># Access a flake inside repl.
 nix-repl&gt; pkgs = builtins.getFlake "nixpgs"
