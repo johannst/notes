@@ -26,7 +26,7 @@ set <name> [<values>]
     -u  unexport from ENV
 ```
 
-### Special Variables [ref](https://fishshell.com/docs/current/language.html#special-variables)
+### Special Variables ([ref](https://fishshell.com/docs/current/language.html#special-variables))
 ```sh
 $status      # exit code of last command
 $pipestatus  # list of exit codes of pipe chain
@@ -64,7 +64,7 @@ echo {a,b}{1,2}
 # a1 b1 a2 b2
 ```
 
-#### `*PATH` [ref](https://fishshell.com/docs/current/language.html#path-variables)
+#### `*PATH` variables ([ref](https://fishshell.com/docs/current/language.html#path-variables))
 Lists ending with `PATH` are automatically split at `:` when used and joined
 with `:` when quoted or exported to the environment.
 ```sh
@@ -78,6 +78,31 @@ echo $FOO_PATH           # x y z
 echo "$FOO_PATH"         # x:y:z
 ```
 
+## Abbreviations ([ref](https://fishshell.com/docs/current/interactive.html#abbreviations))
+
+Abbreviations are like aliases however they expand while typing.
+```sh
+# Show currently defined abbreviation.
+abbr
+
+# When typing "ec" <space> this will expand to emacsclient.
+abbr ec emacsclient
+
+# Only expand abbreviation when it appears in a position where a command is expected.
+abbr rg --position command rg --no-ignore --hidden
+
+# Place the cursor position when the abbreviation is expanded. The cursor is
+# placed on the first occurrence of the given char and the char is deleted.
+abbr e2 --set-cursor=, echo a , c
+# Default char is '%'.
+abbr e1 --set-cursor echo a % c
+```
+
+Following is an example to quickly lookup syscalls in a kernel source tree.
+```
+abbr sys --position command --set-cursor=, rg -A3 "'SYSCALL_DEFINE.?\(,[,)]'" ~/dev/oss/linux
+```
+
 ## Command Handling
 ```sh
 # sub-commands are not run in quotes
@@ -88,6 +113,9 @@ echo "ls output: "(ls)
 ```sh
 # 'noclobber', fail if 'log' already exists
 echo foo >? log
+
+# redirect stdout+stderr to pipe
+cmd &| grep abc
 ```
 
 ### Process substitution
@@ -222,6 +250,47 @@ complete -c moose -x -l color -a "red blue" \
 #    -a options for completion. Call a function to generate arguments.
 complete -c moose -x -s u -l user -a "(__fish_complete_users)" \
     --description "Specify a user"
+```
+
+### Example: add_tool
+
+Sometimes there is need to add tools from a custom install location into the
+shell environment. The following gives a convenience wrapper (starting point)
+which sets up additional variables besides the path to the binary.
+```sh
+function add_tool
+    set tool $argv[1]
+
+    # Setup PATH.
+    fish_add_path --path $tool/bin
+
+    # Setup MANPATH.
+    test -d $tool/share/man
+    and ! contains $tool/share/man $MANPATH
+    and if not set -q MANPATH
+        # Add trailing ':' on MANATH to also include default paths,
+        # else man -k or apropos dont use the default path.
+        set -g -x MANPATH $tool/share/man:
+    else
+        # Prepend new path.
+        set -p MANPATH $tool/share/man
+    end
+    or :
+
+    # Setup INFOPATH.
+    test -d $tool/share/info
+    and ! contains $tool/share/info $INFOPATH
+    and if not set -q INFOPATH
+        set -g -x INFOPATH $tool/share/info:
+    else
+        # Add trailing ':' on INFOPATH for emacs info system. That way emacs
+        # also adds its default directories.
+        # https://github.com/emacs-mirror/emacs/blob/c091ff00ec45821b911a8fd83c4b672b9a6e4feb/lisp/info.el#L182-L186
+        # https://github.com/emacs-mirror/emacs/blob/c091ff00ec45821b911a8fd83c4b672b9a6e4feb/lisp/info.el#L761-L763
+        set -p INFOPATH $tool/share/info
+    end
+    or :
+end
 ```
 
 ## Prompt
