@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-64306807.js";
+            window.path_to_searchindex_js = "searchindex-2a965dd3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7892c6d7.js"></script>
@@ -884,7 +884,7 @@ shell restart</li>
     -x  export to ENV
     -u  unexport from ENV
 </code></pre>
-<h3 id="special-variables-ref"><a class="header" href="#special-variables-ref">Special Variables <a href="https://fishshell.com/docs/current/language.html#special-variables">ref</a></a></h3>
+<h3 id="special-variables-ref"><a class="header" href="#special-variables-ref">Special Variables (<a href="https://fishshell.com/docs/current/language.html#special-variables">ref</a>)</a></h3>
 <pre><code class="language-sh">$status      # exit code of last command
 $pipestatus  # list of exit codes of pipe chain
 
@@ -914,7 +914,7 @@ echo $$foo  # outputs 1337
 echo {a,b}{1,2}
 # a1 b1 a2 b2
 </code></pre>
-<h4 id="path-ref"><a class="header" href="#path-ref"><code>*PATH</code> <a href="https://fishshell.com/docs/current/language.html#path-variables">ref</a></a></h4>
+<h4 id="path-variables-ref"><a class="header" href="#path-variables-ref"><code>*PATH</code> variables (<a href="https://fishshell.com/docs/current/language.html#path-variables">ref</a>)</a></h4>
 <p>Lists ending with <code>PATH</code> are automatically split at <code>:</code> when used and joined
 with <code>:</code> when quoted or exported to the environment.</p>
 <pre><code class="language-sh">set -x BLA_PATH a:b:c:d
@@ -926,6 +926,26 @@ set FOO_PATH x y z
 echo $FOO_PATH           # x y z
 echo "$FOO_PATH"         # x:y:z
 </code></pre>
+<h2 id="abbreviations-ref"><a class="header" href="#abbreviations-ref">Abbreviations (<a href="https://fishshell.com/docs/current/interactive.html#abbreviations">ref</a>)</a></h2>
+<p>Abbreviations are like aliases however they expand while typing.</p>
+<pre><code class="language-sh"># Show currently defined abbreviation.
+abbr
+
+# When typing "ec" &lt;space&gt; this will expand to emacsclient.
+abbr ec emacsclient
+
+# Only expand abbreviation when it appears in a position where a command is expected.
+abbr rg --position command rg --no-ignore --hidden
+
+# Place the cursor position when the abbreviation is expanded. The cursor is
+# placed on the first occurrence of the given char and the char is deleted.
+abbr e2 --set-cursor=, echo a , c
+# Default char is '%'.
+abbr e1 --set-cursor echo a % c
+</code></pre>
+<p>Following is an example to quickly lookup syscalls in a kernel source tree.</p>
+<pre><code>abbr sys --position command --set-cursor=, rg -A3 "'SYSCALL_DEFINE.?\(,[,)]'" ~/dev/oss/linux
+</code></pre>
 <h2 id="command-handling"><a class="header" href="#command-handling">Command Handling</a></h2>
 <pre><code class="language-sh"># sub-commands are not run in quotes
 echo "ls output: "(ls)
@@ -933,6 +953,9 @@ echo "ls output: "(ls)
 <h3 id="io-redirection-1"><a class="header" href="#io-redirection-1">I/O redirection</a></h3>
 <pre><code class="language-sh"># 'noclobber', fail if 'log' already exists
 echo foo &gt;? log
+
+# redirect stdout+stderr to pipe
+cmd &amp;| grep abc
 </code></pre>
 <h3 id="process-substitution-1"><a class="header" href="#process-substitution-1">Process substitution</a></h3>
 <p>Redirect output of multiple processes. Same as <code>&lt;(..)</code> in bash.</p>
@@ -1049,6 +1072,44 @@ complete -c moose -x -l color -a "red blue" \
 #    -a options for completion. Call a function to generate arguments.
 complete -c moose -x -s u -l user -a "(__fish_complete_users)" \
     --description "Specify a user"
+</code></pre>
+<h3 id="example-add_tool"><a class="header" href="#example-add_tool">Example: add_tool</a></h3>
+<p>Sometimes there is need to add tools from a custom install location into the
+shell environment. The following gives a convenience wrapper (starting point)
+which sets up additional variables besides the path to the binary.</p>
+<pre><code class="language-sh">function add_tool
+    set tool $argv[1]
+
+    # Setup PATH.
+    fish_add_path --path $tool/bin
+
+    # Setup MANPATH.
+    test -d $tool/share/man
+    and ! contains $tool/share/man $MANPATH
+    and if not set -q MANPATH
+        # Add trailing ':' on MANATH to also include default paths,
+        # else man -k or apropos dont use the default path.
+        set -g -x MANPATH $tool/share/man:
+    else
+        # Prepend new path.
+        set -p MANPATH $tool/share/man
+    end
+    or :
+
+    # Setup INFOPATH.
+    test -d $tool/share/info
+    and ! contains $tool/share/info $INFOPATH
+    and if not set -q INFOPATH
+        set -g -x INFOPATH $tool/share/info:
+    else
+        # Add trailing ':' on INFOPATH for emacs info system. That way emacs
+        # also adds its default directories.
+        # https://github.com/emacs-mirror/emacs/blob/c091ff00ec45821b911a8fd83c4b672b9a6e4feb/lisp/info.el#L182-L186
+        # https://github.com/emacs-mirror/emacs/blob/c091ff00ec45821b911a8fd83c4b672b9a6e4feb/lisp/info.el#L761-L763
+        set -p INFOPATH $tool/share/info
+    end
+    or :
+end
 </code></pre>
 <h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>The prompt is defined by the output of the <code>fish_prompt</code> function.</p>
