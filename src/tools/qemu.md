@@ -259,6 +259,13 @@ qemu-system-x86_64 -monitor stdio -incoming "exec: gzip -d -c vm.gz"
 > The migration source machine and the migration target machine should be
 > launched with the **same** parameters.
 
+## Appendix: Basic live machine
+
+Example starting point for a quick live machine for some experiments.
+```bash
+{{ #include qemu/live/Makefile }}
+```
+
 ## Appendix: Direct `Kernel` boot
 
 Example command line to directly boot a `Kernel` with an `initrd` ramdisk.
@@ -321,10 +328,10 @@ Using the `monitor` one can inspect concrete device state at runtime.
 ## Appendix: Basic instruction tracer
 
 ```make
-{{ #include qemu-src/Makefile }}
+{{ #include qemu/insn/Makefile }}
 ```
 ```x86asm
-{{ #include qemu-src/test.s }}
+{{ #include qemu/insn/test.s }}
 ```
 
 ## References
