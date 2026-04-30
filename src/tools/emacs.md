@@ -15,6 +15,22 @@
                 eg C-x C-h -> list key-bindings beginning with C-x
 ```
 
+## client / server
+```
+# Start a named server in the background.
+emacs --daemon=<name>
+
+# Open file in emacs server.
+emacsclient -s <name> [opts] <file>
+  opts:
+    -c create new frame for the file
+    -r reuse frame or create one if none exists
+    -n dont wait for the server to return
+
+# List sockets of all emacs server.
+ls /run/user/$(id -u)/emacs
+```
+
 ## package manager
 ```markdown
   key    fn                          description
@@ -189,7 +205,6 @@ Builtin advanced buffer selection mode
   M-y         yank-pop                cycle through kill-ring (only after paste)
   M-y         yank-from-kill-ring     interactively select yank from kill ring
 ```
-
 
 ## register
 ```markdown
@@ -485,7 +500,6 @@ supports `fido-vertical-mode` in case vertical mode is preferred.
 ```
 
 ## interactive shell
-
 Set `ESHELL` environment variable before starting emacs to change
 default shell, else customize the `explicit-shell-file-name` variable.
 ```markdown
@@ -508,7 +522,6 @@ default shell, else customize the `explicit-shell-file-name` variable.
 ```
 
 ## gdb
-
 ```markdown
   key           fn                  description
 ------------------------------------------------
@@ -516,7 +529,6 @@ default shell, else customize the `explicit-shell-file-name` variable.
 
                 gdb-many-windows    toggle gdb many window view
 ```
-
 
 ## lisp
 ```markdown
