@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f51def33.js";
+            window.path_to_searchindex_js = "searchindex-9588587e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7892c6d7.js"></script>
@@ -1871,6 +1871,20 @@ sudo stty -F /dev/ttyUSB0 -a
   &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
 </code></pre>
+<h2 id="client--server"><a class="header" href="#client--server">client / server</a></h2>
+<pre><code># Start a named server in the background.
+emacs --daemon=&lt;name&gt;
+
+# Open file in emacs server.
+emacsclient -s &lt;name&gt; [opts] &lt;file&gt;
+  opts:
+    -c create new frame for the file
+    -r reuse frame or create one if none exists
+    -n dont wait for the server to return
+
+# List sockets of all emacs server.
+ls /run/user/$(id -u)/emacs
+</code></pre>
 <h2 id="package-manager"><a class="header" href="#package-manager">package manager</a></h2>
 <pre><code class="language-markdown">  key    fn                          description
 ------------------------------------------------
@@ -2847,18 +2861,25 @@ launched with the <strong>same</strong> parameters.</p>
 <pre><code class="language-bash">BUILD   := $(PWD)/build
 INSTALL := $(PWD)/install
 ISO     := debian-live-13.4.0-amd64-xfce.iso
+DISK    := $(INSTALL)/disk.qcow2
 
-QEMU   := $(INSTALL)/bin/qemu-system-x86_64
-QEMU-y += -accel kvm -cpu host
-QEMU-y += -m 8G
-QEMU-y += -nic user
-QEMU-y += -cdrom $(BUILD)/$(ISO)
-QEMU-y += -vnc :80
+QEMUIMG := $(INSTALL)/bin/qemu-img
+QEMU    := $(INSTALL)/bin/qemu-system-x86_64
+QEMU-y  += -accel kvm -cpu host
+QEMU-y  += -m 8G
+QEMU-y  += -monitor stdio
+QEMU-y  += -nic user
+QEMU-y  += -cdrom $(BUILD)/$(ISO)
+QEMU-y  += -hda $(DISK)
+QEMU-y  += -vnc :80
 # guest: mount -t 9p shared /mnt
-QEMU-y += -virtfs local,id=shared,path=$(PWD)/shared,mount_tag=shared,security_model=none
+QEMU-y  += -virtfs local,id=shared,path=$(PWD)/shared,mount_tag=shared,security_model=none
 
-run: $(QEMU) $(BUILD)/$(ISO)
+run: $(QEMU) $(BUILD)/$(ISO) $(DISK)
 	$(QEMU) $(QEMU-y)
+
+vnc:
+	vncviewer :80
 
 $(QEMU): | $(BUILD)
 	test -d $(BUILD)/qemu-src || git clone https://gitlab.com/qemu/qemu $(BUILD)/qemu-src
@@ -2869,6 +2890,12 @@ $(QEMU): | $(BUILD)
 
 $(BUILD)/$(ISO): | $(BUILD)
 	wget --no-clobber -O $@ https://cdimage.debian.org/debian-cd/current-live/amd64/iso-hybrid/$(ISO)
+
+$(DISK):
+	$(QEMUIMG) create -f qcow2 $@ 50G
+
+snapshots:
+	$(QEMUIMG) snapshot -l $(DISK)
 
 $(BUILD):
 	mkdir -p $@
@@ -3081,6 +3108,13 @@ ffmpeg -framerate 25 -f x11grab $video_args -pix_fmt yuv420p $@ output.mp4
 <p>The input <code>-i 0,0+xoff,yoff</code> means to capture <code>$DISPLAY=0.0</code> starting at the
 coordinate <code>(xoff, yoff)</code>, which is the left-upper corner, and the size of the
 capture is defined by the <code>-video_size</code> argument.</p>
+<h2 id="turn-images-into-video"><a class="header" href="#turn-images-into-video">turn images into video</a></h2>
+<p>Following snippet shows an example how to turn a series of images into a gif.</p>
+<pre><code class="language-bash">ffmpeg -framerate 25 -i img%02d.png out.gif
+</code></pre>
+<blockquote>
+<p>One can use <code>printf</code> style formats as input pattern.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="gnuplot-1"><a class="header" href="#gnuplot-1">gnuplot (1)</a></h1>
 <pre><code># Launch interactive shell.

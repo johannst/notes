@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-f51def33.js";
+            window.path_to_searchindex_js = "../searchindex-9588587e.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-7892c6d7.js"></script>
@@ -190,6 +190,20 @@
   C-h F         show emacs manual for command/function
   &lt;kseq&gt; C-h    list possible key-bindings with &lt;kseq&gt;
                 eg C-x C-h -&gt; list key-bindings beginning with C-x
+</code></pre>
+<h2 id="client--server"><a class="header" href="#client--server">client / server</a></h2>
+<pre><code># Start a named server in the background.
+emacs --daemon=&lt;name&gt;
+
+# Open file in emacs server.
+emacsclient -s &lt;name&gt; [opts] &lt;file&gt;
+  opts:
+    -c create new frame for the file
+    -r reuse frame or create one if none exists
+    -n dont wait for the server to return
+
+# List sockets of all emacs server.
+ls /run/user/$(id -u)/emacs
 </code></pre>
 <h2 id="package-manager"><a class="header" href="#package-manager">package manager</a></h2>
 <pre><code class="language-markdown">  key    fn                          description
