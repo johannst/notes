@@ -24,3 +24,10 @@ The input `-i 0,0+xoff,yoff` means to capture `$DISPLAY=0.0` starting at the
 coordinate `(xoff, yoff)`, which is the left-upper corner, and the size of the
 capture is defined by the `-video_size` argument.
 
+## turn images into video
+
+Following snippet shows an example how to turn a series of images into a gif.
+```bash
+ffmpeg -framerate 25 -i img%02d.png out.gif
+```
+> One can use `printf` style formats as input pattern.
