@@ -78,6 +78,13 @@ ssh-keygen -C "${NAME}.${USER}@${HOSTNAME}" -f ${FILE} -t ${TYPE} -a 100
 > In case one needs to generate many keys at one, one can provide a passphrase
 > by `-N "toor"` or an empty one as `-N ""`.
 
+Print fingerprint of public key.
+```sh
+# -l show fingerprint of pub key
+# -f input file
+ssh-keygen -l -f /etc/ssh/ssh_host_ecdsa_key.pub
+```
+
 ## ssh config - `~/.ssh/config`
 Frequently used configs for single match.
 ```nginx
