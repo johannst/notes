@@ -31,9 +31,11 @@
 ## Patch file (alter bytes)
 ```markdown
   > r2 [-w] <file>
-  oo+           # re-open for write if -w was not passed
-  s <addr>      # seek to position
-  wv <data>     # write 4 byte (dword)
+  oo+             # re-open for write if -w was not passed
+  s <addr>        # seek to position
+  s sym.<symbol>  # seek to symbol
+  wv <data>       # write 4 byte (dword)
+  wa <insn>       # write instruction (eg "wa ret" on x86)
 ```
 
 ## Assemble / Disassmble (rasm2)
