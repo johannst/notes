@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5c65e080.js";
+            window.path_to_searchindex_js = "../searchindex-929bf931.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-1d13f052.js"></script>
@@ -181,6 +181,7 @@
 <pre><code class="language-markdown">strace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -ff ......... follow fork and separate output file per child
+  -b &lt;syscall&gt;. detach on &lt;syscall&gt;
   -p &lt;pid&gt; .... attach to running process
   -s &lt;size&gt; ... max string size, truncate of longer (default: 32)
   -e &lt;expr&gt; ... expression for trace filtering
@@ -208,13 +209,16 @@
   signal ..................... trace signals delivered to the process
 </code></pre>
 <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
-<p>Trace <code>open(2)</code> &amp; <code>socket(2)</code> syscalls for a running process + child processes:</p>
+<p>Trace <code>open(2)</code> &amp; <code>socket(2)</code> syscalls for a running process + child processes.</p>
 <pre><code class="language-markdown">strace -f -e trace=open,socket -p &lt;pid&gt;
 </code></pre>
-<p>Trace signals delivered to a running process:</p>
+<p>Trace multi-threaded process without its child processes.</p>
+<pre><code class="language-markdown">strace -f -b execve -p &lt;pid&gt;
+</code></pre>
+<p>Trace signals delivered to a running process.</p>
 <pre><code class="language-markdown">strace -e signal -e 'trace=!all' -p &lt;pid&gt;
 </code></pre>
-<p>Show successful calls to <code>perf_event_open((2)</code> without abbreviating  arguments.</p>
+<p>Show successful calls to <code>perf_event_open(2)</code> without abbreviating  arguments.</p>
 <pre><code class="language-markdown">strace -v -z -e trace=perf_event_open perf stat -e cycles ls
 </code></pre>
 
