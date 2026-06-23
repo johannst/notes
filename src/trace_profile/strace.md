@@ -4,6 +4,7 @@
 strace [opts] [prg]
   -f .......... follow child processes on fork(2)
   -ff ......... follow fork and separate output file per child
+  -b <syscall>. detach on <syscall>
   -p <pid> .... attach to running process
   -s <size> ... max string size, truncate of longer (default: 32)
   -e <expr> ... expression for trace filtering
@@ -35,17 +36,22 @@ strace [opts] [prg]
 
 # Examples
 
-Trace `open(2)` & `socket(2)` syscalls for a running process + child processes:
+Trace `open(2)` & `socket(2)` syscalls for a running process + child processes.
 ```markdown
 strace -f -e trace=open,socket -p <pid>
 ```
 
-Trace signals delivered to a running process:
+Trace multi-threaded process without its child processes.
+```markdown
+strace -f -b execve -p <pid>
+```
+
+Trace signals delivered to a running process.
 ```markdown
 strace -e signal -e 'trace=!all' -p <pid>
 ```
 
-Show successful calls to `perf_event_open((2)` without abbreviating  arguments.
+Show successful calls to `perf_event_open(2)` without abbreviating  arguments.
 ```markdown
 strace -v -z -e trace=perf_event_open perf stat -e cycles ls
 ```
