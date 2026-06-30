@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-929bf931.js";
+            window.path_to_searchindex_js = "searchindex-7ebf15e9.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-1d13f052.js"></script>
@@ -7199,6 +7199,10 @@ the same repository (shared .git folder).</p>
   git log -p &lt;file&gt; ......... show commit history + diffs for &lt;file&gt;
   git log --oneline &lt;file&gt; .. show commit history for &lt;file&gt; in compact format
   git log -nN ............... show last N history entries
+
+  git log -L10,20:&lt;file&gt; .... trace evolution of lines 10-20 in &lt;file&gt;
+  git log -L10,+3:&lt;file&gt; .... trace evolution of lines 10-13 in &lt;file&gt;
+  git log -L:&lt;fn&gt;:&lt;file&gt; .... trace evolution of function &lt;fn&gt; in &lt;file&gt;
 </code></pre>
 <h2 id="diff--commit-info"><a class="header" href="#diff--commit-info">Diff &amp; Commit Info</a></h2>
 <pre><code class="language-markdown">  git diff &lt;commit&gt;..&lt;commit&gt; [&lt;file&gt;] .... show changes between two arbitrary
