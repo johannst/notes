@@ -141,6 +141,10 @@ the same repository (shared .git folder).
   git log -p <file> ......... show commit history + diffs for <file>
   git log --oneline <file> .. show commit history for <file> in compact format
   git log -nN ............... show last N history entries
+
+  git log -L10,20:<file> .... trace evolution of lines 10-20 in <file>
+  git log -L10,+3:<file> .... trace evolution of lines 10-13 in <file>
+  git log -L:<fn>:<file> .... trace evolution of function <fn> in <file>
 ```
 
 ## Diff & Commit Info
